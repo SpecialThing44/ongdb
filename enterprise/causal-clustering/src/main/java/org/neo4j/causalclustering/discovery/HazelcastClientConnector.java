@@ -36,6 +36,7 @@ package org.neo4j.causalclustering.discovery;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.client.config.ClientConnectionStrategyConfig;
 import com.hazelcast.client.config.ClientNetworkConfig;
 import com.hazelcast.core.HazelcastInstance;
 
@@ -63,6 +64,10 @@ public class HazelcastClientConnector implements HazelcastConnector
         ClientConfig clientConfig = new ClientConfig();
 
         ClientNetworkConfig networkConfig = clientConfig.getNetworkConfig();
+
+        networkConfig.setConnectionAttemptLimit(5);
+
+        clientConfig.setNetworkConfig(networkConfig);
 
         for ( AdvertisedSocketAddress address : config.get( CausalClusteringSettings.initial_discovery_members ) )
         {
