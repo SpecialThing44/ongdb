@@ -38,7 +38,6 @@
  */
 package org.neo4j.kernel.impl.core;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.neo4j.graphdb.DatabaseShutdownException;
