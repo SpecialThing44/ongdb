@@ -51,20 +51,18 @@ import org.neo4j.graphdb.impl.notification.NotificationCode._
 import org.neo4j.graphdb.impl.notification.NotificationDetail.Factory.message
 import org.neo4j.kernel.GraphDatabaseQueryService
 import org.neo4j.kernel.configuration.Config
-import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
-import org.neo4j.logging.{Log, LogProvider}
 
 import java.time.Clock
 
 object CompilerEngineDelegator {
-  val DEFAULT_QUERY_CACHE_SIZE: Int = 128
-  val DEFAULT_QUERY_PLAN_TTL: Long = 1000 // 1 second
-  val DEFAULT_QUERY_PLAN_TARGET: Long = 1000 * 60 * 60 * 7 // 7 hours
+  private val DEFAULT_QUERY_CACHE_SIZE: Int = 128
+  private val DEFAULT_QUERY_PLAN_TTL: Long = 1000 // 1 second
+  private val DEFAULT_QUERY_PLAN_TARGET: Long = 1000 * 60 * 60 * 7 // 7 hours
   val CLOCK: Clock = Clock.systemUTC()
-  val DEFAULT_STATISTICS_DIVERGENCE_THRESHOLD = 0.5
-  val DEFAULT_STATISTICS_DIVERGENCE_TARGET = 0.1
-  val DEFAULT_DIVERGENCE_ALGORITHM = StatsDivergenceCalculator.inverse
-  val DEFAULT_NON_INDEXED_LABEL_WARNING_THRESHOLD = 10000
+  private val DEFAULT_STATISTICS_DIVERGENCE_THRESHOLD = 0.5
+  private val DEFAULT_STATISTICS_DIVERGENCE_TARGET = 0.1
+  private val DEFAULT_DIVERGENCE_ALGORITHM = StatsDivergenceCalculator.inverse
+  private val DEFAULT_NON_INDEXED_LABEL_WARNING_THRESHOLD = 10000
 }
 
 case class PreParsedQuery(
@@ -102,7 +100,6 @@ Cypher compiler to use
  */
 class CompilerEngineDelegator(
     graph: GraphDatabaseQueryService,
-    kernelMonitors: KernelMonitors,
     configuredVersion: CypherVersion,
     configuredPlanner: CypherPlanner,
     configuredRuntime: CypherRuntime,
@@ -115,13 +112,10 @@ class CompilerEngineDelegator(
     csvBufferSize: Int,
     planWithMinimumCardinalityEstimates: Boolean,
     lenientCreateRelationship: Boolean,
-    logProvider: LogProvider,
     compatibilityFactory: CompatibilityFactory
 ) {
 
   import org.neo4j.cypher.internal.CompilerEngineDelegator._
-
-  private val log: Log = logProvider.getLog(getClass)
 
   private val config = CypherCompilerConfiguration(
     queryCacheSize = getQueryCacheSize,
@@ -216,7 +210,7 @@ class CompilerEngineDelegator(
       preParsedQuery = preParsedQuery.copy(version = CypherVersion.v3_1)(preParsedQuery.offset)
     }
 
-    def checkSupportedRuntime(ex: util.v3_4.SyntaxException) = {
+    def checkSupportedRuntime(ex: util.v3_4.SyntaxException): Unit = {
       if (!supportedRuntimes3_1.contains(preParsedQuery.runtime)) {
         if (config.useErrorsOverWarnings) {
           throw new InvalidArgumentException(
@@ -343,7 +337,7 @@ class CompilerEngineDelegator(
     new org.neo4j.graphdb.InputPosition(offset.offset, offset.line, offset.column)
 
   private def getQueryCacheSize: Int = {
-    val setting: (Config) => Int = config =>
+    val setting: Config => Int = config =>
       config.get(GraphDatabaseSettings.query_cache_size).intValue()
     getSetting(graph, setting, DEFAULT_QUERY_CACHE_SIZE)
   }
@@ -362,13 +356,13 @@ class CompilerEngineDelegator(
     )
     val minReplanTime = getSetting(
       graph,
-      config => config.get(GraphDatabaseSettings.cypher_min_replan_interval).toMillis().longValue(),
+      config => config.get(GraphDatabaseSettings.cypher_min_replan_interval).toMillis.longValue(),
       DEFAULT_QUERY_PLAN_TTL
     )
     val targetReplanTime = getSetting(
       graph,
       config =>
-        config.get(GraphDatabaseSettings.cypher_replan_interval_target).toMillis().longValue(),
+        config.get(GraphDatabaseSettings.cypher_replan_interval_target).toMillis.longValue(),
       DEFAULT_QUERY_PLAN_TARGET
     )
     val divergenceAlgorithm = getSetting(
@@ -386,7 +380,7 @@ class CompilerEngineDelegator(
   }
 
   private def getNonIndexedLabelWarningThreshold: Long = {
-    val setting: (Config) => Long = config =>
+    val setting: Config => Long = config =>
       config.get(GraphDatabaseSettings.query_non_indexed_label_warning_threshold).longValue()
     getSetting(graph, setting, DEFAULT_NON_INDEXED_LABEL_WARNING_THRESHOLD)
   }
@@ -397,7 +391,7 @@ class CompilerEngineDelegator(
       default: A
   ): A = gds match {
     // TODO: Cypher should not be pulling out components from casted interfaces, it should ask for Config as a dep
-    case (gdbApi: GraphDatabaseQueryService) =>
+    case gdbApi: GraphDatabaseQueryService =>
       configLookup(gdbApi.getDependencyResolver.resolveDependency(classOf[Config]))
     case _ => default
   }

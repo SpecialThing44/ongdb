@@ -442,7 +442,6 @@ class ExecutionEngine(
     val compatibilityCache = new CompatibilityCache(compatibilityFactory)
     new CompilerEngineDelegator(
       queryService,
-      kernelMonitors,
       version,
       planner,
       runtime,
@@ -455,7 +454,6 @@ class ExecutionEngine(
       csvBufferSize,
       planWithMinimumCardinalityEstimates,
       lenientCreateRelationship,
-      logProvider,
       compatibilityCache
     )
   }
