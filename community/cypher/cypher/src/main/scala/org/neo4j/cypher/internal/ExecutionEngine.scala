@@ -225,10 +225,10 @@ class ExecutionEngine(
             getOrCreateFromSchemaState(
               tc.schemaRead, {
                 cacheMonitor.cacheFlushDetected(tc.statement)
-                val lruCache = new LFUCache[String, (ExecutionPlan, Map[String, Any], Seq[String])](
+                val lfuCache = new LFUCache[String, (ExecutionPlan, Map[String, Any], Seq[String])](
                   getPlanCacheSize
                 )
-                new QueryCache(cacheAccessor, lruCache)
+                new QueryCache(cacheAccessor, lfuCache)
               }
             )
 
