@@ -160,7 +160,6 @@ class ExecutionEngine(val queryService: GraphDatabaseQueryService,
   protected def planQuery(transactionalContext: TransactionalContext): (PreparedPlanExecution, TransactionalContextWrapper, Seq[String]) = {
     val executingQuery = transactionalContext.executingQuery()
     val queryText = executingQuery.queryText()
-    executionMonitor.startQueryExecution(executingQuery)
     val phaseTracer = compilationTracer.compileQuery(queryText)
     try {
 

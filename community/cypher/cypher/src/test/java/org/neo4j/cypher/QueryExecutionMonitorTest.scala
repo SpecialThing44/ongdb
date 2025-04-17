@@ -55,13 +55,19 @@ import scala.collection.JavaConverters._
 import scala.collection.immutable.Map
 import scala.language.implicitConversions
 
-class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with GraphDatabaseTestSupport with ExecutionEngineTestSupport {
-  implicit def contextQuery(context: TransactionalContext): ExecutingQuery = context.executingQuery()
+class QueryExecutionMonitorTest
+    extends CypherFunSuite
+    with GraphIcing
+    with GraphDatabaseTestSupport
+    with ExecutionEngineTestSupport {
+  implicit def contextQuery(context: TransactionalContext): ExecutingQuery =
+    context.executingQuery()
 
   private def runQuery(query: String): (ExecutingQuery, Result) = {
     val context = db.transactionalContext(query = query -> Map.empty)
     val executingQuery = context.executingQuery()
-    val executionResult = engine.execute(executingQuery.queryText(), executingQuery.queryParameters(), context)
+    val executionResult =
+      engine.execute(executingQuery.queryText(), executingQuery.queryParameters(), context)
     (executingQuery, executionResult)
   }
 
@@ -70,7 +76,7 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     val (query, result) = runQuery("RETURN 42")
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
+
     verify(monitor, never()).endSuccess(query)
   }
 
@@ -84,7 +90,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     }
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -92,11 +97,9 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     // when
     val (query, result) = runQuery("RETURN 42")
 
-
     val textResult = result.resultAsString()
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -104,11 +107,9 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     // when
     val (query, result) = runQuery("RETURN 42 as x")
 
-
     result.columnAs[Number]("x").asScala.toSeq
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -116,12 +117,10 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     // when
     val (query, result) = runQuery("RETURN 42 as x")
 
-
     val res = result.columnAs[Number]("x")
     res.close()
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -129,12 +128,10 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     // when
     val (query, result) = runQuery("RETURN 42 as x")
 
-
     val res = result.columnAs[Number]("x")
-    while(res.hasNext) res.next()
+    while (res.hasNext) res.next()
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -142,7 +139,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     val (context, result) = runQuery("CREATE ()")
 
     // then
-    verify(monitor, times(1)).startQueryExecution(context)
     verify(monitor, times(1)).endSuccess(context)
   }
 
@@ -152,7 +148,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     result.close()
 
     // then
-    verify(monitor, times(1)).startQueryExecution(context)
     verify(monitor, times(1)).endSuccess(context)
   }
 
@@ -162,19 +157,17 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     val (context, result) = runQuery("CALL db.awaitIndex(':Person(name)')")
 
     // then
-    verify(monitor, times(1)).startQueryExecution(context)
     verify(monitor, times(1)).endSuccess(context)
   }
 
   test("monitor is called when iterator closes") {
-   // given
-   val (context, result) = runQuery("RETURN 42")
+    // given
+    val (context, result) = runQuery("RETURN 42")
 
     // when
     result.close()
 
     // then
-    verify(monitor, times(1)).startQueryExecution(context)
     verify(monitor, times(1)).endSuccess(context)
   }
 
@@ -188,7 +181,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     intercept[Throwable](result.next())
 
     // then, since the result was successfully emptied
-    verify(monitor, times(1)).startQueryExecution(context)
     verify(monitor, times(1)).endSuccess(context)
     verify(monitor, never()).endFailure(any(classOf[ExecutingQuery]), any(classOf[Throwable]))
   }
@@ -198,7 +190,7 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     val (context, result) = runQuery("RETURN [1, 2, 3, 4, 5]")
 
     //then
-    verify(monitor, times(1)).startQueryExecution(context)
+
     while (result.hasNext) {
       verify(monitor, never).endSuccess(context)
       result.next()
@@ -215,7 +207,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
       override def visit(row: ResultRow): Boolean = true
     })
 
-    verify(monitor, times(1)).startQueryExecution(context)
     verify(monitor, times(1)).endSuccess(context)
   }
 
@@ -223,9 +214,8 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     // given
     val (query, result) = runQuery("CYPHER 2.3 RETURN [1, 2, 3, 4, 5]")
 
-
     //then
-    verify(monitor, times(1)).startQueryExecution(query)
+
     while (result.hasNext) {
       verify(monitor, never).endSuccess(query)
       result.next()
@@ -241,7 +231,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     result.close()
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -255,7 +244,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     intercept[NoSuchElementException] { iterator.next() }
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -267,7 +255,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     val result = engine.execute(context.queryText(), context.queryParameters(), context)
 
     // then
-    verify(monitor, times(1)).startQueryExecution(context)
     verify(monitor, times(1)).endSuccess(context)
   }
 
@@ -279,7 +266,7 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     val result = engine.profile(context.queryText(), context.queryParameters(), context)
 
     //then
-    verify(monitor, times(1)).startQueryExecution(context)
+
     while (result.hasNext) {
       verify(monitor, never).endSuccess(context)
       result.next()
@@ -296,7 +283,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     iterator.close()
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -310,7 +296,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     intercept[NoSuchElementException] { iterator.next() }
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -319,7 +304,6 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
     val (query, result) = runQuery("CYPHER 3.1 CREATE()")
 
     // then
-    verify(monitor, times(1)).startQueryExecution(query)
     verify(monitor, times(1)).endSuccess(query)
   }
 
@@ -330,7 +314,8 @@ class QueryExecutionMonitorTest extends CypherFunSuite with GraphIcing with Grap
   override protected def beforeEach(): Unit = {
     db = new GraphDatabaseCypherService(new TestGraphDatabaseFactory().newImpermanentDatabase())
     monitor = mock[QueryExecutionMonitor]
-    val monitors = db.getDependencyResolver.resolveDependency(classOf[org.neo4j.kernel.monitoring.Monitors])
+    val monitors =
+      db.getDependencyResolver.resolveDependency(classOf[org.neo4j.kernel.monitoring.Monitors])
     monitors.addMonitorListener(monitor)
     engine = createEngine(db)
   }

@@ -217,10 +217,6 @@ class DynamicLoggingQueryExecutionMonitor extends LifecycleAdapter implements Qu
         closeCurrentLogIfAny();
     }
 
-    @Override
-    public void startQueryExecution( ExecutingQuery query )
-    {
-    }
 
     @Override
     public void endFailure( ExecutingQuery query, Throwable failure )

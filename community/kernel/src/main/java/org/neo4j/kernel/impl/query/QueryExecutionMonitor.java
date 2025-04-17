@@ -47,8 +47,6 @@ import org.neo4j.kernel.api.query.ExecutingQuery;
  */
 public interface QueryExecutionMonitor
 {
-    void startQueryExecution( ExecutingQuery query );
-
     void endFailure( ExecutingQuery query , Throwable failure );
 
     void endSuccess( ExecutingQuery query  );
