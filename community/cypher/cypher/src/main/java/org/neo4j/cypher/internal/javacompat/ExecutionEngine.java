@@ -59,7 +59,7 @@ import org.neo4j.values.virtual.MapValue;
  */
 public class ExecutionEngine implements QueryExecutionEngine
 {
-    private org.neo4j.cypher.internal.ExecutionEngine inner;
+    private final org.neo4j.cypher.internal.ExecutionEngine inner;
 
     /**
      * Creates an execution engine around the give graph database
