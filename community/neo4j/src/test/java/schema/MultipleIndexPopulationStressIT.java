@@ -335,7 +335,7 @@ public class MultipleIndexPopulationStressIT
         case 7:
             return DurationLayoutTestUtil.randomDuration( random );
         default:
-            return SpatialLayoutTestUtil.randomPoint( random );
+            return random.nextInt( 100 );
         }
     }
 

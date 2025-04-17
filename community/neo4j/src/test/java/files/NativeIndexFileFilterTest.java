@@ -44,7 +44,6 @@ import org.junit.Test;
 import org.neo4j.kernel.api.impl.schema.LuceneIndexProviderFactory;
 import org.neo4j.kernel.api.index.IndexProvider;
 import org.neo4j.kernel.impl.index.schema.NumberIndexProvider;
-import org.neo4j.kernel.impl.index.schema.SpatialIndexProvider;
 import org.neo4j.kernel.impl.index.schema.StringIndexProvider;
 import org.neo4j.kernel.impl.index.schema.TemporalIndexProvider;
 import org.neo4j.kernel.internal.NativeIndexFileFilter;
@@ -118,12 +117,6 @@ public class NativeIndexFileFilterTest
     public void shouldAcceptNativeNumberIndexFileFromFusionProvider() throws IOException
     {
         shouldAcceptNativeIndexFileFromFusionProvider( new IndexProvider.Descriptor( NumberIndexProvider.KEY, "some-version" ) );
-    }
-
-    @Test
-    public void shouldAcceptNativeSpatialIndexFileFromFusionProvider() throws IOException
-    {
-        shouldAcceptNativeIndexFileFromFusionProvider( new IndexProvider.Descriptor( SpatialIndexProvider.KEY, "some-version" ) );
     }
 
     @Test

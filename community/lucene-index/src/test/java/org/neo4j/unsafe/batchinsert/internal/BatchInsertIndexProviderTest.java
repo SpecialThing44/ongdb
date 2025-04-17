@@ -60,7 +60,6 @@ import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.graphdb.schema.IndexDefinition;
 import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.helpers.collection.MapUtil;
-import org.neo4j.helpers.collection.Pair;
 import org.neo4j.internal.kernel.api.CapableIndexReference;
 import org.neo4j.internal.kernel.api.SchemaRead;
 import org.neo4j.internal.kernel.api.TokenRead;
@@ -68,7 +67,6 @@ import org.neo4j.kernel.api.KernelTransaction;
 import org.neo4j.kernel.api.exceptions.index.IndexEntryConflictException;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge;
-import org.neo4j.kernel.impl.index.schema.config.SpatialIndexValueTestUtil;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.TestLabels;
@@ -137,34 +135,6 @@ public class BatchInsertIndexProviderTest
             assertTrue( unexpectedIndexProviderMessage( index ), schemaIndex.providerName().contains( index.providerKey() ) );
             assertTrue( unexpectedIndexProviderMessage( index ), schemaIndex.providerName().contains( index.providerVersion() ) );
             tx.success();
-        }
-        finally
-        {
-            db.shutdown();
-        }
-    }
-
-    @Test
-    public void shouldPopulateIndexWithUniquePointsThatCollideOnSpaceFillingCurve() throws Exception
-    {
-        Config config = Config.defaults( stringMap( default_schema_provider.name(), schemaIndex.providerName() ) );
-        BatchInserter inserter = newBatchInserter( config );
-        Pair<PointValue,PointValue> collidingPoints = SpatialIndexValueTestUtil.pointsWithSameValueOnSpaceFillingCurve( config );
-        inserter.createNode( MapUtil.map( "prop", collidingPoints.first() ), TestLabels.LABEL_ONE );
-        inserter.createNode( MapUtil.map( "prop", collidingPoints.other() ), TestLabels.LABEL_ONE );
-        inserter.createDeferredConstraint( TestLabels.LABEL_ONE ).assertPropertyIsUnique( "prop" ).create();
-        inserter.shutdown();
-
-        GraphDatabaseService db = graphDatabaseService( inserter.getStoreDir(), config );
-        try
-        {
-            awaitIndexesOnline( db );
-            try ( Transaction tx = db.beginTx() )
-            {
-                assertSingleCorrectHit( db, collidingPoints.first() );
-                assertSingleCorrectHit( db, collidingPoints.other() );
-                tx.success();
-            }
         }
         finally
         {

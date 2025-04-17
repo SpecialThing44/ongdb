@@ -180,11 +180,6 @@
         </dependency>
         <dependency>
             <groupId>org.graphfoundation.ongdb</groupId>
-            <artifactId>ongdb-spatial-index</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.graphfoundation.ongdb</groupId>
             <artifactId>ongdb-ssl</artifactId>
             <version>${project.version}</version>
         </dependency>

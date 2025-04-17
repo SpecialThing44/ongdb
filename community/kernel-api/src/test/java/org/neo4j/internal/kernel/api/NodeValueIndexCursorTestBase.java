@@ -157,7 +157,6 @@ public abstract class NodeValueIndexCursorTestBase<G extends KernelAPIReadTestSu
             date86 = nodeWithProp( graphDb, DateValue.date( 1986, 11, 18 ) );
             date892 = nodeWithProp( graphDb, DateValue.date( 1989, 3, 24 ) );
 
-            assertSameDerivedValue( POINT_1, POINT_2 );
             nodeWithProp( graphDb, "prop3", POINT_1.asObjectCopy() );
             nodeWithProp( graphDb, "prop3", POINT_2.asObjectCopy() );
             nodeWithProp( graphDb, "prop3", POINT_2.asObjectCopy() );
@@ -174,7 +173,6 @@ public abstract class NodeValueIndexCursorTestBase<G extends KernelAPIReadTestSu
     {
         return true;
     }
-    protected abstract void assertSameDerivedValue( PointValue p1, PointValue p2 );
 
     @Test
     public void shouldPerformExactLookup() throws Exception

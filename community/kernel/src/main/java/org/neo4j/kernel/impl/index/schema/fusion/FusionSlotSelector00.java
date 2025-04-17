@@ -52,7 +52,7 @@ public class FusionSlotSelector00 implements SlotSelector
     @Override
     public void validateSatisfied( IndexProvider[] instances )
     {
-        SlotSelector.validateSelectorInstances( instances, LUCENE, SPATIAL, TEMPORAL );
+        SlotSelector.validateSelectorInstances( instances, LUCENE, TEMPORAL );
     }
 
     @Override

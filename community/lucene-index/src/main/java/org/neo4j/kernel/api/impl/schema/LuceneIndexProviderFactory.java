@@ -51,7 +51,6 @@ import org.neo4j.kernel.api.index.LoggingMonitor;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.extension.KernelExtensionFactory;
 import org.neo4j.kernel.impl.factory.OperationalMode;
-import org.neo4j.kernel.impl.index.schema.SpatialIndexProvider;
 import org.neo4j.kernel.impl.index.schema.TemporalIndexProvider;
 import org.neo4j.kernel.impl.index.schema.fusion.FusionIndexProvider;
 import org.neo4j.kernel.impl.index.schema.fusion.FusionSlotSelector00;
@@ -121,8 +120,6 @@ public class LuceneIndexProviderFactory extends
         LuceneIndexProvider lucene = IndexProviderFactoryUtil.luceneProvider( fs, luceneDirStructure, monitor, config, operationalMode );
         TemporalIndexProvider temporal =
                 IndexProviderFactoryUtil.temporalProvider( pageCache, fs, childDirectoryStructure, monitor, recoveryCleanupWorkCollector, readOnly );
-        SpatialIndexProvider spatial =
-                IndexProviderFactoryUtil.spatialProvider( pageCache, fs, childDirectoryStructure, monitor, recoveryCleanupWorkCollector, readOnly, config );
 
         String defaultSchemaProvider = config.get( GraphDatabaseSettings.default_schema_provider );
         int priority = LuceneIndexProvider.PRIORITY;
@@ -130,7 +127,7 @@ public class LuceneIndexProviderFactory extends
         {
             priority = 100;
         }
-        return new FusionIndexProvider( EMPTY, EMPTY, spatial, temporal, lucene, new FusionSlotSelector00(),
+        return new FusionIndexProvider( EMPTY, EMPTY, EMPTY, temporal, lucene, new FusionSlotSelector00(),
                 PROVIDER_DESCRIPTOR, priority, directoriesByProvider( storeDir ), fs, archiveFailedIndex );
     }
 

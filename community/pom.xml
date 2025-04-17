@@ -59,7 +59,6 @@
         <module>procedure-compiler</module>
         <module>values</module>
         <module>ssl</module>
-        <module>spatial-index</module>
         <module>push-to-cloud</module>
     </modules>
 

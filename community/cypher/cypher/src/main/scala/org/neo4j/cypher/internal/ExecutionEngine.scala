@@ -224,7 +224,6 @@ class ExecutionEngine(
           val cache: QueryCache[String, (ExecutionPlan, Map[String, Any], Seq[String])] =
             getOrCreateFromSchemaState(
               tc.schemaRead, {
-                cacheMonitor.cacheFlushDetected(tc.statement)
                 val lfuCache = new LFUCache[String, (ExecutionPlan, Map[String, Any], Seq[String])](
                   getPlanCacheSize
                 )

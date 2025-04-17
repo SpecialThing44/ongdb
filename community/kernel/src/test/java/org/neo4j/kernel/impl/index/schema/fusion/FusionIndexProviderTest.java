@@ -54,7 +54,6 @@ import org.neo4j.kernel.api.index.IndexProvider;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptorFactory;
 import org.neo4j.kernel.impl.index.schema.NumberIndexProvider;
-import org.neo4j.kernel.impl.index.schema.SpatialIndexProvider;
 import org.neo4j.kernel.impl.index.schema.StringIndexProvider;
 import org.neo4j.kernel.impl.index.schema.TemporalIndexProvider;
 import org.neo4j.storageengine.api.schema.IndexSample;
@@ -312,11 +311,6 @@ public class FusionIndexProviderTest
                 IndexProvider number = mockProvider( NumberIndexProvider.class, "number" );
                 providers[NUMBER] = number;
                 aliveProviders[i] = number;
-                break;
-            case SPATIAL:
-                IndexProvider spatial = mockProvider( SpatialIndexProvider.class, "spatial" );
-                providers[SPATIAL] = spatial;
-                aliveProviders[i] = spatial;
                 break;
             case TEMPORAL:
                 IndexProvider temporal = mockProvider( TemporalIndexProvider.class, "temporal" );
