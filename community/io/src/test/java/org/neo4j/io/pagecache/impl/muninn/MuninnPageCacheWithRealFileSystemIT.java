@@ -39,7 +39,6 @@
 package org.neo4j.io.pagecache.impl.muninn;
 
 import org.junit.Rule;
-
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.test.rule.TestDirectory;
 

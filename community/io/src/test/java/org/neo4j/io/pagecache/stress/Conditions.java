@@ -38,9 +38,9 @@
  */
 package org.neo4j.io.pagecache.stress;
 
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.io.pagecache.monitoring.PageCacheCounters;
+
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.currentTimeMillis;
 

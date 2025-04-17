@@ -38,9 +38,7 @@
  */
 package org.neo4j.values.storable;
 
-import static org.neo4j.values.storable.ValueCategory.NO_CATEGORY;
-import static org.neo4j.values.storable.ValueCategory.REST;
-import static org.neo4j.values.storable.ValueCategory.TEMPORAL;
+import static org.neo4j.values.storable.ValueCategory.*;
 
 /**
  * The ValueGroup is the logical group or type of a Value. For example byte, short, int and long are all attempting

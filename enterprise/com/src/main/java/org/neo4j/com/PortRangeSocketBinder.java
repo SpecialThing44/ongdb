@@ -37,11 +37,10 @@ package org.neo4j.com;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelException;
+import org.neo4j.helpers.HostnamePort;
 
 import java.net.InetSocketAddress;
 import java.util.Objects;
-
-import org.neo4j.helpers.HostnamePort;
 
 public class PortRangeSocketBinder
 {

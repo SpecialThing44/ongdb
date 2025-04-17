@@ -42,25 +42,18 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-
 import org.neo4j.cursor.RawCursor;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.test.rule.PageCacheRule;
 import org.neo4j.test.rule.RandomRule;
 import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

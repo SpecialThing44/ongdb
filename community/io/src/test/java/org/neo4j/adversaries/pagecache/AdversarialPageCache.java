@@ -39,6 +39,11 @@
 package org.neo4j.adversaries.pagecache;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.neo4j.adversaries.Adversary;
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.io.pagecache.IOLimiter;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.io.pagecache.PagedFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,12 +53,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import org.neo4j.adversaries.Adversary;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.pagecache.IOLimiter;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.io.pagecache.PagedFile;
 
 /**
  * A {@linkplain PageCache page cache} that wraps another page cache and an {@linkplain Adversary adversary} to provide

@@ -37,18 +37,6 @@ package org.neo4j.com.storecopy;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
 import org.neo4j.graphdb.mockfs.EphemeralFileSystemAbstraction;
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.io.fs.StoreChannel;
@@ -56,9 +44,13 @@ import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.test.rule.PageCacheRule;
 import org.neo4j.test.rule.TestDirectory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;

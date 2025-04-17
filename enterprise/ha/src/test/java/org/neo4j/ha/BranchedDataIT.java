@@ -37,15 +37,6 @@ package org.neo4j.ha;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Consumer;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.com.storecopy.StoreUtil;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -64,8 +55,7 @@ import org.neo4j.kernel.ha.cluster.SwitchToSlave.Monitor;
 import org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher;
 import org.neo4j.kernel.impl.enterprise.configuration.OnlineBackupSettings;
 import org.neo4j.kernel.impl.ha.ClusterManager;
-import org.neo4j.kernel.impl.ha.ClusterManager.ManagedCluster;
-import org.neo4j.kernel.impl.ha.ClusterManager.RepairKit;
+import org.neo4j.kernel.impl.ha.ClusterManager.*;
 import org.neo4j.kernel.impl.util.Listener;
 import org.neo4j.kernel.lifecycle.LifeRule;
 import org.neo4j.kernel.monitoring.Monitors;
@@ -75,17 +65,21 @@ import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.DatabaseRule;
 import org.neo4j.test.rule.TestDirectory;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Consumer;
+
 import static java.lang.String.format;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.neo4j.graphdb.GraphDatabaseInternalLogIT.INTERNAL_LOG_FILE;
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
-import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.MASTER;
-import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.SLAVE;
-import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.UNKNOWN;
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.clusterOfSize;
-import static org.neo4j.kernel.impl.ha.ClusterManager.memberThinksItIsRole;
+import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.*;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 import static org.neo4j.test.rule.RetryACoupleOfTimesHandler.ANY_EXCEPTION;
 import static org.neo4j.test.rule.RetryACoupleOfTimesHandler.retryACoupleOfTimesOn;
 

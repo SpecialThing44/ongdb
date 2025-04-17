@@ -38,11 +38,6 @@
  */
 package org.neo4j.bolt.v1.runtime;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.neo4j.graphdb.ExecutionPlanDescription;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
@@ -50,9 +45,12 @@ import org.neo4j.values.virtual.ListValue;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.VirtualValues;
 
-import static org.neo4j.values.storable.Values.doubleValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.stringValue;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static org.neo4j.values.storable.Values.*;
 
 /** Takes execution plans and converts them to the subset of types used in the ONgDB type system */
 class ExecutionPlanConverter

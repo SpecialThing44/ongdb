@@ -38,9 +38,6 @@
  */
 package org.neo4j.bolt.v1.runtime;
 
-import java.time.Clock;
-import java.time.Duration;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.security.auth.Authentication;
 import org.neo4j.graphdb.DependencyResolver;
@@ -55,6 +52,9 @@ import org.neo4j.kernel.impl.query.QueryExecutionEngine;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.udc.UsageData;
+
+import java.time.Clock;
+import java.time.Duration;
 
 public class BoltFactoryImpl extends LifecycleAdapter implements BoltFactory
 {

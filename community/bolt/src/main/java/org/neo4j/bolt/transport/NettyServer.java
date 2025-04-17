@@ -45,11 +45,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.epoll.Epoll;
-
-import java.net.InetSocketAddress;
-import java.util.Map;
-import java.util.concurrent.ThreadFactory;
-
 import org.neo4j.bolt.transport.configuration.EpollConfigurationProvider;
 import org.neo4j.bolt.transport.configuration.NioConfigurationProvider;
 import org.neo4j.bolt.transport.configuration.ServerConfigurationProvider;
@@ -60,6 +55,10 @@ import org.neo4j.kernel.configuration.ConnectorPortRegister;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.logging.Log;
 import org.neo4j.util.FeatureToggles;
+
+import java.net.InetSocketAddress;
+import java.util.Map;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * Simple wrapper around Netty boss and selector threads, which allows multiple ports and protocols to be handled

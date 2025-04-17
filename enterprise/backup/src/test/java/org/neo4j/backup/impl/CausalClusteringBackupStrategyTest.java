@@ -38,10 +38,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.io.IOException;
-import java.nio.file.Path;
-
 import org.neo4j.causalclustering.catchup.CatchupResult;
 import org.neo4j.causalclustering.catchup.storecopy.StoreCopyFailedException;
 import org.neo4j.causalclustering.catchup.storecopy.StoreFiles;
@@ -52,14 +48,13 @@ import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 import org.neo4j.logging.NullLogProvider;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CausalClusteringBackupStrategyTest
 {

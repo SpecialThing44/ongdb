@@ -38,14 +38,14 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.nio.file.Path;
-import javax.annotation.Nonnull;
-
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.AdminCommandSection;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.commandline.arguments.Arguments;
 import org.neo4j.dbms.archive.Loader;
+
+import javax.annotation.Nonnull;
+import java.nio.file.Path;
 
 public class LoadCommandProvider extends AdminCommand.Provider
 {

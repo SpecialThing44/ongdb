@@ -41,6 +41,9 @@ package org.neo4j.io.compress;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.io.fs.DefaultFileSystemAbstraction;
+import org.neo4j.test.rule.TestDirectory;
+import org.neo4j.test.rule.fs.DefaultFileSystemRule;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -48,13 +51,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.zip.ZipInputStream;
 
-import org.neo4j.io.fs.DefaultFileSystemAbstraction;
-import org.neo4j.test.rule.TestDirectory;
-import org.neo4j.test.rule.fs.DefaultFileSystemRule;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ZipUtilsTest
 {

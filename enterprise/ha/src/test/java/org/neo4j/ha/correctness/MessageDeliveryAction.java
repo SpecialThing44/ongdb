@@ -34,13 +34,13 @@
  */
 package org.neo4j.ha.correctness;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.function.Function;
-
 import org.neo4j.cluster.com.message.Message;
 import org.neo4j.cluster.com.message.MessageType;
 import org.neo4j.helpers.collection.Iterables;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.function.Function;
 
 class MessageDeliveryAction implements ClusterAction
 {

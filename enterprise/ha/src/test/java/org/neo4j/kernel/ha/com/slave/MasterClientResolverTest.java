@@ -35,7 +35,6 @@
 package org.neo4j.kernel.ha.com.slave;
 
 import org.junit.Test;
-
 import org.neo4j.com.IllegalProtocolVersionException;
 import org.neo4j.com.storecopy.ResponseUnpacker;
 import org.neo4j.function.Suppliers;

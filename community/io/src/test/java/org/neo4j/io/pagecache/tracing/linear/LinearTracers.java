@@ -38,10 +38,10 @@
  */
 package org.neo4j.io.pagecache.tracing.linear;
 
+import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
+
 import java.io.PrintStream;
 import java.util.function.Consumer;
-
-import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
 
 public class LinearTracers
 {

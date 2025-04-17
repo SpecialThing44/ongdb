@@ -40,10 +40,6 @@ package recovery;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.ResourceIterator;
@@ -55,6 +51,9 @@ import org.neo4j.kernel.impl.transaction.log.checkpoint.SimpleTriggerInfo;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.io.File;
+import java.io.IOException;
 
 import static java.lang.Runtime.getRuntime;
 import static java.lang.System.exit;

@@ -35,7 +35,6 @@
 package org.neo4j.kernel.ha.cluster.modeswitch;
 
 import org.junit.Test;
-
 import org.neo4j.kernel.ha.DelegateInvocationHandler;
 
 import static org.junit.Assert.assertEquals;

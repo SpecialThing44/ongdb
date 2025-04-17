@@ -42,6 +42,9 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
+import org.neo4j.helpers.Exceptions;
+import org.neo4j.test.Randoms;
+import org.neo4j.test.Randoms.Configuration;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -52,10 +55,6 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-
-import org.neo4j.helpers.Exceptions;
-import org.neo4j.test.Randoms;
-import org.neo4j.test.Randoms.Configuration;
 
 import static java.lang.System.currentTimeMillis;
 

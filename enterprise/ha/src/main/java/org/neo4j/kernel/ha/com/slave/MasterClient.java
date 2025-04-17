@@ -34,12 +34,7 @@
  */
 package org.neo4j.kernel.ha.com.slave;
 
-import org.neo4j.com.ComExceptionHandler;
-import org.neo4j.com.Deserializer;
-import org.neo4j.com.ObjectSerializer;
-import org.neo4j.com.ProtocolVersion;
-import org.neo4j.com.RequestContext;
-import org.neo4j.com.Response;
+import org.neo4j.com.*;
 import org.neo4j.com.storecopy.ResponseUnpacker.TxHandler;
 import org.neo4j.com.storecopy.StoreWriter;
 import org.neo4j.kernel.ha.MasterClient320;

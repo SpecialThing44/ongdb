@@ -38,8 +38,8 @@
  */
 package org.neo4j.codegen.bytecode;
 
-import java.util.Locale;
 import javax.tools.Diagnostic;
+import java.util.Locale;
 
 class BytecodeDiagnostic implements Diagnostic<Void>
 {

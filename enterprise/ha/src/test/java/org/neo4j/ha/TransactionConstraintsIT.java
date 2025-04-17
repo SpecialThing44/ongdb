@@ -39,21 +39,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.RuleChain;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
 import org.neo4j.cluster.InstanceId;
-import org.neo4j.graphdb.ConstraintViolationException;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Lock;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.NotInTransactionException;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.TransactionFailureException;
-import org.neo4j.graphdb.TransientTransactionFailureException;
+import org.neo4j.graphdb.*;
 import org.neo4j.kernel.DeadlockDetectedException;
 import org.neo4j.kernel.ha.HaSettings;
 import org.neo4j.kernel.ha.HighlyAvailableGraphDatabase;
@@ -63,13 +50,13 @@ import org.neo4j.test.OtherThreadExecutor;
 import org.neo4j.test.ha.ClusterRule;
 import org.neo4j.test.rule.dump.DumpProcessInformationRule;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import static java.lang.System.currentTimeMillis;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
 import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
 import static org.neo4j.test.rule.dump.DumpProcessInformationRule.localVm;

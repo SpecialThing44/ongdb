@@ -36,9 +36,6 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.Future;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -50,6 +47,8 @@ import org.neo4j.test.Barrier;
 import org.neo4j.test.OtherThreadExecutor.WorkerCommand;
 import org.neo4j.test.ha.ClusterRule;
 import org.neo4j.test.rule.concurrent.OtherThreadRule;
+
+import java.util.concurrent.Future;
 
 import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
 

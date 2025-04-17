@@ -34,15 +34,15 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
 import org.neo4j.graphdb.TransactionFailureException;
 import org.neo4j.graphdb.TransientDatabaseFailureException;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.impl.util.LazySingleReference;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * InvocationHandler for dynamic proxies that delegate calls to a given backing implementation. This is mostly

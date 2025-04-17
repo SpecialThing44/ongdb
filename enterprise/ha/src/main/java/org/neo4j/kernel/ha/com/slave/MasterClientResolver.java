@@ -34,10 +34,6 @@
  */
 package org.neo4j.kernel.ha.com.slave;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import org.neo4j.com.ComException;
 import org.neo4j.com.ComExceptionHandler;
 import org.neo4j.com.IllegalProtocolVersionException;
@@ -56,6 +52,10 @@ import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class MasterClientResolver implements MasterClientFactory, ComExceptionHandler
 {

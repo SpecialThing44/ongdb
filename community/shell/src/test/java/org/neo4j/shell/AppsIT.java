@@ -40,6 +40,16 @@ package org.neo4j.shell;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.cypher.NodeStillHasRelationshipsException;
+import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.schema.IndexDefinition;
+import org.neo4j.graphdb.schema.Schema.IndexState;
+import org.neo4j.kernel.impl.transaction.TransactionStats;
+import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
+import org.neo4j.shell.impl.CollectingOutput;
+import org.neo4j.shell.impl.SameJvmClient;
+import org.neo4j.shell.kernel.GraphDatabaseShellServer;
+import org.neo4j.test.rule.SuppressOutput;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,45 +60,18 @@ import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
-import org.neo4j.cypher.NodeStillHasRelationshipsException;
-import org.neo4j.graphdb.ConstraintViolationException;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.schema.IndexDefinition;
-import org.neo4j.graphdb.schema.Schema.IndexState;
-import org.neo4j.kernel.impl.transaction.TransactionStats;
-import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
-import org.neo4j.shell.impl.CollectingOutput;
-import org.neo4j.shell.impl.SameJvmClient;
-import org.neo4j.shell.kernel.GraphDatabaseShellServer;
-import org.neo4j.test.rule.SuppressOutput;
-
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.neo4j.function.Predicates.await;
 import static org.neo4j.graphdb.Direction.OUTGOING;
 import static org.neo4j.graphdb.Label.label;
 import static org.neo4j.graphdb.RelationshipType.withName;
 import static org.neo4j.helpers.collection.MapUtil.genericMap;
-import static org.neo4j.test.mockito.matcher.Neo4jMatchers.findNodesByLabelAndProperty;
-import static org.neo4j.test.mockito.matcher.Neo4jMatchers.hasLabels;
-import static org.neo4j.test.mockito.matcher.Neo4jMatchers.hasProperty;
-import static org.neo4j.test.mockito.matcher.Neo4jMatchers.hasSize;
-import static org.neo4j.test.mockito.matcher.Neo4jMatchers.inTx;
-import static org.neo4j.test.mockito.matcher.Neo4jMatchers.waitForIndex;
+import static org.neo4j.test.mockito.matcher.Neo4jMatchers.*;
 
 public class AppsIT extends AbstractShellIT
 {

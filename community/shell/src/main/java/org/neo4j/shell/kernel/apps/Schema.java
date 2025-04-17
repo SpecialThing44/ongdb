@@ -38,10 +38,6 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.rmi.RemoteException;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.schema.ConstraintDefinition;
@@ -53,20 +49,13 @@ import org.neo4j.kernel.api.exceptions.index.IndexNotFoundKernelException;
 import org.neo4j.kernel.api.schema.SchemaDescriptorFactory;
 import org.neo4j.kernel.impl.api.index.IndexingService;
 import org.neo4j.kernel.impl.api.index.sampling.IndexSamplingMode;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.ColumnPrinter;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
 
-import static org.neo4j.helpers.collection.Iterables.asList;
-import static org.neo4j.helpers.collection.Iterables.concat;
-import static org.neo4j.helpers.collection.Iterables.filter;
-import static org.neo4j.helpers.collection.Iterables.indexOf;
-import static org.neo4j.helpers.collection.Iterables.sort;
+import java.rmi.RemoteException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+import static org.neo4j.helpers.collection.Iterables.*;
 import static org.neo4j.shell.Continuation.INPUT_COMPLETE;
 
 public class Schema extends TransactionProvidingApp

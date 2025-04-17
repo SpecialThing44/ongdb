@@ -34,11 +34,7 @@
  */
 package org.neo4j.kernel.ha.cluster.modeswitch;
 
-import org.neo4j.kernel.ha.DelegateInvocationHandler;
-import org.neo4j.kernel.ha.MasterUpdatePuller;
-import org.neo4j.kernel.ha.PullerFactory;
-import org.neo4j.kernel.ha.SlaveUpdatePuller;
-import org.neo4j.kernel.ha.UpdatePuller;
+import org.neo4j.kernel.ha.*;
 
 /**
  * UpdatePullerSwitcher will provide different implementations of {@link UpdatePuller}

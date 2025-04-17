@@ -38,9 +38,9 @@
  */
 package org.neo4j.csv.reader;
 
-import java.io.IOException;
-
 import org.neo4j.collection.RawIterator;
+
+import java.io.IOException;
 
 /**
  * Joins multiple {@link CharReadable} into one. There will never be one read which reads from multiple sources.

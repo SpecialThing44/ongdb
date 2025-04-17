@@ -34,8 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.util.function.Supplier;
-
 import org.neo4j.backup.TheBackupInterface;
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
@@ -48,6 +46,8 @@ import org.neo4j.kernel.impl.transaction.log.LogicalTransactionStore;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.logging.LogProvider;
 import org.neo4j.logging.Logger;
+
+import java.util.function.Supplier;
 
 import static org.neo4j.com.RequestContext.anonymous;
 

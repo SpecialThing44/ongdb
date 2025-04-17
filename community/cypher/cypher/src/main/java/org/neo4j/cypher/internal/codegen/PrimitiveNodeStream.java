@@ -38,15 +38,15 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
+import org.neo4j.graphdb.Node;
+import org.neo4j.values.virtual.VirtualNodeValue;
+import org.neo4j.values.virtual.VirtualValues;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.LongFunction;
 import java.util.stream.LongStream;
-
-import org.neo4j.graphdb.Node;
-import org.neo4j.values.virtual.VirtualNodeValue;
-import org.neo4j.values.virtual.VirtualValues;
 
 import static java.lang.String.format;
 

@@ -36,7 +36,6 @@ package org.neo4j.backup.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.OptionalHostnamePort;

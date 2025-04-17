@@ -38,9 +38,6 @@
  */
 package org.neo4j.cypher.internal.spi.v2_3
 
-import java.net.URL
-import java.util.function.Predicate
-
 import org.neo4j.collection.primitive.PrimitiveLongIterator
 import org.neo4j.cypher.InternalException
 import org.neo4j.cypher.internal.compiler.v2_3.MinMaxOrdering.{BY_NUMBER, BY_STRING, BY_VALUE}
@@ -74,6 +71,8 @@ import org.neo4j.kernel.impl.api.store.DefaultIndexReference
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI
 import org.neo4j.values.storable.Values
 
+import java.net.URL
+import java.util.function.Predicate
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.{Iterator, mutable}

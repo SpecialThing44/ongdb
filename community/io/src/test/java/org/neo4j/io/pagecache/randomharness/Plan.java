@@ -38,6 +38,8 @@
  */
 package org.neo4j.io.pagecache.randomharness;
 
+import org.neo4j.io.pagecache.PagedFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -47,8 +49,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.neo4j.io.pagecache.PagedFile;
 
 class Plan
 {

@@ -43,6 +43,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.test.rule.RandomRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,20 +52,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.test.rule.RandomRule;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 import static org.neo4j.index.internal.gbptree.ConsistencyChecker.assertNoCrashOrBrokenPointerInGSPP;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.pointer;

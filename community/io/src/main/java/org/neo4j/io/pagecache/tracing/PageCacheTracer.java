@@ -38,10 +38,10 @@
  */
 package org.neo4j.io.pagecache.tracing;
 
-import java.io.File;
-
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.monitoring.PageCacheCounters;
+
+import java.io.File;
 
 /**
  * A PageCacheTracer receives a steady stream of events and data about what

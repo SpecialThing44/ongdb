@@ -34,12 +34,12 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.util.concurrent.TimeUnit;
-
-import org.neo4j.scheduler.JobScheduler;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+import org.neo4j.scheduler.JobScheduler;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.neo4j.scheduler.JobScheduler.Groups.pullUpdates;
 

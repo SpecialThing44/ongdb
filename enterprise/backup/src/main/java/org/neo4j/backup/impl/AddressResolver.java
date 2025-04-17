@@ -38,9 +38,9 @@ import org.neo4j.causalclustering.core.CausalClusteringSettings;
 import org.neo4j.helpers.AdvertisedSocketAddress;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.helpers.ListenSocketAddress;
-import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.enterprise.configuration.OnlineBackupSettings;
+import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 
 class AddressResolver
 {

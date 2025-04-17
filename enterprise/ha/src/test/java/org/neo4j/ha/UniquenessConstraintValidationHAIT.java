@@ -36,9 +36,6 @@ package org.neo4j.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.Future;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Transaction;
@@ -48,9 +45,9 @@ import org.neo4j.kernel.impl.util.Listener;
 import org.neo4j.test.ha.ClusterRule;
 import org.neo4j.test.rule.concurrent.OtherThreadRule;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import java.util.concurrent.Future;
+
+import static org.junit.Assert.*;
 import static org.neo4j.graphdb.Label.label;
 import static org.neo4j.kernel.impl.api.integrationtest.UniquenessConstraintValidationConcurrencyIT.createNode;
 import static org.neo4j.test.rule.concurrent.OtherThreadRule.isWaiting;

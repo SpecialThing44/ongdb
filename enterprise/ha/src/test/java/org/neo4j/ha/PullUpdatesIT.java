@@ -36,25 +36,11 @@ package org.neo4j.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.net.URI;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.client.ClusterClient;
 import org.neo4j.cluster.protocol.cluster.ClusterListener;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.TransientTransactionFailureException;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.TestHighlyAvailableGraphDatabaseFactory;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.configuration.Settings;
@@ -72,17 +58,15 @@ import org.neo4j.shell.ShellLobby;
 import org.neo4j.shell.ShellSettings;
 import org.neo4j.test.ha.ClusterRule;
 
+import java.io.File;
+import java.net.URI;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
+
 import static java.lang.System.currentTimeMillis;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.clusterOfSize;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterSeesSlavesAsAvailable;
+import static org.junit.Assert.*;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 
 public class PullUpdatesIT
 {

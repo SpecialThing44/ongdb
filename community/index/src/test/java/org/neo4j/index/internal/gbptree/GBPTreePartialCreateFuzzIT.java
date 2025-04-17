@@ -40,11 +40,6 @@ package org.neo4j.index.internal.gbptree;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
@@ -55,6 +50,10 @@ import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
 import org.neo4j.io.pagecache.tracing.cursor.context.EmptyVersionContextSupplier;
 import org.neo4j.test.rule.PageCacheAndDependenciesRule;
 import org.neo4j.test.rule.fs.DefaultFileSystemRule;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.ProcessBuilder.Redirect.INHERIT;
 import static java.util.Arrays.asList;

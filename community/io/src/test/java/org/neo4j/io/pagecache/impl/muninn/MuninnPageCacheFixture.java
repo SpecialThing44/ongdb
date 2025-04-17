@@ -38,16 +38,15 @@
  */
 package org.neo4j.io.pagecache.impl.muninn;
 
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
-
 import org.neo4j.io.mem.MemoryAllocator;
 import org.neo4j.io.pagecache.PageCacheTestSupport;
 import org.neo4j.io.pagecache.PageSwapperFactory;
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
-import org.neo4j.memory.LocalMemoryTracker;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
+import org.neo4j.memory.LocalMemoryTracker;
+
+import java.util.concurrent.CountDownLatch;
 
 public class MuninnPageCacheFixture extends PageCacheTestSupport.Fixture<MuninnPageCache>
 {

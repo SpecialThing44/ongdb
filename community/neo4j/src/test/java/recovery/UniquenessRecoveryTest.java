@@ -42,6 +42,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.schema.ConstraintDefinition;
+import org.neo4j.graphdb.schema.ConstraintType;
+import org.neo4j.helpers.collection.Iterables;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.kernel.internal.GraphDatabaseAPI;
+import org.neo4j.test.TestGraphDatabaseFactory;
+import org.neo4j.test.rule.SuppressOutput;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,21 +61,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.neo4j.graphdb.ConstraintViolationException;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Result;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.schema.ConstraintDefinition;
-import org.neo4j.graphdb.schema.ConstraintType;
-import org.neo4j.helpers.collection.Iterables;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.kernel.internal.GraphDatabaseAPI;
-import org.neo4j.test.TestGraphDatabaseFactory;
-import org.neo4j.test.rule.SuppressOutput;
-import org.neo4j.test.rule.TestDirectory;
 
 import static java.lang.Boolean.getBoolean;
 import static org.junit.Assert.assertEquals;

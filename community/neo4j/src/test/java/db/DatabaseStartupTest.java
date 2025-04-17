@@ -40,9 +40,6 @@ package db;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
@@ -56,9 +53,9 @@ import org.neo4j.kernel.lifecycle.LifecycleException;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.io.File;
+
+import static org.junit.Assert.*;
 
 public class DatabaseStartupTest
 {

@@ -35,13 +35,10 @@
 package org.neo4j.com;
 
 import org.junit.Test;
-
 import org.neo4j.logging.Log;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class LoggingResourcePoolMonitorTest
 {

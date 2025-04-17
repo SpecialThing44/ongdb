@@ -38,11 +38,11 @@
  */
 package org.neo4j.graphdb.mockfs;
 
+import org.neo4j.io.fs.StoreChannel;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileLock;
-
-import org.neo4j.io.fs.StoreChannel;
 
 public class LimitedFileChannel implements StoreChannel
 {

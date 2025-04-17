@@ -42,6 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.function.Predicates;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -52,16 +53,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.function.Function;
 
-import org.neo4j.function.Predicates;
-
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.function.ThrowingConsumer.noop;
 
 @RunWith( Parameterized.class )

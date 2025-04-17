@@ -38,9 +38,9 @@
  */
 package org.neo4j.io.pagecache.impl;
 
-import java.io.File;
-
 import org.neo4j.io.fs.FileSystemAbstraction;
+
+import java.io.File;
 
 public class SingleFilePageSwapperWithRealFileSystemIT extends SingleFilePageSwapperTest
 {

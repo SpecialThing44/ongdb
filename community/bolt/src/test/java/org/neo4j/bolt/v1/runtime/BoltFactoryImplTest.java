@@ -39,9 +39,6 @@
 package org.neo4j.bolt.v1.runtime;
 
 import org.junit.Test;
-
-import java.time.Clock;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.security.auth.Authentication;
 import org.neo4j.graphdb.DependencyResolver;
@@ -55,9 +52,9 @@ import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.OnDemandJobScheduler;
 import org.neo4j.udc.UsageData;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import java.time.Clock;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

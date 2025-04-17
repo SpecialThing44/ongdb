@@ -35,15 +35,14 @@
 package org.neo4j.com.storecopy;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.ReadableByteChannel;
-
 import org.neo4j.com.BlockLogBuffer;
 import org.neo4j.com.Protocol;
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 import org.neo4j.kernel.monitoring.Monitors;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
 
 public class ToNetworkStoreWriter implements StoreWriter
 {

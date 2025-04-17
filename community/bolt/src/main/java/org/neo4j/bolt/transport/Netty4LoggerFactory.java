@@ -41,7 +41,6 @@ package org.neo4j.bolt.transport;
 import io.netty.util.internal.logging.AbstractInternalLogger;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
-
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
 

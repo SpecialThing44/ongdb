@@ -44,6 +44,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.function.Factory;
+import org.neo4j.graphdb.mockfs.EphemeralFileSystemAbstraction;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,14 +55,8 @@ import java.nio.channels.ClosedByInterruptException;
 import java.nio.channels.ClosedChannelException;
 import java.util.Arrays;
 
-import org.neo4j.function.Factory;
-import org.neo4j.graphdb.mockfs.EphemeralFileSystemAbstraction;
-import org.neo4j.test.rule.TestDirectory;
-
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith( Parameterized.class )
 public class FileSystemAbstractionInterruptionTest

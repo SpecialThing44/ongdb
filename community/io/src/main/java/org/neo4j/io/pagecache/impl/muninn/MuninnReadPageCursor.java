@@ -38,11 +38,11 @@
  */
 package org.neo4j.io.pagecache.impl.muninn;
 
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracer;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
+
+import java.io.IOException;
 
 final class MuninnReadPageCursor extends MuninnPageCursor
 {

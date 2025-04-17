@@ -34,13 +34,9 @@
  */
 package org.neo4j.kernel.ha.lock;
 
-import java.util.stream.Stream;
+import org.neo4j.kernel.impl.locking.*;
 
-import org.neo4j.kernel.impl.locking.ActiveLock;
-import org.neo4j.kernel.impl.locking.LockTracer;
-import org.neo4j.kernel.impl.locking.Locks;
-import org.neo4j.kernel.impl.locking.ResourceTypes;
-import org.neo4j.kernel.impl.locking.StatementLocks;
+import java.util.stream.Stream;
 
 /**
  * Slave specific statement locks that in addition to standard functionality provided by configured delegate

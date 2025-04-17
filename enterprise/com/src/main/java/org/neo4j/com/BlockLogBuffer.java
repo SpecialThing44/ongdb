@@ -35,13 +35,12 @@
 package org.neo4j.com;
 
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
-
-import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 
 /**
  * Implementation of a LogBuffer over a ChannelBuffer. Maintains a byte buffer

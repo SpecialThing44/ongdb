@@ -34,10 +34,10 @@
  */
 package org.neo4j.backup.impl;
 
+import org.neo4j.helpers.Service;
+
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import org.neo4j.helpers.Service;
 
 import static java.util.Comparator.comparingInt;
 

@@ -34,10 +34,6 @@
  */
 package org.neo4j.cypher.internal.compiled_runtime.v3_4.codegen.ir
 
-import java.util
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.function.BiConsumer
-
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
@@ -60,6 +56,9 @@ import org.neo4j.values.storable._
 import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP
 import org.neo4j.values.virtual.{ListValue, MapValue, NodeValue}
 
+import java.util
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.function.BiConsumer
 import scala.collection.{JavaConverters, mutable}
 
 class BuildProbeTableInstructionsTest extends CypherFunSuite with CodeGenSugar {

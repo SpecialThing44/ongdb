@@ -34,11 +34,6 @@
  */
 package org.neo4j.cypher.internal.spi.v3_4.codegen
 
-import java.util
-import java.util.Comparator
-import java.util.function.Consumer
-import java.util.stream.{DoubleStream, IntStream, LongStream}
-
 import org.neo4j.codegen.ExpressionTemplate._
 import org.neo4j.codegen.MethodDeclaration.Builder
 import org.neo4j.codegen.MethodReference._
@@ -63,6 +58,11 @@ import org.neo4j.kernel.impl.util.ValueUtils
 import org.neo4j.values.storable.{Value, ValueComparator, Values}
 import org.neo4j.values.virtual._
 import org.neo4j.values.{AnyValue, AnyValues}
+
+import java.util
+import java.util.Comparator
+import java.util.function.Consumer
+import java.util.stream.{DoubleStream, IntStream, LongStream}
 
 /**
   * Contains common code generation constructs.

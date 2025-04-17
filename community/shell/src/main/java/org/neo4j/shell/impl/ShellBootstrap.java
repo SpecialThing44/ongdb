@@ -38,16 +38,16 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.kernel.configuration.Config;
+import org.neo4j.kernel.internal.GraphDatabaseAPI;
+import org.neo4j.shell.ShellSettings;
+import org.neo4j.shell.kernel.GraphDatabaseShellServer;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.util.Base64;
-
-import org.neo4j.kernel.configuration.Config;
-import org.neo4j.kernel.internal.GraphDatabaseAPI;
-import org.neo4j.shell.ShellSettings;
-import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 
 public class ShellBootstrap
 {

@@ -41,33 +41,15 @@ package org.neo4j.values.virtual;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.BufferAnyValueWriter;
 import org.neo4j.values.storable.BufferValueWriter.Specials;
 
-import static org.neo4j.values.BufferAnyValueWriter.Specials.beginList;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.beginMap;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.endList;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.endMap;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.writeRelationship;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.writeRelationshipReference;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.writeNode;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.writeNodeReference;
-import static org.neo4j.values.BufferAnyValueWriter.Specials.writePath;
-import static org.neo4j.values.storable.Values.booleanValue;
-import static org.neo4j.values.storable.Values.byteArray;
-import static org.neo4j.values.storable.Values.charValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.stringArray;
-import static org.neo4j.values.storable.Values.stringValue;
-import static org.neo4j.values.virtual.VirtualValues.relationship;
-import static org.neo4j.values.virtual.VirtualValues.relationshipValue;
-import static org.neo4j.values.virtual.VirtualValues.emptyMap;
-import static org.neo4j.values.virtual.VirtualValues.map;
-import static org.neo4j.values.virtual.VirtualValues.nodeValue;
+import java.util.Arrays;
+
+import static org.neo4j.values.BufferAnyValueWriter.Specials.*;
+import static org.neo4j.values.storable.Values.*;
+import static org.neo4j.values.virtual.VirtualValues.*;
 
 @RunWith( value = Parameterized.class )
 public class VirtualValueWriteToTest

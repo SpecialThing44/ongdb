@@ -41,7 +41,6 @@ package org.neo4j.shell.impl;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import org.neo4j.shell.ShellClient;
 import org.neo4j.test.rule.SuppressOutput;
 

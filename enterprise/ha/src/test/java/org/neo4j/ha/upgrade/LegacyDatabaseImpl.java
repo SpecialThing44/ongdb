@@ -34,17 +34,6 @@
  */
 package org.neo4j.ha.upgrade;
 
-import java.io.File;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
@@ -55,6 +44,17 @@ import org.neo4j.kernel.ha.UpdatePuller;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.shell.impl.RmiLocation;
 import org.neo4j.test.ProcessStreamHandler;
+
+import java.io.File;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.System.currentTimeMillis;

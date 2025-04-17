@@ -34,8 +34,6 @@
  */
 package org.neo4j.test;
 
-import java.io.IOException;
-
 import org.neo4j.com.Response;
 import org.neo4j.kernel.impl.store.StoreId;
 

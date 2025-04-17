@@ -38,13 +38,13 @@
  */
 package org.neo4j.io.pagecache.impl;
 
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PagedFile;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.ReadableByteChannel;
-
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PagedFile;
 
 /**
  * Presents a {@link ReadableByteChannel} view of a {@link PagedFile}.

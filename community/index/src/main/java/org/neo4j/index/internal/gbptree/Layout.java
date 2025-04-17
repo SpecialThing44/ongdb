@@ -38,9 +38,9 @@
  */
 package org.neo4j.index.internal.gbptree;
 
-import java.util.Comparator;
-
 import org.neo4j.io.pagecache.PageCursor;
+
+import java.util.Comparator;
 
 import static java.lang.String.format;
 

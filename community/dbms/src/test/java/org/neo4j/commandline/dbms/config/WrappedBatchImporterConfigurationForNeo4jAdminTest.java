@@ -39,11 +39,9 @@
 package org.neo4j.commandline.dbms.config;
 
 import org.junit.Test;
-import org.omg.CORBA.COMM_FAILURE;
+import org.neo4j.unsafe.impl.batchimport.Configuration;
 
 import java.util.function.Function;
-
-import org.neo4j.unsafe.impl.batchimport.Configuration;
 
 import static org.junit.Assert.assertEquals;
 import static org.neo4j.io.ByteUnit.kibiBytes;

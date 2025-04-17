@@ -36,7 +36,6 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.impl.ha.ClusterManager.ManagedCluster;

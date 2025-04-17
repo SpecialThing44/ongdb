@@ -38,10 +38,6 @@
  */
 package org.neo4j.kernel.impl.index.schema.tracking;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.helpers.collection.BoundedIterable;
 import org.neo4j.io.pagecache.IOLimiter;
@@ -52,6 +48,10 @@ import org.neo4j.kernel.api.index.PropertyAccessor;
 import org.neo4j.kernel.impl.api.index.IndexUpdateMode;
 import org.neo4j.storageengine.api.schema.IndexReader;
 import org.neo4j.values.storable.Value;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TrackingReadersIndexAccessor implements IndexAccessor
 {

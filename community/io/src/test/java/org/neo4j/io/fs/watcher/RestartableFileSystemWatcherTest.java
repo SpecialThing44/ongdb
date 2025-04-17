@@ -39,16 +39,12 @@
 package org.neo4j.io.fs.watcher;
 
 import org.junit.Test;
+import org.neo4j.io.fs.watcher.resource.WatchedResource;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.neo4j.io.fs.watcher.resource.WatchedResource;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class RestartableFileSystemWatcherTest
 {

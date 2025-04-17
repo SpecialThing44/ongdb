@@ -40,7 +40,6 @@ package org.neo4j.bolt.v1.runtime.integration;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.bolt.AbstractBoltTransportsTest;
 import org.neo4j.bolt.v1.messaging.message.InitMessage;
 import org.neo4j.bolt.v1.transport.integration.Neo4jWithSocket;

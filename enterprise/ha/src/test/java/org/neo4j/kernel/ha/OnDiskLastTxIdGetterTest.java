@@ -36,10 +36,6 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.function.LongSupplier;
-
 import org.neo4j.io.pagecache.tracing.cursor.context.EmptyVersionContextSupplier;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.ha.transaction.OnDiskLastTxIdGetter;
@@ -50,6 +46,9 @@ import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.logging.NullLogProvider;
 import org.neo4j.test.rule.PageCacheRule;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
+
+import java.io.File;
+import java.util.function.LongSupplier;
 
 import static org.junit.Assert.assertEquals;
 

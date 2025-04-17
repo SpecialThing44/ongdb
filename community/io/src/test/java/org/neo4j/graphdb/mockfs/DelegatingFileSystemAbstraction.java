@@ -38,24 +38,14 @@
  */
 package org.neo4j.graphdb.mockfs;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
+import org.neo4j.io.fs.*;
+import org.neo4j.io.fs.watcher.FileWatcher;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.CopyOption;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import org.neo4j.io.fs.FileHandle;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.fs.OpenMode;
-import org.neo4j.io.fs.StoreChannel;
-import org.neo4j.io.fs.StreamFilesRecursive;
-import org.neo4j.io.fs.watcher.FileWatcher;
 
 public class DelegatingFileSystemAbstraction implements FileSystemAbstraction
 {

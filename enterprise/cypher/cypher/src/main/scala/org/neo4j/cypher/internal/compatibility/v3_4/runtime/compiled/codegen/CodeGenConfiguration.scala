@@ -34,9 +34,9 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen
 
-import java.nio.file.{Path, Paths}
-
 import org.neo4j.cypher.internal.util.v3_4.InternalException
+
+import java.nio.file.{Path, Paths}
 
 /**
   * Configuration modes for code generation

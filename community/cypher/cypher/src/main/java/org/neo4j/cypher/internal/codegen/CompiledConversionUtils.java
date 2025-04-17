@@ -38,23 +38,6 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-
 import org.neo4j.cypher.internal.util.v3_4.CypherTypeException;
 import org.neo4j.cypher.internal.util.v3_4.IncomparableValuesException;
 import org.neo4j.graphdb.Node;
@@ -66,19 +49,12 @@ import org.neo4j.kernel.impl.util.RelationshipProxyWrappingValue;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.SequenceValue;
-import org.neo4j.values.storable.ArrayValue;
-import org.neo4j.values.storable.BooleanValue;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.PointValue;
-import org.neo4j.values.storable.TemporalValue;
-import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.ListValue;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.VirtualNodeValue;
-import org.neo4j.values.virtual.VirtualRelationshipValue;
-import org.neo4j.values.virtual.VirtualValues;
+import org.neo4j.values.storable.*;
+import org.neo4j.values.virtual.*;
+
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.*;
 
 import static java.lang.String.format;
 import static org.neo4j.values.SequenceValue.IterationPreference.RANDOM_ACCESS;

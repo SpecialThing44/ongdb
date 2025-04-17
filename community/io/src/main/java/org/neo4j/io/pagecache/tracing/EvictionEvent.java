@@ -38,9 +38,9 @@
  */
 package org.neo4j.io.pagecache.tracing;
 
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.PageSwapper;
+
+import java.io.IOException;
 
 /**
  * The eviction of a page has begun.

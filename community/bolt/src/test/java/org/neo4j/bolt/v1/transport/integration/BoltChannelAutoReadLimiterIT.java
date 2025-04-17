@@ -44,10 +44,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
-
-import java.util.Map;
-import java.util.function.Consumer;
-
 import org.neo4j.bolt.runtime.BoltConnectionReadLimiter;
 import org.neo4j.bolt.v1.messaging.Neo4jPackV1;
 import org.neo4j.bolt.v1.transport.socket.client.SocketConnection;
@@ -69,6 +65,9 @@ import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
+
+import java.util.Map;
+import java.util.function.Consumer;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;

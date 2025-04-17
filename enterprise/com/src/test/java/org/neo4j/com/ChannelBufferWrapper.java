@@ -38,6 +38,8 @@ import org.jboss.netty.buffer.ByteBufferBackedChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBufferFactory;
 import org.jboss.netty.buffer.ChannelBufferIndexFinder;
+import org.neo4j.kernel.impl.transaction.log.InMemoryClosableChannel;
+import org.neo4j.storageengine.api.ReadPastEndException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,9 +49,6 @@ import java.nio.ByteOrder;
 import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.charset.Charset;
-
-import org.neo4j.kernel.impl.transaction.log.InMemoryClosableChannel;
-import org.neo4j.storageengine.api.ReadPastEndException;
 
 /**
  * Wraps an {@link InMemoryClosableChannel}, making it look like one {@link ChannelBuffer}.

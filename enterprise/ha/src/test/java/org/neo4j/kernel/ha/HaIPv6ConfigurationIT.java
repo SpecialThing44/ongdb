@@ -36,20 +36,19 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.cluster.ClusterSettings;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.factory.HighlyAvailableGraphDatabaseFactory;
+import org.neo4j.kernel.impl.enterprise.configuration.OnlineBackupSettings;
+import org.neo4j.ports.allocation.PortAuthority;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.net.ConnectException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
-
-import org.neo4j.cluster.ClusterSettings;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.factory.HighlyAvailableGraphDatabaseFactory;
-import org.neo4j.ports.allocation.PortAuthority;
-import org.neo4j.kernel.impl.enterprise.configuration.OnlineBackupSettings;
-import org.neo4j.test.rule.TestDirectory;
 
 /**
  * Test various IPv6 configuration options on a single HA instance.

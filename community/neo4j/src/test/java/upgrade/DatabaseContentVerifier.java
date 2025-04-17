@@ -38,26 +38,17 @@
  */
 package upgrade;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.PropertyContainer;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.schema.IndexDefinition;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.kernel.impl.store.PropertyType;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.neo4j.graphdb.RelationshipType.withName;
 import static org.neo4j.helpers.collection.Iterators.asSet;
 import static org.neo4j.kernel.impl.storemigration.MigrationTestUtils.makeLongArray;

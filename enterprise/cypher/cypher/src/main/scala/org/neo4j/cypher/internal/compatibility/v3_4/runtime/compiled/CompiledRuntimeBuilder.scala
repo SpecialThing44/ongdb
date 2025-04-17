@@ -34,12 +34,12 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled
 
-import org.neo4j.cypher.internal.util.v3_4.InvalidArgumentException
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.phases.CompilationState
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.{CompiledRuntimeName, _}
+import org.neo4j.cypher.internal.compatibility.v3_4.runtime._
 import org.neo4j.cypher.internal.compiler.v3_4.phases.LogicalPlanState
 import org.neo4j.cypher.internal.frontend.v3_4.notification.RuntimeUnsupportedNotification
 import org.neo4j.cypher.internal.frontend.v3_4.phases.{Do, If, Transformer}
+import org.neo4j.cypher.internal.util.v3_4.InvalidArgumentException
 
 class CompiledRuntimeBuilder extends RuntimeBuilder[Transformer[EnterpriseRuntimeContext, LogicalPlanState, CompilationState]] {
 

@@ -38,20 +38,18 @@
  */
 package org.neo4j.bolt.testing;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import org.neo4j.bolt.v1.runtime.BoltResponseHandler;
 import org.neo4j.bolt.v1.runtime.Neo4jError;
 import org.neo4j.bolt.v1.runtime.spi.BoltResult;
 import org.neo4j.cypher.result.QueryResult;
 import org.neo4j.values.AnyValue;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertNotNull;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.FAILURE;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.IGNORED;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.SUCCESS;
+import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.*;
 import static org.neo4j.values.storable.Values.stringOrNoValue;
 import static org.neo4j.values.storable.Values.stringValue;
 

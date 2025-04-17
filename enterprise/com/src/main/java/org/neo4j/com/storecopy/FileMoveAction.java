@@ -34,15 +34,15 @@
  */
 package org.neo4j.com.storecopy;
 
+import org.neo4j.io.fs.FileHandle;
+import org.neo4j.io.pagecache.PageCache;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
-
-import org.neo4j.io.fs.FileHandle;
-import org.neo4j.io.pagecache.PageCache;
 
 public interface FileMoveAction
 {

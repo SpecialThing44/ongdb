@@ -38,8 +38,6 @@
  */
 package org.neo4j.bolt.v1.runtime;
 
-import java.util.Map;
-
 import org.neo4j.bolt.BoltConnectionDescriptor;
 import org.neo4j.bolt.security.auth.Authentication;
 import org.neo4j.bolt.security.auth.AuthenticationException;
@@ -49,6 +47,8 @@ import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.internal.Version;
 import org.neo4j.udc.UsageData;
 import org.neo4j.udc.UsageDataKeys;
+
+import java.util.Map;
 
 class BoltStateMachineSPI implements BoltStateMachine.SPI
 {

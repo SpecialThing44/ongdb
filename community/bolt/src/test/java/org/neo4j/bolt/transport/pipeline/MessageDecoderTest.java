@@ -45,18 +45,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.ArgumentCaptor;
-
-import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.Map;
-
 import org.neo4j.bolt.v1.messaging.BoltIOException;
 import org.neo4j.bolt.v1.messaging.BoltRequestMessageHandler;
 import org.neo4j.bolt.v1.messaging.Neo4jPack;
@@ -75,19 +63,18 @@ import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.PathValue;
 import org.neo4j.values.virtual.VirtualValues;
 
+import java.io.IOException;
+import java.time.*;
+import java.util.Collections;
+import java.util.Map;
+
 import static io.netty.buffer.ByteBufUtil.hexDump;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.INIT;
 import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.RUN;
 import static org.neo4j.bolt.v1.messaging.example.Edges.ALICE_KNOWS_BOB;

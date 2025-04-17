@@ -35,13 +35,12 @@
 package org.neo4j.com;
 
 import org.jboss.netty.channel.Channel;
+import org.neo4j.logging.Log;
+import org.neo4j.logging.LogProvider;
 
 import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.neo4j.logging.Log;
-import org.neo4j.logging.LogProvider;
 
 /**
  * Keeps track of a set of channels and when they were last active.

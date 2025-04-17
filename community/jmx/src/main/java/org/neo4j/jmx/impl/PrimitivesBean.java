@@ -38,12 +38,12 @@
  */
 package org.neo4j.jmx.impl;
 
-import javax.management.NotCompliantMBeanException;
-
 import org.neo4j.helpers.Service;
 import org.neo4j.jmx.Primitives;
 import org.neo4j.kernel.impl.store.id.IdGeneratorFactory;
 import org.neo4j.kernel.impl.store.id.IdType;
+
+import javax.management.NotCompliantMBeanException;
 
 @Service.Implementation( ManagementBeanProvider.class )
 public final class PrimitivesBean extends ManagementBeanProvider

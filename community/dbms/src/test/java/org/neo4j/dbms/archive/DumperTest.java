@@ -41,18 +41,12 @@ package org.neo4j.dbms.archive;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.function.Predicates;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.FileSystemException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-
-import org.neo4j.function.Predicates;
-import org.neo4j.test.rule.TestDirectory;
+import java.nio.file.*;
 
 import static java.util.Collections.emptySet;
 import static org.junit.Assert.assertEquals;

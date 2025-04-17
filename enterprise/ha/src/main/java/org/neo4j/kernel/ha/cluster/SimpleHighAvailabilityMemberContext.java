@@ -34,9 +34,9 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
-import java.net.URI;
-
 import org.neo4j.cluster.InstanceId;
+
+import java.net.URI;
 
 /**
  * Context used by the {@link HighAvailabilityMemberStateMachine}. Keeps track of what elections and previously

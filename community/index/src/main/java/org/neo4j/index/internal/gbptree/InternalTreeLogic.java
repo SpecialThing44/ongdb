@@ -38,21 +38,19 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.index.internal.gbptree.TreeNode.Overflow;
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
-
-import org.neo4j.index.internal.gbptree.TreeNode.Overflow;
-import org.neo4j.io.pagecache.PageCursor;
 
 import static org.neo4j.index.internal.gbptree.KeySearch.isHit;
 import static org.neo4j.index.internal.gbptree.KeySearch.positionOf;
 import static org.neo4j.index.internal.gbptree.PointerChecking.assertNoSuccessor;
 import static org.neo4j.index.internal.gbptree.StructurePropagation.KeyReplaceStrategy.BUBBLE;
 import static org.neo4j.index.internal.gbptree.StructurePropagation.KeyReplaceStrategy.REPLACE;
-import static org.neo4j.index.internal.gbptree.StructurePropagation.UPDATE_LEFT_CHILD;
-import static org.neo4j.index.internal.gbptree.StructurePropagation.UPDATE_MID_CHILD;
-import static org.neo4j.index.internal.gbptree.StructurePropagation.UPDATE_RIGHT_CHILD;
+import static org.neo4j.index.internal.gbptree.StructurePropagation.*;
 import static org.neo4j.index.internal.gbptree.TreeNode.Overflow.NO_NEED_DEFRAG;
 import static org.neo4j.index.internal.gbptree.TreeNode.Overflow.YES;
 import static org.neo4j.index.internal.gbptree.TreeNode.Type.INTERNAL;

@@ -34,14 +34,8 @@
  */
 package org.neo4j.kernel.ha.shell;
 
-import java.rmi.RemoteException;
-
 import org.neo4j.kernel.ha.UpdatePuller;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
 import org.neo4j.shell.kernel.apps.NonTransactionProvidingApp;
 
 public class Pullupdates extends NonTransactionProvidingApp

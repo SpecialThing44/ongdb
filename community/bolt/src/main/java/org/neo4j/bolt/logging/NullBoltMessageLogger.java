@@ -38,10 +38,10 @@
  */
 package org.neo4j.bolt.logging;
 
-import java.util.function.Supplier;
-
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.values.virtual.MapValue;
+
+import java.util.function.Supplier;
 
 public class NullBoltMessageLogger implements BoltMessageLogger
 {

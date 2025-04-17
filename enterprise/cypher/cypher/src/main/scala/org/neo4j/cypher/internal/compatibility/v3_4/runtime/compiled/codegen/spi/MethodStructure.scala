@@ -37,7 +37,6 @@ package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.sp
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.Variable
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions.CodeGenType
 import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
-import org.neo4j.values.AnyValue
 
 /**
   * Describes the SPI for generating a method.

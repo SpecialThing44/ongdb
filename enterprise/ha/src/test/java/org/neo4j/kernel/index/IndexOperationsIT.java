@@ -37,11 +37,6 @@ package org.neo4j.kernel.index;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Future;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
@@ -56,10 +51,11 @@ import org.neo4j.test.OtherThreadExecutor;
 import org.neo4j.test.OtherThreadExecutor.WorkerCommand;
 import org.neo4j.test.ha.ClusterRule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Future;
+
+import static org.junit.Assert.*;
 
 public class IndexOperationsIT
 {

@@ -39,13 +39,12 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.neo4j.io.pagecache.PageCursor;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Supplier;
-
-import org.neo4j.io.pagecache.PageCursor;
 
 class SimpleIdProvider implements IdProvider
 {

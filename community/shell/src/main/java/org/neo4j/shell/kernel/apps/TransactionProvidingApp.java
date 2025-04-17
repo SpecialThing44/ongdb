@@ -38,44 +38,20 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.lang.reflect.Array;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.PathExpander;
-import org.neo4j.graphdb.PathExpanderBuilder;
-import org.neo4j.graphdb.PropertyContainer;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.helpers.TextUtil;
 import org.neo4j.helpers.collection.Pair;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
 import org.neo4j.shell.impl.AbstractApp;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 import org.neo4j.shell.util.json.JSONArray;
 import org.neo4j.shell.util.json.JSONException;
+
+import java.lang.reflect.Array;
+import java.rmi.RemoteException;
+import java.util.*;
+import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import static org.neo4j.internal.kernel.api.Transaction.Type.implicit;
 import static org.neo4j.internal.kernel.api.security.LoginContext.AUTH_DISABLED;

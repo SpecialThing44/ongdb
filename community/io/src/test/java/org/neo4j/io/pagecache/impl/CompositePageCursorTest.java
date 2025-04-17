@@ -40,20 +40,14 @@ package org.neo4j.io.pagecache.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-
 import org.neo4j.io.pagecache.CursorException;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.StubPageCursor;
 
+import java.util.Arrays;
+
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.test.matchers.ByteArrayMatcher.byteArray;
 
 public class CompositePageCursorTest

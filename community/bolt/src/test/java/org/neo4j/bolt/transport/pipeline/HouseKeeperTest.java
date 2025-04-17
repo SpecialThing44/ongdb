@@ -39,11 +39,7 @@
 package org.neo4j.bolt.transport.pipeline;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandler;
-import io.netty.channel.ChannelInitializer;
+import io.netty.channel.*;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -51,22 +47,18 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.EventExecutor;
 import org.junit.After;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.net.ServerSocket;
-
 import org.neo4j.bolt.runtime.BoltConnection;
 import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.logging.NullLog;
+
+import java.io.IOException;
+import java.net.ServerSocket;
 
 import static io.netty.buffer.ByteBufUtil.writeUtf8;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.logging.AssertableLogProvider.inLog;
 
 public class HouseKeeperTest

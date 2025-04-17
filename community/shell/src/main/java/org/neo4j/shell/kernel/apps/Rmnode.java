@@ -38,22 +38,15 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import static java.lang.Integer.parseInt;
-import static org.neo4j.shell.kernel.apps.NodeOrRelationship.wrap;
-
-import java.rmi.RemoteException;
-
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.helpers.Service;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
+
+import java.rmi.RemoteException;
+
+import static java.lang.Integer.parseInt;
+import static org.neo4j.shell.kernel.apps.NodeOrRelationship.wrap;
 
 @Service.Implementation( App.class )
 public class Rmnode extends TransactionProvidingApp

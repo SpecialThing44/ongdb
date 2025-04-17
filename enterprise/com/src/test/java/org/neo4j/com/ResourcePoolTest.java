@@ -35,6 +35,8 @@
 package org.neo4j.com;
 
 import org.junit.Test;
+import org.neo4j.time.Clocks;
+import org.neo4j.time.FakeClock;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,14 +46,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.neo4j.time.Clocks;
-import org.neo4j.time.FakeClock;
-
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ResourcePoolTest
 {

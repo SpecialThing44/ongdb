@@ -34,12 +34,12 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.io.IOException;
-
 import org.neo4j.kernel.impl.store.TransactionId;
 import org.neo4j.kernel.impl.transaction.log.LogicalTransactionStore;
 import org.neo4j.kernel.impl.transaction.log.NoSuchTransactionException;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
+
+import java.io.IOException;
 
 import static org.neo4j.helpers.Exceptions.withMessage;
 

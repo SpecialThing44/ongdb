@@ -41,12 +41,6 @@ package org.neo4j.kernel.internal;
 import org.apache.commons.lang3.mutable.MutableLong;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.function.Consumer;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Transaction;
@@ -57,11 +51,14 @@ import org.neo4j.logging.Logger;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.function.Consumer;
+
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class KernelDiagnosticsIT
 {

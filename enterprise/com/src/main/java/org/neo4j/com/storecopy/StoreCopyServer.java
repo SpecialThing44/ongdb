@@ -34,12 +34,6 @@
  */
 package org.neo4j.com.storecopy;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.ReadableByteChannel;
-import java.util.Optional;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
 import org.neo4j.com.ServerFailureException;
@@ -56,6 +50,12 @@ import org.neo4j.kernel.impl.transaction.log.checkpoint.CheckPointer;
 import org.neo4j.kernel.impl.transaction.log.checkpoint.SimpleTriggerInfo;
 import org.neo4j.kernel.impl.transaction.log.checkpoint.StoreCopyCheckPointMutex;
 import org.neo4j.storageengine.api.StoreFileMetadata;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
+import java.util.Optional;
 
 import static org.neo4j.com.RequestContext.anonymous;
 import static org.neo4j.io.fs.FileUtils.getMostCanonicalFile;

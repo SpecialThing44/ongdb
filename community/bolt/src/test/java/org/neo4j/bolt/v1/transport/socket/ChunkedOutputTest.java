@@ -47,6 +47,8 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.bolt.v1.packstream.PackOutputClosedException;
+import org.neo4j.bolt.v1.transport.ChunkedOutput;
 
 import java.io.IOException;
 import java.net.SocketAddress;
@@ -54,14 +56,9 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
 
-import org.neo4j.bolt.v1.packstream.PackOutputClosedException;
-import org.neo4j.bolt.v1.transport.ChunkedOutput;
-
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

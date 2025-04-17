@@ -38,17 +38,14 @@
  */
 package org.neo4j.io.pagecache.tracing.linear;
 
-import java.io.File;
-
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
 import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 
-import static org.neo4j.io.pagecache.tracing.linear.HEvents.EvictionRunHEvent;
-import static org.neo4j.io.pagecache.tracing.linear.HEvents.MajorFlushHEvent;
-import static org.neo4j.io.pagecache.tracing.linear.HEvents.MappedFileHEvent;
-import static org.neo4j.io.pagecache.tracing.linear.HEvents.UnmappedFileHEvent;
+import java.io.File;
+
+import static org.neo4j.io.pagecache.tracing.linear.HEvents.*;
 
 /**
  * Tracer for global page cache events that add all of them to event history tracer that can build proper linear

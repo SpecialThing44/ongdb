@@ -39,14 +39,6 @@ import org.junit.Rule;
 import org.junit.rules.ExternalResource;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-import java.util.function.IntFunction;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import org.neo4j.cluster.client.Cluster;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.config.Setting;
@@ -59,6 +51,13 @@ import org.neo4j.kernel.impl.ha.ClusterManager.ManagedCluster;
 import org.neo4j.kernel.impl.ha.ClusterManager.StoreDirInitializer;
 import org.neo4j.kernel.impl.util.Listener;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static org.neo4j.cluster.ClusterSettings.default_timeout;
 import static org.neo4j.cluster.ClusterSettings.join_timeout;

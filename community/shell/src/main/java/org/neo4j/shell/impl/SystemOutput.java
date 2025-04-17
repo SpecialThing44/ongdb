@@ -38,13 +38,13 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.shell.Output;
+
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-
-import org.neo4j.shell.Output;
 
 /**
  * An implementation of {@link Output} optimized to use with a

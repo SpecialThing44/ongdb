@@ -38,13 +38,13 @@
  */
 package org.neo4j.ports.allocation;
 
-import static org.neo4j.ports.allocation.PortConstants.EphemeralPortMaximum;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static org.neo4j.ports.allocation.PortConstants.EphemeralPortMaximum;
 
 public class PortRepository
 {

@@ -39,19 +39,14 @@
 package org.neo4j.bolt.runtime;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-
-import java.time.Duration;
-import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadFactory;
-
 import org.neo4j.bolt.v1.runtime.Job;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.logging.Log;
 import org.neo4j.scheduler.JobScheduler;
+
+import java.time.Duration;
+import java.util.Collection;
+import java.util.concurrent.*;
 
 import static org.neo4j.concurrent.Futures.failedFuture;
 

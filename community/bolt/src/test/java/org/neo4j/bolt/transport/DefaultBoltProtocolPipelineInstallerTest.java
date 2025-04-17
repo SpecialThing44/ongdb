@@ -45,10 +45,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.util.Iterator;
-import java.util.Map;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.logging.NullBoltMessageLogger;
 import org.neo4j.bolt.runtime.BoltConnection;
@@ -61,10 +57,11 @@ import org.neo4j.bolt.v1.messaging.Neo4jPackV1;
 import org.neo4j.bolt.v2.messaging.Neo4jPackV2;
 import org.neo4j.kernel.impl.logging.NullLogService;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 @RunWith( Parameterized.class )

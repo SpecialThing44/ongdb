@@ -45,16 +45,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.bolt.v1.transport.socket.client.*;
+import org.neo4j.helpers.HostnamePort;
 
 import java.io.IOException;
 import java.util.Collection;
-
-import org.neo4j.bolt.v1.transport.socket.client.SecureSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SecureWebSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
-import org.neo4j.bolt.v1.transport.socket.client.WebSocketConnection;
-import org.neo4j.helpers.HostnamePort;
 
 import static java.util.Arrays.asList;
 

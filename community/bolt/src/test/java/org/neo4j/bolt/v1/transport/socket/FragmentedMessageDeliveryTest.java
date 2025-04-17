@@ -44,11 +44,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.logging.NullBoltMessageLogger;
 import org.neo4j.bolt.runtime.SynchronousBoltConnection;
@@ -68,14 +63,16 @@ import org.neo4j.kernel.impl.logging.NullLogService;
 import org.neo4j.kernel.impl.util.HexPrinter;
 import org.neo4j.values.virtual.MapValue;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import static io.netty.buffer.Unpooled.wrappedBuffer;
 import static org.junit.runners.Parameterized.Parameter;
 import static org.junit.runners.Parameterized.Parameters;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * This tests network fragmentation of messages. Given a set of messages, it will serialize and chunk the message up

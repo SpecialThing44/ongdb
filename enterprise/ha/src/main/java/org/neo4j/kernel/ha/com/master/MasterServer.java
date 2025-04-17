@@ -34,11 +34,7 @@
  */
 package org.neo4j.kernel.ha.com.master;
 
-import org.neo4j.com.Protocol;
-import org.neo4j.com.RequestContext;
-import org.neo4j.com.RequestType;
-import org.neo4j.com.Server;
-import org.neo4j.com.TxChecksumVerifier;
+import org.neo4j.com.*;
 import org.neo4j.com.monitor.RequestMonitor;
 import org.neo4j.kernel.ha.HaRequestType210;
 import org.neo4j.kernel.ha.MasterClient320;

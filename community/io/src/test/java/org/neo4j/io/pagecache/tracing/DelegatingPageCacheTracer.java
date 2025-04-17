@@ -38,9 +38,9 @@
  */
 package org.neo4j.io.pagecache.tracing;
 
-import java.io.File;
-
 import org.neo4j.io.pagecache.PageSwapper;
+
+import java.io.File;
 
 /**
  * A PageCacheTracer that delegates all calls to a wrapped instance.

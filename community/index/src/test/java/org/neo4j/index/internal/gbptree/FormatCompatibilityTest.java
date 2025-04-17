@@ -46,6 +46,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.neo4j.cursor.RawCursor;
+import org.neo4j.io.compress.ZipUtils;
+import org.neo4j.io.pagecache.IOLimiter;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.test.rule.PageCacheRule;
+import org.neo4j.test.rule.RandomRule;
+import org.neo4j.test.rule.TestDirectory;
+import org.neo4j.test.rule.fs.DefaultFileSystemRule;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,23 +66,10 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.neo4j.cursor.RawCursor;
-import org.neo4j.io.compress.ZipUtils;
-import org.neo4j.io.pagecache.IOLimiter;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.test.rule.PageCacheRule;
-import org.neo4j.test.rule.RandomRule;
-import org.neo4j.test.rule.TestDirectory;
-import org.neo4j.test.rule.fs.DefaultFileSystemRule;
-
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.index.internal.gbptree.SimpleLongLayout.longLayout;
 import static org.neo4j.test.rule.PageCacheRule.config;
 

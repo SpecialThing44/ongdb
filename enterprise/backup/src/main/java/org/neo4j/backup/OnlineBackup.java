@@ -34,18 +34,14 @@
  */
 package org.neo4j.backup;
 
+import org.neo4j.backup.impl.*;
+import org.neo4j.kernel.configuration.Config;
+import org.neo4j.kernel.internal.GraphDatabaseAPI;
+
 import java.io.File;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import org.neo4j.backup.impl.BackupClient;
-import org.neo4j.backup.impl.BackupOutcome;
-import org.neo4j.backup.impl.BackupProtocolService;
-import org.neo4j.backup.impl.BackupServer;
-import org.neo4j.backup.impl.ConsistencyCheck;
-import org.neo4j.kernel.configuration.Config;
-import org.neo4j.kernel.internal.GraphDatabaseAPI;
 
 /**
  * This class encapsulates the information needed to perform an online backup against a running ONgDB instance

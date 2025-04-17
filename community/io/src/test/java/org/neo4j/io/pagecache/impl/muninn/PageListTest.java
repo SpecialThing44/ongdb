@@ -38,14 +38,16 @@
  */
 package org.neo4j.io.pagecache.impl.muninn;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.io.mem.MemoryAllocator;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PageSwapper;
+import org.neo4j.io.pagecache.tracing.*;
+import org.neo4j.memory.GlobalMemoryTracker;
+import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,29 +62,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.IntFunction;
 
-import org.neo4j.io.mem.MemoryAllocator;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PageSwapper;
-import org.neo4j.io.pagecache.tracing.DummyPageSwapper;
-import org.neo4j.io.pagecache.tracing.EvictionEvent;
-import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
-import org.neo4j.io.pagecache.tracing.FlushEvent;
-import org.neo4j.io.pagecache.tracing.FlushEventOpportunity;
-import org.neo4j.io.pagecache.tracing.PageFaultEvent;
-import org.neo4j.memory.GlobalMemoryTracker;
-import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 @RunWith( Parameterized.class )
 public class PageListTest

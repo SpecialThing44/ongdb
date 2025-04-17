@@ -34,10 +34,10 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-
 import org.neo4j.consistency.checking.full.ConsistencyFlags;
 import org.neo4j.kernel.configuration.Config;
+
+import java.nio.file.Path;
 
 class OnlineBackupContext
 {

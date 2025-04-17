@@ -38,15 +38,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.function.Predicate;
-import javax.management.NotCompliantMBeanException;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.helpers.Format;
 import org.neo4j.helpers.collection.Iterables;
@@ -69,18 +60,20 @@ import org.neo4j.kernel.internal.Version;
 import org.neo4j.management.ClusterMemberInfo;
 import org.neo4j.management.HighAvailability;
 
+import javax.management.NotCompliantMBeanException;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.function.Predicate;
+
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import static org.neo4j.helpers.collection.Iterables.filter;
 import static org.neo4j.helpers.collection.Iterables.firstOrNull;
-import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.MASTER;
-import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.SLAVE;
-import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.UNKNOWN;
+import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.*;
 import static org.neo4j.kernel.impl.store.StoreId.DEFAULT;
 
 public class HighAvailabilityBeanTest

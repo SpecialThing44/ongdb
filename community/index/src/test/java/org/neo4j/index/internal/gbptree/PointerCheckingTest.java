@@ -39,15 +39,11 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.junit.Test;
-
 import org.neo4j.io.pagecache.ByteArrayPageCursor;
 import org.neo4j.io.pagecache.PageCursor;
 
 import static org.junit.Assert.fail;
-
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.NO_LOGICAL_POS;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.read;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.write;
+import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.*;
 import static org.neo4j.index.internal.gbptree.PageCursorUtil.put6BLong;
 
 public class PointerCheckingTest

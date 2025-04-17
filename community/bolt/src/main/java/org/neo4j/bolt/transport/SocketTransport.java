@@ -42,7 +42,6 @@ import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.ssl.SslContext;
-
 import org.neo4j.bolt.logging.BoltMessageLogging;
 import org.neo4j.helpers.ListenSocketAddress;
 import org.neo4j.logging.LogProvider;

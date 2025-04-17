@@ -44,27 +44,18 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.FileSystemException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.Random;
-
-import org.neo4j.test.rule.TestDirectory;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeFalse;
 import static org.neo4j.dbms.archive.TestUtils.withPermissions;
 

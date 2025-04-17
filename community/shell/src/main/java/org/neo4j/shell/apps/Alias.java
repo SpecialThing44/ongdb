@@ -40,11 +40,7 @@ package org.neo4j.shell.apps;
 
 import org.neo4j.helpers.Service;
 import org.neo4j.helpers.collection.Pair;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
+import org.neo4j.shell.*;
 import org.neo4j.shell.impl.AbstractApp;
 
 @Service.Implementation( App.class )

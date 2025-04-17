@@ -38,16 +38,10 @@
  */
 package org.neo4j.codegen.source;
 
+import org.neo4j.codegen.*;
+
 import java.lang.reflect.Modifier;
 import java.util.List;
-
-import org.neo4j.codegen.ClassEmitter;
-import org.neo4j.codegen.Expression;
-import org.neo4j.codegen.FieldReference;
-import org.neo4j.codegen.MethodDeclaration;
-import org.neo4j.codegen.MethodEmitter;
-import org.neo4j.codegen.Parameter;
-import org.neo4j.codegen.TypeReference;
 
 class ClassSourceWriter implements ClassEmitter
 {

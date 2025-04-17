@@ -38,11 +38,11 @@
  */
 package org.neo4j.io;
 
+import org.neo4j.helpers.collection.Pair;
+
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.stream.Stream;
-
-import org.neo4j.helpers.collection.Pair;
 
 import static java.lang.String.format;
 

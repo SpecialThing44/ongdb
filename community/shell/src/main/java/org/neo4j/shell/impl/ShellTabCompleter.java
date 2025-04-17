@@ -40,13 +40,12 @@ package org.neo4j.shell.impl;
 
 import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
-
-import java.rmi.RemoteException;
-import java.util.List;
-
 import org.neo4j.shell.ShellClient;
 import org.neo4j.shell.ShellException;
 import org.neo4j.shell.TabCompletion;
+
+import java.rmi.RemoteException;
+import java.util.List;
 
 @SuppressWarnings( "UnusedDeclaration" )
 /**

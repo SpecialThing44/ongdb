@@ -39,10 +39,9 @@
 package org.neo4j.commandline.dbms.config;
 
 import org.junit.Test;
+import org.neo4j.unsafe.impl.batchimport.input.csv.Configuration;
 
 import java.util.function.Function;
-
-import org.neo4j.unsafe.impl.batchimport.input.csv.Configuration;
 
 import static org.junit.Assert.assertEquals;
 import static org.neo4j.unsafe.impl.batchimport.input.csv.Configuration.COMMAS;

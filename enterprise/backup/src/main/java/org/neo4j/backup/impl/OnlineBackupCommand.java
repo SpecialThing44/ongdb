@@ -34,12 +34,12 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.IncorrectUsage;
 import org.neo4j.commandline.admin.OutsideWorld;
+
+import java.nio.file.Path;
 
 class OnlineBackupCommand implements AdminCommand
 {

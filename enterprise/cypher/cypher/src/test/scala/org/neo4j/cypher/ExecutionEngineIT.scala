@@ -34,8 +34,6 @@
  */
 package org.neo4j.cypher
 
-import java.util
-
 import org.neo4j.collection.RawIterator
 import org.neo4j.cypher.internal.ExecutionEngine
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
@@ -50,7 +48,7 @@ import org.neo4j.kernel.api.proc._
 import org.neo4j.procedure.Mode
 import org.neo4j.test.TestGraphDatabaseFactory
 
-import scala.collection.immutable.Map
+import java.util
 import scala.collection.mutable.ArrayBuffer
 
 class ExecutionEngineIT extends CypherFunSuite with GraphIcing {

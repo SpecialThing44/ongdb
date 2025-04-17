@@ -38,14 +38,14 @@
  */
 package org.neo4j.values;
 
-import java.util.Arrays;
-
 import org.neo4j.values.storable.BufferValueWriter;
 import org.neo4j.values.storable.TextArray;
 import org.neo4j.values.storable.TextValue;
-import org.neo4j.values.virtual.RelationshipValue;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.NodeValue;
+import org.neo4j.values.virtual.RelationshipValue;
+
+import java.util.Arrays;
 
 import static java.lang.String.format;
 

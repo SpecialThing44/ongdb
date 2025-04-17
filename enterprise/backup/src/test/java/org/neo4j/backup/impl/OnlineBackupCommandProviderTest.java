@@ -35,20 +35,14 @@
 package org.neo4j.backup.impl;
 
 import org.junit.Test;
-
 import org.neo4j.causalclustering.handlers.PipelineWrapper;
 import org.neo4j.causalclustering.handlers.SecureClientPipelineWrapper;
-import org.neo4j.causalclustering.handlers.VoidPipelineWrapperFactory;
-import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.commandline.admin.RealOutsideWorld;
-import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.NullLogProvider;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.neo4j.backup.impl.BackupSupportingClassesFactoryProvider.getProvidersByPriority;
 
 public class OnlineBackupCommandProviderTest

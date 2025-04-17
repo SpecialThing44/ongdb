@@ -38,14 +38,13 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
 import org.neo4j.values.StructureBuilder;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;

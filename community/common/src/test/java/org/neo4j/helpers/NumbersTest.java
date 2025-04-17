@@ -43,12 +43,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
-import static org.neo4j.helpers.Numbers.safeCastIntToShort;
-import static org.neo4j.helpers.Numbers.safeCastIntToUnsignedShort;
-import static org.neo4j.helpers.Numbers.safeCastLongToByte;
-import static org.neo4j.helpers.Numbers.safeCastLongToInt;
-import static org.neo4j.helpers.Numbers.safeCastLongToShort;
-import static org.neo4j.helpers.Numbers.unsignedShortToInt;
+import static org.neo4j.helpers.Numbers.*;
 
 public class NumbersTest
 {

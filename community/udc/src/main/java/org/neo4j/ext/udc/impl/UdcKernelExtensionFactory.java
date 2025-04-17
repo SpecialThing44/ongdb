@@ -38,8 +38,6 @@
  */
 package org.neo4j.ext.udc.impl;
 
-import java.util.Timer;
-
 import org.neo4j.helpers.Service;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.extension.KernelExtensionFactory;
@@ -49,6 +47,8 @@ import org.neo4j.kernel.impl.store.id.IdGeneratorFactory;
 import org.neo4j.kernel.impl.transaction.state.DataSourceManager;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.udc.UsageData;
+
+import java.util.Timer;
 
 /**
  * Kernel extension for UDC, the Usage Data Collector. The UDC runs as a background

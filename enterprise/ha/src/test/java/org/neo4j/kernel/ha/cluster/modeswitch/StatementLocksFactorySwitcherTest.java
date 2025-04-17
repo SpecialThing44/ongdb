@@ -35,7 +35,6 @@
 package org.neo4j.kernel.ha.cluster.modeswitch;
 
 import org.junit.Test;
-
 import org.neo4j.kernel.ha.DelegateInvocationHandler;
 import org.neo4j.kernel.ha.lock.SlaveStatementLocksFactory;
 import org.neo4j.kernel.impl.locking.StatementLocksFactory;

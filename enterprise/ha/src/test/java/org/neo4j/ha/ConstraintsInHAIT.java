@@ -36,7 +36,6 @@ package org.neo4j.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.graphdb.ConstraintViolationException;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.schema.ConstraintCreator;

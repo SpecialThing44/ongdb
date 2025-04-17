@@ -38,8 +38,6 @@
  */
 package org.neo4j.io.pagecache.impl.muninn;
 
-import java.io.IOException;
-
 import org.neo4j.io.mem.MemoryAllocator;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.PageSwapper;
@@ -48,6 +46,8 @@ import org.neo4j.io.pagecache.tracing.EvictionEventOpportunity;
 import org.neo4j.io.pagecache.tracing.FlushEvent;
 import org.neo4j.io.pagecache.tracing.PageFaultEvent;
 import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
+
+import java.io.IOException;
 
 import static java.lang.String.format;
 import static org.neo4j.util.FeatureToggles.flag;

@@ -38,12 +38,12 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.kernel.lifecycle.Lifecycle;
+import org.neo4j.kernel.lifecycle.LifecycleAdapter;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import org.neo4j.kernel.lifecycle.Lifecycle;
-import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 
 /**
  * Place to add recovery cleanup work to be done as part of recovery of {@link GBPTree}.

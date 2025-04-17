@@ -35,16 +35,11 @@
 package org.neo4j.kernel.ha;
 
 import org.junit.Test;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.com.RequestContext;
 import org.neo4j.kernel.configuration.Config;
-import org.neo4j.kernel.ha.com.master.ConversationManager;
-import org.neo4j.kernel.ha.com.master.HandshakeResult;
-import org.neo4j.kernel.ha.com.master.InvalidEpochException;
-import org.neo4j.kernel.ha.com.master.MasterImpl;
+import org.neo4j.kernel.ha.com.master.*;
 import org.neo4j.kernel.ha.com.master.MasterImpl.SPI;
-import org.neo4j.kernel.ha.com.master.MasterImplTest;
 import org.neo4j.kernel.ha.id.IdAllocation;
 import org.neo4j.kernel.impl.store.StoreId;
 import org.neo4j.kernel.impl.store.id.IdRange;

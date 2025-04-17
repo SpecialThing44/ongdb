@@ -39,14 +39,13 @@
 package org.neo4j.shell;
 
 import org.junit.Test;
-
-import java.rmi.RemoteException;
-
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 import org.neo4j.shell.kernel.ReadOnlyGraphDatabaseProxy;
+
+import java.rmi.RemoteException;
 
 public class ReadOnlyServerIT extends AbstractShellIT
 {

@@ -38,13 +38,13 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
-import java.util.Map;
-import java.util.NoSuchElementException;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Result;
+
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class MapRow implements Result.ResultRow
 {

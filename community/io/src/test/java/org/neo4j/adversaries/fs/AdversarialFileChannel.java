@@ -38,13 +38,13 @@
  */
 package org.neo4j.adversaries.fs;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileLock;
-
 import org.neo4j.adversaries.Adversary;
 import org.neo4j.io.fs.StoreChannel;
 import org.neo4j.io.fs.StoreFileChannel;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileLock;
 
 @SuppressWarnings( "unchecked" )
 public class AdversarialFileChannel extends StoreFileChannel

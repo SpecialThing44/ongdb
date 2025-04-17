@@ -39,16 +39,12 @@
 package org.neo4j.csv.reader;
 
 import org.junit.Test;
-
 import org.neo4j.csv.reader.Extractors.IntExtractor;
 import org.neo4j.values.storable.CoordinateReferenceSystem;
 import org.neo4j.values.storable.PointValue;
 import org.neo4j.values.storable.Values;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class ExtractorsTest
 {

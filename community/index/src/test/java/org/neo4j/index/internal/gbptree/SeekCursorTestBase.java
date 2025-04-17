@@ -42,6 +42,9 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.impl.DelegatingPageCursor;
+import org.neo4j.test.rule.RandomRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,17 +55,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.impl.DelegatingPageCursor;
-import org.neo4j.test.rule.RandomRule;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.pointer;
 import static org.neo4j.index.internal.gbptree.SeekCursor.DEFAULT_MAX_READ_AHEAD;
 import static org.neo4j.index.internal.gbptree.TreeNode.Type.INTERNAL;

@@ -34,13 +34,12 @@
  */
 package org.neo4j.internal.cypher.acceptance
 
-import java.util.stream.Collectors
-
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.graphdb.Node
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import org.neo4j.values.storable.Value
 
+import java.util.stream.Collectors
 import scala.collection.JavaConversions._
 
 trait IndexingTestSupport extends ExecutionEngineFunSuite with CypherComparisonSupport {

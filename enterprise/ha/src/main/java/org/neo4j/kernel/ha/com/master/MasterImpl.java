@@ -34,21 +34,14 @@
  */
 package org.neo4j.kernel.ha.com.master;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
 import org.neo4j.com.TransactionNotPresentOnMasterException;
 import org.neo4j.com.storecopy.StoreWriter;
+import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.DeadlockDetectedException;
 import org.neo4j.kernel.api.exceptions.Status;
-import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.ha.id.IdAllocation;
 import org.neo4j.kernel.ha.lock.LockResult;
@@ -63,6 +56,9 @@ import org.neo4j.kernel.impl.util.collection.ConcurrentAccessException;
 import org.neo4j.kernel.impl.util.collection.NoSuchEntryException;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.storageengine.api.lock.ResourceType;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * This is the real master code that executes on a master. The actual

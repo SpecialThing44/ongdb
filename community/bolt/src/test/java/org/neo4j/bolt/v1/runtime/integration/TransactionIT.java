@@ -44,14 +44,6 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.regex.Pattern;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.testing.BoltResponseRecorder;
 import org.neo4j.bolt.v1.runtime.BoltConnectionFatality;
@@ -66,6 +58,12 @@ import org.neo4j.test.Barrier;
 import org.neo4j.test.DoubleLatch;
 import org.neo4j.test.rule.SuppressOutput;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.regex.Pattern;
+
 import static java.lang.String.format;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
@@ -74,12 +72,7 @@ import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
-import static org.neo4j.bolt.testing.BoltMatchers.containsRecord;
-import static org.neo4j.bolt.testing.BoltMatchers.failedWithStatus;
-import static org.neo4j.bolt.testing.BoltMatchers.succeeded;
-import static org.neo4j.bolt.testing.BoltMatchers.succeededWithMetadata;
-import static org.neo4j.bolt.testing.BoltMatchers.succeededWithRecord;
-import static org.neo4j.bolt.testing.BoltMatchers.wasIgnored;
+import static org.neo4j.bolt.testing.BoltMatchers.*;
 import static org.neo4j.bolt.testing.NullResponseHandler.nullResponseHandler;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
 

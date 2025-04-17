@@ -34,19 +34,16 @@
  */
 package org.neo4j.backup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.neo4j.configuration.ConfigOptions;
 import org.neo4j.configuration.Description;
 import org.neo4j.configuration.LoadableConfig;
 import org.neo4j.graphdb.config.Setting;
 import org.neo4j.helpers.HostnamePort;
 
-import static org.neo4j.kernel.configuration.Settings.BOOLEAN;
-import static org.neo4j.kernel.configuration.Settings.HOSTNAME_PORT;
-import static org.neo4j.kernel.configuration.Settings.TRUE;
-import static org.neo4j.kernel.configuration.Settings.setting;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.neo4j.kernel.configuration.Settings.*;
 
 /**
  * Settings for online backup

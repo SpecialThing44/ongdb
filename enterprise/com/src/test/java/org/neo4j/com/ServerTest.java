@@ -39,10 +39,6 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-
 import org.neo4j.com.monitor.RequestMonitor;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.io.ByteUnit;
@@ -51,17 +47,15 @@ import org.neo4j.kernel.impl.transaction.log.entry.VersionAwareLogEntryReader;
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 import org.neo4j.time.Clocks;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
-import static org.neo4j.com.Protocol.DEFAULT_FRAME_LENGTH;
-import static org.neo4j.com.Protocol.EMPTY_SERIALIZER;
-import static org.neo4j.com.Protocol.VOID_DESERIALIZER;
+import static org.mockito.Mockito.*;
+import static org.neo4j.com.Protocol.*;
 import static org.neo4j.logging.NullLogProvider.getInstance;
 
 public class ServerTest

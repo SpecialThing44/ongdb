@@ -44,9 +44,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.util.Collection;
-
 import org.neo4j.bolt.v1.messaging.Neo4jPackV1;
 import org.neo4j.bolt.v1.transport.socket.client.SocketConnection;
 import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
@@ -55,6 +52,8 @@ import org.neo4j.function.Factory;
 import org.neo4j.graphdb.config.Setting;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.configuration.BoltConnector;
+
+import java.util.Collection;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -38,11 +38,11 @@
  */
 package org.neo4j.adversaries.fs;
 
-import java.nio.channels.FileChannel;
-
 import org.neo4j.adversaries.RandomAdversary;
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.io.fs.StoreFileChannel;
+
+import java.nio.channels.FileChannel;
 
 /**
  * File system abstraction that behaves exactly like {@link DefaultFileSystemAbstraction} <b>except</b> instead of

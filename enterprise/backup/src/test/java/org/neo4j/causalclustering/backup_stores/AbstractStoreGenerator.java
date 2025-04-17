@@ -34,12 +34,12 @@
  */
 package org.neo4j.causalclustering.backup_stores;
 
+import org.neo4j.causalclustering.discovery.Cluster;
+import org.neo4j.causalclustering.discovery.CoreClusterMember;
+
 import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
-
-import org.neo4j.causalclustering.discovery.Cluster;
-import org.neo4j.causalclustering.discovery.CoreClusterMember;
 
 import static org.neo4j.causalclustering.BackupUtil.createBackupFromCore;
 

@@ -38,11 +38,11 @@
  */
 package org.neo4j.bolt.v1.transport.integration;
 
-import java.util.Map;
-
 import org.neo4j.graphdb.InputPosition;
 import org.neo4j.graphdb.Notification;
 import org.neo4j.graphdb.SeverityLevel;
+
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasKey;

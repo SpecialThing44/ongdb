@@ -34,13 +34,13 @@
  */
 package org.neo4j.kernel.ha.com.master;
 
+import org.neo4j.helpers.collection.Iterables;
+import org.neo4j.helpers.collection.PrefetchingIterator;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.neo4j.helpers.collection.Iterables;
-import org.neo4j.helpers.collection.PrefetchingIterator;
 
 import static java.util.Collections.reverseOrder;
 

@@ -43,30 +43,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.neo4j.io.pagecache.ByteArrayPageCursor;
+import org.neo4j.io.pagecache.PageCursor;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.neo4j.io.pagecache.ByteArrayPageCursor;
-import org.neo4j.io.pagecache.PageCursor;
-
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.FLAG_READ;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.FLAG_WRITE;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.GENERATION_COMPARISON_MASK;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.NO_LOGICAL_POS;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.READ_OR_WRITE_MASK;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.SHIFT_STATE_A;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.SHIFT_STATE_B;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.failureDescription;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.isRead;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.pointerStateFromResult;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.pointerStateName;
+import static org.junit.Assert.*;
+import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.*;
 
 @RunWith( Parameterized.class )
 public class GenerationSafePointerPairTest

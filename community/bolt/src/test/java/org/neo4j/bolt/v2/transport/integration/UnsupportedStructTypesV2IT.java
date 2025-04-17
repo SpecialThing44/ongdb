@@ -44,28 +44,23 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import org.neo4j.bolt.messaging.StructType;
 import org.neo4j.bolt.v1.messaging.BoltRequestMessage;
 import org.neo4j.bolt.v1.messaging.Neo4jPack;
 import org.neo4j.bolt.v1.packstream.PackedOutputArray;
 import org.neo4j.bolt.v1.transport.integration.Neo4jWithSocket;
 import org.neo4j.bolt.v1.transport.integration.TransportTestUtil;
-import org.neo4j.bolt.v1.transport.socket.client.SecureSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SecureWebSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
-import org.neo4j.bolt.v1.transport.socket.client.WebSocketConnection;
+import org.neo4j.bolt.v1.transport.socket.client.*;
 import org.neo4j.bolt.v2.messaging.Neo4jPackV2;
 import org.neo4j.function.ThrowingConsumer;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.values.storable.CoordinateReferenceSystem;
 import org.neo4j.values.storable.Values;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;

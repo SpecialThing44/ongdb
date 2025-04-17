@@ -36,9 +36,6 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.function.Supplier;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.function.Suppliers;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberChangeEvent;
@@ -46,13 +43,11 @@ import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberListener;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberStateMachine;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 
+import java.util.function.Supplier;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UpdatePullingTransactionObligationFulfillerTest
 {

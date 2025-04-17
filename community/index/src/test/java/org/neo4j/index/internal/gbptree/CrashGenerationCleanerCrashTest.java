@@ -40,6 +40,11 @@ package org.neo4j.index.internal.gbptree;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.helpers.Exceptions;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PagedFile;
+import org.neo4j.io.pagecache.StubPagedFile;
+import org.neo4j.test.rule.PageCacheAndDependenciesRule;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,15 +52,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.neo4j.helpers.Exceptions;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PagedFile;
-import org.neo4j.io.pagecache.StubPagedFile;
-import org.neo4j.test.rule.PageCacheAndDependenciesRule;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.index.internal.gbptree.CrashGenerationCleaner.MAX_BATCH_SIZE;
 import static org.neo4j.index.internal.gbptree.GBPTree.NO_MONITOR;
 

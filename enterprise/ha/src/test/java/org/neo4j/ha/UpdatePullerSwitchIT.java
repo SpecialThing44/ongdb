@@ -36,11 +36,6 @@ package org.neo4j.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.graphdb.Label;
@@ -55,15 +50,15 @@ import org.neo4j.kernel.ha.UpdatePuller;
 import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.test.ha.ClusterRule;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+
 import static java.lang.String.format;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.neo4j.kernel.ha.HaSettings.tx_push_factor;
 import static org.neo4j.kernel.ha.SlaveUpdatePuller.UPDATE_PULLER_THREAD_PREFIX;
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.clusterOfSize;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 
 public class UpdatePullerSwitchIT
 {

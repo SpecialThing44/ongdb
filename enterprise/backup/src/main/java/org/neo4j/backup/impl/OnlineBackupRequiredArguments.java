@@ -34,9 +34,9 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-
 import org.neo4j.kernel.impl.util.OptionalHostnamePort;
+
+import java.nio.file.Path;
 
 class OnlineBackupRequiredArguments
 {

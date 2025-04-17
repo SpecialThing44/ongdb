@@ -38,10 +38,10 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
-
-import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
 class GBPTreeLock
 {

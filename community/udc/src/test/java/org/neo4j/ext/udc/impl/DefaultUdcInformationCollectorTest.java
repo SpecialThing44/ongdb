@@ -40,18 +40,6 @@ package org.neo4j.ext.udc.impl;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.LongSupplier;
-import java.util.stream.Collectors;
-
 import org.neo4j.ext.udc.UdcConstants;
 import org.neo4j.kernel.NeoStoreDataSource;
 import org.neo4j.kernel.configuration.Config;
@@ -71,11 +59,15 @@ import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.udc.UsageData;
 import org.neo4j.udc.UsageDataKeys;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
+import java.util.function.LongSupplier;
+import java.util.stream.Collectors;
+
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.neo4j.helpers.collection.Iterators.asResourceIterator;

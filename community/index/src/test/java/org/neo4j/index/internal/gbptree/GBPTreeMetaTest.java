@@ -39,12 +39,11 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.junit.Test;
-
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.ByteArrayPageCursor;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.io.pagecache.PageCursor;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 

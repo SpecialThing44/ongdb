@@ -38,6 +38,9 @@
  */
 package org.neo4j.csv.reader;
 
+import org.neo4j.values.AnyValue;
+import org.neo4j.values.storable.*;
+
 import java.lang.reflect.Field;
 import java.nio.CharBuffer;
 import java.time.ZoneId;
@@ -45,24 +48,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import org.neo4j.values.AnyValue;
-import org.neo4j.values.storable.CSVHeaderInformation;
-import org.neo4j.values.storable.DateTimeValue;
-import org.neo4j.values.storable.DateValue;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.LocalDateTimeValue;
-import org.neo4j.values.storable.LocalTimeValue;
-import org.neo4j.values.storable.PointValue;
-import org.neo4j.values.storable.TimeValue;
-import org.neo4j.values.storable.Values;
-
 import static java.lang.Character.isWhitespace;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.time.ZoneOffset.UTC;
 import static org.neo4j.collection.primitive.PrimitiveLongCollections.EMPTY_LONG_ARRAY;
-import static org.neo4j.helpers.Numbers.safeCastLongToByte;
-import static org.neo4j.helpers.Numbers.safeCastLongToInt;
-import static org.neo4j.helpers.Numbers.safeCastLongToShort;
+import static org.neo4j.helpers.Numbers.*;
 
 /**
  * Common implementations of {@link Extractor}. Since array values can have a delimiter of user choice that isn't

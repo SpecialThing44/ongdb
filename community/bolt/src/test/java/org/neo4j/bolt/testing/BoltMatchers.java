@@ -41,10 +41,6 @@ package org.neo4j.bolt.testing;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-
-import java.util.Arrays;
-import java.util.regex.Pattern;
-
 import org.neo4j.bolt.security.auth.AuthenticationException;
 import org.neo4j.bolt.v1.runtime.BoltConnectionFatality;
 import org.neo4j.bolt.v1.runtime.BoltStateMachine;
@@ -57,12 +53,13 @@ import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.TextValue;
 
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.FAILURE;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.IGNORED;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.SUCCESS;
+import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.*;
 import static org.neo4j.bolt.v1.runtime.BoltStateMachine.State.READY;
 import static org.neo4j.bolt.v1.runtime.MachineRoom.newMachine;
 import static org.neo4j.values.storable.Values.stringValue;

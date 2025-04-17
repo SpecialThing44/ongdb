@@ -38,9 +38,9 @@
  */
 package org.neo4j.values;
 
-import java.util.Comparator;
-
 import org.neo4j.values.virtual.VirtualValueGroup;
+
+import java.util.Comparator;
 
 public class MyVirtualValue extends VirtualValue
 {

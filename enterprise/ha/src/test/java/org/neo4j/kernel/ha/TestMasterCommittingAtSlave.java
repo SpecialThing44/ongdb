@@ -36,19 +36,8 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 import org.neo4j.cluster.ClusterSettings;
-import org.neo4j.com.ComException;
-import org.neo4j.com.ResourceReleaser;
-import org.neo4j.com.Response;
-import org.neo4j.com.TransactionStream;
-import org.neo4j.com.TransactionStreamResponse;
+import org.neo4j.com.*;
 import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.ha.com.master.Slave;
@@ -62,13 +51,12 @@ import org.neo4j.logging.AssertableLogProvider.LogMatcher;
 import org.neo4j.logging.NullLog;
 import org.neo4j.test.rule.CleanupRule;
 
+import java.util.*;
+
 import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.neo4j.com.StoreIdTestFactory.newStoreIdForCurrentVersion;
 import static org.neo4j.kernel.ha.com.master.SlavePriorities.givenOrder;
 import static org.neo4j.kernel.ha.com.master.SlavePriorities.roundRobin;

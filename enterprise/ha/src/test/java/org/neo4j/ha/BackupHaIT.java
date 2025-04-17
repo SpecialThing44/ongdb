@@ -37,11 +37,6 @@ package org.neo4j.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.configuration.Settings;
@@ -52,6 +47,10 @@ import org.neo4j.ports.allocation.PortAuthority;
 import org.neo4j.test.DbRepresentation;
 import org.neo4j.test.ha.ClusterRule;
 import org.neo4j.test.rule.SuppressOutput;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

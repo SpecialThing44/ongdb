@@ -38,6 +38,7 @@
  */
 package org.neo4j.function;
 
+import javax.annotation.Nonnull;
 import java.time.Clock;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -50,7 +51,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import javax.annotation.Nonnull;
 
 import static org.neo4j.function.ThrowingPredicate.throwingPredicate;
 import static org.neo4j.function.ThrowingSupplier.throwingSupplier;

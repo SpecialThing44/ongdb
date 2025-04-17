@@ -39,12 +39,6 @@
 package org.neo4j.bolt.v1.runtime;
 
 import org.junit.Test;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.neo4j.graphdb.ExecutionPlanDescription;
 import org.neo4j.helpers.collection.Iterators;
 import org.neo4j.helpers.collection.MapUtil;
@@ -52,6 +46,11 @@ import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.storable.DoubleValue;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.VirtualValues;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.neo4j.values.storable.Values.longValue;

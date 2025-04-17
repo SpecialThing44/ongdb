@@ -37,10 +37,6 @@ package org.neo4j.kernel.ha.lock;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -55,9 +51,10 @@ import org.neo4j.kernel.impl.locking.ResourceTypes;
 import org.neo4j.kernel.monitoring.tracing.Tracers;
 import org.neo4j.test.ha.ClusterRule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.*;
 
 public class SlaveStatementLocksFactoryIT
 {

@@ -38,28 +38,15 @@
  */
 package org.neo4j.index.internal.gbptree;
 
-import java.util.Arrays;
-import java.util.StringJoiner;
-
 import org.neo4j.collection.primitive.PrimitiveIntStack;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.util.VisibleForTesting;
 
+import java.util.Arrays;
+import java.util.StringJoiner;
+
 import static java.lang.String.format;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.SIZE_KEY_SIZE;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.SIZE_OFFSET;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.SIZE_TOTAL_OVERHEAD;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.SIZE_VALUE_SIZE;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.extractKeySize;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.extractTombstone;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.extractValueSize;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.getOverhead;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.putKeyOffset;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.putKeySize;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.putKeyValueSize;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.putTombstone;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.readKeyOffset;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.readKeyValueSize;
+import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.*;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.read;
 import static org.neo4j.index.internal.gbptree.PageCursorUtil.putUnsignedShort;
 import static org.neo4j.index.internal.gbptree.TreeNode.Type.INTERNAL;

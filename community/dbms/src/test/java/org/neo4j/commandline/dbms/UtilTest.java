@@ -40,16 +40,11 @@ package org.neo4j.commandline.dbms;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.commandline.Util;
 import org.neo4j.test.rule.TestDirectory;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.neo4j.commandline.Util.isSameOrChildFile;
-import static org.neo4j.commandline.Util.isSameOrChildPath;
-import static org.neo4j.commandline.Util.ongdbVersion;
+import static org.junit.Assert.*;
+import static org.neo4j.commandline.Util.*;
 
 public class UtilTest
 {

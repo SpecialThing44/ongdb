@@ -38,16 +38,11 @@
  */
 package org.neo4j.io.pagecache.tracing.cursor;
 
-import java.io.IOException;
-
 import org.neo4j.helpers.MathUtil;
 import org.neo4j.io.pagecache.PageSwapper;
-import org.neo4j.io.pagecache.tracing.EvictionEvent;
-import org.neo4j.io.pagecache.tracing.FlushEvent;
-import org.neo4j.io.pagecache.tracing.FlushEventOpportunity;
-import org.neo4j.io.pagecache.tracing.PageCacheTracer;
-import org.neo4j.io.pagecache.tracing.PageFaultEvent;
-import org.neo4j.io.pagecache.tracing.PinEvent;
+import org.neo4j.io.pagecache.tracing.*;
+
+import java.io.IOException;
 
 public class DefaultPageCursorTracer implements PageCursorTracer
 {

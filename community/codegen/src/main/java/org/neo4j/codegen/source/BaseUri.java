@@ -38,9 +38,9 @@
  */
 package org.neo4j.codegen.source;
 
+import javax.tools.JavaFileObject;
 import java.net.URI;
 import java.nio.file.Path;
-import javax.tools.JavaFileObject;
 
 final class BaseUri
 {

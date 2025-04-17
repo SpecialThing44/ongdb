@@ -41,10 +41,6 @@ package org.neo4j.bolt.v1.runtime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-
-import java.util.Collections;
-import java.util.Optional;
-
 import org.neo4j.bolt.BoltConnectionDescriptor;
 import org.neo4j.bolt.v1.runtime.spi.BoltResult;
 import org.neo4j.graphdb.TransactionTerminatedException;
@@ -58,23 +54,14 @@ import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.time.FakeClock;
 import org.neo4j.values.virtual.MapValue;
 
+import java.util.Collections;
+import java.util.Optional;
+
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.neo4j.bolt.security.auth.AuthenticationResult.AUTH_DISABLED;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
 

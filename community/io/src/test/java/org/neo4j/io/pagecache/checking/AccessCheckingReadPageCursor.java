@@ -38,10 +38,10 @@
  */
 package org.neo4j.io.pagecache.checking;
 
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.impl.DelegatingPageCursor;
+
+import java.io.IOException;
 
 public class AccessCheckingReadPageCursor extends DelegatingPageCursor
 {

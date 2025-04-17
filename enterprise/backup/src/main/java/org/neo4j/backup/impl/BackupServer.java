@@ -36,16 +36,9 @@ package org.neo4j.backup.impl;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.Channel;
-
 import org.neo4j.backup.TheBackupInterface;
 import org.neo4j.backup.impl.BackupClient.BackupRequestType;
-import org.neo4j.com.ChunkingChannelBuffer;
-import org.neo4j.com.Client;
-import org.neo4j.com.Protocol;
-import org.neo4j.com.ProtocolVersion;
-import org.neo4j.com.RequestContext;
-import org.neo4j.com.RequestType;
-import org.neo4j.com.Server;
+import org.neo4j.com.*;
 import org.neo4j.com.monitor.RequestMonitor;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;

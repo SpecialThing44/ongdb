@@ -38,11 +38,11 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.Arrays;
-
 import org.neo4j.graphdb.spatial.Geometry;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.ValueMapper;
+
+import java.util.Arrays;
 
 public class PointArray extends NonPrimitiveArray<PointValue>
 {

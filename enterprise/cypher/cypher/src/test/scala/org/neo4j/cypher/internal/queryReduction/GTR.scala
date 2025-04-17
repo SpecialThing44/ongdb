@@ -35,6 +35,7 @@
 package org.neo4j.cypher.internal.queryReduction
 
 import org.neo4j.cypher.internal.queryReduction.DDmin.Oracle
+
 import scala.collection.mutable
 
 object GTR {

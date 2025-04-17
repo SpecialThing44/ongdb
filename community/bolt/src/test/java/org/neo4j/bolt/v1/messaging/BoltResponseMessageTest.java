@@ -41,16 +41,8 @@ package org.neo4j.bolt.v1.messaging;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
 import org.neo4j.bolt.logging.NullBoltMessageLogger;
-import org.neo4j.bolt.v1.messaging.message.FailureMessage;
-import org.neo4j.bolt.v1.messaging.message.IgnoredMessage;
-import org.neo4j.bolt.v1.messaging.message.RecordMessage;
-import org.neo4j.bolt.v1.messaging.message.ResponseMessage;
-import org.neo4j.bolt.v1.messaging.message.SuccessMessage;
+import org.neo4j.bolt.v1.messaging.message.*;
 import org.neo4j.bolt.v1.packstream.BufferedChannelInput;
 import org.neo4j.bolt.v1.packstream.BufferedChannelOutput;
 import org.neo4j.kernel.api.exceptions.Status;
@@ -62,25 +54,19 @@ import org.neo4j.values.virtual.NodeValue;
 import org.neo4j.values.virtual.RelationshipValue;
 import org.neo4j.values.virtual.VirtualValues;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import static java.lang.System.lineSeparator;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.neo4j.bolt.v1.messaging.example.Paths.PATH_WITH_LENGTH_ONE;
-import static org.neo4j.bolt.v1.messaging.example.Paths.PATH_WITH_LENGTH_TWO;
-import static org.neo4j.bolt.v1.messaging.example.Paths.PATH_WITH_LENGTH_ZERO;
-import static org.neo4j.bolt.v1.messaging.example.Paths.PATH_WITH_LOOP;
-import static org.neo4j.bolt.v1.messaging.example.Paths.PATH_WITH_NODES_VISITED_MULTIPLE_TIMES;
-import static org.neo4j.bolt.v1.messaging.example.Paths.PATH_WITH_RELATIONSHIP_TRAVERSED_AGAINST_ITS_DIRECTION;
-import static org.neo4j.bolt.v1.messaging.example.Paths.PATH_WITH_RELATIONSHIP_TRAVERSED_MULTIPLE_TIMES_IN_SAME_DIRECTION;
+import static org.neo4j.bolt.v1.messaging.example.Paths.*;
 import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.serialize;
 import static org.neo4j.bolt.v1.runtime.spi.Records.record;
 import static org.neo4j.helpers.collection.MapUtil.map;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.stringArray;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValues.nodeValue;
 import static org.neo4j.values.virtual.VirtualValues.relationshipValue;
 

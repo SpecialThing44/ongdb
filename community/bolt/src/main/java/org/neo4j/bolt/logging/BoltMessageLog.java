@@ -38,13 +38,6 @@
  */
 package org.neo4j.bolt.logging;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.io.ByteUnit;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
@@ -52,6 +45,13 @@ import org.neo4j.logging.FormattedLog;
 import org.neo4j.logging.Level;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.RotatingFileOutputStreamSupplier;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 public class BoltMessageLog extends LifecycleAdapter
 {

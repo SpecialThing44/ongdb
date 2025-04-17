@@ -34,11 +34,6 @@
  */
 package org.neo4j.kernel.ha.cluster.member;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.member.ClusterMemberEvents;
 import org.neo4j.cluster.member.ClusterMemberListener;
@@ -53,6 +48,11 @@ import org.neo4j.kernel.impl.store.StoreId;
 import org.neo4j.kernel.impl.util.CopyOnWriteHashMap;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * Keeps list of members, their roles and availability.

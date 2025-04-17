@@ -39,9 +39,12 @@
 package org.neo4j.bolt.logging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
+import org.neo4j.kernel.api.exceptions.Status;
+import org.neo4j.values.AnyValue;
+import org.neo4j.values.utils.PrettyPrinter;
+import org.neo4j.values.virtual.MapValue;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -51,11 +54,6 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import org.neo4j.kernel.api.exceptions.Status;
-import org.neo4j.values.AnyValue;
-import org.neo4j.values.utils.PrettyPrinter;
-import org.neo4j.values.virtual.MapValue;
 
 import static java.lang.String.format;
 

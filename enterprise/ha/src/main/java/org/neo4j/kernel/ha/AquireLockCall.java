@@ -35,7 +35,6 @@
 package org.neo4j.kernel.ha;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
 import org.neo4j.com.TargetCaller;

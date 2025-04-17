@@ -38,13 +38,13 @@
  */
 package org.neo4j.io.pagecache;
 
+import org.neo4j.io.fs.FileSystemAbstraction;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.util.List;
 import java.util.Optional;
-
-import org.neo4j.io.fs.FileSystemAbstraction;
 
 public class DelegatingPageCache implements PageCache
 {

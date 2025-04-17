@@ -40,6 +40,9 @@ package org.neo4j.dbms.archive;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.function.Predicates;
+import org.neo4j.kernel.impl.transaction.log.files.TransactionLogFiles;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,10 +50,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.neo4j.function.Predicates;
-import org.neo4j.kernel.impl.transaction.log.files.TransactionLogFiles;
-import org.neo4j.test.rule.TestDirectory;
 
 import static java.nio.file.Files.isDirectory;
 import static org.junit.Assert.assertEquals;

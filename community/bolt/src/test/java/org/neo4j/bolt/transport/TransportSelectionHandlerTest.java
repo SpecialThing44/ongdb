@@ -41,16 +41,13 @@ package org.neo4j.bolt.transport;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.junit.Test;
+import org.neo4j.logging.AssertableLogProvider;
 
 import java.io.IOException;
 
-import org.neo4j.logging.AssertableLogProvider;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.logging.AssertableLogProvider.inLog;
 
 public class TransportSelectionHandlerTest

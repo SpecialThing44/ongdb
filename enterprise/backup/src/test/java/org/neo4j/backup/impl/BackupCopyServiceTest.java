@@ -37,23 +37,19 @@ package org.neo4j.backup.impl;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.com.storecopy.FileMoveAction;
+import org.neo4j.com.storecopy.FileMoveProvider;
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-import org.neo4j.com.storecopy.FileMoveAction;
-import org.neo4j.com.storecopy.FileMoveProvider;
-import org.neo4j.commandline.admin.CommandFailed;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.test.rule.TestDirectory;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class BackupCopyServiceTest
 {

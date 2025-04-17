@@ -42,6 +42,8 @@ import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
+import org.neo4j.helpers.HostnamePort;
+import org.neo4j.kernel.impl.util.HexPrinter;
 
 import java.io.IOException;
 import java.net.URI;
@@ -50,9 +52,6 @@ import java.util.Arrays;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import org.neo4j.helpers.HostnamePort;
-import org.neo4j.kernel.impl.util.HexPrinter;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;

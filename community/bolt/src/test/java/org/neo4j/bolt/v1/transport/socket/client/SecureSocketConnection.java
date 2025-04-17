@@ -38,14 +38,14 @@
  */
 package org.neo4j.bolt.v1.transport.socket.client;
 
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.net.Socket;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.HashSet;
 import java.util.Set;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 
 public class SecureSocketConnection extends SocketConnection
 {

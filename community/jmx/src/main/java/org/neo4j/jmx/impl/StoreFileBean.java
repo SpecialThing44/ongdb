@@ -38,9 +38,6 @@
  */
 package org.neo4j.jmx.impl;
 
-import java.io.File;
-import java.time.Clock;
-
 import org.neo4j.helpers.Service;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.fs.FileUtils;
@@ -50,13 +47,12 @@ import org.neo4j.kernel.impl.store.MetaDataStore;
 import org.neo4j.kernel.impl.transaction.log.files.LogFiles;
 import org.neo4j.kernel.impl.transaction.state.DataSourceManager;
 
+import java.io.File;
+import java.time.Clock;
+
 import static org.neo4j.jmx.impl.StoreSizeBean.resolveStorePath;
 import static org.neo4j.jmx.impl.ThrottlingBeanSnapshotProxy.newThrottlingBeanSnapshotProxy;
-import static org.neo4j.kernel.impl.store.StoreFactory.NODE_STORE_NAME;
-import static org.neo4j.kernel.impl.store.StoreFactory.PROPERTY_ARRAYS_STORE_NAME;
-import static org.neo4j.kernel.impl.store.StoreFactory.PROPERTY_STORE_NAME;
-import static org.neo4j.kernel.impl.store.StoreFactory.PROPERTY_STRINGS_STORE_NAME;
-import static org.neo4j.kernel.impl.store.StoreFactory.RELATIONSHIP_STORE_NAME;
+import static org.neo4j.kernel.impl.store.StoreFactory.*;
 
 @Service.Implementation( ManagementBeanProvider.class )
 public final class StoreFileBean extends ManagementBeanProvider

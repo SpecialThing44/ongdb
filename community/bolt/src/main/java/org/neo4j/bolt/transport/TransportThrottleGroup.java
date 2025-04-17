@@ -39,11 +39,10 @@
 package org.neo4j.bolt.transport;
 
 import io.netty.channel.Channel;
-
-import java.time.Clock;
-
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.kernel.configuration.Config;
+
+import java.time.Clock;
 
 /**
  * Serves as an entry point for throttling of transport related resources. Currently only

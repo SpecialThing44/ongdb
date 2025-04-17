@@ -38,26 +38,21 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
-
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.IncorrectUsage;
 import org.neo4j.commandline.arguments.Arguments;
-import org.neo4j.commandline.arguments.common.Database;
 import org.neo4j.dbms.archive.Dumper;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.kernel.StoreLockException;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.Validators;
 import org.neo4j.kernel.internal.locker.StoreLocker;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.Objects;
 
 import static java.lang.String.format;
 import static org.neo4j.commandline.Util.canonicalPath;

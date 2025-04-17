@@ -34,8 +34,6 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted.pipes
 
-import java.util.Comparator
-
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.slotted.DefaultComparatorTopTable
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
@@ -43,6 +41,7 @@ import org.neo4j.cypher.internal.runtime.interpreted.pipes.{Pipe, PipeWithSource
 import org.neo4j.cypher.internal.util.v3_4.attribution.Id
 import org.neo4j.values.storable.NumberValue
 
+import java.util.Comparator
 import scala.collection.JavaConverters._
 
 /*

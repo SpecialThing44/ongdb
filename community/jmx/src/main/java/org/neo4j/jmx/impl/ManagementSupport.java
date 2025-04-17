@@ -38,15 +38,15 @@
  */
 package org.neo4j.jmx.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
+import org.neo4j.helpers.Service;
+import org.neo4j.jmx.ManagementInterface;
+
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-
-import org.neo4j.helpers.Service;
-import org.neo4j.jmx.ManagementInterface;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
 
 import static java.lang.management.ManagementFactory.getPlatformMBeanServer;
 

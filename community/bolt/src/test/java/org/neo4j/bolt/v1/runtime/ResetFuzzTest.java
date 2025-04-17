@@ -41,27 +41,10 @@ package org.neo4j.bolt.v1.runtime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.time.Clock;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.BoltConnectionDescriptor;
 import org.neo4j.bolt.logging.NullBoltMessageLogger;
-import org.neo4j.bolt.runtime.BoltConnection;
-import org.neo4j.bolt.runtime.BoltConnectionFactory;
-import org.neo4j.bolt.runtime.BoltSchedulerProvider;
-import org.neo4j.bolt.runtime.CachedThreadPoolExecutorFactory;
-import org.neo4j.bolt.runtime.DefaultBoltConnectionFactory;
-import org.neo4j.bolt.runtime.ExecutorBoltSchedulerProvider;
+import org.neo4j.bolt.runtime.*;
 import org.neo4j.bolt.security.auth.AuthenticationResult;
 import org.neo4j.bolt.testing.BoltResponseRecorder;
 import org.neo4j.bolt.testing.RecordedBoltResponse;
@@ -83,13 +66,16 @@ import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.NullLog;
 import org.neo4j.values.virtual.MapValue;
 
+import java.io.IOException;
+import java.time.Clock;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.RETURNS_MOCKS;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.bolt.testing.NullResponseHandler.nullResponseHandler;
 import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.SUCCESS;
 import static org.neo4j.bolt.v1.messaging.message.DiscardAllMessage.discardAll;

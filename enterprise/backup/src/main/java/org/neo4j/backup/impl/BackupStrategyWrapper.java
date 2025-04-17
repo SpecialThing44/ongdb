@@ -34,15 +34,15 @@
  */
 package org.neo4j.backup.impl;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 import org.neo4j.kernel.lifecycle.LifeSupport;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Individual backup strategies can perform incremental backups and full backups. The logic of how and when to perform full/incremental is identical.

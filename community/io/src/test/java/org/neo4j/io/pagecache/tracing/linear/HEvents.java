@@ -38,23 +38,12 @@
  */
 package org.neo4j.io.pagecache.tracing.linear;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.StringReader;
+import org.neo4j.io.pagecache.PageSwapper;
+import org.neo4j.io.pagecache.tracing.*;
+
+import java.io.*;
 import java.util.IdentityHashMap;
 import java.util.Map;
-
-import org.neo4j.io.pagecache.PageSwapper;
-import org.neo4j.io.pagecache.tracing.EvictionEvent;
-import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
-import org.neo4j.io.pagecache.tracing.FlushEvent;
-import org.neo4j.io.pagecache.tracing.FlushEventOpportunity;
-import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
-import org.neo4j.io.pagecache.tracing.PageFaultEvent;
-import org.neo4j.io.pagecache.tracing.PinEvent;
 
 /**
  * Container of events for page cache tracers that are used to build linear historical representation of page cache

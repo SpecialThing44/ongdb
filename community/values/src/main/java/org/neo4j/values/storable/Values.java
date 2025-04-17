@@ -38,26 +38,17 @@
  */
 package org.neo4j.values.storable;
 
+import org.neo4j.graphdb.spatial.CRS;
+import org.neo4j.graphdb.spatial.Point;
+
 import java.lang.reflect.Array;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.Period;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-
-import org.neo4j.graphdb.spatial.CRS;
-import org.neo4j.graphdb.spatial.Point;
-import org.neo4j.values.TernaryComparator;
 
 import static java.lang.String.format;
 import static org.neo4j.values.storable.DateTimeValue.datetime;

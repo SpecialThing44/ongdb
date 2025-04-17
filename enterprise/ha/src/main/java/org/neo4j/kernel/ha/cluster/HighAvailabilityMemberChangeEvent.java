@@ -34,9 +34,9 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
-import java.net.URI;
-
 import org.neo4j.cluster.InstanceId;
+
+import java.net.URI;
 
 /**
  * This event represents a change in the cluster members internal state. The possible states

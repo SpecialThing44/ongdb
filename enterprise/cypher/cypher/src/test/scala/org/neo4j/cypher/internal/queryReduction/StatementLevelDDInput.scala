@@ -35,10 +35,10 @@
 package org.neo4j.cypher.internal.queryReduction
 
 import org.neo4j.cypher.internal.frontend.v3_4.ast._
-import org.neo4j.cypher.internal.util.v3_4._
 import org.neo4j.cypher.internal.queryReduction.ast.ASTNodeHelper._
 import org.neo4j.cypher.internal.queryReduction.ast.copyNodeWith
 import org.neo4j.cypher.internal.queryReduction.ast.copyNodeWith.NodeConverter
+import org.neo4j.cypher.internal.util.v3_4._
 
 class StatementLevelDDInput(statement: Statement,
                             level: Int,

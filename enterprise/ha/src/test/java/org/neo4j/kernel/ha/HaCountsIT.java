@@ -37,7 +37,6 @@ package org.neo4j.kernel.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;

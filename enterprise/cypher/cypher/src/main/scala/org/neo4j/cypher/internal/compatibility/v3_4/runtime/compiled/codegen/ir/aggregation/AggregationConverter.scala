@@ -38,8 +38,7 @@ import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions.{CodeGenExpression, CodeGenType}
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.{CodeGenContext, Variable}
 import org.neo4j.cypher.internal.compiler.v3_4.planner.CantCompileQueryException
-import org.neo4j.cypher.internal.v3_4.{expressions => ast}
-import org.neo4j.cypher.internal.v3_4.{functions => astFunctions}
+import org.neo4j.cypher.internal.v3_4.{expressions => ast, functions => astFunctions}
 
 /*
 * Conversion methods for aggregation functions

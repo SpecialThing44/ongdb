@@ -37,12 +37,6 @@ package org.neo4j.restore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.CommandLocator;
 import org.neo4j.commandline.admin.Usage;
@@ -61,17 +55,15 @@ import org.neo4j.kernel.internal.locker.StoreLocker;
 import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.test.rule.fs.DefaultFileSystemRule;
 
-import static org.hamcrest.Matchers.arrayWithSize;
-import static org.hamcrest.Matchers.emptyArray;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
 
 public class RestoreDatabaseCommandIT

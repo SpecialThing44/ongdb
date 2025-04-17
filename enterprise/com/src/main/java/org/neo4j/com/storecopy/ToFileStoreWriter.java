@@ -34,18 +34,18 @@
  */
 package org.neo4j.com.storecopy;
 
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.io.fs.StoreChannel;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.io.pagecache.PagedFile;
+import org.neo4j.kernel.impl.store.StoreType;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.List;
-
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.fs.StoreChannel;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.io.pagecache.PagedFile;
-import org.neo4j.kernel.impl.store.StoreType;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.WRITE;

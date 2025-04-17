@@ -34,9 +34,9 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted.helpers
 
-import SlottedPipeBuilderUtils._
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.{Slot, SlotConfiguration}
 import org.neo4j.cypher.internal.runtime.slotted.SlottedExecutionContext
+import org.neo4j.cypher.internal.runtime.slotted.helpers.SlottedPipeBuilderUtils._
 import org.neo4j.cypher.internal.util.v3_4.AssertionUtils._
 import org.neo4j.cypher.internal.util.v3_4.ParameterWrongTypeException
 import org.neo4j.cypher.internal.util.v3_4.symbols._

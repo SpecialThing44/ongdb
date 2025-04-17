@@ -38,26 +38,17 @@
  */
 package org.neo4j.io.pagecache.impl.muninn;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
+import org.neo4j.memory.GlobalMemoryTracker;
+import org.neo4j.test.rule.RepeatRule;
+import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.neo4j.memory.GlobalMemoryTracker;
-import org.neo4j.test.rule.RepeatRule;
-import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
 public class SequenceLockStressIT
 {

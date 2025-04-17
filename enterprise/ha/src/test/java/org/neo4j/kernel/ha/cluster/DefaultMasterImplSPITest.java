@@ -35,9 +35,6 @@
 package org.neo4j.kernel.ha.cluster;
 
 import org.junit.Test;
-
-import java.io.IOException;
-
 import org.neo4j.com.storecopy.StoreWriter;
 import org.neo4j.helpers.collection.Iterators;
 import org.neo4j.io.fs.FileSystemAbstraction;
@@ -58,11 +55,10 @@ import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.NullLogProvider;
 
+import java.io.IOException;
+
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.Mockito.RETURNS_MOCKS;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class DefaultMasterImplSPITest
 {

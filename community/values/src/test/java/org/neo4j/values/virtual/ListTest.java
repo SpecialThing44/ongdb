@@ -39,29 +39,15 @@
 package org.neo4j.values.virtual;
 
 import org.junit.Test;
+import org.neo4j.values.storable.Values;
 
 import java.util.Arrays;
-
-import org.neo4j.values.storable.Values;
 
 import static java.lang.String.format;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
-import static org.neo4j.values.storable.Values.NO_VALUE;
-import static org.neo4j.values.storable.Values.booleanArray;
-import static org.neo4j.values.storable.Values.byteArray;
-import static org.neo4j.values.storable.Values.charArray;
-import static org.neo4j.values.storable.Values.doubleArray;
-import static org.neo4j.values.storable.Values.floatArray;
-import static org.neo4j.values.storable.Values.intArray;
-import static org.neo4j.values.storable.Values.longArray;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.shortArray;
-import static org.neo4j.values.storable.Values.stringArray;
-import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
-import static org.neo4j.values.utils.AnyValueTestUtil.assertEqualValues;
-import static org.neo4j.values.utils.AnyValueTestUtil.assertIncomparable;
-import static org.neo4j.values.utils.AnyValueTestUtil.assertNotEqual;
+import static org.neo4j.values.storable.Values.*;
+import static org.neo4j.values.utils.AnyValueTestUtil.*;
 import static org.neo4j.values.virtual.VirtualValueTestUtil.list;
 import static org.neo4j.values.virtual.VirtualValues.range;
 

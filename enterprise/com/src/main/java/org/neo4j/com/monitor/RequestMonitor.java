@@ -34,10 +34,10 @@
  */
 package org.neo4j.com.monitor;
 
-import java.net.SocketAddress;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.RequestType;
+
+import java.net.SocketAddress;
 
 public interface RequestMonitor
 {

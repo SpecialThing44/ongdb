@@ -38,29 +38,15 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.helpers.Cancelable;
+import org.neo4j.shell.*;
+
 import java.io.Serializable;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import org.neo4j.helpers.Cancelable;
-import org.neo4j.shell.Console;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.CtrlCHandler;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Response;
-import org.neo4j.shell.ShellClient;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.ShellServer;
-import org.neo4j.shell.Variables;
-import org.neo4j.shell.Welcome;
+import java.util.*;
 
 /**
  * A common implementation of a {@link ShellClient}.

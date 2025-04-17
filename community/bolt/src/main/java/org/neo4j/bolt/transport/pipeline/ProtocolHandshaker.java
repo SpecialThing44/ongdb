@@ -43,7 +43,6 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.transport.BoltProtocolPipelineInstaller;
 import org.neo4j.bolt.transport.BoltProtocolPipelineInstallerFactory;

@@ -37,14 +37,13 @@ package org.neo4j.kernel.ha.cluster.member;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.neo4j.helpers.collection.Iterables;
+import org.neo4j.management.ClusterMemberInfo;
 
 import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.neo4j.helpers.collection.Iterables;
-import org.neo4j.management.ClusterMemberInfo;
 
 import static java.util.Arrays.asList;
 

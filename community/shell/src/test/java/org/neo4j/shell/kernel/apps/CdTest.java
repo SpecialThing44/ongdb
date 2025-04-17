@@ -42,22 +42,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.List;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.impl.MyRelTypes;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.SilentLocalOutput;
-import org.neo4j.shell.Variables;
+import org.neo4j.shell.*;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 import org.neo4j.test.rule.DatabaseRule;
 import org.neo4j.test.rule.ImpermanentDatabaseRule;
+
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 

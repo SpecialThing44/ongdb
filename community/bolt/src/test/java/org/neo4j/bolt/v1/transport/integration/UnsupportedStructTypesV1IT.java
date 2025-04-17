@@ -44,33 +44,22 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.List;
-
 import org.neo4j.bolt.v1.messaging.BoltRequestMessage;
 import org.neo4j.bolt.v1.messaging.Neo4jPack;
 import org.neo4j.bolt.v1.messaging.Neo4jPackV1;
 import org.neo4j.bolt.v1.packstream.PackedOutputArray;
-import org.neo4j.bolt.v1.transport.socket.client.SecureSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SecureWebSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
-import org.neo4j.bolt.v1.transport.socket.client.WebSocketConnection;
+import org.neo4j.bolt.v1.transport.socket.client.*;
 import org.neo4j.bolt.v2.messaging.Neo4jPackV2;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.CoordinateReferenceSystem;
+
+import java.io.IOException;
+import java.time.*;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;

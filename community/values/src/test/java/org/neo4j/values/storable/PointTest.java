@@ -40,19 +40,12 @@ package org.neo4j.values.storable;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
-
 import org.neo4j.values.Comparison;
 import org.neo4j.values.utils.InvalidValuesArgumentException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian_3D;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.WGS84;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.WGS84_3D;
+import static org.junit.Assert.*;
+import static org.neo4j.values.storable.CoordinateReferenceSystem.*;
 import static org.neo4j.values.storable.Values.pointValue;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertNotEqual;

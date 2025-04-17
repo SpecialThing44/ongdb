@@ -41,16 +41,6 @@ package org.neo4j.bolt.v1.runtime.integration;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.time.Clock;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.security.auth.Authentication;
 import org.neo4j.bolt.security.auth.BasicAuthentication;
@@ -69,6 +59,15 @@ import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.udc.UsageData;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.time.Clock;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 class SessionRule implements TestRule
 {

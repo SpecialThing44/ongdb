@@ -34,10 +34,10 @@
  */
 package org.neo4j.causalclustering.backup_stores;
 
+import org.neo4j.causalclustering.discovery.Cluster;
+
 import java.io.File;
 import java.util.Optional;
-
-import org.neo4j.causalclustering.discovery.Cluster;
 
 public interface BackupStore
 {

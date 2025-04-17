@@ -38,14 +38,14 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.scheduler.JobScheduler;
+
 import java.util.StringJoiner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-
-import org.neo4j.scheduler.JobScheduler;
 
 import static org.neo4j.scheduler.JobScheduler.Groups.recoveryCleanup;
 

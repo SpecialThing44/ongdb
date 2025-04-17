@@ -41,15 +41,6 @@ package org.neo4j.index.internal.gbptree;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.BitSet;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
-
 import org.neo4j.cursor.RawCursor;
 import org.neo4j.io.pagecache.IOLimiter;
 import org.neo4j.io.pagecache.PageCache;
@@ -58,10 +49,12 @@ import org.neo4j.test.rule.RandomRule;
 import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.test.rule.fs.DefaultFileSystemRule;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.*;
+
 import static java.lang.Integer.max;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.junit.rules.RuleChain.outerRule;
 import static org.neo4j.test.rule.PageCacheRule.config;
 

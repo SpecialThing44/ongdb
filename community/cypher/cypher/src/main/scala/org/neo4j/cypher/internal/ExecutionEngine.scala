@@ -38,22 +38,11 @@
  */
 package org.neo4j.cypher.internal
 
-import java.util.{Map => JavaMap}
-
 import org.neo4j.cypher._
 import org.neo4j.cypher.internal.compatibility._
 import org.neo4j.cypher.internal.frontend.v3_4.phases.CompilationPhaseTracer
-import org.neo4j.cypher.internal.runtime.interpreted.{
-  LastCommittedTxIdProvider,
-  TransactionalContextWrapper,
-  ValueConversion
-}
-import org.neo4j.cypher.internal.runtime.{
-  ExplainMode,
-  RuntimeJavaValueConverter,
-  RuntimeScalaValueConverter,
-  isGraphKernelResultValue
-}
+import org.neo4j.cypher.internal.runtime.interpreted.{LastCommittedTxIdProvider, TransactionalContextWrapper, ValueConversion}
+import org.neo4j.cypher.internal.runtime.{RuntimeJavaValueConverter, RuntimeScalaValueConverter, isGraphKernelResultValue}
 import org.neo4j.cypher.internal.tracing.{CompilationTracer, TimingCompilationTracer}
 import org.neo4j.graphdb.Result
 import org.neo4j.graphdb.config.Setting
@@ -62,11 +51,13 @@ import org.neo4j.internal.kernel.api.SchemaRead
 import org.neo4j.internal.kernel.api.security.AccessMode
 import org.neo4j.kernel.api.query.SchemaIndexUsage
 import org.neo4j.kernel.configuration.Config
-import org.neo4j.kernel.impl.query.{QueryExecutionMonitor, TransactionalContext}
+import org.neo4j.kernel.impl.query.TransactionalContext
 import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
 import org.neo4j.kernel.{GraphDatabaseQueryService, api}
 import org.neo4j.logging.{LogProvider, NullLogProvider}
 import org.neo4j.values.virtual.MapValue
+
+import java.util.{Map => JavaMap}
 
 trait StringCacheMonitor extends CypherCacheMonitor[String, api.Statement]
 

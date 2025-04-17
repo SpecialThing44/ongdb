@@ -34,8 +34,6 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted
 
-import java.time.Clock
-
 import org.mockito.Mockito._
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.SlotAllocation.PhysicalPlan
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.SlotConfiguration.Size
@@ -62,6 +60,8 @@ import org.neo4j.cypher.internal.util.v3_4.{LabelId, PropertyKeyId}
 import org.neo4j.cypher.internal.v3_4.expressions._
 import org.neo4j.cypher.internal.v3_4.logical.plans
 import org.neo4j.cypher.internal.v3_4.logical.plans._
+
+import java.time.Clock
 
 //noinspection NameBooleanParameters
 class SlottedPipeBuilderTest extends CypherFunSuite with LogicalPlanningTestSupport2 {

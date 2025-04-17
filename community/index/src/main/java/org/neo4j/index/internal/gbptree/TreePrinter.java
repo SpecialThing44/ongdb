@@ -39,12 +39,6 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.apache.commons.lang3.tuple.Pair;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.StandardOpenOption;
-
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.io.pagecache.PageCursor;
@@ -53,6 +47,11 @@ import org.neo4j.io.pagecache.impl.SingleFilePageSwapperFactory;
 import org.neo4j.io.pagecache.impl.muninn.MuninnPageCache;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
 import org.neo4j.io.pagecache.tracing.cursor.context.EmptyVersionContextSupplier;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.StandardOpenOption;
 
 import static java.lang.String.format;
 import static org.neo4j.graphdb.config.Configuration.EMPTY;

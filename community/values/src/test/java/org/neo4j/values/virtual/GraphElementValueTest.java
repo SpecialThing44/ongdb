@@ -43,11 +43,7 @@ import org.junit.Test;
 import static org.junit.Assert.fail;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertNotEqual;
-import static org.neo4j.values.virtual.VirtualValueTestUtil.rel;
-import static org.neo4j.values.virtual.VirtualValueTestUtil.relationships;
-import static org.neo4j.values.virtual.VirtualValueTestUtil.node;
-import static org.neo4j.values.virtual.VirtualValueTestUtil.nodes;
-import static org.neo4j.values.virtual.VirtualValueTestUtil.path;
+import static org.neo4j.values.virtual.VirtualValueTestUtil.*;
 
 public class GraphElementValueTest
 {

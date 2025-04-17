@@ -36,7 +36,6 @@ package org.neo4j.com;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 

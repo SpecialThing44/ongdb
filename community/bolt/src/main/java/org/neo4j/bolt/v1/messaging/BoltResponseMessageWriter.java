@@ -38,8 +38,6 @@
  */
 package org.neo4j.bolt.v1.messaging;
 
-import java.io.IOException;
-
 import org.neo4j.bolt.logging.BoltMessageLogger;
 import org.neo4j.bolt.v1.packstream.PackOutput;
 import org.neo4j.cypher.result.QueryResult;
@@ -50,10 +48,9 @@ import org.neo4j.logging.Log;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.virtual.MapValue;
 
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.FAILURE;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.IGNORED;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.RECORD;
-import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.SUCCESS;
+import java.io.IOException;
+
+import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.*;
 
 /**
  * Writer for Bolt request messages to be sent to a {@link Neo4jPack.Packer}.

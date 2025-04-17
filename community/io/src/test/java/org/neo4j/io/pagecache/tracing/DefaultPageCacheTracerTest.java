@@ -40,12 +40,11 @@ package org.neo4j.io.pagecache.tracing;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.io.ByteUnit;
+import org.neo4j.io.pagecache.PageSwapper;
 
 import java.io.File;
 import java.io.IOException;
-
-import org.neo4j.io.ByteUnit;
-import org.neo4j.io.pagecache.PageSwapper;
 
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.is;

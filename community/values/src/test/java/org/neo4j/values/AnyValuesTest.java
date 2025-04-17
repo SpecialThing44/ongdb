@@ -40,14 +40,7 @@ package org.neo4j.values;
 
 import org.junit.Test;
 
-import static org.neo4j.values.storable.Values.booleanValue;
-import static org.neo4j.values.storable.Values.byteValue;
-import static org.neo4j.values.storable.Values.doubleValue;
-import static org.neo4j.values.storable.Values.floatValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.shortValue;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertNotEqual;
 
 public class AnyValuesTest

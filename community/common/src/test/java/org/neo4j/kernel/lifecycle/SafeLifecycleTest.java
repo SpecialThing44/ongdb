@@ -39,17 +39,11 @@
 package org.neo4j.kernel.lifecycle;
 
 import org.junit.Test;
-
 import org.neo4j.function.ThrowingConsumer;
 import org.neo4j.kernel.lifecycle.SafeLifecycle.State;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.HALT;
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.IDLE;
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.PRE;
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.RUN;
+import static org.junit.Assert.*;
+import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.*;
 
 public class SafeLifecycleTest
 {

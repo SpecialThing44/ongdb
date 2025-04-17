@@ -44,15 +44,8 @@ import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.neo4j.values.storable.Values.byteValue;
-import static org.neo4j.values.storable.Values.doubleValue;
-import static org.neo4j.values.storable.Values.floatValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.shortValue;
-import static org.neo4j.values.utils.ValueMath.overflowSafeAdd;
-import static org.neo4j.values.utils.ValueMath.overflowSafeMultiply;
-import static org.neo4j.values.utils.ValueMath.overflowSafeSubtract;
+import static org.neo4j.values.storable.Values.*;
+import static org.neo4j.values.utils.ValueMath.*;
 
 public class NumberValueMathTest
 {

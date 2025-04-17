@@ -38,12 +38,6 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import org.neo4j.graphdb.spatial.CRS;
 import org.neo4j.graphdb.spatial.Coordinate;
 import org.neo4j.graphdb.spatial.Point;
@@ -54,6 +48,12 @@ import org.neo4j.values.ValueMapper;
 import org.neo4j.values.utils.InvalidValuesArgumentException;
 import org.neo4j.values.utils.PrettyPrinter;
 import org.neo4j.values.virtual.MapValue;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;

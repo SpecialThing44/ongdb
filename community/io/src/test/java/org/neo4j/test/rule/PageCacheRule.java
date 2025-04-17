@@ -39,10 +39,6 @@
 package org.neo4j.test.rule;
 
 import org.apache.commons.lang3.ObjectUtils;
-
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.neo4j.adversaries.Adversary;
 import org.neo4j.adversaries.pagecache.AdversarialPageCache;
 import org.neo4j.graphdb.config.Configuration;
@@ -54,9 +50,12 @@ import org.neo4j.io.pagecache.impl.SingleFilePageSwapperFactory;
 import org.neo4j.io.pagecache.impl.muninn.MuninnPageCache;
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
+import org.neo4j.io.pagecache.tracing.cursor.context.EmptyVersionContextSupplier;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
 import org.neo4j.memory.LocalMemoryTracker;
-import org.neo4j.io.pagecache.tracing.cursor.context.EmptyVersionContextSupplier;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PageCacheRule extends ExternalResource
 {

@@ -41,11 +41,6 @@ package org.neo4j.bolt.v1.runtime.integration;
 import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.testing.BoltResponseRecorder;
 import org.neo4j.bolt.testing.RecordedBoltResponse;
@@ -63,16 +58,16 @@ import org.neo4j.values.storable.LongValue;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.VirtualValues;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.neo4j.bolt.testing.BoltMatchers.failedWithStatus;
-import static org.neo4j.bolt.testing.BoltMatchers.succeeded;
-import static org.neo4j.bolt.testing.BoltMatchers.verifyKillsConnection;
+import static org.neo4j.bolt.testing.BoltMatchers.*;
 import static org.neo4j.bolt.testing.NullResponseHandler.nullResponseHandler;
 import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.IGNORED;
 import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.SUCCESS;

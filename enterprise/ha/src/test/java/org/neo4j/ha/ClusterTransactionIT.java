@@ -37,9 +37,6 @@ package org.neo4j.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.FutureTask;
-
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
@@ -51,6 +48,8 @@ import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.kernel.lifecycle.LifeSupport;
 import org.neo4j.kernel.lifecycle.LifecycleStatus;
 import org.neo4j.test.ha.ClusterRule;
+
+import java.util.concurrent.FutureTask;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;

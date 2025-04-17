@@ -38,12 +38,12 @@
  */
 package org.neo4j.bolt.v1.packstream;
 
+import org.neo4j.bolt.messaging.StructType;
+import org.neo4j.bolt.v1.packstream.utf8.UTF8Encoder;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-
-import org.neo4j.bolt.messaging.StructType;
-import org.neo4j.bolt.v1.packstream.utf8.UTF8Encoder;
 
 /**
  * PackStream is a messaging serialisation format heavily inspired by MessagePack.

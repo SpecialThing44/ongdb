@@ -35,15 +35,14 @@
 package org.neo4j.ha.correctness;
 
 import org.junit.Test;
-
-import java.net.URI;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.com.message.Message;
 import org.neo4j.cluster.protocol.cluster.ClusterConfiguration;
 import org.neo4j.cluster.protocol.cluster.ClusterMessage;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.NullLogProvider;
+
+import java.net.URI;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;

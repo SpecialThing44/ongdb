@@ -41,9 +41,6 @@ package org.neo4j.bolt.v1.messaging;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.io.IOException;
-
 import org.neo4j.bolt.v1.messaging.message.RecordMessage;
 import org.neo4j.bolt.v1.messaging.message.RequestMessage;
 import org.neo4j.bolt.v1.messaging.message.RunMessage;
@@ -56,6 +53,8 @@ import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.NodeValue;
 import org.neo4j.values.virtual.RelationshipValue;
 import org.neo4j.values.virtual.VirtualValues;
+
+import java.io.IOException;
 
 import static java.lang.System.lineSeparator;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -71,9 +70,7 @@ import static org.neo4j.bolt.v1.messaging.message.RunMessage.run;
 import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.serialize;
 import static org.neo4j.bolt.v1.runtime.spi.Records.record;
 import static org.neo4j.helpers.collection.MapUtil.map;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.stringArray;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValues.map;
 import static org.neo4j.values.virtual.VirtualValues.nodeValue;
 import static org.neo4j.values.virtual.VirtualValues.relationshipValue;

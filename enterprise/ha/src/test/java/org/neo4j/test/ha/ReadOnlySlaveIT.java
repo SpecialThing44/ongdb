@@ -36,7 +36,6 @@ package org.neo4j.test.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;

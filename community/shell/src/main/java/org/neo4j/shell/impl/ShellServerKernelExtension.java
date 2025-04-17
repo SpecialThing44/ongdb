@@ -38,8 +38,8 @@
  */
 package org.neo4j.shell.impl;
 
-import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.kernel.configuration.Config;
+import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 

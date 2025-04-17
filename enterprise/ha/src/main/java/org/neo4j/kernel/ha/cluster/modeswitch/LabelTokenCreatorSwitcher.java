@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha.cluster.modeswitch;
 
-import java.util.function.Supplier;
-
 import org.neo4j.internal.kernel.api.Kernel;
 import org.neo4j.kernel.ha.DelegateInvocationHandler;
 import org.neo4j.kernel.ha.SlaveLabelTokenCreator;
@@ -44,6 +42,8 @@ import org.neo4j.kernel.ha.com.master.Master;
 import org.neo4j.kernel.impl.core.DefaultLabelIdCreator;
 import org.neo4j.kernel.impl.core.TokenCreator;
 import org.neo4j.kernel.impl.store.id.IdGeneratorFactory;
+
+import java.util.function.Supplier;
 
 public class LabelTokenCreatorSwitcher extends AbstractComponentSwitcher<TokenCreator>
 {

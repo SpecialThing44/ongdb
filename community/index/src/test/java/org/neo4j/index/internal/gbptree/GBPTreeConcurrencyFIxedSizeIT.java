@@ -39,7 +39,6 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.apache.commons.lang3.mutable.MutableLong;
-
 import org.neo4j.test.rule.RandomRule;
 
 import static org.neo4j.index.internal.gbptree.SimpleLongLayout.longLayout;

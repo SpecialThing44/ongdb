@@ -42,13 +42,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.neo4j.function.ThrowingConsumer;
 
 import java.io.IOException;
 import java.nio.file.FileVisitor;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import org.neo4j.function.ThrowingConsumer;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;

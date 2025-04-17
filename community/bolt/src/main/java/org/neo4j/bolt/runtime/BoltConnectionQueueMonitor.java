@@ -38,9 +38,9 @@
  */
 package org.neo4j.bolt.runtime;
 
-import java.util.Collection;
-
 import org.neo4j.bolt.v1.runtime.Job;
+
+import java.util.Collection;
 
 public interface BoltConnectionQueueMonitor
 {

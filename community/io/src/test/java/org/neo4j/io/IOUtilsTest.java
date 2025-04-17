@@ -44,10 +44,9 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.neo4j.test.matchers.NestedThrowableMatcher;
 
 import java.io.IOException;
-
-import org.neo4j.test.matchers.NestedThrowableMatcher;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;

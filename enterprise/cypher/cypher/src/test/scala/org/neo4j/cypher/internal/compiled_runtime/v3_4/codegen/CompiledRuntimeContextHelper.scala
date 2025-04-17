@@ -34,8 +34,6 @@
  */
 package org.neo4j.cypher.internal.compiled_runtime.v3_4.codegen
 
-import java.time.Clock
-
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.EnterpriseRuntimeContext
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.spi.CodeStructure
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.{PlanFingerprint, PlanFingerprintReference}
@@ -49,6 +47,8 @@ import org.neo4j.cypher.internal.util.v3_4.attribution.{IdGen, SequentialIdGen}
 import org.neo4j.cypher.internal.util.v3_4.{CypherException, InputPosition, InternalException}
 import org.neo4j.cypher.internal.v3_4.executionplan.GeneratedQuery
 import org.scalatest.mock.MockitoSugar
+
+import java.time.Clock
 
 object CompiledRuntimeContextHelper extends MockitoSugar {
     def create(exceptionCreator: (String, InputPosition) => CypherException = (_, _) => new InternalException("apa"),

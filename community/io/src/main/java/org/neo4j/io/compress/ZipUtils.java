@@ -38,6 +38,10 @@
  */
 package org.neo4j.io.compress;
 
+import org.neo4j.helpers.collection.MapUtil;
+import org.neo4j.io.fs.FileHandle;
+import org.neo4j.io.fs.FileSystemAbstraction;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -47,10 +51,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-
-import org.neo4j.helpers.collection.MapUtil;
-import org.neo4j.io.fs.FileHandle;
-import org.neo4j.io.fs.FileSystemAbstraction;
 
 import static java.util.stream.Collectors.toList;
 

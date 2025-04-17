@@ -44,18 +44,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.IntPredicate;
-import java.util.stream.Collectors;
-
 import org.neo4j.collection.primitive.PrimitiveLongResourceIterator;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -85,13 +73,7 @@ import org.neo4j.kernel.api.schema.SchemaDescriptorFactory;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptorFactory;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.api.SchemaState;
-import org.neo4j.kernel.impl.api.index.IndexProviderMap;
-import org.neo4j.kernel.impl.api.index.IndexProxy;
-import org.neo4j.kernel.impl.api.index.IndexingService;
-import org.neo4j.kernel.impl.api.index.IndexingServiceFactory;
-import org.neo4j.kernel.impl.api.index.MultipleIndexPopulator;
-import org.neo4j.kernel.impl.api.index.NodeUpdates;
-import org.neo4j.kernel.impl.api.index.StoreScan;
+import org.neo4j.kernel.impl.api.index.*;
 import org.neo4j.kernel.impl.api.index.inmemory.InMemoryIndexProviderFactory;
 import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge;
 import org.neo4j.kernel.impl.locking.LockService;
@@ -111,11 +93,15 @@ import org.neo4j.storageengine.api.schema.IndexReader;
 import org.neo4j.test.rule.EmbeddedDatabaseRule;
 import org.neo4j.values.storable.Values;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.*;
+import java.util.function.IntPredicate;
+import java.util.stream.Collectors;
+
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 //[NodePropertyUpdate[0, prop:0 add:Sweden, labelsBefore:[], labelsAfter:[0]]]
 //[NodePropertyUpdate[1, prop:0 add:USA, labelsBefore:[], labelsAfter:[0]]]

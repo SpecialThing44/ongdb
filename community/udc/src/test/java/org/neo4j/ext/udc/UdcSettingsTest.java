@@ -42,11 +42,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-
 import org.neo4j.helpers.Configuration;
 import org.neo4j.kernel.configuration.Config;
+
+import java.util.Arrays;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.Assert.assertFalse;

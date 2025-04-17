@@ -41,13 +41,12 @@ package org.neo4j.test.matchers;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.neo4j.helpers.Exceptions;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.neo4j.helpers.Exceptions;
 
 import static java.util.stream.Collectors.joining;
 

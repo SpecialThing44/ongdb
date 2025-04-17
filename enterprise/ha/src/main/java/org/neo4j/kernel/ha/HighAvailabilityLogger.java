@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.net.URI;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.member.ClusterMemberListener;
 import org.neo4j.cluster.protocol.cluster.ClusterConfiguration;
@@ -44,6 +42,8 @@ import org.neo4j.kernel.AvailabilityGuard;
 import org.neo4j.kernel.impl.store.StoreId;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.net.URI;
 
 /**
  * This class logs whenever important cluster or high availability events

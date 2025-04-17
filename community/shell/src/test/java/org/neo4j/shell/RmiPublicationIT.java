@@ -40,6 +40,10 @@ package org.neo4j.shell;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.graphdb.factory.GraphDatabaseSettings;
+import org.neo4j.kernel.configuration.Config;
+import org.neo4j.test.ProcessStreamHandler;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -47,11 +51,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.Properties;
-
-import org.neo4j.graphdb.factory.GraphDatabaseSettings;
-import org.neo4j.kernel.configuration.Config;
-import org.neo4j.test.ProcessStreamHandler;
-import org.neo4j.test.rule.TestDirectory;
 
 import static java.lang.Runtime.getRuntime;
 import static java.lang.System.getProperty;

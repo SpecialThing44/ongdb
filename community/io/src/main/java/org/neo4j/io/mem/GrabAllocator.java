@@ -39,7 +39,6 @@
 package org.neo4j.io.mem;
 
 import org.neo4j.memory.MemoryAllocationTracker;
-import org.neo4j.unsafe.impl.internal.dragons.NativeMemoryAllocationRefusedError;
 import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
 import static org.neo4j.io.ByteUnit.kibiBytes;

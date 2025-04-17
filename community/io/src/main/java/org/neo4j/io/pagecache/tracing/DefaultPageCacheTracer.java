@@ -38,13 +38,13 @@
  */
 package org.neo4j.io.pagecache.tracing;
 
+import org.neo4j.helpers.MathUtil;
+import org.neo4j.io.pagecache.PageSwapper;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
-
-import org.neo4j.helpers.MathUtil;
-import org.neo4j.io.pagecache.PageSwapper;
 
 /**
  * The default PageCacheTracer implementation, that just increments counters.

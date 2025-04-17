@@ -44,18 +44,16 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.kernel.api.exceptions.Status;
-import org.neo4j.internal.kernel.api.security.AccessMode;
 import org.neo4j.kernel.api.security.PasswordPolicy;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.server.security.auth.BasicAuthManager;
 import org.neo4j.server.security.auth.InMemoryUserRepository;
 import org.neo4j.server.security.auth.UserRepository;
 import org.neo4j.time.Clocks;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;

@@ -45,18 +45,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-import static org.neo4j.values.storable.BufferValueWriter.Specials.beginArray;
-import static org.neo4j.values.storable.BufferValueWriter.Specials.byteArray;
-import static org.neo4j.values.storable.BufferValueWriter.Specials.endArray;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.BOOLEAN;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.CHAR;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.DOUBLE;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.FLOAT;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.INT;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.LOCAL_DATE_TIME;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.LONG;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.SHORT;
-import static org.neo4j.values.storable.ValueWriter.ArrayType.STRING;
+import static org.neo4j.values.storable.BufferValueWriter.Specials.*;
+import static org.neo4j.values.storable.ValueWriter.ArrayType.*;
 
 @RunWith( value = Parameterized.class )
 public class ValueWriteToTest

@@ -38,8 +38,6 @@
  */
 package org.neo4j.cypher.internal
 
-import java.util.concurrent.ConcurrentHashMap
-
 import org.neo4j.cypher.internal.compatibility.v2_3.helpers._
 import org.neo4j.cypher.internal.compatibility.v3_1.helpers._
 import org.neo4j.cypher.internal.compatibility.v3_3.{CommunityRuntimeContextCreator => CommunityRuntimeContextCreatorV3_3}
@@ -53,6 +51,8 @@ import org.neo4j.helpers.Clock
 import org.neo4j.kernel.GraphDatabaseQueryService
 import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
 import org.neo4j.logging.{Log, LogProvider}
+
+import java.util.concurrent.ConcurrentHashMap
 
 sealed trait PlannerSpec
 final case class PlannerSpec_v2_3(planner: CypherPlanner, runtime: CypherRuntime) extends PlannerSpec

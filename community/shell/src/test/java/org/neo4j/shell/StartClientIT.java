@@ -42,16 +42,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.Serializable;
-import java.rmi.RemoteException;
-
 import org.neo4j.bolt.BoltKernelExtension;
 import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.Transaction;
@@ -61,6 +51,9 @@ import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.SuppressOutput;
 
+import java.io.*;
+import java.rmi.RemoteException;
+
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -68,9 +61,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.helpers.collection.Iterators.single;
 import static org.neo4j.logging.AssertableLogProvider.inLog;
 import static org.neo4j.test.rule.SuppressOutput.suppressAll;

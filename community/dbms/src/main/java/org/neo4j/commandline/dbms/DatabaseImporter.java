@@ -38,9 +38,6 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.commandline.admin.IncorrectUsage;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.helpers.Args;
@@ -48,6 +45,9 @@ import org.neo4j.io.fs.FileUtils;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.Converters;
 import org.neo4j.kernel.impl.util.Validators;
+
+import java.io.File;
+import java.io.IOException;
 
 import static org.neo4j.graphdb.factory.GraphDatabaseSettings.database_path;
 

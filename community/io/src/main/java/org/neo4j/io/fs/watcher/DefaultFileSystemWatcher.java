@@ -40,6 +40,8 @@ package org.neo4j.io.fs.watcher;
 
 import com.sun.nio.file.SensitivityWatchEventModifier;
 import org.apache.commons.lang3.StringUtils;
+import org.neo4j.io.fs.watcher.resource.WatchedFile;
+import org.neo4j.io.fs.watcher.resource.WatchedResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,9 +52,6 @@ import java.nio.file.WatchService;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.neo4j.io.fs.watcher.resource.WatchedFile;
-import org.neo4j.io.fs.watcher.resource.WatchedResource;
 
 import static java.lang.String.format;
 

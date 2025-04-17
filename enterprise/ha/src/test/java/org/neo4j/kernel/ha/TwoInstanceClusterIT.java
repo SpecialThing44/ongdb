@@ -37,7 +37,6 @@ package org.neo4j.kernel.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState;
@@ -45,9 +44,7 @@ import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.test.ha.ClusterRule;
 
 import static org.junit.Assert.assertEquals;
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.clusterOfSize;
-import static org.neo4j.kernel.impl.ha.ClusterManager.memberSeesOtherMemberAsFailed;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 
 public class TwoInstanceClusterIT
 {

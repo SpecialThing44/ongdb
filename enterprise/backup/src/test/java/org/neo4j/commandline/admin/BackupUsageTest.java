@@ -36,6 +36,9 @@ package org.neo4j.commandline.admin;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.backup.impl.BackupHelpOutput;
+import org.neo4j.io.fs.DefaultFileSystemAbstraction;
+import org.neo4j.test.rule.SuppressOutput;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -43,10 +46,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.neo4j.backup.impl.BackupHelpOutput;
-import org.neo4j.io.fs.DefaultFileSystemAbstraction;
-import org.neo4j.test.rule.SuppressOutput;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;

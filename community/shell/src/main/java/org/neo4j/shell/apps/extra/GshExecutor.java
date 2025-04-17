@@ -38,14 +38,14 @@
  */
 package org.neo4j.shell.apps.extra;
 
+import org.neo4j.shell.Output;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.util.Map;
-
-import org.neo4j.shell.Output;
 
 /**
  * Executes groovy scripts purely via reflection

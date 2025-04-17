@@ -38,12 +38,12 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.neo4j.hashing.HashFunction;
 import org.neo4j.values.ValueMapper;
 import org.neo4j.values.virtual.ListValue;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static org.neo4j.values.virtual.VirtualValues.list;

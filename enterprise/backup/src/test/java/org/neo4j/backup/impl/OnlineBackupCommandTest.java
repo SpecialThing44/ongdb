@@ -38,20 +38,15 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.neo4j.commandline.admin.*;
+import org.neo4j.consistency.checking.full.ConsistencyFlags;
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.kernel.configuration.Config;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import org.neo4j.commandline.admin.CommandFailed;
-import org.neo4j.commandline.admin.CommandLocator;
-import org.neo4j.commandline.admin.IncorrectUsage;
-import org.neo4j.commandline.admin.OutsideWorld;
-import org.neo4j.commandline.admin.Usage;
-import org.neo4j.consistency.checking.full.ConsistencyFlags;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.kernel.configuration.Config;
 
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;

@@ -38,13 +38,13 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
+import org.neo4j.kernel.impl.util.ValueUtils;
+import org.neo4j.values.AnyValue;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.neo4j.kernel.impl.util.ValueUtils;
-import org.neo4j.values.AnyValue;
 
 import static org.neo4j.values.storable.Values.NO_VALUE;
 
@@ -483,4 +483,3 @@ public final class CompiledEquivalenceUtils
         return a.doubleValue() == b;
     }
 }
-

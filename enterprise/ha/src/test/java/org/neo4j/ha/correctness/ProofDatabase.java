@@ -34,19 +34,15 @@
  */
 package org.neo4j.ha.correctness;
 
+import org.neo4j.graphdb.*;
+import org.neo4j.helpers.collection.Pair;
+import org.neo4j.io.fs.FileUtils;
+import org.neo4j.test.TestGraphDatabaseFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.helpers.collection.Pair;
-import org.neo4j.io.fs.FileUtils;
-import org.neo4j.test.TestGraphDatabaseFactory;
 
 import static org.neo4j.graphdb.Label.label;
 

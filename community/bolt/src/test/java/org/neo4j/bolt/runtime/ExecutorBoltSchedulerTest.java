@@ -41,6 +41,15 @@ package org.neo4j.bolt.runtime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.bolt.BoltKernelExtension;
+import org.neo4j.bolt.testing.Jobs;
+import org.neo4j.function.Predicates;
+import org.neo4j.kernel.configuration.Config;
+import org.neo4j.kernel.impl.logging.LogService;
+import org.neo4j.kernel.impl.logging.SimpleLogService;
+import org.neo4j.logging.AssertableLogProvider;
+import org.neo4j.logging.NullLog;
+import org.neo4j.scheduler.JobScheduler;
 
 import java.net.InetSocketAddress;
 import java.time.Duration;
@@ -53,34 +62,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.neo4j.bolt.BoltKernelExtension;
-import org.neo4j.bolt.testing.Jobs;
-import org.neo4j.function.Predicates;
-import org.neo4j.kernel.configuration.Config;
-import org.neo4j.kernel.impl.logging.LogService;
-import org.neo4j.kernel.impl.logging.SimpleLogService;
-import org.neo4j.logging.AssertableLogProvider;
-import org.neo4j.logging.NullLog;
-import org.neo4j.scheduler.JobScheduler;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.neo4j.test.matchers.CommonMatchers.matchesExceptionMessage;
 
 public class ExecutorBoltSchedulerTest

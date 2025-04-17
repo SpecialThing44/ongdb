@@ -38,37 +38,26 @@
  */
 package org.neo4j.codegen.bytecode;
 
+import org.neo4j.codegen.ByteCodes;
+import org.neo4j.codegen.CodeGeneratorOption;
+import org.neo4j.codegen.CompilationFailureException;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.analysis.Analyzer;
-import org.objectweb.asm.tree.analysis.AnalyzerException;
-import org.objectweb.asm.tree.analysis.BasicValue;
-import org.objectweb.asm.tree.analysis.Frame;
-import org.objectweb.asm.tree.analysis.SimpleVerifier;
-import org.objectweb.asm.tree.analysis.Value;
+import org.objectweb.asm.tree.analysis.*;
 import org.objectweb.asm.util.CheckClassAdapter;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
+import javax.tools.Diagnostic;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 import java.util.function.IntFunction;
-import javax.tools.Diagnostic;
-
-import org.neo4j.codegen.ByteCodes;
-import org.neo4j.codegen.CodeGeneratorOption;
-import org.neo4j.codegen.CompilationFailureException;
 
 import static org.objectweb.asm.ClassReader.SKIP_DEBUG;
 
@@ -488,4 +477,3 @@ class ByteCodeVerifier implements ByteCodeChecker, CodeGeneratorOption
         return (clazz.access & Opcodes.ACC_INTERFACE) != 0;
     }
 }
-

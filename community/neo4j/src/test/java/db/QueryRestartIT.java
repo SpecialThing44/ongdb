@@ -42,18 +42,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.Map;
-import java.util.function.LongSupplier;
-
-import org.neo4j.graphdb.DependencyResolver;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.QueryExecutionException;
-import org.neo4j.graphdb.Result;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.GraphDatabaseBuilder;
 import org.neo4j.graphdb.factory.GraphDatabaseFactoryState;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
@@ -64,15 +53,15 @@ import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.configuration.Settings;
 import org.neo4j.kernel.impl.context.TransactionVersionContext;
 import org.neo4j.kernel.impl.context.TransactionVersionContextSupplier;
-import org.neo4j.kernel.impl.factory.CommunityEditionModule;
-import org.neo4j.kernel.impl.factory.DatabaseInfo;
-import org.neo4j.kernel.impl.factory.GraphDatabaseFacade;
-import org.neo4j.kernel.impl.factory.GraphDatabaseFacadeFactory;
-import org.neo4j.kernel.impl.factory.PlatformModule;
+import org.neo4j.kernel.impl.factory.*;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.io.File;
+import java.util.Map;
+import java.util.function.LongSupplier;
 
 import static org.junit.Assert.assertEquals;
 

@@ -41,7 +41,6 @@ package org.neo4j.bolt.transport.pipeline;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
 import org.neo4j.bolt.v1.messaging.BoltIOException;
 import org.neo4j.bolt.v1.messaging.BoltRequestMessageHandler;
 import org.neo4j.bolt.v1.messaging.BoltRequestMessageReader;

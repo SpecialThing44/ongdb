@@ -34,13 +34,12 @@
  */
 package org.neo4j.com;
 
-import java.io.IOException;
-import java.nio.channels.ReadableByteChannel;
-
 import org.jboss.netty.buffer.ChannelBuffer;
-
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 import org.neo4j.kernel.monitoring.Monitors;
+
+import java.io.IOException;
+import java.nio.channels.ReadableByteChannel;
 
 public class ToChannelBufferWriter implements MadeUpWriter
 {

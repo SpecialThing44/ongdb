@@ -40,9 +40,6 @@ package org.neo4j.bolt.v1.messaging;
 
 import org.junit.Test;
 import org.mockito.InOrder;
-
-import java.io.IOException;
-
 import org.neo4j.bolt.logging.NullBoltMessageLogger;
 import org.neo4j.bolt.v1.packstream.PackOutput;
 import org.neo4j.kernel.api.exceptions.Status;
@@ -50,19 +47,14 @@ import org.neo4j.kernel.impl.logging.NullLogService;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.virtual.MapValue;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.bolt.v1.messaging.BoltResponseMessage.IGNORED;
 import static org.neo4j.values.storable.DateValue.date;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValues.map;
 
 public class BoltResponseMessageWriterTest

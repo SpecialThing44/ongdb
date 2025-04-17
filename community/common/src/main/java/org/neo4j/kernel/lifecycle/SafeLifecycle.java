@@ -38,10 +38,7 @@
  */
 package org.neo4j.kernel.lifecycle;
 
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.HALT;
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.IDLE;
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.PRE;
-import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.RUN;
+import static org.neo4j.kernel.lifecycle.SafeLifecycle.State.*;
 
 /**
  * A safer lifecycle adapter with strict semantics and as

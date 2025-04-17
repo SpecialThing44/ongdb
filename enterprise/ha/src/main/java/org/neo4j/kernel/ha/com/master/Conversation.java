@@ -35,9 +35,9 @@
 package org.neo4j.kernel.ha.com.master;
 
 
-import java.util.concurrent.locks.ReentrantLock;
-
 import org.neo4j.kernel.impl.locking.Locks;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Abstraction to hold all client related info on master side.

@@ -38,9 +38,9 @@
  */
 package org.neo4j.bolt.v1.transport.socket.client;
 
-import java.io.IOException;
-
 import org.neo4j.helpers.HostnamePort;
+
+import java.io.IOException;
 
 public interface TransportConnection
 {

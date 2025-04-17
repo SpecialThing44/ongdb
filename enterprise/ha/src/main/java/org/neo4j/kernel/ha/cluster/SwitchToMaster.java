@@ -34,12 +34,6 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.member.ClusterMemberAvailability;
@@ -57,6 +51,12 @@ import org.neo4j.kernel.ha.id.HaIdGeneratorFactory;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.lifecycle.LifeSupport;
 import org.neo4j.logging.Log;
+
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.MASTER;
 

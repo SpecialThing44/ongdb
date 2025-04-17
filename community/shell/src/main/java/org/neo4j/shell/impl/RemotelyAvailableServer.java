@@ -38,18 +38,13 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.shell.*;
+
 import java.io.Serializable;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Map;
-
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Response;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.ShellServer;
-import org.neo4j.shell.TabCompletion;
-import org.neo4j.shell.Welcome;
 
 /**
  * The remote aspect of a {@link ShellServer}.

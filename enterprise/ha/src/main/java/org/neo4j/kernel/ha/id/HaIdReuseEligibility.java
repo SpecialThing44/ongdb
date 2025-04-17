@@ -34,12 +34,12 @@
  */
 package org.neo4j.kernel.ha.id;
 
-import java.time.Clock;
-
 import org.neo4j.kernel.ha.cluster.member.ClusterMembers;
 import org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher;
 import org.neo4j.kernel.impl.api.KernelTransactionsSnapshot;
 import org.neo4j.kernel.impl.store.id.IdReuseEligibility;
+
+import java.time.Clock;
 
 /**
  * This {@link IdReuseEligibility} only buffer ids for reuse when we're the master.

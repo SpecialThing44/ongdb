@@ -40,13 +40,6 @@ package org.neo4j.index.internal.gbptree;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.neo4j.cursor.RawCursor;
 import org.neo4j.helpers.collection.Pair;
 import org.neo4j.io.pagecache.PageCache;
@@ -55,9 +48,13 @@ import org.neo4j.test.rule.PageCacheAndDependenciesRule;
 import org.neo4j.test.rule.RandomRule;
 import org.neo4j.test.rule.fs.DefaultFileSystemRule;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 import static org.neo4j.index.internal.gbptree.TreeNodeDynamicSize.keyValueSizeCapFromPageSize;
 import static org.neo4j.io.pagecache.PageCache.PAGE_SIZE;
 import static org.neo4j.test.Randoms.CSA_LETTERS_AND_DIGITS;

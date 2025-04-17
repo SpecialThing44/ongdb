@@ -36,16 +36,15 @@ package org.neo4j.kernel.ha.cluster;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.ha.HighlyAvailableGraphDatabase;
 import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.test.ha.ClusterRule;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 import static org.neo4j.io.fs.FileUtils.deleteRecursively;

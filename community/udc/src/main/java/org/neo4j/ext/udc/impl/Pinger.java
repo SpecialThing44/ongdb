@@ -38,14 +38,14 @@
  */
 package org.neo4j.ext.udc.impl;
 
+import org.neo4j.helpers.HostnamePort;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
-import org.neo4j.helpers.HostnamePort;
 
 import static org.neo4j.ext.udc.UdcConstants.PING;
 

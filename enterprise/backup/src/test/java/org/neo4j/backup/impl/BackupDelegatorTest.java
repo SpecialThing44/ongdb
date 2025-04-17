@@ -37,11 +37,6 @@ package org.neo4j.backup.impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.neo4j.causalclustering.catchup.CatchUpClient;
 import org.neo4j.causalclustering.catchup.CatchupAddressProvider;
 import org.neo4j.causalclustering.catchup.CatchupAddressResolutionException;
@@ -52,11 +47,13 @@ import org.neo4j.causalclustering.catchup.storecopy.StoreIdDownloadFailedExcepti
 import org.neo4j.causalclustering.identity.StoreId;
 import org.neo4j.helpers.AdvertisedSocketAddress;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class BackupDelegatorTest
 {

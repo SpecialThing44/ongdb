@@ -39,10 +39,14 @@
 package org.neo4j.bolt.v1.transport.integration;
 
 import org.eclipse.jetty.websocket.api.WebSocketException;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.neo4j.bolt.v1.messaging.Neo4jPack;
+import org.neo4j.bolt.v1.messaging.message.RequestMessage;
+import org.neo4j.bolt.v1.messaging.message.ResponseMessage;
+import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
+import org.neo4j.function.Predicates;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,12 +54,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
-
-import org.neo4j.bolt.v1.messaging.Neo4jPack;
-import org.neo4j.bolt.v1.messaging.message.RequestMessage;
-import org.neo4j.bolt.v1.messaging.message.ResponseMessage;
-import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
-import org.neo4j.function.Predicates;
 
 import static java.nio.ByteOrder.BIG_ENDIAN;
 import static org.hamcrest.MatcherAssert.assertThat;

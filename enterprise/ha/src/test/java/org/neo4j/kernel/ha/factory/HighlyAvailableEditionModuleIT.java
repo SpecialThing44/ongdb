@@ -36,9 +36,6 @@ package org.neo4j.kernel.ha.factory;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.function.Predicate;
-
 import org.neo4j.com.storecopy.StoreUtil;
 import org.neo4j.graphdb.DependencyResolver;
 import org.neo4j.kernel.impl.ha.ClusterManager;
@@ -54,10 +51,10 @@ import org.neo4j.kernel.impl.storemigration.StoreFileType;
 import org.neo4j.kernel.impl.transaction.log.files.TransactionLogFiles;
 import org.neo4j.test.ha.ClusterRule;
 
+import java.util.function.Predicate;
+
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HighlyAvailableEditionModuleIT
 {

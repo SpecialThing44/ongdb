@@ -38,6 +38,11 @@
  */
 package org.neo4j.codegen.source;
 
+import org.neo4j.codegen.*;
+
+import javax.annotation.processing.Processor;
+import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
@@ -45,15 +50,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.processing.Processor;
-import javax.tools.Diagnostic;
-import javax.tools.JavaFileObject;
-
-import org.neo4j.codegen.CodeGenerationStrategy;
-import org.neo4j.codegen.CodeGenerationStrategyNotSupportedException;
-import org.neo4j.codegen.CodeGenerator;
-import org.neo4j.codegen.CodeGeneratorOption;
-import org.neo4j.codegen.TypeReference;
 
 import static java.util.Objects.requireNonNull;
 import static org.neo4j.codegen.CompilationFailureException.format;

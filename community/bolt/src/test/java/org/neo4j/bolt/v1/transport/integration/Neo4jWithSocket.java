@@ -41,13 +41,6 @@ package org.neo4j.bolt.v1.transport.integration;
 import org.junit.rules.ExternalResource;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.mockfs.EphemeralFileSystemAbstraction;
 import org.neo4j.helpers.HostnamePort;
@@ -57,6 +50,12 @@ import org.neo4j.kernel.configuration.ConnectorPortRegister;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static org.neo4j.kernel.configuration.BoltConnector.EncryptionLevel.OPTIONAL;
 

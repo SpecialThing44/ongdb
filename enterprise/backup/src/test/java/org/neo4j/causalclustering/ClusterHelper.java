@@ -35,11 +35,7 @@
 package org.neo4j.causalclustering;
 
 import org.neo4j.causalclustering.core.CoreGraphDatabase;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.test.DbRepresentation;
 
 public class ClusterHelper

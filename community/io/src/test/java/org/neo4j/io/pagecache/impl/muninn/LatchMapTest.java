@@ -39,6 +39,8 @@
 package org.neo4j.io.pagecache.impl.muninn;
 
 import org.junit.Test;
+import org.neo4j.concurrent.BinaryLatch;
+import org.neo4j.test.ThreadTestUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,12 +48,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.neo4j.concurrent.BinaryLatch;
-import org.neo4j.test.ThreadTestUtils;
-
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class LatchMapTest

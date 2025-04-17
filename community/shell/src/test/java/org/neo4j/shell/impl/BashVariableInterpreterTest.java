@@ -40,11 +40,10 @@ package org.neo4j.shell.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.text.SimpleDateFormat;
-
 import org.neo4j.shell.Session;
 import org.neo4j.shell.ShellServer;
+
+import java.text.SimpleDateFormat;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

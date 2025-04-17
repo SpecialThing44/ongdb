@@ -38,11 +38,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.consistency.ConsistencyCheckService;
@@ -52,14 +47,15 @@ import org.neo4j.helpers.progress.ProgressMonitorFactory;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.logging.LogProvider;
 
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.backup.ExceptionMatchers.exceptionContainsSuppressedThrowable;
 
 public class BackupStrategyCoordinatorTest

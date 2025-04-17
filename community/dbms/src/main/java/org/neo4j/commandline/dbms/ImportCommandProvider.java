@@ -38,15 +38,15 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
-import javax.annotation.Nonnull;
-
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.AdminCommandSection;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.commandline.arguments.Arguments;
+
+import javax.annotation.Nonnull;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 public class ImportCommandProvider extends AdminCommand.Provider
 {

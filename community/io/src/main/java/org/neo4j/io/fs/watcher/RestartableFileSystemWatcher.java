@@ -38,15 +38,15 @@
  */
 package org.neo4j.io.fs.watcher;
 
+import org.neo4j.io.IOUtils;
+import org.neo4j.io.fs.watcher.resource.WatchedResource;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.neo4j.io.IOUtils;
-import org.neo4j.io.fs.watcher.resource.WatchedResource;
 
 /**
  * File system delegate that will remember all the files that it was asked to watch

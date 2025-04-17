@@ -39,7 +39,6 @@
 package org.neo4j.bolt.transport;
 
 import io.netty.channel.ChannelPipeline;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.runtime.BoltConnection;
 import org.neo4j.bolt.transport.pipeline.ChunkDecoder;

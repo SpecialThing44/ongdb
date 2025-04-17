@@ -38,10 +38,10 @@
  */
 package org.neo4j.shell.impl;
 
-import java.io.File;
-
 import org.neo4j.shell.Console;
 import org.neo4j.shell.ShellClient;
+
+import java.io.File;
 
 /**
  * Implements the {@link Console} interface with jLine using reflections only,

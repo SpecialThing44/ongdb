@@ -39,16 +39,15 @@
 package org.neo4j.bolt.logging;
 
 import io.netty.channel.Channel;
-
-import java.io.File;
-import java.time.ZoneId;
-import java.util.concurrent.Executor;
-
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.logging.Log;
 import org.neo4j.scheduler.JobScheduler;
+
+import java.io.File;
+import java.time.ZoneId;
+import java.util.concurrent.Executor;
 
 public class BoltMessageLogging
 {

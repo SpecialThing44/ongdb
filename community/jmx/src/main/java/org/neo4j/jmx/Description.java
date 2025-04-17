@@ -38,12 +38,11 @@
  */
 package org.neo4j.jmx;
 
+import javax.management.MBeanOperationInfo;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import javax.management.MBeanOperationInfo;
 
 /**
  * Used to provide JMX documentation to management beans.

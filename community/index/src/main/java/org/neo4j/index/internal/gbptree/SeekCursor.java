@@ -38,12 +38,12 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.cursor.RawCursor;
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.IOException;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
-
-import org.neo4j.cursor.RawCursor;
-import org.neo4j.io.pagecache.PageCursor;
 
 import static org.neo4j.index.internal.gbptree.PageCursorUtil.checkOutOfBounds;
 import static org.neo4j.index.internal.gbptree.TreeNode.Type.INTERNAL;

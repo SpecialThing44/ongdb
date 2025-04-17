@@ -37,9 +37,6 @@ package org.neo4j.kernel.ha.id;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-
 import org.neo4j.com.ComException;
 import org.neo4j.com.Response;
 import org.neo4j.graphdb.TransientTransactionFailureException;
@@ -48,26 +45,16 @@ import org.neo4j.kernel.ha.DelegateInvocationHandler;
 import org.neo4j.kernel.ha.com.RequestContextFactory;
 import org.neo4j.kernel.ha.com.master.Master;
 import org.neo4j.kernel.impl.store.format.standard.Standard;
-import org.neo4j.kernel.impl.store.id.IdGenerator;
-import org.neo4j.kernel.impl.store.id.IdGeneratorImpl;
-import org.neo4j.kernel.impl.store.id.IdRange;
-import org.neo4j.kernel.impl.store.id.IdRangeIterator;
-import org.neo4j.kernel.impl.store.id.IdType;
+import org.neo4j.kernel.impl.store.id.*;
 import org.neo4j.kernel.impl.store.id.configuration.CommunityIdTypeConfigurationProvider;
 import org.neo4j.logging.NullLogProvider;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import java.io.File;
+
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.neo4j.kernel.impl.store.id.IdRangeIterator.VALUE_REPRESENTING_NULL;
 
 

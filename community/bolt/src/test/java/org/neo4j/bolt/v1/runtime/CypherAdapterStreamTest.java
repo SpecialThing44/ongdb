@@ -39,16 +39,6 @@
 package org.neo4j.bolt.v1.runtime;
 
 import org.junit.Test;
-
-import java.time.Clock;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.neo4j.bolt.v1.runtime.spi.BoltResult;
 import org.neo4j.cypher.result.QueryResult;
 import org.neo4j.graphdb.ExecutionPlanDescription;
@@ -60,6 +50,9 @@ import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.DoubleValue;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.VirtualValues;
+
+import java.time.Clock;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -74,10 +67,7 @@ import static org.neo4j.graphdb.QueryExecutionType.explained;
 import static org.neo4j.graphdb.QueryExecutionType.query;
 import static org.neo4j.helpers.collection.MapUtil.genericMap;
 import static org.neo4j.helpers.collection.MapUtil.map;
-import static org.neo4j.values.storable.Values.doubleValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValues.list;
 
 public class CypherAdapterStreamTest

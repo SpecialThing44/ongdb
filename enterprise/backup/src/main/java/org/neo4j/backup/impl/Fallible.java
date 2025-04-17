@@ -34,8 +34,8 @@
  */
 package org.neo4j.backup.impl;
 
-import java.util.Optional;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Contains a reference to a class (designed for enums) and can optionally also contain a throwable if the provided state has an exception attached

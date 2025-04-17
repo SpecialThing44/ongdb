@@ -42,6 +42,7 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.neo4j.io.fs.FileUtils;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -49,13 +50,8 @@ import java.nio.channels.FileChannel;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
 
-import org.neo4j.io.fs.FileUtils;
-
 import static java.nio.file.StandardOpenOption.WRITE;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 

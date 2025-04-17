@@ -38,13 +38,13 @@
  */
 package org.neo4j.jmx.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import javax.management.DynamicMBean;
-import javax.management.NotCompliantMBeanException;
-
 import org.neo4j.helpers.Service;
 import org.neo4j.kernel.internal.KernelData;
+
+import javax.management.DynamicMBean;
+import javax.management.NotCompliantMBeanException;
+import java.util.Collection;
+import java.util.Collections;
 
 public abstract class ManagementBeanProvider extends Service
 {

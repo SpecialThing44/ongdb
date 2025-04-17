@@ -38,16 +38,11 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.shell.*;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Map;
-
-import org.neo4j.shell.CtrlCHandler;
-import org.neo4j.shell.InterruptSignalHandler;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.ShellClient;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.ShellServer;
 
 /**
  * A {@link ShellClient} implementation which uses a remote server,

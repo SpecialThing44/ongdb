@@ -41,14 +41,13 @@ package org.neo4j.bolt.v1.runtime.spi;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.neo4j.cypher.result.QueryResult;
+import org.neo4j.values.AnyValue;
+import org.neo4j.values.storable.NumberValue;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.neo4j.cypher.result.QueryResult;
-import org.neo4j.values.AnyValue;
-import org.neo4j.values.storable.NumberValue;
 
 import static java.util.Arrays.asList;
 

@@ -38,11 +38,11 @@
  */
 package org.neo4j.io.pagecache;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.graphdb.config.Configuration;
 import org.neo4j.io.fs.FileSystemAbstraction;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Creates PageSwappers for the given files.

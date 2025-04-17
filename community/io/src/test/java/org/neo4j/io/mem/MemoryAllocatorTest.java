@@ -39,16 +39,12 @@
 package org.neo4j.io.mem;
 
 import org.junit.Test;
-
 import org.neo4j.io.ByteUnit;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.memory.LocalMemoryTracker;
 import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 

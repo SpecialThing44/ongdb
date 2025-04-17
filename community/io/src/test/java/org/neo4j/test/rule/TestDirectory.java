@@ -43,6 +43,9 @@ import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.neo4j.io.fs.DefaultFileSystemAbstraction;
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.io.fs.FileUtils.MaybeWindowsMemoryMappedFileReleaseProblem;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,10 +53,6 @@ import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import org.neo4j.io.fs.DefaultFileSystemAbstraction;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.fs.FileUtils.MaybeWindowsMemoryMappedFileReleaseProblem;
 
 import static java.lang.String.format;
 

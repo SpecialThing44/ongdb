@@ -38,10 +38,10 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.IOException;
 import java.util.Comparator;
-
-import org.neo4j.io.pagecache.PageCursor;
 
 import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.NO_LOGICAL_POS;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.read;

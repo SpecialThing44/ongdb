@@ -34,6 +34,11 @@
  */
 package org.neo4j.kernel.ha.transaction;
 
+import org.neo4j.com.Response;
+import org.neo4j.kernel.ha.com.master.Slave;
+import org.neo4j.kernel.lifecycle.LifecycleAdapter;
+import org.neo4j.scheduler.JobScheduler;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +47,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-
-import org.neo4j.com.Response;
-import org.neo4j.kernel.ha.com.master.Slave;
-import org.neo4j.kernel.lifecycle.LifecycleAdapter;
-import org.neo4j.scheduler.JobScheduler;
 
 import static org.neo4j.scheduler.JobScheduler.Groups.masterTransactionPushing;
 

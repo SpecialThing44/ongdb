@@ -38,11 +38,11 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.SequenceValue;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Array of one of the storable primitives

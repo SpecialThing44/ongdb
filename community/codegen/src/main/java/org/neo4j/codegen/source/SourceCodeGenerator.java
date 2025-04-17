@@ -38,17 +38,13 @@
  */
 package org.neo4j.codegen.source;
 
+import org.neo4j.codegen.*;
+
+import javax.tools.JavaFileObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.tools.JavaFileObject;
-
-import org.neo4j.codegen.ByteCodes;
-import org.neo4j.codegen.ClassEmitter;
-import org.neo4j.codegen.CodeGenerator;
-import org.neo4j.codegen.CompilationFailureException;
-import org.neo4j.codegen.TypeReference;
 
 class SourceCodeGenerator extends CodeGenerator
 {

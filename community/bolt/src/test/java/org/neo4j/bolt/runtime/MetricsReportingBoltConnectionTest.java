@@ -39,9 +39,6 @@
 package org.neo4j.bolt.runtime;
 
 import org.junit.Test;
-
-import java.util.UUID;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.v1.packstream.PackOutput;
 import org.neo4j.bolt.v1.runtime.BoltConnectionAuthFatality;
@@ -51,10 +48,10 @@ import org.neo4j.bolt.v1.runtime.Job;
 import org.neo4j.kernel.impl.logging.NullLogService;
 import org.neo4j.time.Clocks;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class MetricsReportingBoltConnectionTest
 {

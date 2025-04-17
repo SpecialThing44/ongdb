@@ -39,10 +39,6 @@
 package org.neo4j.bolt.v1.runtime;
 
 import org.junit.Test;
-
-import java.time.Clock;
-import java.util.Collections;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.testing.BoltResponseRecorder;
 import org.neo4j.bolt.v1.runtime.spi.BoltResult;
@@ -53,44 +49,21 @@ import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.impl.logging.NullLogService;
 import org.neo4j.kernel.impl.util.ValueUtils;
 
+import java.time.Clock;
+import java.util.Collections;
+
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.Mockito.RETURNS_MOCKS;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.neo4j.bolt.testing.BoltMatchers.canReset;
-import static org.neo4j.bolt.testing.BoltMatchers.failedWithStatus;
-import static org.neo4j.bolt.testing.BoltMatchers.hasNoTransaction;
-import static org.neo4j.bolt.testing.BoltMatchers.hasTransaction;
-import static org.neo4j.bolt.testing.BoltMatchers.inState;
-import static org.neo4j.bolt.testing.BoltMatchers.isClosed;
-import static org.neo4j.bolt.testing.BoltMatchers.succeeded;
-import static org.neo4j.bolt.testing.BoltMatchers.verifyOneResponse;
-import static org.neo4j.bolt.testing.BoltMatchers.wasIgnored;
+import static org.mockito.Mockito.*;
+import static org.neo4j.bolt.testing.BoltMatchers.*;
 import static org.neo4j.bolt.testing.NullResponseHandler.nullResponseHandler;
-import static org.neo4j.bolt.v1.runtime.BoltStateMachine.State.CONNECTED;
-import static org.neo4j.bolt.v1.runtime.BoltStateMachine.State.FAILED;
-import static org.neo4j.bolt.v1.runtime.BoltStateMachine.State.READY;
-import static org.neo4j.bolt.v1.runtime.BoltStateMachine.State.STREAMING;
-import static org.neo4j.bolt.v1.runtime.MachineRoom.EMPTY_PARAMS;
-import static org.neo4j.bolt.v1.runtime.MachineRoom.USER_AGENT;
-import static org.neo4j.bolt.v1.runtime.MachineRoom.init;
-import static org.neo4j.bolt.v1.runtime.MachineRoom.newMachine;
-import static org.neo4j.bolt.v1.runtime.MachineRoom.newMachineWithTransaction;
-import static org.neo4j.bolt.v1.runtime.MachineRoom.newMachineWithTransactionSPI;
+import static org.neo4j.bolt.v1.runtime.BoltStateMachine.State.*;
+import static org.neo4j.bolt.v1.runtime.MachineRoom.*;
 
 public class BoltStateMachineTest
 {

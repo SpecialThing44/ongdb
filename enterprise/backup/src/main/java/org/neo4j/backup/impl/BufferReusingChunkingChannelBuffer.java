@@ -39,12 +39,11 @@ import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
+import org.neo4j.com.ChunkingChannelBuffer;
+import org.neo4j.function.Factory;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import org.neo4j.com.ChunkingChannelBuffer;
-import org.neo4j.function.Factory;
 
 /**
  * {@linkplain ChunkingChannelBuffer Chunking buffer} that is able to reuse up to {@link #MAX_WRITE_AHEAD_CHUNKS}

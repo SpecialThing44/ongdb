@@ -39,31 +39,12 @@
 package org.neo4j.values.utils;
 
 import org.junit.Test;
+import org.neo4j.values.AnyValue;
+import org.neo4j.values.storable.*;
+import org.neo4j.values.virtual.*;
 
 import java.time.ZoneOffset;
 import java.util.HashMap;
-
-import org.neo4j.values.AnyValue;
-import org.neo4j.values.storable.CoordinateReferenceSystem;
-import org.neo4j.values.storable.DateTimeValue;
-import org.neo4j.values.storable.DateValue;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.LocalDateTimeValue;
-import org.neo4j.values.storable.LocalTimeValue;
-import org.neo4j.values.storable.PointValue;
-import org.neo4j.values.storable.TextArray;
-import org.neo4j.values.storable.TextValue;
-import org.neo4j.values.storable.TimeValue;
-import org.neo4j.values.storable.Value;
-import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.ListValue;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.NodeReference;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.PathValue;
-import org.neo4j.values.virtual.RelationshipReference;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.VirtualValues;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -74,9 +55,7 @@ import static org.neo4j.values.storable.DurationValue.duration;
 import static org.neo4j.values.storable.LocalDateTimeValue.localDateTime;
 import static org.neo4j.values.storable.LocalTimeValue.localTime;
 import static org.neo4j.values.storable.TimeValue.time;
-import static org.neo4j.values.storable.Values.byteValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
 import static org.neo4j.values.virtual.VirtualValues.list;
 

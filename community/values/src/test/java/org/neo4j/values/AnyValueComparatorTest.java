@@ -41,14 +41,13 @@ package org.neo4j.values;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.neo4j.values.storable.CoordinateReferenceSystem;
+import org.neo4j.values.virtual.VirtualValueTestUtil;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.neo4j.values.storable.CoordinateReferenceSystem;
-import org.neo4j.values.virtual.VirtualValueTestUtil;
 
 import static java.lang.String.format;
 import static org.neo4j.values.storable.DateTimeValue.datetime;
@@ -57,19 +56,13 @@ import static org.neo4j.values.storable.DurationValue.duration;
 import static org.neo4j.values.storable.LocalDateTimeValue.localDateTime;
 import static org.neo4j.values.storable.LocalTimeValue.localTime;
 import static org.neo4j.values.storable.TimeValue.time;
-import static org.neo4j.values.storable.Values.pointValue;
-import static org.neo4j.values.storable.Values.stringArray;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValueTestUtil.list;
 import static org.neo4j.values.virtual.VirtualValueTestUtil.map;
-import static org.neo4j.values.virtual.VirtualValueTestUtil.nodes;
-import static org.neo4j.values.virtual.VirtualValueTestUtil.relationships;
-import static org.neo4j.values.virtual.VirtualValues.emptyMap;
+import static org.neo4j.values.virtual.VirtualValueTestUtil.*;
 import static org.neo4j.values.virtual.VirtualValues.node;
-import static org.neo4j.values.virtual.VirtualValues.nodeValue;
 import static org.neo4j.values.virtual.VirtualValues.path;
-import static org.neo4j.values.virtual.VirtualValues.relationship;
-import static org.neo4j.values.virtual.VirtualValues.relationshipValue;
+import static org.neo4j.values.virtual.VirtualValues.*;
 
 public class AnyValueComparatorTest
 {

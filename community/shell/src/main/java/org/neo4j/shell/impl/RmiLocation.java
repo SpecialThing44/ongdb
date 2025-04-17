@@ -40,11 +40,7 @@ package org.neo4j.shell.impl;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
-import java.rmi.Naming;
-import java.rmi.NoSuchObjectException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;

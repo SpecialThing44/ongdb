@@ -38,21 +38,19 @@
  */
 package org.neo4j.io.pagecache.stress;
 
-import java.io.IOException;
-import java.util.Random;
-import java.util.concurrent.Callable;
-
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.PagedFile;
 import org.neo4j.io.pagecache.TinyLockManager;
 
+import java.io.IOException;
+import java.util.Random;
+import java.util.concurrent.Callable;
+
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_WRITE_LOCK;
+import static org.junit.Assert.*;
 import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_READ_LOCK;
+import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_WRITE_LOCK;
 
 public class RecordStresser implements Callable<Void>
 {

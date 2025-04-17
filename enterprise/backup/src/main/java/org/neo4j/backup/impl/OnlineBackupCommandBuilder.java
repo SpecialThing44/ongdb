@@ -35,25 +35,19 @@
 package org.neo4j.backup.impl;
 
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.IncorrectUsage;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.commandline.admin.ParameterisedOutsideWorld;
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.kernel.configuration.Config;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 

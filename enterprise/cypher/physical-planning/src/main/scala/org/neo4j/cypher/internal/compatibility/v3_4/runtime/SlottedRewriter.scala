@@ -43,8 +43,8 @@ import org.neo4j.cypher.internal.util.v3_4.Foldable._
 import org.neo4j.cypher.internal.util.v3_4.attribution.SameId
 import org.neo4j.cypher.internal.util.v3_4.symbols._
 import org.neo4j.cypher.internal.util.v3_4.{InternalException, Rewriter, topDown}
-import org.neo4j.cypher.internal.v3_4.expressions.{FunctionInvocation, _}
-import org.neo4j.cypher.internal.v3_4.logical.plans.{LogicalPlan, NestedPlanExpression, Projection, VarExpand, _}
+import org.neo4j.cypher.internal.v3_4.expressions._
+import org.neo4j.cypher.internal.v3_4.logical.plans._
 import org.neo4j.cypher.internal.v3_4.{expressions, functions => frontendFunctions}
 
 /**

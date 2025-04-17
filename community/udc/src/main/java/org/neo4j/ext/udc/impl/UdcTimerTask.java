@@ -38,12 +38,12 @@
  */
 package org.neo4j.ext.udc.impl;
 
+import org.neo4j.helpers.HostnamePort;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
-
-import org.neo4j.helpers.HostnamePort;
 
 public class UdcTimerTask extends TimerTask
 {

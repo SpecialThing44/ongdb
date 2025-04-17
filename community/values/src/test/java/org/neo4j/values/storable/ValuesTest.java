@@ -41,24 +41,7 @@ package org.neo4j.values.storable;
 import org.junit.Test;
 
 import static org.junit.Assert.fail;
-import static org.neo4j.values.storable.Values.booleanArray;
-import static org.neo4j.values.storable.Values.booleanValue;
-import static org.neo4j.values.storable.Values.byteArray;
-import static org.neo4j.values.storable.Values.byteValue;
-import static org.neo4j.values.storable.Values.charArray;
-import static org.neo4j.values.storable.Values.charValue;
-import static org.neo4j.values.storable.Values.doubleArray;
-import static org.neo4j.values.storable.Values.doubleValue;
-import static org.neo4j.values.storable.Values.floatArray;
-import static org.neo4j.values.storable.Values.floatValue;
-import static org.neo4j.values.storable.Values.intArray;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longArray;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.shortArray;
-import static org.neo4j.values.storable.Values.shortValue;
-import static org.neo4j.values.storable.Values.stringArray;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
 
 public class ValuesTest

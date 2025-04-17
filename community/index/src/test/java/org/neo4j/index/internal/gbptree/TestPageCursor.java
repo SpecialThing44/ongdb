@@ -38,10 +38,10 @@
  */
 package org.neo4j.index.internal.gbptree;
 
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.impl.DelegatingPageCursor;
+
+import java.io.IOException;
 
 class TestPageCursor extends DelegatingPageCursor
 {

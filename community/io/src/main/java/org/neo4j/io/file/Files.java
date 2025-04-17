@@ -38,11 +38,11 @@
  */
 package org.neo4j.io.file;
 
+import org.neo4j.io.fs.FileSystemAbstraction;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import org.neo4j.io.fs.FileSystemAbstraction;
 
 /**
  * This class consists exclusively of static methods that operate on files, directories, or other types of files.

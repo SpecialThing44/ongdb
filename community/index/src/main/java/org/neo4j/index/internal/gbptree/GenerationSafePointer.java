@@ -40,9 +40,7 @@ package org.neo4j.index.internal.gbptree;
 
 import org.neo4j.io.pagecache.PageCursor;
 
-import static org.neo4j.index.internal.gbptree.PageCursorUtil.get6BLong;
-import static org.neo4j.index.internal.gbptree.PageCursorUtil.getUnsignedInt;
-import static org.neo4j.index.internal.gbptree.PageCursorUtil.put6BLong;
+import static org.neo4j.index.internal.gbptree.PageCursorUtil.*;
 
 /**
  * Provides static methods for getting and manipulating GSP (generation-safe pointer) data.

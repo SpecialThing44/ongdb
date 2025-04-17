@@ -38,16 +38,15 @@ import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.PrintStream;
-import java.nio.file.Paths;
-import java.util.List;
-
 import org.neo4j.backup.impl.BackupClient;
 import org.neo4j.backup.impl.BackupProtocolService;
 import org.neo4j.backup.impl.BackupServer;
 import org.neo4j.backup.impl.ConsistencyCheck;
 import org.neo4j.kernel.configuration.Config;
+
+import java.io.PrintStream;
+import java.nio.file.Paths;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -55,10 +54,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 @RunWith( Enclosed.class )
 public class BackupToolUrisTest

@@ -42,6 +42,8 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.neo4j.commandline.Util;
+import org.neo4j.function.ThrowingAction;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,18 +52,11 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.function.Predicate;
 
-import org.neo4j.commandline.Util;
-import org.neo4j.function.ThrowingAction;
-
 import static org.neo4j.dbms.archive.Utils.checkWritableDirectory;
 import static org.neo4j.dbms.archive.Utils.copy;
 import static org.neo4j.function.Predicates.not;
 import static org.neo4j.function.ThrowingAction.noop;
-import static org.neo4j.io.fs.FileVisitors.justContinue;
-import static org.neo4j.io.fs.FileVisitors.onDirectory;
-import static org.neo4j.io.fs.FileVisitors.onFile;
-import static org.neo4j.io.fs.FileVisitors.onlyMatching;
-import static org.neo4j.io.fs.FileVisitors.throwExceptions;
+import static org.neo4j.io.fs.FileVisitors.*;
 
 public class Dumper
 {

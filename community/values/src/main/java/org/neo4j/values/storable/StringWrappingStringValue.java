@@ -38,10 +38,10 @@
  */
 package org.neo4j.values.storable;
 
+import org.neo4j.hashing.HashFunction;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.neo4j.hashing.HashFunction;
 
 /**
  * Implementation of StringValue that wraps a `java.lang.String` and

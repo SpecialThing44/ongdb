@@ -38,16 +38,15 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Test;
-
-import java.net.URI;
-import java.util.Objects;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.member.paxos.MemberIsAvailable;
 import org.neo4j.cluster.member.paxos.PaxosClusterMemberEvents;
 import org.neo4j.cluster.member.paxos.PaxosClusterMemberEvents.ClusterMembersSnapshot;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.kernel.ha.cluster.HANewSnapshotFunction;
+
+import java.net.URI;
+import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;

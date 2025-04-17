@@ -38,9 +38,9 @@
  */
 package org.neo4j.index.internal.gbptree;
 
-import java.util.function.Supplier;
-
 import org.neo4j.util.FeatureToggles;
+
+import java.util.function.Supplier;
 
 /**
  * This class counts the number of round trips we take from the same node back to

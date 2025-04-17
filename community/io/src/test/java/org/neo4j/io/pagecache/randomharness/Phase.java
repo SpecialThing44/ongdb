@@ -38,11 +38,11 @@
  */
 package org.neo4j.io.pagecache.randomharness;
 
-import java.io.File;
-import java.util.Set;
-
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
+
+import java.io.File;
+import java.util.Set;
 
 public interface Phase
 {

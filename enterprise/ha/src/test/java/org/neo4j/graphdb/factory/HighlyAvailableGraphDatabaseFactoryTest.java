@@ -35,7 +35,6 @@
 package org.neo4j.graphdb.factory;
 
 import org.junit.Test;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.kernel.ha.HaSettings;
 

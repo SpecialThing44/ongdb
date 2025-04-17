@@ -34,12 +34,6 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 import org.neo4j.cluster.member.ClusterMemberAvailability;
 import org.neo4j.com.storecopy.StoreCopyClient;
 import org.neo4j.com.storecopy.StoreCopyClientMonitor;
@@ -50,12 +44,7 @@ import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.NeoStoreDataSource;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.extension.KernelExtensionFactory;
-import org.neo4j.kernel.ha.BranchedDataPolicy;
-import org.neo4j.kernel.ha.DelegateInvocationHandler;
-import org.neo4j.kernel.ha.HaSettings;
-import org.neo4j.kernel.ha.PullerFactory;
-import org.neo4j.kernel.ha.StoreUnableToParticipateInClusterException;
-import org.neo4j.kernel.ha.UpdatePuller;
+import org.neo4j.kernel.ha.*;
 import org.neo4j.kernel.ha.com.RequestContextFactory;
 import org.neo4j.kernel.ha.com.master.Master;
 import org.neo4j.kernel.ha.com.master.Slave;
@@ -70,6 +59,12 @@ import org.neo4j.kernel.impl.store.StoreId;
 import org.neo4j.kernel.impl.transaction.TransactionStats;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.monitoring.Monitors;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.neo4j.kernel.impl.transaction.log.TransactionIdStore.BASE_TX_ID;
 

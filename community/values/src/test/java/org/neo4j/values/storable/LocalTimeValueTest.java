@@ -39,13 +39,11 @@
 package org.neo4j.values.storable;
 
 import org.junit.Test;
+import org.neo4j.values.utils.TemporalParseException;
 
-import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.neo4j.values.utils.TemporalParseException;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;

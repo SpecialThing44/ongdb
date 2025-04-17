@@ -41,14 +41,6 @@ package migration;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -57,11 +49,7 @@ import org.neo4j.graphdb.factory.GraphDatabaseBuilder;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.graphdb.schema.IndexDefinition;
-import org.neo4j.internal.kernel.api.CapableIndexReference;
-import org.neo4j.internal.kernel.api.IndexQuery;
-import org.neo4j.internal.kernel.api.InternalIndexState;
-import org.neo4j.internal.kernel.api.SchemaRead;
-import org.neo4j.internal.kernel.api.TokenRead;
+import org.neo4j.internal.kernel.api.*;
 import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.io.fs.FileUtils;
 import org.neo4j.kernel.api.KernelTransaction;
@@ -84,6 +72,13 @@ import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.values.storable.CoordinateReferenceSystem;
 import org.neo4j.values.storable.DurationValue;
 import org.neo4j.values.storable.Values;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;

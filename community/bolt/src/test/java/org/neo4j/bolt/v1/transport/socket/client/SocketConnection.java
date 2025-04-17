@@ -38,15 +38,15 @@
  */
 package org.neo4j.bolt.v1.transport.socket.client;
 
+import org.neo4j.helpers.HostnamePort;
+import org.neo4j.kernel.impl.util.HexPrinter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-
-import org.neo4j.helpers.HostnamePort;
-import org.neo4j.kernel.impl.util.HexPrinter;
 
 public class SocketConnection implements TransportConnection
 {

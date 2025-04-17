@@ -39,7 +39,6 @@
 package org.neo4j.values.storable;
 
 import org.junit.Test;
-
 import org.neo4j.values.utils.InvalidValuesArgumentException;
 
 import static org.hamcrest.MatcherAssert.assertThat;

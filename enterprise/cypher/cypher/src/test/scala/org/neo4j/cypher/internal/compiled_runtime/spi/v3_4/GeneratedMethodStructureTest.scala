@@ -34,8 +34,6 @@
  */
 package org.neo4j.cypher.internal.compiled_runtime.spi.v3_4
 
-import java.util
-
 import org.neo4j.codegen.bytecode.ByteCode
 import org.neo4j.codegen.source.SourceCode
 import org.neo4j.codegen.{CodeGenerationStrategy, CodeGenerator, Expression, MethodDeclaration}
@@ -48,14 +46,16 @@ import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, QueryContext}
 import org.neo4j.cypher.internal.spi.v3_4.codegen.GeneratedQueryStructure.typeRef
-import org.neo4j.cypher.internal.spi.v3_4.codegen.{GeneratedMethodStructure, Methods, _}
+import org.neo4j.cypher.internal.spi.v3_4.codegen._
 import org.neo4j.cypher.internal.util.v3_4.symbols
 import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
 import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
 import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
 import org.neo4j.internal.kernel.api.helpers.RelationshipSelectionCursor
-import org.neo4j.internal.kernel.api.{CursorFactory, NodeCursor, PropertyCursor, Read, _}
+import org.neo4j.internal.kernel.api._
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI
+
+import java.util
 
 /**
   * These are not test in the normal sense that they assert on some result,

@@ -38,12 +38,12 @@
  */
 package org.neo4j.io.pagecache.impl;
 
+import org.neo4j.io.pagecache.CursorException;
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import org.neo4j.io.pagecache.CursorException;
-import org.neo4j.io.pagecache.PageCursor;
 
 /**
  * A CompositePageCursor is a seamless view over parts of two other PageCursors.

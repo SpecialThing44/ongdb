@@ -35,11 +35,10 @@
 package org.neo4j.ha.correctness;
 
 import org.junit.Test;
-
-import java.net.URI;
-
 import org.neo4j.cluster.com.message.Message;
 import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.ProposerMessage;
+
+import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
 

@@ -34,16 +34,16 @@
  */
 package org.neo4j.kernel.ha.cluster.member;
 
-import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.neo4j.backup.OnlineBackupKernelExtension;
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher;
 import org.neo4j.kernel.impl.store.StoreId;
+
+import java.net.URI;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClusterMember
 {

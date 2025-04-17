@@ -41,16 +41,15 @@ package org.neo4j.jmx;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.Hashtable;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanInfo;
-import javax.management.ObjectName;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.jmx.impl.JmxKernelExtension;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.TestGraphDatabaseFactory;
+
+import javax.management.MBeanAttributeInfo;
+import javax.management.MBeanInfo;
+import javax.management.ObjectName;
+import java.util.Hashtable;
 
 import static java.lang.management.ManagementFactory.getPlatformMBeanServer;
 import static org.junit.Assert.assertEquals;

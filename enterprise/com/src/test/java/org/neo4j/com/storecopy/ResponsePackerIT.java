@@ -36,10 +36,6 @@ package org.neo4j.com.storecopy;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
 import org.neo4j.com.TransactionObligationResponse;
@@ -58,6 +54,9 @@ import org.neo4j.kernel.impl.transaction.log.LogicalTransactionStore;
 import org.neo4j.logging.NullLogProvider;
 import org.neo4j.test.rule.PageCacheRule;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
+
+import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -38,13 +38,13 @@
  */
 package org.neo4j.io.pagecache.randomharness;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-
 import org.neo4j.io.fs.StoreChannel;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.StubPageCursor;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isOneOf;

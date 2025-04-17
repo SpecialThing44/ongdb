@@ -36,7 +36,6 @@ package org.neo4j.com.storecopy;
 
 import org.junit.Test;
 import org.mockito.InOrder;
-
 import org.neo4j.helpers.collection.Iterators;
 import org.neo4j.kernel.api.KernelTransaction;
 import org.neo4j.kernel.api.KernelTransactionHandle;
@@ -51,11 +50,7 @@ import org.neo4j.logging.AssertableLogProvider;
 import static java.util.Collections.emptyList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.kernel.impl.transaction.log.TransactionIdStore.BASE_TX_ID;
 import static org.neo4j.storageengine.api.TransactionApplicationMode.EXTERNAL;
 

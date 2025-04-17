@@ -36,14 +36,13 @@ package org.neo4j.kernel.ha.cluster;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.net.URI;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.member.ClusterMemberEvents;
 import org.neo4j.cluster.member.ClusterMemberListener;
 import org.neo4j.cluster.protocol.election.Election;
 import org.neo4j.kernel.impl.store.StoreId;
+
+import java.net.URI;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;

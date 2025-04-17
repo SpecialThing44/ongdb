@@ -43,9 +43,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import static io.netty.buffer.Unpooled.wrappedBuffer;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.neo4j.bolt.testing.BoltTestUtil.assertByteBufEquals;
 
 public class MessageAccumulatorTest

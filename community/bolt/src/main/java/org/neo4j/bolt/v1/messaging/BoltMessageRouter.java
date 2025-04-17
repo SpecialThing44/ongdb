@@ -38,9 +38,6 @@
  */
 package org.neo4j.bolt.v1.messaging;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.neo4j.bolt.logging.BoltMessageLogger;
 import org.neo4j.bolt.runtime.BoltConnection;
 import org.neo4j.bolt.v1.runtime.Neo4jError;
@@ -49,6 +46,9 @@ import org.neo4j.cypher.result.QueryResult;
 import org.neo4j.logging.Log;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.virtual.MapValue;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * This class is responsible for routing incoming request messages to a worker

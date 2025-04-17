@@ -39,14 +39,11 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.junit.Test;
-
 import org.neo4j.io.pagecache.PageCache;
 
 import static org.junit.Assert.fail;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointer.MIN_GENERATION;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.MAX_GENERATION_OFFSET_MASK;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.read;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.write;
+import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.*;
 
 public class GenerationSafePointerPairAdditionalTest
 {

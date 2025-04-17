@@ -34,9 +34,6 @@
  */
 package org.neo4j.cypher.internal.compiled_runtime.v3_4.codegen
 
-import java.util
-import java.util.function.BiConsumer
-
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
@@ -44,10 +41,10 @@ import org.mockito.stubbing.Answer
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.CompiledExecutionResult
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.Completable
 import org.neo4j.cypher.internal.javacompat.ResultRecord
-import org.neo4j.cypher.internal.runtime.{ExecutionMode, NormalMode, QueryContext}
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
+import org.neo4j.cypher.internal.runtime.{ExecutionMode, NormalMode, QueryContext}
 import org.neo4j.cypher.internal.util.v3_4.TaskCloser
+import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
 import org.neo4j.cypher.internal.v3_4.executionplan.GeneratedQueryExecution
 import org.neo4j.cypher.result.QueryResult.QueryResultVisitor
 import org.neo4j.graphdb.NotFoundException
@@ -58,6 +55,8 @@ import org.neo4j.values.AnyValue
 import org.neo4j.values.storable._
 import org.neo4j.values.virtual.{ListValue, MapValue}
 
+import java.util
+import java.util.function.BiConsumer
 import scala.collection.JavaConverters
 import scala.collection.JavaConverters._
 

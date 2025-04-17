@@ -39,18 +39,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.hamcrest.MockitoHamcrest;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Future;
-
 import org.neo4j.cluster.ClusterSettings;
-import org.neo4j.com.RequestContext;
-import org.neo4j.com.ResourceReleaser;
-import org.neo4j.com.Response;
-import org.neo4j.com.TransactionNotPresentOnMasterException;
-import org.neo4j.com.TransactionObligationResponse;
+import org.neo4j.com.*;
 import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.DeadlockDetectedException;
 import org.neo4j.kernel.configuration.Config;
@@ -70,25 +60,16 @@ import org.neo4j.kernel.impl.util.collection.NoSuchEntryException;
 import org.neo4j.storageengine.api.lock.ResourceType;
 import org.neo4j.test.rule.concurrent.OtherThreadRule;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.neo4j.com.StoreIdTestFactory.newStoreIdForCurrentVersion;
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
 

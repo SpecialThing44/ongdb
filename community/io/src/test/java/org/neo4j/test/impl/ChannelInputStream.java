@@ -38,11 +38,11 @@
  */
 package org.neo4j.test.impl;
 
+import org.neo4j.io.fs.StoreChannel;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-
-import org.neo4j.io.fs.StoreChannel;
 
 public class ChannelInputStream extends InputStream
 {

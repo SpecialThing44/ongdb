@@ -42,13 +42,12 @@ import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-
-import java.util.function.Supplier;
-
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
 import org.neo4j.test.rule.fs.FileSystemRule;
+
+import java.util.function.Supplier;
 
 /**
  * Very often when you want a {@link PageCacheRule} you also want {@link TestDirectory} and some {@link FileSystemRule}.

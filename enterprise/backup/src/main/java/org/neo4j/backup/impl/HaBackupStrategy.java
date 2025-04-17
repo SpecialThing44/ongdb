@@ -34,8 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-
 import org.neo4j.com.ComException;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.configuration.Config;
@@ -44,6 +42,8 @@ import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.nio.file.Path;
 
 class HaBackupStrategy extends LifecycleAdapter implements BackupStrategy
 {

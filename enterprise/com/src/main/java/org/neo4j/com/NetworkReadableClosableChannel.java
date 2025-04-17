@@ -34,13 +34,12 @@
  */
 package org.neo4j.com;
 
-import java.io.IOException;
-
 import org.jboss.netty.buffer.ChannelBuffer;
-
 import org.neo4j.kernel.impl.transaction.log.LogPositionMarker;
 import org.neo4j.kernel.impl.transaction.log.ReadableClosablePositionAwareChannel;
 import org.neo4j.storageengine.api.ReadPastEndException;
+
+import java.io.IOException;
 
 public class NetworkReadableClosableChannel implements ReadableClosablePositionAwareChannel
 {

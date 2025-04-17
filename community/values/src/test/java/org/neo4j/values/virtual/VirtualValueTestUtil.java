@@ -38,18 +38,16 @@
  */
 package org.neo4j.values.virtual;
 
-import java.util.Arrays;
-
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.VirtualValue;
 import org.neo4j.values.storable.TextValue;
 import org.neo4j.values.storable.Values;
 
+import java.util.Arrays;
+
 import static org.neo4j.values.storable.Values.stringArray;
 import static org.neo4j.values.storable.Values.stringValue;
-import static org.neo4j.values.virtual.VirtualValues.relationshipValue;
-import static org.neo4j.values.virtual.VirtualValues.emptyMap;
-import static org.neo4j.values.virtual.VirtualValues.nodeValue;
+import static org.neo4j.values.virtual.VirtualValues.*;
 
 @SuppressWarnings( "WeakerAccess" )
 public class VirtualValueTestUtil

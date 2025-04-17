@@ -38,16 +38,12 @@
  */
 package org.neo4j.io.pagecache.tracing.recording;
 
+import org.neo4j.io.pagecache.PageSwapper;
+import org.neo4j.io.pagecache.tracing.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.neo4j.io.pagecache.PageSwapper;
-import org.neo4j.io.pagecache.tracing.EvictionEvent;
-import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
-import org.neo4j.io.pagecache.tracing.FlushEventOpportunity;
-import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
-import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 
 public class RecordingPageCacheTracer extends RecordingTracer implements PageCacheTracer
 {

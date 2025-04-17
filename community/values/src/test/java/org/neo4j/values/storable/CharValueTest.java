@@ -44,9 +44,7 @@ import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.neo4j.values.storable.Values.EMPTY_STRING;
-import static org.neo4j.values.storable.Values.charValue;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValues.list;
 
 public class CharValueTest

@@ -38,8 +38,6 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
-import java.util.Map;
-
 import org.neo4j.cypher.CypherException;
 import org.neo4j.cypher.internal.CompatibilityFactory;
 import org.neo4j.graphdb.Result;
@@ -49,6 +47,8 @@ import org.neo4j.kernel.impl.query.QueryExecutionKernelException;
 import org.neo4j.kernel.impl.query.TransactionalContext;
 import org.neo4j.logging.LogProvider;
 import org.neo4j.values.virtual.MapValue;
+
+import java.util.Map;
 
 /**
  * To run a Cypher query, use this class.

@@ -42,9 +42,9 @@ import org.neo4j.kernel.ha.com.RequestContextFactory;
 import org.neo4j.kernel.ha.com.master.Master;
 import org.neo4j.kernel.ha.com.slave.InvalidEpochExceptionHandler;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
-import org.neo4j.scheduler.JobScheduler;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.LogProvider;
+import org.neo4j.scheduler.JobScheduler;
 
 /**
  * Helper factory that provide more convenient way of construction and dependency management for update pulling

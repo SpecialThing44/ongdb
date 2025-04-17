@@ -41,33 +41,22 @@ package org.neo4j.io.fs.watcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.neo4j.io.fs.watcher.resource.WatchedResource;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.nio.file.Watchable;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.neo4j.io.fs.watcher.resource.WatchedResource;
-import org.neo4j.test.rule.TestDirectory;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class DefaultFileSystemWatcherTest
 {

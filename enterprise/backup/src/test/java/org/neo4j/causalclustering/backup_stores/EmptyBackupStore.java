@@ -34,10 +34,10 @@
  */
 package org.neo4j.causalclustering.backup_stores;
 
-import java.io.File;
-
 import org.neo4j.causalclustering.discovery.Cluster;
 import org.neo4j.causalclustering.discovery.CoreClusterMember;
+
+import java.io.File;
 
 public class EmptyBackupStore extends AbstractStoreGenerator
 {

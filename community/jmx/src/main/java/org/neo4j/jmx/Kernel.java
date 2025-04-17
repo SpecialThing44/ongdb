@@ -38,9 +38,8 @@
  */
 package org.neo4j.jmx;
 
-import java.util.Date;
-
 import javax.management.ObjectName;
+import java.util.Date;
 
 @ManagementInterface( name = Kernel.NAME )
 @Description( "Information about the ONgDB kernel" )

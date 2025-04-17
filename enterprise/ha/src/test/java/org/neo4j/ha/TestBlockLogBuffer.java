@@ -39,16 +39,15 @@ import org.hamcrest.Description;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.junit.Test;
+import org.neo4j.com.BlockLogBuffer;
+import org.neo4j.com.BlockLogReader;
+import org.neo4j.kernel.monitoring.ByteCounterMonitor;
+import org.neo4j.kernel.monitoring.Monitors;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
-
-import org.neo4j.com.BlockLogBuffer;
-import org.neo4j.com.BlockLogReader;
-import org.neo4j.kernel.monitoring.ByteCounterMonitor;
-import org.neo4j.kernel.monitoring.Monitors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;

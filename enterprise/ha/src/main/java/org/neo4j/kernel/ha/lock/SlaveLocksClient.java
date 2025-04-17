@@ -34,14 +34,6 @@
  */
 package org.neo4j.kernel.ha.lock;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.neo4j.collection.primitive.Primitive;
 import org.neo4j.collection.primitive.PrimitiveLongCollections;
 import org.neo4j.collection.primitive.PrimitiveLongList;
@@ -54,16 +46,19 @@ import org.neo4j.kernel.AvailabilityGuard.UnavailableException;
 import org.neo4j.kernel.DeadlockDetectedException;
 import org.neo4j.kernel.ha.com.RequestContextFactory;
 import org.neo4j.kernel.ha.com.master.Master;
-import org.neo4j.kernel.impl.locking.ActiveLock;
-import org.neo4j.kernel.impl.locking.LockClientStoppedException;
-import org.neo4j.kernel.impl.locking.LockTracer;
-import org.neo4j.kernel.impl.locking.LockWaitEvent;
-import org.neo4j.kernel.impl.locking.Locks;
-import org.neo4j.kernel.impl.locking.ResourceTypes;
+import org.neo4j.kernel.impl.locking.*;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
 import org.neo4j.storageengine.api.lock.AcquireLockTimeoutException;
 import org.neo4j.storageengine.api.lock.ResourceType;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.neo4j.kernel.impl.locking.LockType.READ;
 import static org.neo4j.kernel.impl.locking.LockType.WRITE;

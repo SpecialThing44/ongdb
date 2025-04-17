@@ -42,23 +42,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
-
-import java.net.InetSocketAddress;
-import java.time.Duration;
-import java.util.UUID;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.neo4j.bolt.testing.Jobs;
 import org.neo4j.function.Predicates;
 import org.neo4j.kernel.impl.logging.LogService;
@@ -66,14 +49,17 @@ import org.neo4j.kernel.impl.logging.SimpleLogService;
 import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.scheduler.JobScheduler;
 
+import java.net.InetSocketAddress;
+import java.time.Duration;
+import java.util.UUID;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ExecutorBoltSchedulerConcurrencyTest
 {

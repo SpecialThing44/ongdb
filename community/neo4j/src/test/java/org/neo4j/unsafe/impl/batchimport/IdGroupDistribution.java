@@ -38,10 +38,10 @@
  */
 package org.neo4j.unsafe.impl.batchimport;
 
-import java.util.Random;
-
 import org.neo4j.unsafe.impl.batchimport.input.Group;
 import org.neo4j.unsafe.impl.batchimport.input.Groups;
+
+import java.util.Random;
 
 /**
  * A little utility for randomizing dividing up nodes into {@link Group id spaces}.

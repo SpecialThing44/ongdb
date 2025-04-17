@@ -42,15 +42,12 @@ import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.TextValue;
 import org.neo4j.values.virtual.RelationshipValue;
 
-import static org.neo4j.bolt.v1.messaging.example.Nodes.ALICE;
-import static org.neo4j.bolt.v1.messaging.example.Nodes.BOB;
-import static org.neo4j.bolt.v1.messaging.example.Nodes.CAROL;
-import static org.neo4j.bolt.v1.messaging.example.Nodes.DAVE;
+import static org.neo4j.bolt.v1.messaging.example.Nodes.*;
 import static org.neo4j.bolt.v1.messaging.example.Support.NO_PROPERTIES;
 import static org.neo4j.values.storable.Values.longValue;
 import static org.neo4j.values.storable.Values.stringValue;
-import static org.neo4j.values.virtual.VirtualValues.relationshipValue;
 import static org.neo4j.values.virtual.VirtualValues.map;
+import static org.neo4j.values.virtual.VirtualValues.relationshipValue;
 
 public class Edges
 {

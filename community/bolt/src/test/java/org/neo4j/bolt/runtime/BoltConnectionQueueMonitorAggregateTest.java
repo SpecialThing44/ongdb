@@ -39,11 +39,10 @@
 package org.neo4j.bolt.runtime;
 
 import org.junit.Test;
+import org.neo4j.bolt.v1.runtime.Job;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.neo4j.bolt.v1.runtime.Job;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

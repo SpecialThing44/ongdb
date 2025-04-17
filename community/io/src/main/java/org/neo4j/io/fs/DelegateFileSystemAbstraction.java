@@ -38,33 +38,20 @@
  */
 package org.neo4j.io.fs;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
+import org.neo4j.io.IOUtils;
+import org.neo4j.io.fs.watcher.DefaultFileSystemWatcher;
+import org.neo4j.io.fs.watcher.FileWatcher;
+
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.nio.file.CopyOption;
-import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import org.neo4j.io.IOUtils;
-import org.neo4j.io.fs.watcher.DefaultFileSystemWatcher;
-import org.neo4j.io.fs.watcher.FileWatcher;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 

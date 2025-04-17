@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha.management;
 
-import java.util.function.Function;
-
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.kernel.ha.LastUpdateTime;
 import org.neo4j.kernel.ha.cluster.member.ClusterMember;
@@ -43,6 +41,8 @@ import org.neo4j.kernel.ha.cluster.member.ClusterMembers;
 import org.neo4j.kernel.impl.core.LastTxIdGetter;
 import org.neo4j.management.ClusterDatabaseInfo;
 import org.neo4j.management.ClusterMemberInfo;
+
+import java.util.function.Function;
 
 public class ClusterDatabaseInfoProvider
 {

@@ -40,13 +40,12 @@ package org.neo4j.io.pagecache.tracing;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-
 import org.neo4j.io.ByteUnit;
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.tracing.cursor.DefaultPageCursorTracer;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracer;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 

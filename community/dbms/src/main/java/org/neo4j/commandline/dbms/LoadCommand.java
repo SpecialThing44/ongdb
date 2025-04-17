@@ -38,19 +38,11 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.io.IOException;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.IncorrectUsage;
 import org.neo4j.commandline.arguments.Arguments;
 import org.neo4j.commandline.arguments.OptionalBooleanArg;
-import org.neo4j.commandline.arguments.common.Database;
 import org.neo4j.commandline.arguments.common.MandatoryCanonicalPath;
 import org.neo4j.dbms.archive.IncorrectFormat;
 import org.neo4j.dbms.archive.Loader;
@@ -58,11 +50,11 @@ import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.io.fs.FileUtils;
 import org.neo4j.kernel.configuration.Config;
 
+import java.io.IOException;
+import java.nio.file.*;
+
 import static java.util.Objects.requireNonNull;
-import static org.neo4j.commandline.Util.canonicalPath;
-import static org.neo4j.commandline.Util.checkLock;
-import static org.neo4j.commandline.Util.isSameOrChildPath;
-import static org.neo4j.commandline.Util.wrapIOException;
+import static org.neo4j.commandline.Util.*;
 import static org.neo4j.commandline.arguments.common.Database.ARG_DATABASE;
 import static org.neo4j.graphdb.factory.GraphDatabaseSettings.database_path;
 import static org.neo4j.graphdb.factory.GraphDatabaseSettings.logical_logs_location;

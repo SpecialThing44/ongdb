@@ -39,18 +39,8 @@ import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-
 import org.neo4j.cluster.ClusterSettings;
-import org.neo4j.graphdb.DependencyResolver;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.TransactionTerminatedException;
-import org.neo4j.graphdb.TransientTransactionFailureException;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.TestHighlyAvailableGraphDatabaseFactory;
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.io.fs.FileSystemAbstraction;
@@ -69,18 +59,16 @@ import org.neo4j.ports.allocation.PortAuthority;
 import org.neo4j.test.rule.LoggerRule;
 import org.neo4j.test.rule.TestDirectory;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.helpers.Exceptions.rootCause;
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
 import static org.neo4j.io.pagecache.impl.muninn.StandalonePageCacheFactory.createPageCache;
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.clusterOfSize;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterSeesSlavesAsAvailable;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 import static org.neo4j.kernel.impl.store.MetaDataStore.Position.LAST_TRANSACTION_COMMIT_TIMESTAMP;
 
 public class ClusterIT

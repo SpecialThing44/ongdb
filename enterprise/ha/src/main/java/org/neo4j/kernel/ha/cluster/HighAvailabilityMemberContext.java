@@ -34,9 +34,9 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
-import java.net.URI;
-
 import org.neo4j.cluster.InstanceId;
+
+import java.net.URI;
 
 public interface HighAvailabilityMemberContext
 {

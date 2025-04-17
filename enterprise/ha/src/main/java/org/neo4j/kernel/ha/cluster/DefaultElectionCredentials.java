@@ -34,12 +34,12 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
+import org.neo4j.cluster.protocol.election.ElectionCredentials;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import org.neo4j.cluster.protocol.election.ElectionCredentials;
 
 public final class DefaultElectionCredentials implements ElectionCredentials, Externalizable
 {

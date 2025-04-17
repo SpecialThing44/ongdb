@@ -38,14 +38,11 @@
  */
 package org.neo4j.csv.reader;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PushbackInputStream;
-import java.io.Reader;
-import java.io.StringReader;
+import org.neo4j.collection.RawIterator;
+import org.neo4j.function.IOFunction;
+import org.neo4j.function.ThrowingFunction;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,10 +51,6 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import org.neo4j.collection.RawIterator;
-import org.neo4j.function.IOFunction;
-import org.neo4j.function.ThrowingFunction;
 
 /**
  * Means of instantiating common {@link CharReadable} instances.

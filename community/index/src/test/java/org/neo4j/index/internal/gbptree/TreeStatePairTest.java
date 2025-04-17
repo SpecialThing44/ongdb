@@ -43,12 +43,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.io.pagecache.PageCursor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.neo4j.io.pagecache.PageCursor;
 
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;

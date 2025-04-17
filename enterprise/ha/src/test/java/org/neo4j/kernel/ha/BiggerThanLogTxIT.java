@@ -37,9 +37,6 @@ package org.neo4j.kernel.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -48,6 +45,8 @@ import org.neo4j.helpers.TransactionTemplate;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.test.ha.ClusterRule;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.neo4j.kernel.configuration.Settings.parseLongWithUnit;

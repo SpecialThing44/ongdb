@@ -43,18 +43,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestName;
-
-import java.util.Arrays;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.TransactionFailureException;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.schema.IndexDefinition;
 import org.neo4j.test.mockito.matcher.Neo4jMatchers;
 import org.neo4j.test.rule.ImpermanentDatabaseRule;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;

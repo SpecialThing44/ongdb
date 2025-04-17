@@ -38,25 +38,17 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.neo4j.cypher.internal.util.v3_4.ArithmeticException;
 import org.neo4j.cypher.internal.util.v3_4.CypherTypeException;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
-import org.neo4j.values.storable.ArrayValue;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.IntegralValue;
-import org.neo4j.values.storable.NumberValue;
-import org.neo4j.values.storable.PointValue;
-import org.neo4j.values.storable.TemporalValue;
-import org.neo4j.values.storable.TextValue;
-import org.neo4j.values.storable.Value;
-import org.neo4j.values.storable.Values;
+import org.neo4j.values.storable.*;
 import org.neo4j.values.virtual.ListValue;
 import org.neo4j.values.virtual.VirtualValues;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is a helper class used by compiled plans for doing basic math operations

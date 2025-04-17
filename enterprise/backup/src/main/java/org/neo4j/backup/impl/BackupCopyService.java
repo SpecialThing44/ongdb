@@ -34,6 +34,14 @@
  */
 package org.neo4j.backup.impl;
 
+import org.neo4j.com.storecopy.FileMoveAction;
+import org.neo4j.com.storecopy.FileMoveProvider;
+import org.neo4j.helpers.Exceptions;
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.kernel.impl.store.MetaDataStore;
+import org.neo4j.kernel.impl.store.id.IdGeneratorImpl;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -44,14 +52,6 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import org.neo4j.com.storecopy.FileMoveAction;
-import org.neo4j.com.storecopy.FileMoveProvider;
-import org.neo4j.helpers.Exceptions;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.kernel.impl.store.MetaDataStore;
-import org.neo4j.kernel.impl.store.id.IdGeneratorImpl;
 
 import static java.lang.String.format;
 

@@ -38,12 +38,12 @@
  */
 package org.neo4j.dbms;
 
-import java.io.File;
-
 import org.neo4j.configuration.Internal;
 import org.neo4j.configuration.LoadableConfig;
 import org.neo4j.graphdb.config.Setting;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
+
+import java.io.File;
 
 import static org.neo4j.kernel.configuration.Settings.PATH;
 import static org.neo4j.kernel.configuration.Settings.derivedSetting;

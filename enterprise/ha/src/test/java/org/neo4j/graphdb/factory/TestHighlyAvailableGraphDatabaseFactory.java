@@ -34,11 +34,11 @@
  */
 package org.neo4j.graphdb.factory;
 
-import java.util.Collections;
-import java.util.function.Predicate;
-
 import org.neo4j.kernel.extension.KernelExtensionFactory;
 import org.neo4j.kernel.impl.ha.ClusterManager;
+
+import java.util.Collections;
+import java.util.function.Predicate;
 
 public class TestHighlyAvailableGraphDatabaseFactory extends HighlyAvailableGraphDatabaseFactory
 {

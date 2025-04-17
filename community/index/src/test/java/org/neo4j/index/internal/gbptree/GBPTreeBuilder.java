@@ -38,17 +38,14 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-import org.neo4j.index.internal.gbptree.GBPTree.Monitor;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.io.pagecache.PageCursor;
-
-import static org.neo4j.index.internal.gbptree.GBPTree.NO_HEADER_READER;
-import static org.neo4j.index.internal.gbptree.GBPTree.NO_HEADER_WRITER;
-import static org.neo4j.index.internal.gbptree.GBPTree.NO_MONITOR;
+import static org.neo4j.index.internal.gbptree.GBPTree.*;
 
 /**
  * Convenient builder for a {@link GBPTree}. Either created using zero-argument constructor for maximum

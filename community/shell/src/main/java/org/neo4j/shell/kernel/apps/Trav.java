@@ -38,30 +38,15 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.traversal.BranchOrderingPolicies;
-import org.neo4j.graphdb.traversal.BranchOrderingPolicy;
-import org.neo4j.graphdb.traversal.TraversalDescription;
-import org.neo4j.graphdb.traversal.Uniqueness;
-import org.neo4j.graphdb.traversal.UniquenessFactory;
+import org.neo4j.graphdb.traversal.*;
 import org.neo4j.helpers.Service;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
+
+import java.rmi.RemoteException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 import static org.neo4j.graphdb.traversal.Evaluators.toDepth;

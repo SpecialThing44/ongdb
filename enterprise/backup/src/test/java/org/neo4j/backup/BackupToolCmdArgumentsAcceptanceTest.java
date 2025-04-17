@@ -39,21 +39,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
-
-import java.io.PrintStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-import java.util.Map;
-
 import org.neo4j.backup.impl.BackupClient;
 import org.neo4j.backup.impl.BackupProtocolService;
 import org.neo4j.backup.impl.ConsistencyCheck;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.kernel.configuration.Config;
+
+import java.io.PrintStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;

@@ -38,11 +38,7 @@
  */
 package org.neo4j.time;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 
 /**
  * A {@link java.time.Clock} that ticks every time it is accessed.

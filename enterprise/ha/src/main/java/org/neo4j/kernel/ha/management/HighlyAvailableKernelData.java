@@ -34,11 +34,6 @@
  */
 package org.neo4j.kernel.ha.management;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.configuration.Config;
@@ -50,6 +45,11 @@ import org.neo4j.kernel.internal.Version;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.management.ClusterDatabaseInfo;
 import org.neo4j.management.ClusterMemberInfo;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 
 import static org.neo4j.helpers.collection.Iterables.asArray;
 import static org.neo4j.helpers.collection.Iterables.map;

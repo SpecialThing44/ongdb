@@ -38,12 +38,12 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.util.ArrayList;
-
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.Relationship;
+
+import java.util.ArrayList;
 
 public abstract class NodeOrRelationship
 {

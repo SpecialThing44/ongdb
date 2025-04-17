@@ -35,14 +35,7 @@
 package org.neo4j.kernel.ha.com.master;
 
 import org.neo4j.cluster.InstanceId;
-import org.neo4j.com.Client;
-import org.neo4j.com.ObjectSerializer;
-import org.neo4j.com.Protocol;
-import org.neo4j.com.ProtocolVersion;
-import org.neo4j.com.RequestContext;
-import org.neo4j.com.RequestType;
-import org.neo4j.com.Response;
-import org.neo4j.com.TargetCaller;
+import org.neo4j.com.*;
 import org.neo4j.com.monitor.RequestMonitor;
 import org.neo4j.kernel.NeoStoreDataSource;
 import org.neo4j.kernel.ha.HaSettings;
@@ -53,9 +46,7 @@ import org.neo4j.kernel.impl.transaction.log.entry.LogEntryReader;
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 import org.neo4j.logging.LogProvider;
 
-import static org.neo4j.com.Protocol.VOID_SERIALIZER;
-import static org.neo4j.com.Protocol.readString;
-import static org.neo4j.com.Protocol.writeString;
+import static org.neo4j.com.Protocol.*;
 import static org.neo4j.com.storecopy.ResponseUnpacker.NO_OP_RESPONSE_UNPACKER;
 
 public class SlaveClient extends Client<Slave> implements Slave

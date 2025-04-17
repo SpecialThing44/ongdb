@@ -39,9 +39,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.time.Duration;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.ha.HaSettings;
@@ -49,13 +46,12 @@ import org.neo4j.kernel.ha.cluster.ConversationSPI;
 import org.neo4j.kernel.impl.util.collection.TimedRepository;
 import org.neo4j.scheduler.JobScheduler;
 
+import java.time.Duration;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith( MockitoJUnitRunner.class )
 public class ConversationManagerTest

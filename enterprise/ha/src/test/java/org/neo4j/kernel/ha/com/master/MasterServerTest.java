@@ -36,7 +36,6 @@ package org.neo4j.kernel.ha.com.master;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Server;
 import org.neo4j.com.TxChecksumVerifier;

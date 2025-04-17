@@ -38,15 +38,15 @@
  */
 package org.neo4j.io.pagecache.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
-
 import org.neo4j.graphdb.config.Configuration;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageEvictionCallback;
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.PageSwapperFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 
 /**
  * A factory for SingleFilePageSwapper instances.

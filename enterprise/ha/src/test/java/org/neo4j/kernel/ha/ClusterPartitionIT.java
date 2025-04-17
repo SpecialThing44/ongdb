@@ -36,10 +36,6 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -50,20 +46,19 @@ import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberChangeEvent;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberListener;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberStateMachine;
 import org.neo4j.kernel.impl.ha.ClusterManager;
-import org.neo4j.kernel.impl.ha.ClusterManager.NetworkFlag;
+import org.neo4j.kernel.impl.ha.ClusterManager.*;
 import org.neo4j.test.rule.LoggerRule;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
 import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.PENDING;
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.instanceEvicted;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterSeesSlavesAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.memberSeesOtherMemberAsFailed;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 import static org.neo4j.test.rule.DatabaseRule.tx;
 import static org.neo4j.test.rule.RetryACoupleOfTimesHandler.TRANSIENT_ERRORS;
 import static org.neo4j.test.rule.RetryACoupleOfTimesHandler.retryACoupleOfTimesOn;

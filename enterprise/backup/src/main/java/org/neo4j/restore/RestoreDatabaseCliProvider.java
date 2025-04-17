@@ -34,14 +34,14 @@
  */
 package org.neo4j.restore;
 
-import java.nio.file.Path;
-import javax.annotation.Nonnull;
-
 import org.neo4j.OnlineBackupCommandSection;
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.AdminCommandSection;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.commandline.arguments.Arguments;
+
+import javax.annotation.Nonnull;
+import java.nio.file.Path;
 
 public class RestoreDatabaseCliProvider extends AdminCommand.Provider
 {

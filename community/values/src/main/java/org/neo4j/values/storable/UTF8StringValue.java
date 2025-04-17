@@ -38,11 +38,11 @@
  */
 package org.neo4j.values.storable;
 
+import org.neo4j.hashing.HashFunction;
+
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.neo4j.hashing.HashFunction;
 
 import static org.neo4j.values.storable.Values.utf8Value;
 

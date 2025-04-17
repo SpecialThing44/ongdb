@@ -40,15 +40,7 @@ package org.neo4j.index;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.neo4j.graphdb.DependencyResolver;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.kernel.NeoStoreDataSource;
 import org.neo4j.kernel.impl.storageengine.impl.recordstorage.RecordStorageEngine;
@@ -57,6 +49,9 @@ import org.neo4j.kernel.lifecycle.LifecycleListener;
 import org.neo4j.kernel.lifecycle.LifecycleStatus;
 import org.neo4j.test.rule.DatabaseRule;
 import org.neo4j.test.rule.ImpermanentDatabaseRule;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.Assert.assertTrue;
 

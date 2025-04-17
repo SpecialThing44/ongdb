@@ -39,21 +39,6 @@
 package org.neo4j.io.pagecache;
 
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.neo4j.adversaries.RandomAdversary;
 import org.neo4j.adversaries.fs.AdversarialFileSystemAbstraction;
 import org.neo4j.graphdb.mockfs.EphemeralFileSystemAbstraction;
@@ -65,14 +50,16 @@ import org.neo4j.io.pagecache.tracing.linear.LinearHistoryTracerFactory;
 import org.neo4j.io.pagecache.tracing.linear.LinearTracers;
 import org.neo4j.test.rule.RepeatRule;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_READ_LOCK;
 import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_WRITE_LOCK;

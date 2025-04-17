@@ -38,13 +38,9 @@
  */
 package org.neo4j.codegen.source;
 
-import java.util.List;
+import org.neo4j.codegen.*;
 
-import org.neo4j.codegen.ByteCodes;
-import org.neo4j.codegen.CodeGenerationStrategy;
-import org.neo4j.codegen.CodeGenerationStrategyNotSupportedException;
-import org.neo4j.codegen.CodeGeneratorOption;
-import org.neo4j.codegen.CompilationFailureException;
+import java.util.List;
 
 interface SourceCompiler
 {

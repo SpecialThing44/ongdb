@@ -38,9 +38,9 @@
  */
 package org.neo4j.bolt.security.auth;
 
-import java.io.IOException;
-
 import org.neo4j.kernel.api.exceptions.Status;
+
+import java.io.IOException;
 
 public class AuthenticationException extends IOException implements Status.HasStatus
 {

@@ -38,62 +38,19 @@
  */
 package org.neo4j.values;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZonedDateTime;
+import org.neo4j.graphdb.spatial.Point;
+import org.neo4j.values.storable.*;
+import org.neo4j.values.virtual.MapValue;
+import org.neo4j.values.virtual.PathValue;
+import org.neo4j.values.virtual.VirtualNodeValue;
+import org.neo4j.values.virtual.VirtualRelationshipValue;
+
+import java.time.*;
 import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.neo4j.graphdb.spatial.Point;
-import org.neo4j.values.storable.BooleanArray;
-import org.neo4j.values.storable.BooleanValue;
-import org.neo4j.values.storable.ByteArray;
-import org.neo4j.values.storable.ByteValue;
-import org.neo4j.values.storable.CharArray;
-import org.neo4j.values.storable.CharValue;
-import org.neo4j.values.storable.DateArray;
-import org.neo4j.values.storable.DateTimeArray;
-import org.neo4j.values.storable.DateTimeValue;
-import org.neo4j.values.storable.DateValue;
-import org.neo4j.values.storable.DoubleArray;
-import org.neo4j.values.storable.DoubleValue;
-import org.neo4j.values.storable.DurationArray;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.FloatArray;
-import org.neo4j.values.storable.FloatValue;
-import org.neo4j.values.storable.FloatingPointArray;
-import org.neo4j.values.storable.FloatingPointValue;
-import org.neo4j.values.storable.IntArray;
-import org.neo4j.values.storable.IntValue;
-import org.neo4j.values.storable.IntegralArray;
-import org.neo4j.values.storable.IntegralValue;
-import org.neo4j.values.storable.LocalDateTimeArray;
-import org.neo4j.values.storable.LocalDateTimeValue;
-import org.neo4j.values.storable.LocalTimeArray;
-import org.neo4j.values.storable.LocalTimeValue;
-import org.neo4j.values.storable.LongArray;
-import org.neo4j.values.storable.LongValue;
-import org.neo4j.values.storable.NumberArray;
-import org.neo4j.values.storable.NumberValue;
-import org.neo4j.values.storable.PointArray;
-import org.neo4j.values.storable.PointValue;
-import org.neo4j.values.storable.ShortArray;
-import org.neo4j.values.storable.ShortValue;
-import org.neo4j.values.storable.StringArray;
-import org.neo4j.values.storable.StringValue;
-import org.neo4j.values.storable.TextArray;
-import org.neo4j.values.storable.TextValue;
-import org.neo4j.values.storable.TimeArray;
-import org.neo4j.values.storable.TimeValue;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.PathValue;
-import org.neo4j.values.virtual.VirtualNodeValue;
-import org.neo4j.values.virtual.VirtualRelationshipValue;
 
 public interface ValueMapper<Base>
 {

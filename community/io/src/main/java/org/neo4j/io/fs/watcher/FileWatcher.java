@@ -38,12 +38,12 @@
  */
 package org.neo4j.io.fs.watcher;
 
+import org.neo4j.io.fs.watcher.resource.WatchedResource;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.WatchService;
-
-import org.neo4j.io.fs.watcher.resource.WatchedResource;
 
 /**
  * Watcher that allows receive notification about files modifications/removal for particular underlying file system.

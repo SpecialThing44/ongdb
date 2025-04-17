@@ -38,12 +38,6 @@
  */
 package org.neo4j.shell.kernel;
 
-import java.io.File;
-import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.neo4j.graphdb.factory.GraphDatabaseBuilder;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
@@ -52,16 +46,16 @@ import org.neo4j.kernel.api.KernelTransaction;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Response;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.ShellServer;
-import org.neo4j.shell.Variables;
-import org.neo4j.shell.Welcome;
+import org.neo4j.shell.*;
 import org.neo4j.shell.impl.AbstractAppServer;
 import org.neo4j.shell.impl.BashVariableInterpreter.Replacer;
 import org.neo4j.shell.kernel.apps.TransactionProvidingApp;
+
+import java.io.File;
+import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.neo4j.shell.Variables.PROMPT_KEY;
 

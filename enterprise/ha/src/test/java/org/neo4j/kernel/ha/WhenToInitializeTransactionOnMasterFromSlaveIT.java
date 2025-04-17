@@ -37,14 +37,7 @@ package org.neo4j.kernel.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.PropertyContainer;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.kernel.ha.com.master.MasterImpl;
 import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.kernel.monitoring.Monitors;

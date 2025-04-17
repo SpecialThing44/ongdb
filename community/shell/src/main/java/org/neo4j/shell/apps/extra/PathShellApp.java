@@ -38,23 +38,18 @@
  */
 package org.neo4j.shell.apps.extra;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Map;
-
 import org.neo4j.graphalgo.GraphAlgoFactory;
 import org.neo4j.graphalgo.PathFinder;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.PathExpander;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
+import org.neo4j.shell.*;
 import org.neo4j.shell.kernel.apps.NonTransactionProvidingApp;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Map;
 
 public class PathShellApp extends NonTransactionProvidingApp
 {

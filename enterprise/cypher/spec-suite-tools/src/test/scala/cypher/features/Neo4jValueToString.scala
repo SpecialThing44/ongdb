@@ -34,12 +34,11 @@
  */
 package cypher.features
 
-import java.time._
-import java.time.temporal.TemporalAmount
-
 import org.neo4j.graphdb.{Node, Path, Relationship}
 import org.neo4j.values.storable.DurationValue
 
+import java.time._
+import java.time.temporal.TemporalAmount
 import scala.collection.JavaConverters._
 
 object Neo4jValueToString extends (Any => String) {

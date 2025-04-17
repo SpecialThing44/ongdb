@@ -38,12 +38,12 @@
  */
 package org.neo4j.io.pagecache.impl;
 
+import org.neo4j.io.pagecache.CursorException;
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import org.neo4j.io.pagecache.CursorException;
-import org.neo4j.io.pagecache.PageCursor;
 
 /**
  * A {@link PageCursor} implementation that delegates all calls to a given delegate PageCursor.

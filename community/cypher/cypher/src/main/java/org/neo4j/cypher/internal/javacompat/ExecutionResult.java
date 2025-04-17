@@ -38,6 +38,13 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
+import org.neo4j.cypher.CypherException;
+import org.neo4j.cypher.internal.runtime.InternalExecutionResult;
+import org.neo4j.cypher.result.QueryResult;
+import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.QueryExecutionType.QueryType;
+import org.neo4j.kernel.impl.query.QueryExecutionEngine;
+import org.neo4j.kernel.impl.query.QueryExecutionKernelException;
 import scala.collection.JavaConversions;
 
 import java.io.PrintWriter;
@@ -45,21 +52,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
-
-import org.neo4j.cypher.CypherException;
-import org.neo4j.cypher.internal.runtime.InternalExecutionResult;
-import org.neo4j.cypher.result.QueryResult;
-import org.neo4j.graphdb.ExecutionPlanDescription;
-import org.neo4j.graphdb.Notification;
-import org.neo4j.graphdb.QueryExecutionException;
-import org.neo4j.graphdb.QueryExecutionType;
-import org.neo4j.graphdb.QueryExecutionType.QueryType;
-import org.neo4j.graphdb.QueryStatistics;
-import org.neo4j.graphdb.ResourceIterable;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Result;
-import org.neo4j.kernel.impl.query.QueryExecutionEngine;
-import org.neo4j.kernel.impl.query.QueryExecutionKernelException;
 
 /**
  * Holds Cypher query result sets, in tabular form. Each row of the result is a map

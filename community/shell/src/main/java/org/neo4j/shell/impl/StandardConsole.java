@@ -38,12 +38,12 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.shell.Console;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-
-import org.neo4j.shell.Console;
 
 /**
  * Uses System.in and System.out

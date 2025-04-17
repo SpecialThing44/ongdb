@@ -38,22 +38,15 @@
  */
 package org.neo4j.graphdb.mockfs;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.nio.file.CopyOption;
-
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.fs.OpenMode;
 import org.neo4j.io.fs.StoreChannel;
 import org.neo4j.test.impl.ChannelInputStream;
 import org.neo4j.test.impl.ChannelOutputStream;
+
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.CopyOption;
 
 public class LimitedFilesystemAbstraction extends DelegatingFileSystemAbstraction
 {

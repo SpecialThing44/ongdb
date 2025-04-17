@@ -34,8 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-
 import org.neo4j.consistency.ConsistencyCheckService;
 import org.neo4j.consistency.checking.full.ConsistencyCheckIncompleteException;
 import org.neo4j.consistency.checking.full.ConsistencyFlags;
@@ -44,6 +42,8 @@ import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.logging.LogProvider;
+
+import java.nio.file.Path;
 
 public interface ConsistencyCheck
 {

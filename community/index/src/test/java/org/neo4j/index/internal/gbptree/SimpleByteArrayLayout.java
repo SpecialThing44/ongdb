@@ -38,9 +38,9 @@
  */
 package org.neo4j.index.internal.gbptree;
 
-import java.nio.ByteBuffer;
-
 import org.neo4j.io.pagecache.PageCursor;
+
+import java.nio.ByteBuffer;
 
 public class SimpleByteArrayLayout extends TestLayout<RawBytes,RawBytes>
 {

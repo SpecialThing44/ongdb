@@ -34,9 +34,6 @@
  */
 package org.neo4j.backup;
 
-import java.net.URI;
-import java.util.function.Supplier;
-
 import org.neo4j.backup.impl.BackupImpl;
 import org.neo4j.backup.impl.BackupServer;
 import org.neo4j.cluster.BindingListener;
@@ -66,6 +63,9 @@ import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.LogProvider;
+
+import java.net.URI;
+import java.util.function.Supplier;
 
 import static org.neo4j.kernel.impl.enterprise.configuration.OnlineBackupSettings.online_backup_server;
 

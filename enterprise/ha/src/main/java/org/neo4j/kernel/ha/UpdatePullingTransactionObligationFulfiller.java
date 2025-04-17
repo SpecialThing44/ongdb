@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.util.function.Supplier;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.com.storecopy.TransactionObligationFulfiller;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberChangeEvent;
@@ -43,6 +41,8 @@ import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberListener;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberStateMachine;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
+
+import java.util.function.Supplier;
 
 /**
  * Fulfills transaction obligations by poking {@link UpdatePuller} and awaiting it to commit and apply

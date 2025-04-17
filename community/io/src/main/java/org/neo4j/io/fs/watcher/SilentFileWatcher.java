@@ -38,10 +38,9 @@
  */
 package org.neo4j.io.fs.watcher;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.io.fs.watcher.resource.WatchedResource;
+
+import java.io.File;
 
 /**
  * Silent file watcher implementation that do not perform any monitoring and can't observe any directories status or

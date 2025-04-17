@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha.management;
 
-import javax.management.NotCompliantMBeanException;
-
 import org.neo4j.helpers.Format;
 import org.neo4j.helpers.Service;
 import org.neo4j.jmx.impl.ManagementBeanProvider;
@@ -45,6 +43,8 @@ import org.neo4j.kernel.ha.HighlyAvailableGraphDatabase;
 import org.neo4j.kernel.ha.UpdatePuller;
 import org.neo4j.management.ClusterMemberInfo;
 import org.neo4j.management.HighAvailability;
+
+import javax.management.NotCompliantMBeanException;
 
 @Service.Implementation( ManagementBeanProvider.class )
 public final class HighAvailabilityBean extends ManagementBeanProvider

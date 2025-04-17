@@ -39,12 +39,11 @@
 package org.neo4j.bolt.runtime;
 
 import io.netty.channel.Channel;
+import org.neo4j.bolt.v1.packstream.PackOutput;
+import org.neo4j.bolt.v1.runtime.Job;
 
 import java.net.SocketAddress;
 import java.util.concurrent.RejectedExecutionException;
-
-import org.neo4j.bolt.v1.packstream.PackOutput;
-import org.neo4j.bolt.v1.runtime.Job;
 
 public interface BoltConnection
 {

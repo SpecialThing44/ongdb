@@ -35,16 +35,15 @@
 package org.neo4j.com.storecopy;
 
 import org.apache.commons.lang3.StringUtils;
+import org.neo4j.io.fs.FileHandle;
+import org.neo4j.io.fs.FileUtils;
+import org.neo4j.io.pagecache.PageCache;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
-import org.neo4j.io.fs.FileUtils;
-import org.neo4j.io.fs.FileHandle;
-import org.neo4j.io.pagecache.PageCache;
 
 import static org.neo4j.io.fs.FileHandle.HANDLE_DELETE;
 

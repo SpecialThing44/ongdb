@@ -39,10 +39,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
-
-import java.io.IOException;
-import java.nio.file.Path;
-
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.consistency.checking.full.ConsistencyFlags;
 import org.neo4j.io.fs.FileSystemAbstraction;
@@ -53,14 +49,13 @@ import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
 import org.neo4j.test.rule.TestDirectory;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class BackupStrategyWrapperTest
 {

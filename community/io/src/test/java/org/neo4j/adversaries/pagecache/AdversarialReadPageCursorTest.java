@@ -39,11 +39,10 @@
 package org.neo4j.adversaries.pagecache;
 
 import org.junit.Test;
-
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.neo4j.io.pagecache.ByteArrayPageCursor;
 import org.neo4j.test.rule.PageCacheRule;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
 

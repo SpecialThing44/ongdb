@@ -38,12 +38,12 @@
  */
 package org.neo4j.values;
 
-import java.util.Comparator;
-
 import org.neo4j.values.storable.Value;
 import org.neo4j.values.storable.ValueComparator;
 import org.neo4j.values.storable.Values;
 import org.neo4j.values.virtual.VirtualValueGroup;
+
+import java.util.Comparator;
 
 /**
  * Comparator for any values.

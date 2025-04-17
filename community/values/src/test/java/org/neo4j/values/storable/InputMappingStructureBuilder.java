@@ -38,9 +38,9 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.function.Function;
-
 import org.neo4j.values.StructureBuilder;
+
+import java.util.function.Function;
 
 public final class InputMappingStructureBuilder<Input, Internal, Result> implements StructureBuilder<Input,Result>
 {

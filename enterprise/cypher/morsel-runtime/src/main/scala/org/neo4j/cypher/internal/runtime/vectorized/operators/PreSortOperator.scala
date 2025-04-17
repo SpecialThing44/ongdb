@@ -34,13 +34,13 @@
  */
 package org.neo4j.cypher.internal.runtime.vectorized.operators
 
-import java.util.Comparator
-
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.{LongSlot, RefSlot, SlotConfiguration}
 import org.neo4j.cypher.internal.runtime.QueryContext
 import org.neo4j.cypher.internal.runtime.slotted.pipes.ColumnOrder
 import org.neo4j.cypher.internal.runtime.vectorized.{Iteration, MiddleOperator, Morsel, QueryState}
 import org.neo4j.values.AnyValue
+
+import java.util.Comparator
 
 /*
 Responsible for sorting the Morsel in place, which will then be merged together with other sorted Morsels

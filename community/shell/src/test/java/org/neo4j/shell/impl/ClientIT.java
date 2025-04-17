@@ -39,18 +39,13 @@
 package org.neo4j.shell.impl;
 
 import org.junit.Test;
+import org.neo4j.shell.*;
+import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Response;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.ShellServer;
-import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.contains;

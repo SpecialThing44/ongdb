@@ -36,10 +36,6 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Collections;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.neo4j.com.ComException;
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
@@ -52,6 +48,9 @@ import org.neo4j.kernel.impl.transaction.tracing.CommitEvent;
 import org.neo4j.storageengine.api.TransactionApplicationMode;
 import org.neo4j.test.ConstantRequestContextFactory;
 import org.neo4j.test.LongResponse;
+
+import java.util.Collections;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

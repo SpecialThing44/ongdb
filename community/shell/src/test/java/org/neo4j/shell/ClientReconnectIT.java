@@ -40,13 +40,12 @@ package org.neo4j.shell;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.helpers.collection.MapUtil;
+import org.neo4j.shell.impl.SimpleAppServer;
 
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import org.neo4j.helpers.collection.MapUtil;
-import org.neo4j.shell.impl.SimpleAppServer;
 
 import static org.junit.Assert.assertTrue;
 

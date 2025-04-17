@@ -38,13 +38,11 @@
  */
 package org.neo4j.bolt.runtime;
 
-import java.util.ArrayList;
+import org.neo4j.bolt.v1.runtime.Job;
+
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-
-import org.neo4j.bolt.v1.runtime.Job;
 
 public class BoltConnectionQueueMonitorAggregate implements BoltConnectionQueueMonitor
 {

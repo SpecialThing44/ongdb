@@ -40,15 +40,7 @@ package org.neo4j.index;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.schema.IndexDefinition;
 import org.neo4j.internal.kernel.api.TokenRead;
 import org.neo4j.io.fs.FileUtils;
@@ -71,9 +63,10 @@ import org.neo4j.register.Registers;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 

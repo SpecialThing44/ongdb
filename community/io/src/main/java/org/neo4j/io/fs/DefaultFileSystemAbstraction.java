@@ -38,18 +38,11 @@
  */
 package org.neo4j.io.fs;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
-import java.io.Reader;
-import java.io.Writer;
+import org.neo4j.io.IOUtils;
+import org.neo4j.io.fs.watcher.DefaultFileSystemWatcher;
+import org.neo4j.io.fs.watcher.FileWatcher;
+
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.file.CopyOption;
@@ -60,10 +53,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import org.neo4j.io.IOUtils;
-import org.neo4j.io.fs.watcher.DefaultFileSystemWatcher;
-import org.neo4j.io.fs.watcher.FileWatcher;
 
 import static java.lang.String.format;
 

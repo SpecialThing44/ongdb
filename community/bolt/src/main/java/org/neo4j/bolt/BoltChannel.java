@@ -39,10 +39,9 @@
 package org.neo4j.bolt;
 
 import io.netty.channel.Channel;
+import org.neo4j.bolt.logging.BoltMessageLogger;
 
 import java.net.SocketAddress;
-
-import org.neo4j.bolt.logging.BoltMessageLogger;
 
 /**
  * A channel through which Bolt messaging can occur.

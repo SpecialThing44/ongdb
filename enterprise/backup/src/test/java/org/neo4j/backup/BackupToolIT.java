@@ -39,11 +39,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.io.File;
-import java.io.PrintStream;
-import java.nio.file.Path;
-
 import org.neo4j.backup.impl.BackupProtocolService;
 import org.neo4j.backup.impl.ConsistencyCheck;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -62,6 +57,10 @@ import org.neo4j.ports.allocation.PortAuthority;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.EmbeddedDatabaseRule;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.io.File;
+import java.io.PrintStream;
+import java.nio.file.Path;
 
 import static org.mockito.Mockito.mock;
 import static org.neo4j.kernel.impl.store.MetaDataStore.Position.STORE_VERSION;

@@ -40,7 +40,6 @@ package org.neo4j.index;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;

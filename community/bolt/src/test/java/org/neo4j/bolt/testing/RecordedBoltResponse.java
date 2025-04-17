@@ -38,14 +38,14 @@
  */
 package org.neo4j.bolt.testing;
 
+import org.neo4j.bolt.v1.messaging.BoltResponseMessage;
+import org.neo4j.cypher.result.QueryResult;
+import org.neo4j.values.AnyValue;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.neo4j.bolt.v1.messaging.BoltResponseMessage;
-import org.neo4j.cypher.result.QueryResult;
-import org.neo4j.values.AnyValue;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;

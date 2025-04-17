@@ -39,14 +39,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.neo4j.ha.TestRunConditions;
 import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.test.rule.LoggerRule;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.junit.Assume.assumeTrue;
 

@@ -44,12 +44,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.BoltKernelExtension;
 import org.neo4j.bolt.logging.BoltMessageLogger;
@@ -57,33 +51,26 @@ import org.neo4j.bolt.logging.BoltMessageLogging;
 import org.neo4j.bolt.security.auth.AuthenticationException;
 import org.neo4j.bolt.testing.Jobs;
 import org.neo4j.bolt.v1.packstream.PackOutput;
-import org.neo4j.bolt.v1.runtime.BoltConnectionAuthFatality;
-import org.neo4j.bolt.v1.runtime.BoltConnectionFatality;
-import org.neo4j.bolt.v1.runtime.BoltProtocolBreachFatality;
-import org.neo4j.bolt.v1.runtime.BoltStateMachine;
-import org.neo4j.bolt.v1.runtime.Job;
+import org.neo4j.bolt.v1.runtime.*;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.impl.logging.SimpleLogService;
 import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.test.rule.concurrent.OtherThreadRule;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
+
 import static org.hamcrest.CoreMatchers.any;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.same;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class DefaultBoltConnectionTest
 {

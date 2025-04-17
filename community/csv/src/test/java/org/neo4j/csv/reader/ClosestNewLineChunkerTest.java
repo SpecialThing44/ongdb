@@ -39,16 +39,10 @@
 package org.neo4j.csv.reader;
 
 import org.junit.Test;
-
-import java.io.IOException;
 import org.neo4j.csv.reader.Source.Chunk;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import static java.util.Arrays.copyOfRange;
+import static org.junit.Assert.*;
 
 public class ClosestNewLineChunkerTest
 {

@@ -38,23 +38,17 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.neo4j.cypher.result.QueryResult;
-import org.neo4j.graphdb.ExecutionPlanDescription;
-import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.Notification;
-import org.neo4j.graphdb.QueryExecutionType;
-import org.neo4j.graphdb.QueryStatistics;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Result;
+import org.neo4j.graphdb.*;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContext;
 import org.neo4j.kernel.impl.query.QueryExecutionKernelException;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
+
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.System.lineSeparator;
 

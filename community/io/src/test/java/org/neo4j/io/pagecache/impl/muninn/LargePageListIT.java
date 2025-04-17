@@ -39,18 +39,14 @@
 package org.neo4j.io.pagecache.impl.muninn;
 
 import org.junit.Test;
-
-import java.util.stream.IntStream;
-
 import org.neo4j.io.ByteUnit;
 import org.neo4j.io.mem.MemoryAllocator;
 import org.neo4j.memory.GlobalMemoryTracker;
 
+import java.util.stream.IntStream;
+
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class LargePageListIT
 {

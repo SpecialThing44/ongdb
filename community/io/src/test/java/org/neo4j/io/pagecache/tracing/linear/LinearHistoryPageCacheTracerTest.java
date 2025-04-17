@@ -40,10 +40,9 @@ package org.neo4j.io.pagecache.tracing.linear;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.neo4j.io.pagecache.randomharness.RandomPageCacheTestHarness;
 
 import java.util.concurrent.TimeUnit;
-
-import org.neo4j.io.pagecache.randomharness.RandomPageCacheTestHarness;
 
 public class LinearHistoryPageCacheTracerTest
 {

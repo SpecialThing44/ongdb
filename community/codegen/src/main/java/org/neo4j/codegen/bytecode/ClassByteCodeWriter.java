@@ -38,6 +38,7 @@
  */
 package org.neo4j.codegen.bytecode;
 
+import org.neo4j.codegen.*;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
@@ -48,24 +49,8 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.neo4j.codegen.ByteCodes;
-import org.neo4j.codegen.ClassEmitter;
-import org.neo4j.codegen.Expression;
-import org.neo4j.codegen.FieldReference;
-import org.neo4j.codegen.MethodDeclaration;
-import org.neo4j.codegen.MethodEmitter;
-import org.neo4j.codegen.TypeReference;
-
-import static org.neo4j.codegen.ByteCodeUtils.byteCodeName;
-import static org.neo4j.codegen.ByteCodeUtils.outerName;
-import static org.neo4j.codegen.ByteCodeUtils.signature;
-import static org.neo4j.codegen.ByteCodeUtils.typeName;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.PUTSTATIC;
-import static org.objectweb.asm.Opcodes.RETURN;
-import static org.objectweb.asm.Opcodes.V1_8;
+import static org.neo4j.codegen.ByteCodeUtils.*;
+import static org.objectweb.asm.Opcodes.*;
 
 class ClassByteCodeWriter implements ClassEmitter
 {

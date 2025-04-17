@@ -38,24 +38,19 @@
  */
 package org.neo4j.values;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.neo4j.graphdb.spatial.Point;
+import org.neo4j.values.storable.Value;
+import org.neo4j.values.storable.Values;
+import org.neo4j.values.virtual.*;
+
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import org.neo4j.graphdb.spatial.Point;
-import org.neo4j.values.storable.Value;
-import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.PathValue;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.VirtualNodeValue;
-import org.neo4j.values.virtual.VirtualRelationshipValue;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -68,35 +63,8 @@ import static org.neo4j.values.storable.DurationValue.duration;
 import static org.neo4j.values.storable.LocalDateTimeValue.localDateTime;
 import static org.neo4j.values.storable.LocalTimeValue.localTime;
 import static org.neo4j.values.storable.TimeValue.time;
-import static org.neo4j.values.storable.Values.NO_VALUE;
-import static org.neo4j.values.storable.Values.booleanArray;
-import static org.neo4j.values.storable.Values.booleanValue;
-import static org.neo4j.values.storable.Values.byteArray;
-import static org.neo4j.values.storable.Values.byteValue;
-import static org.neo4j.values.storable.Values.charArray;
-import static org.neo4j.values.storable.Values.charValue;
-import static org.neo4j.values.storable.Values.doubleArray;
-import static org.neo4j.values.storable.Values.doubleValue;
-import static org.neo4j.values.storable.Values.floatArray;
-import static org.neo4j.values.storable.Values.floatValue;
-import static org.neo4j.values.storable.Values.intArray;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longArray;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.numberValue;
-import static org.neo4j.values.storable.Values.pointArray;
-import static org.neo4j.values.storable.Values.pointValue;
-import static org.neo4j.values.storable.Values.shortArray;
-import static org.neo4j.values.storable.Values.shortValue;
-import static org.neo4j.values.storable.Values.stringArray;
-import static org.neo4j.values.storable.Values.stringValue;
-import static org.neo4j.values.virtual.VirtualValues.emptyMap;
-import static org.neo4j.values.virtual.VirtualValues.fromList;
-import static org.neo4j.values.virtual.VirtualValues.list;
-import static org.neo4j.values.virtual.VirtualValues.map;
-import static org.neo4j.values.virtual.VirtualValues.nodeValue;
-import static org.neo4j.values.virtual.VirtualValues.path;
-import static org.neo4j.values.virtual.VirtualValues.relationshipValue;
+import static org.neo4j.values.storable.Values.*;
+import static org.neo4j.values.virtual.VirtualValues.*;
 
 @RunWith( Parameterized.class )
 public class ValueMapperTest

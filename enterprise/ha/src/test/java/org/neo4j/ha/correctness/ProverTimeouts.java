@@ -34,17 +34,17 @@
  */
 package org.neo4j.ha.correctness;
 
-import java.net.URI;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.neo4j.cluster.com.message.Message;
 import org.neo4j.cluster.com.message.MessageProcessor;
 import org.neo4j.cluster.com.message.MessageType;
 import org.neo4j.cluster.timeout.FixedTimeoutStrategy;
 import org.neo4j.cluster.timeout.Timeouts;
 import org.neo4j.helpers.collection.Pair;
+
+import java.net.URI;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 class ProverTimeouts extends Timeouts
 {

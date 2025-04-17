@@ -38,12 +38,12 @@
  */
 package org.neo4j.io.pagecache.randomharness;
 
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-
-import org.neo4j.io.pagecache.PageCursor;
 
 public class PageCountRecordFormat extends RecordFormat
 {

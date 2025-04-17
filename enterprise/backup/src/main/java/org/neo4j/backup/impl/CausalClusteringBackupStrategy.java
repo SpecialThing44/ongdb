@@ -34,11 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Optional;
-
 import org.neo4j.causalclustering.catchup.CatchupResult;
 import org.neo4j.causalclustering.catchup.storecopy.StoreCopyFailedException;
 import org.neo4j.causalclustering.catchup.storecopy.StoreFiles;
@@ -50,6 +45,11 @@ import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
 
 import static java.lang.String.format;
 

@@ -39,33 +39,22 @@
 package org.neo4j.dbms.diagnostics.jmx;
 
 import com.sun.management.HotSpotDiagnosticMXBean;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MonitorInfo;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Properties;
-import javax.management.InstanceNotFoundException;
-import javax.management.JMX;
-import javax.management.MBeanException;
-import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-
 import org.neo4j.diagnostics.DiagnosticsReportSource;
 import org.neo4j.diagnostics.DiagnosticsReportSources;
 import org.neo4j.diagnostics.DiagnosticsReporterProgress;
 import org.neo4j.diagnostics.ProgressAwareInputStream;
+
+import javax.management.*;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.lang.management.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Properties;
 
 /**
  * Encapsulates remoting functionality for collecting diagnostics information on running instances.

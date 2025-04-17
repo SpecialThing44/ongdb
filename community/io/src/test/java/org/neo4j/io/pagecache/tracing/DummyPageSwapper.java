@@ -38,10 +38,10 @@
  */
 package org.neo4j.io.pagecache.tracing;
 
+import org.neo4j.io.pagecache.PageSwapper;
+
 import java.io.File;
 import java.io.IOException;
-
-import org.neo4j.io.pagecache.PageSwapper;
 
 public class DummyPageSwapper implements PageSwapper
 {

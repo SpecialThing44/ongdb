@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.time.Duration;
-
 import org.neo4j.configuration.Description;
 import org.neo4j.configuration.Internal;
 import org.neo4j.configuration.LoadableConfig;
@@ -45,15 +43,9 @@ import org.neo4j.kernel.configuration.ConfigurationMigrator;
 import org.neo4j.kernel.configuration.Migrator;
 import org.neo4j.kernel.configuration.Settings;
 
-import static org.neo4j.kernel.configuration.Settings.BOOLEAN;
-import static org.neo4j.kernel.configuration.Settings.BYTES;
-import static org.neo4j.kernel.configuration.Settings.DURATION;
-import static org.neo4j.kernel.configuration.Settings.HOSTNAME_PORT;
-import static org.neo4j.kernel.configuration.Settings.INTEGER;
-import static org.neo4j.kernel.configuration.Settings.buildSetting;
-import static org.neo4j.kernel.configuration.Settings.min;
-import static org.neo4j.kernel.configuration.Settings.options;
-import static org.neo4j.kernel.configuration.Settings.setting;
+import java.time.Duration;
+
+import static org.neo4j.kernel.configuration.Settings.*;
 import static org.neo4j.kernel.ha.HaSettings.BranchedDataCopyingStrategy.branch_then_copy;
 import static org.neo4j.kernel.ha.HaSettings.TxPushStrategy.fixed_ascending;
 

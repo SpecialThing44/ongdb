@@ -36,9 +36,6 @@ package org.neo4j.backup.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.nio.file.Path;
-
 import org.neo4j.backup.IncrementalBackupNotPossibleException;
 import org.neo4j.com.ComException;
 import org.neo4j.helpers.HostnamePort;
@@ -46,15 +43,11 @@ import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 import org.neo4j.logging.NullLogProvider;
 
+import java.nio.file.Path;
+
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.neo4j.backup.impl.BackupStageOutcome.SUCCESS;
 
 public class BackupProtocolServiceStrategyTest

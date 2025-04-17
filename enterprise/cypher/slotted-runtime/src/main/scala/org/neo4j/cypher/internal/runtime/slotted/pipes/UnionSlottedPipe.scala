@@ -34,9 +34,9 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted.pipes
 
-import org.neo4j.cypher.internal.runtime.slotted.SlottedPipeBuilder.RowMapping
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{Pipe, QueryState}
+import org.neo4j.cypher.internal.runtime.slotted.SlottedPipeBuilder.RowMapping
 import org.neo4j.cypher.internal.util.v3_4.attribution.Id
 
 case class UnionSlottedPipe(lhs: Pipe, rhs: Pipe,

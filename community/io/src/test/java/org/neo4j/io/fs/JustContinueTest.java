@@ -38,10 +38,10 @@
  */
 package org.neo4j.io.fs;
 
+import org.junit.Test;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
-
-import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

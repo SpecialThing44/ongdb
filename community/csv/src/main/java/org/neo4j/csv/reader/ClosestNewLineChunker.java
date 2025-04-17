@@ -38,9 +38,9 @@
  */
 package org.neo4j.csv.reader;
 
-import java.io.IOException;
-
 import org.neo4j.csv.reader.Source.Chunk;
+
+import java.io.IOException;
 
 /**
  * In a scenario where there's one reader reading chunks of data, handing those chunks to one or

@@ -40,15 +40,8 @@ package org.neo4j.bolt.v1.messaging.example;
 
 import org.neo4j.values.virtual.PathValue;
 
-import static org.neo4j.bolt.v1.messaging.example.Edges.ALICE_KNOWS_BOB;
-import static org.neo4j.bolt.v1.messaging.example.Edges.ALICE_LIKES_CAROL;
-import static org.neo4j.bolt.v1.messaging.example.Edges.CAROL_DISLIKES_BOB;
-import static org.neo4j.bolt.v1.messaging.example.Edges.CAROL_MARRIED_TO_DAVE;
-import static org.neo4j.bolt.v1.messaging.example.Edges.DAVE_WORKS_FOR_DAVE;
-import static org.neo4j.bolt.v1.messaging.example.Nodes.ALICE;
-import static org.neo4j.bolt.v1.messaging.example.Nodes.BOB;
-import static org.neo4j.bolt.v1.messaging.example.Nodes.CAROL;
-import static org.neo4j.bolt.v1.messaging.example.Nodes.DAVE;
+import static org.neo4j.bolt.v1.messaging.example.Edges.*;
+import static org.neo4j.bolt.v1.messaging.example.Nodes.*;
 import static org.neo4j.bolt.v1.messaging.example.Support.edges;
 import static org.neo4j.bolt.v1.messaging.example.Support.nodes;
 import static org.neo4j.values.virtual.VirtualValues.path;

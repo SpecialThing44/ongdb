@@ -41,18 +41,17 @@ import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.neo4j.ha.TestRunConditions;
+import org.neo4j.kernel.impl.ha.ClusterManager;
+import org.neo4j.kernel.impl.ha.ClusterManager.RepairKit;
+import org.neo4j.test.rule.LoggerRule;
+import org.neo4j.test.rule.TestDirectory;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import org.neo4j.ha.TestRunConditions;
-import org.neo4j.kernel.impl.ha.ClusterManager;
-import org.neo4j.kernel.impl.ha.ClusterManager.RepairKit;
-import org.neo4j.test.rule.LoggerRule;
-import org.neo4j.test.rule.TestDirectory;
 
 import static org.junit.Assume.assumeTrue;
 import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;

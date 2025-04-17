@@ -38,20 +38,15 @@
  */
 package org.neo4j.codegen.source;
 
+import org.neo4j.codegen.ByteCodes;
+
+import javax.tools.*;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
-import javax.tools.FileObject;
-import javax.tools.ForwardingJavaFileManager;
-import javax.tools.JavaFileObject;
-import javax.tools.SimpleJavaFileObject;
-import javax.tools.StandardJavaFileManager;
-
-import org.neo4j.codegen.ByteCodes;
 
 class FileManager extends ForwardingJavaFileManager<StandardJavaFileManager>
 {

@@ -37,19 +37,10 @@ package org.neo4j.kernel.ha.cluster.modeswitch;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-
-import org.neo4j.kernel.ha.DelegateInvocationHandler;
-import org.neo4j.kernel.ha.MasterUpdatePuller;
-import org.neo4j.kernel.ha.PullerFactory;
-import org.neo4j.kernel.ha.SlaveUpdatePuller;
-import org.neo4j.kernel.ha.UpdatePuller;
+import org.neo4j.kernel.ha.*;
 
 import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UpdatePullerSwitcherTest
 {

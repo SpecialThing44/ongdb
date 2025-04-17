@@ -38,9 +38,9 @@
  */
 package org.neo4j.commandline.dbms;
 
-import javax.annotation.Nonnull;
-
 import org.neo4j.commandline.admin.AdminCommandSection;
+
+import javax.annotation.Nonnull;
 
 public class OfflineBackupCommandSection extends AdminCommandSection
 {

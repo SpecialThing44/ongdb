@@ -38,15 +38,12 @@
  */
 package org.neo4j.adversaries.fs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
+import org.neo4j.adversaries.Adversary;
+import org.neo4j.adversaries.watcher.AdversarialFileWatcher;
+import org.neo4j.io.fs.*;
+import org.neo4j.io.fs.watcher.FileWatcher;
+
+import java.io.*;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.nio.charset.Charset;
@@ -56,17 +53,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import org.neo4j.adversaries.Adversary;
-import org.neo4j.adversaries.watcher.AdversarialFileWatcher;
-import org.neo4j.io.fs.DefaultFileSystemAbstraction;
-import org.neo4j.io.fs.FileHandle;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.fs.OpenMode;
-import org.neo4j.io.fs.StoreChannel;
-import org.neo4j.io.fs.StoreFileChannel;
-import org.neo4j.io.fs.StreamFilesRecursive;
-import org.neo4j.io.fs.watcher.FileWatcher;
 
 /**
  * Used by the robustness suite to check for partial failures.

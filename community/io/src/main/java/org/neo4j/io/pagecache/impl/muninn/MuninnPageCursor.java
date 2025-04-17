@@ -38,11 +38,6 @@
  */
 package org.neo4j.io.pagecache.impl.muninn;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Objects;
-
 import org.neo4j.io.pagecache.CursorException;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.PageSwapper;
@@ -55,9 +50,12 @@ import org.neo4j.io.pagecache.tracing.cursor.context.VersionContext;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
 import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
-import static org.neo4j.io.pagecache.PagedFile.PF_EAGER_FLUSH;
-import static org.neo4j.io.pagecache.PagedFile.PF_NO_FAULT;
-import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_WRITE_LOCK;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Objects;
+
+import static org.neo4j.io.pagecache.PagedFile.*;
 import static org.neo4j.io.pagecache.impl.muninn.MuninnPagedFile.UNMAPPED_TTE;
 import static org.neo4j.util.FeatureToggles.flag;
 

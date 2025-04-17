@@ -36,9 +36,6 @@ package org.neo4j.kernel.ha.transaction;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Collections;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.com.Response;
 import org.neo4j.helpers.collection.Iterables;
@@ -52,14 +49,13 @@ import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.lifecycle.LifeRule;
 import org.neo4j.logging.Log;
 
+import java.util.Collections;
+
 import static java.util.Arrays.asList;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.kernel.ha.HaSettings.TxPushStrategy.fixed_ascending;
 import static org.neo4j.kernel.ha.HaSettings.TxPushStrategy.fixed_descending;
 import static org.neo4j.kernel.ha.HaSettings.tx_push_strategy;

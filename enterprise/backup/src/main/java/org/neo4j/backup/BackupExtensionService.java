@@ -34,11 +34,11 @@
  */
 package org.neo4j.backup;
 
-import java.net.URI;
-
 import org.neo4j.helpers.Args;
 import org.neo4j.helpers.Service;
 import org.neo4j.kernel.impl.logging.LogService;
+
+import java.net.URI;
 
 /**
  * <p>

@@ -38,21 +38,6 @@
  */
 package org.neo4j.values.storable;
 
-import java.lang.invoke.MethodHandle;
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.neo4j.hashing.HashFunction;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.StructureBuilder;
@@ -62,26 +47,28 @@ import org.neo4j.values.utils.TemporalArithmeticException;
 import org.neo4j.values.utils.UnsupportedTemporalUnitException;
 import org.neo4j.values.virtual.MapValue;
 
+import java.lang.invoke.MethodHandle;
+import java.time.DateTimeException;
+import java.time.Duration;
+import java.time.Period;
+import java.time.temporal.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static java.lang.Double.parseDouble;
 import static java.lang.Long.parseLong;
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
-import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.NANOS;
-import static java.time.temporal.ChronoUnit.SECONDS;
+import static java.time.temporal.ChronoField.*;
+import static java.time.temporal.ChronoUnit.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static org.neo4j.values.storable.NumberType.NO_NUMBER;
 import static org.neo4j.values.storable.NumberValue.safeCastFloatingPoint;
-import static org.neo4j.values.utils.TemporalUtil.AVG_NANOS_PER_MONTH;
-import static org.neo4j.values.utils.TemporalUtil.AVG_SECONDS_PER_MONTH;
-import static org.neo4j.values.utils.TemporalUtil.NANOS_PER_SECOND;
-import static org.neo4j.values.utils.TemporalUtil.SECONDS_PER_DAY;
+import static org.neo4j.values.utils.TemporalUtil.*;
 
 /**
  * We use our own implementation because neither {@link java.time.Duration} nor {@link java.time.Period} fits our needs.

@@ -45,14 +45,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.PagedFile;
@@ -62,17 +54,18 @@ import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.test.rule.fs.DefaultFileSystemRule;
 import org.neo4j.test.rule.fs.FileSystemRule;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.DELETE_ON_CLOSE;
 import static org.junit.Assert.assertEquals;
-
 import static org.neo4j.index.internal.gbptree.SimpleLongLayout.longLayout;
-import static org.neo4j.index.internal.gbptree.TreeNode.BYTE_POS_LEFTSIBLING;
-import static org.neo4j.index.internal.gbptree.TreeNode.BYTE_POS_RIGHTSIBLING;
-import static org.neo4j.index.internal.gbptree.TreeNode.BYTE_POS_SUCCESSOR;
-import static org.neo4j.index.internal.gbptree.TreeNode.Overflow;
-import static org.neo4j.index.internal.gbptree.TreeNode.keyCount;
-import static org.neo4j.index.internal.gbptree.TreeNode.setKeyCount;
+import static org.neo4j.index.internal.gbptree.TreeNode.*;
 import static org.neo4j.test.rule.PageCacheRule.config;
 
 public class CrashGenerationCleanerTest

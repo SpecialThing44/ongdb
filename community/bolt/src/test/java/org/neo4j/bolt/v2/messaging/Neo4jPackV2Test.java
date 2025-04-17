@@ -40,6 +40,13 @@ package org.neo4j.bolt.v2.messaging;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.bolt.v1.messaging.Neo4jPack;
+import org.neo4j.bolt.v1.packstream.PackedInputArray;
+import org.neo4j.bolt.v1.packstream.PackedOutputArray;
+import org.neo4j.test.rule.RandomRule;
+import org.neo4j.values.AnyValue;
+import org.neo4j.values.storable.*;
+import org.neo4j.values.virtual.ListValue;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -52,40 +59,19 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-import org.neo4j.bolt.v1.messaging.Neo4jPack;
-import org.neo4j.bolt.v1.packstream.PackedInputArray;
-import org.neo4j.bolt.v1.packstream.PackedOutputArray;
-import org.neo4j.test.rule.RandomRule;
-import org.neo4j.values.AnyValue;
-import org.neo4j.values.storable.CoordinateReferenceSystem;
-import org.neo4j.values.storable.DateTimeValue;
-import org.neo4j.values.storable.DateValue;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.LocalDateTimeValue;
-import org.neo4j.values.storable.LocalTimeValue;
-import org.neo4j.values.storable.PointValue;
-import org.neo4j.values.storable.TimeValue;
-import org.neo4j.values.storable.TimeZones;
-import org.neo4j.values.virtual.ListValue;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.ZoneOffset.UTC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.neo4j.bolt.v1.packstream.PackStream.INT_16;
 import static org.neo4j.bolt.v1.packstream.PackStream.INT_32;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian_3D;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.WGS84;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.WGS84_3D;
+import static org.neo4j.values.storable.CoordinateReferenceSystem.*;
 import static org.neo4j.values.storable.DateTimeValue.datetime;
 import static org.neo4j.values.storable.DateValue.date;
 import static org.neo4j.values.storable.DurationValue.duration;
 import static org.neo4j.values.storable.LocalDateTimeValue.localDateTime;
 import static org.neo4j.values.storable.LocalTimeValue.localTime;
-import static org.neo4j.values.storable.Values.doubleValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.unsafePointValue;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValues.list;
 
 public class Neo4jPackV2Test

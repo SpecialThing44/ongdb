@@ -34,18 +34,13 @@
  */
 package org.neo4j.internal.cypher.acceptance;
 
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.kernel.impl.proc.ComponentRegistry;
+import org.neo4j.procedure.*;
+
 import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.kernel.impl.proc.ComponentRegistry;
-import org.neo4j.procedure.Context;
-import org.neo4j.procedure.Description;
-import org.neo4j.procedure.Mode;
-import org.neo4j.procedure.Name;
-import org.neo4j.procedure.Procedure;
-import org.neo4j.procedure.UserFunction;
 
 public class TestResourceProcedure
 {

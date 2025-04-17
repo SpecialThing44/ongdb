@@ -42,21 +42,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.neo4j.bolt.v1.messaging.Neo4jPack;
+import org.neo4j.bolt.v1.messaging.Neo4jPackV1;
+import org.neo4j.bolt.v1.transport.integration.TransportTestUtil;
+import org.neo4j.bolt.v1.transport.socket.client.*;
+import org.neo4j.bolt.v2.messaging.Neo4jPackV2;
+import org.neo4j.helpers.HostnamePort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.neo4j.bolt.v1.messaging.Neo4jPack;
-import org.neo4j.bolt.v1.messaging.Neo4jPackV1;
-import org.neo4j.bolt.v1.transport.integration.TransportTestUtil;
-import org.neo4j.bolt.v1.transport.socket.client.SecureSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SecureWebSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
-import org.neo4j.bolt.v1.transport.socket.client.WebSocketConnection;
-import org.neo4j.bolt.v2.messaging.Neo4jPackV2;
-import org.neo4j.helpers.HostnamePort;
 
 import static org.junit.runners.Parameterized.Parameter;
 import static org.junit.runners.Parameterized.Parameters;

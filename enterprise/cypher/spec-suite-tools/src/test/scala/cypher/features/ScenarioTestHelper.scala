@@ -34,15 +34,14 @@
  */
 package cypher.features
 
-import java.io.FileNotFoundException
-import java.net.URI
-import java.nio.charset.StandardCharsets
-import java.util
-
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.function.Executable
 import org.opencypher.tools.tck.api.Scenario
 
+import java.io.FileNotFoundException
+import java.net.URI
+import java.nio.charset.StandardCharsets
+import java.util
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.io.Source

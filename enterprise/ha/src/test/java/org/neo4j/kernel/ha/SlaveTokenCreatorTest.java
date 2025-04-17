@@ -37,9 +37,6 @@ package org.neo4j.kernel.ha;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-
 import org.neo4j.com.ComException;
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
@@ -48,6 +45,8 @@ import org.neo4j.kernel.ha.com.RequestContextFactory;
 import org.neo4j.kernel.ha.com.master.Master;
 import org.neo4j.test.ConstantRequestContextFactory;
 import org.neo4j.test.IntegerResponse;
+
+import java.util.Arrays;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

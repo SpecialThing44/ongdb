@@ -41,13 +41,12 @@ package org.neo4j.bolt.v1.transport.integration;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Arrays;
-
 import org.neo4j.bolt.AbstractBoltTransportsTest;
 import org.neo4j.bolt.v1.messaging.RecordingByteChannel;
 import org.neo4j.bolt.v1.packstream.BufferedChannelOutput;
 import org.neo4j.bolt.v1.packstream.PackStream;
+
+import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.RUN;

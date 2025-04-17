@@ -34,12 +34,6 @@
  */
 package org.neo4j.kernel.ha.management;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import javax.management.NotCompliantMBeanException;
-
 import org.neo4j.helpers.Service;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.fs.FileUtils;
@@ -52,6 +46,12 @@ import org.neo4j.kernel.impl.store.MetaDataStore;
 import org.neo4j.kernel.impl.store.MetaDataStore.Position;
 import org.neo4j.management.BranchedStore;
 import org.neo4j.management.BranchedStoreInfo;
+
+import javax.management.NotCompliantMBeanException;
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.neo4j.com.storecopy.StoreUtil.getBranchedDataRootDirectory;
 

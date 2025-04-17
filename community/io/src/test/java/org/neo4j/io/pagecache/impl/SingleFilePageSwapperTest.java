@@ -43,18 +43,6 @@ import org.junit.After;
 import org.junit.AssumptionViolatedException;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileLock;
-import java.nio.channels.OverlappingFileLockException;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.neo4j.adversaries.RandomAdversary;
 import org.neo4j.adversaries.fs.AdversarialFileSystemAbstraction;
 import org.neo4j.graphdb.config.Configuration;
@@ -62,20 +50,21 @@ import org.neo4j.graphdb.mockfs.DelegatingFileSystemAbstraction;
 import org.neo4j.graphdb.mockfs.DelegatingStoreChannel;
 import org.neo4j.graphdb.mockfs.EphemeralFileSystemAbstraction;
 import org.neo4j.io.IOUtils;
-import org.neo4j.io.fs.DefaultFileSystemAbstraction;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.fs.OpenMode;
-import org.neo4j.io.fs.StoreChannel;
-import org.neo4j.io.fs.StoreFileChannel;
+import org.neo4j.io.fs.*;
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.PageSwapperFactory;
 import org.neo4j.io.pagecache.PageSwapperTest;
 import org.neo4j.io.proc.ProcessUtil;
 import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeThat;

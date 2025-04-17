@@ -39,15 +39,6 @@
 package org.neo4j.bolt.v1.messaging;
 
 import org.junit.Test;
-
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.neo4j.bolt.v1.packstream.PackedInputArray;
 import org.neo4j.bolt.v1.packstream.PackedOutputArray;
 import org.neo4j.bolt.v1.runtime.Neo4jError;
@@ -63,22 +54,23 @@ import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.PathValue;
 import org.neo4j.values.virtual.VirtualValues;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.bolt.v1.messaging.Neo4jPackV1.UNBOUND_RELATIONSHIP;
 import static org.neo4j.bolt.v1.messaging.example.Edges.ALICE_KNOWS_BOB;
 import static org.neo4j.bolt.v1.messaging.example.Nodes.ALICE;
 import static org.neo4j.bolt.v1.messaging.example.Paths.ALL_PATHS;
-import static org.neo4j.values.storable.Values.charArray;
-import static org.neo4j.values.storable.Values.charValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.stringValue;
-import static org.neo4j.values.storable.Values.utf8Value;
+import static org.neo4j.values.storable.Values.*;
 
 public class Neo4jPackV1Test
 {

@@ -38,10 +38,10 @@
  */
 package org.neo4j.codegen.bytecode;
 
-import java.util.Collection;
-
 import org.neo4j.codegen.ByteCodes;
 import org.neo4j.codegen.CompilationFailureException;
+
+import java.util.Collection;
 
 interface ByteCodeChecker
 {

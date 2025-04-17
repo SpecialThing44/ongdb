@@ -38,20 +38,6 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
-import java.lang.reflect.Array;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZonedDateTime;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.PropertyContainer;
@@ -59,15 +45,15 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.helpers.collection.ReverseArrayIterator;
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI;
 import org.neo4j.values.AnyValueWriter;
-import org.neo4j.values.storable.CoordinateReferenceSystem;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.TextArray;
-import org.neo4j.values.storable.TextValue;
-import org.neo4j.values.storable.Values;
+import org.neo4j.values.storable.*;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.NodeValue;
 import org.neo4j.values.virtual.RelationshipValue;
 import org.neo4j.values.virtual.VirtualValues;
+
+import java.lang.reflect.Array;
+import java.time.*;
+import java.util.*;
 
 import static org.neo4j.helpers.collection.Iterators.iteratorsEqual;
 

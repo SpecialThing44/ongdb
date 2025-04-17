@@ -34,18 +34,15 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
 import org.neo4j.com.storecopy.ResponsePacker;
 import org.neo4j.com.storecopy.StoreCopyServer;
 import org.neo4j.com.storecopy.StoreWriter;
+import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.NeoStoreDataSource;
-import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.ha.TransactionChecksumLookup;
 import org.neo4j.kernel.ha.com.master.MasterImpl;
 import org.neo4j.kernel.ha.id.IdAllocation;
@@ -69,6 +66,9 @@ import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
 import org.neo4j.storageengine.api.TransactionApplicationMode;
+
+import java.io.File;
+import java.io.IOException;
 
 public class DefaultMasterImplSPI implements MasterImpl.SPI
 {

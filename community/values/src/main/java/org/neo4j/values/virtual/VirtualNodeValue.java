@@ -39,11 +39,11 @@
 package org.neo4j.values.virtual;
 
 
-import java.util.Comparator;
-
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.ValueMapper;
 import org.neo4j.values.VirtualValue;
+
+import java.util.Comparator;
 
 public abstract class VirtualNodeValue extends VirtualValue
 {

@@ -35,14 +35,13 @@
 package org.neo4j.kernel.ha.cluster;
 
 import org.junit.Test;
-
-import java.net.InetSocketAddress;
-import java.net.URI;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.ha.HaSettings;
 import org.neo4j.kernel.ha.com.master.MasterServer;
+
+import java.net.InetSocketAddress;
+import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

@@ -38,9 +38,9 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.Arrays;
-
 import org.neo4j.hashing.HashFunction;
+
+import java.util.Arrays;
 
 public abstract class NonPrimitiveArray<T extends Comparable<? super T>> extends ArrayValue
 {

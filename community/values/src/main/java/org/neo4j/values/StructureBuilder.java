@@ -38,10 +38,10 @@
  */
 package org.neo4j.values;
 
-import java.util.Map;
-
 import org.neo4j.values.utils.InvalidValuesArgumentException;
 import org.neo4j.values.virtual.MapValue;
+
+import java.util.Map;
 
 public interface StructureBuilder<Input, Result>
 {

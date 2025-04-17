@@ -38,30 +38,23 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
+import org.neo4j.jmx.Kernel;
+import org.neo4j.jmx.impl.JmxKernelExtension;
+import org.neo4j.kernel.internal.GraphDatabaseAPI;
+import org.neo4j.shell.*;
+import org.neo4j.shell.util.json.JSONArray;
+import org.neo4j.shell.util.json.JSONException;
+import org.neo4j.shell.util.json.JSONObject;
+
 import javax.management.Attribute;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.openmbean.CompositeData;
-
-import org.neo4j.jmx.Kernel;
-import org.neo4j.jmx.impl.JmxKernelExtension;
-import org.neo4j.kernel.internal.GraphDatabaseAPI;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.util.json.JSONArray;
-import org.neo4j.shell.util.json.JSONException;
-import org.neo4j.shell.util.json.JSONObject;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 import static java.lang.management.ManagementFactory.getPlatformMBeanServer;
 

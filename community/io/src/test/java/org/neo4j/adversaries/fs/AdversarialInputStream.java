@@ -38,10 +38,10 @@
  */
 package org.neo4j.adversaries.fs;
 
+import org.neo4j.adversaries.Adversary;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.neo4j.adversaries.Adversary;
 
 @SuppressWarnings( "unchecked" )
 public class AdversarialInputStream extends InputStream

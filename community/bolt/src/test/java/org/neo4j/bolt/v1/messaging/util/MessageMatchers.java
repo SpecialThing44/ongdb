@@ -42,28 +42,9 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.neo4j.bolt.logging.NullBoltMessageLogger;
-import org.neo4j.bolt.v1.messaging.BoltRequestMessageWriter;
-import org.neo4j.bolt.v1.messaging.BoltResponseMessageReader;
-import org.neo4j.bolt.v1.messaging.BoltResponseMessageRecorder;
-import org.neo4j.bolt.v1.messaging.BoltResponseMessageWriter;
-import org.neo4j.bolt.v1.messaging.Neo4jPack;
-import org.neo4j.bolt.v1.messaging.RecordingByteChannel;
-import org.neo4j.bolt.v1.messaging.message.FailureMessage;
-import org.neo4j.bolt.v1.messaging.message.IgnoredMessage;
-import org.neo4j.bolt.v1.messaging.message.RecordMessage;
-import org.neo4j.bolt.v1.messaging.message.RequestMessage;
-import org.neo4j.bolt.v1.messaging.message.ResponseMessage;
-import org.neo4j.bolt.v1.messaging.message.SuccessMessage;
+import org.neo4j.bolt.v1.messaging.*;
+import org.neo4j.bolt.v1.messaging.message.*;
 import org.neo4j.bolt.v1.packstream.BufferedChannelInput;
 import org.neo4j.bolt.v1.packstream.BufferedChannelOutput;
 import org.neo4j.bolt.v1.transport.integration.TestNotification;
@@ -80,9 +61,11 @@ import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.CoordinateReferenceSystem;
 import org.neo4j.values.virtual.MapValue;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 

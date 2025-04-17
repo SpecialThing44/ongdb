@@ -36,14 +36,13 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-
 import org.neo4j.kernel.impl.store.TransactionId;
 import org.neo4j.kernel.impl.transaction.log.LogPosition;
 import org.neo4j.kernel.impl.transaction.log.LogicalTransactionStore;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.impl.transaction.log.TransactionMetadataCache;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

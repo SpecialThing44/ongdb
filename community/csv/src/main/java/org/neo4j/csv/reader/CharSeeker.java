@@ -38,10 +38,10 @@
  */
 package org.neo4j.csv.reader;
 
+import org.neo4j.values.storable.CSVHeaderInformation;
+
 import java.io.Closeable;
 import java.io.IOException;
-
-import org.neo4j.values.storable.CSVHeaderInformation;
 /**
  * Seeks for specific characters in a stream of characters, e.g. a {@link CharReadable}. Uses a {@link Mark}
  * as keeper of position. Once a {@link #seek(Mark, int)} has succeeded the characters specified by

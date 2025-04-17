@@ -35,15 +35,14 @@
 package org.neo4j.com;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-
-import java.io.IOException;
-
 import org.neo4j.helpers.collection.Visitor;
 import org.neo4j.kernel.impl.transaction.CommittedTransactionRepresentation;
 import org.neo4j.kernel.impl.transaction.log.FlushableChannel;
 import org.neo4j.kernel.impl.transaction.log.entry.LogEntryCommit;
 import org.neo4j.kernel.impl.transaction.log.entry.LogEntryStart;
 import org.neo4j.kernel.impl.transaction.log.entry.LogEntryWriter;
+
+import java.io.IOException;
 
 /**
  * Serialized {@link CommittedTransactionRepresentation transactions} to raw bytes on the {@link ChannelBuffer

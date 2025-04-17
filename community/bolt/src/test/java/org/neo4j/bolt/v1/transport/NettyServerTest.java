@@ -43,11 +43,6 @@ import io.netty.channel.socket.SocketChannel;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.net.InetSocketAddress;
-import java.nio.channels.ServerSocketChannel;
-import java.util.Map;
-
 import org.neo4j.bolt.transport.NettyServer;
 import org.neo4j.helpers.ListenSocketAddress;
 import org.neo4j.helpers.NamedThreadFactory;
@@ -55,6 +50,10 @@ import org.neo4j.helpers.PortBindException;
 import org.neo4j.kernel.configuration.BoltConnector;
 import org.neo4j.kernel.configuration.ConnectorPortRegister;
 import org.neo4j.logging.NullLog;
+
+import java.net.InetSocketAddress;
+import java.nio.channels.ServerSocketChannel;
+import java.util.Map;
 
 import static org.neo4j.helpers.collection.MapUtil.genericMap;
 

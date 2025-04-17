@@ -36,12 +36,6 @@ package org.neo4j.kernel.ha.transaction;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -54,6 +48,11 @@ import org.neo4j.kernel.impl.ha.ClusterManager.NetworkFlag;
 import org.neo4j.kernel.impl.ha.ClusterManager.RepairKit;
 import org.neo4j.test.ha.ClusterRule;
 import org.neo4j.unsafe.impl.batchimport.cache.idmapping.string.Workers;
+
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.System.currentTimeMillis;
 import static org.junit.Assert.assertEquals;

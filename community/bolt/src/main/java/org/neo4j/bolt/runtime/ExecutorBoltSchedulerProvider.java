@@ -38,16 +38,16 @@
  */
 package org.neo4j.bolt.runtime;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.logging.Log;
 import org.neo4j.scheduler.JobScheduler;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 
 public class ExecutorBoltSchedulerProvider extends LifecycleAdapter implements BoltSchedulerProvider
 {

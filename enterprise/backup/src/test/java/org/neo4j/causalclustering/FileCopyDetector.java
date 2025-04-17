@@ -34,9 +34,9 @@
  */
 package org.neo4j.causalclustering;
 
-import java.io.File;
-
 import org.neo4j.causalclustering.catchup.tx.FileCopyMonitor;
+
+import java.io.File;
 
 public class FileCopyDetector implements FileCopyMonitor
 {

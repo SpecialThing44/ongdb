@@ -40,8 +40,8 @@ import org.neo4j.cypher.internal.frontend.v3_4.ast.ProcedureResultItem
 import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
 import org.neo4j.cypher.internal.ir.v3_4.{HasHeaders, NoHeaders, ShortestPathPattern}
 import org.neo4j.cypher.internal.util.v3_4.attribution.Id
-import org.neo4j.cypher.internal.util.v3_4.{Foldable, InternalException, UnNamedNameGenerator}
 import org.neo4j.cypher.internal.util.v3_4.symbols._
+import org.neo4j.cypher.internal.util.v3_4.{Foldable, InternalException, UnNamedNameGenerator}
 import org.neo4j.cypher.internal.v3_4.expressions._
 import org.neo4j.cypher.internal.v3_4.logical.plans._
 import org.neo4j.cypher.internal.v3_4.{expressions => parserAst}

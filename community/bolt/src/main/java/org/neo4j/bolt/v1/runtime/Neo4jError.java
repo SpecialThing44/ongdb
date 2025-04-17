@@ -38,11 +38,11 @@
  */
 package org.neo4j.bolt.v1.runtime;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.neo4j.graphdb.DatabaseShutdownException;
 import org.neo4j.kernel.api.exceptions.Status;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * An error object, represents something having gone wrong that is to be signaled to the user. This is, by design, not

@@ -43,6 +43,13 @@ import org.apache.lucene.index.IndexFileNames;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.graphdb.*;
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.kernel.impl.api.index.IndexingService;
+import org.neo4j.kernel.impl.transaction.log.checkpoint.CheckPointer;
+import org.neo4j.kernel.impl.transaction.log.checkpoint.SimpleTriggerInfo;
+import org.neo4j.test.rule.EmbeddedDatabaseRule;
+import org.neo4j.test.rule.RandomRule;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,23 +59,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-import org.neo4j.graphdb.DependencyResolver;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.kernel.impl.api.index.IndexingService;
-import org.neo4j.kernel.impl.transaction.log.checkpoint.CheckPointer;
-import org.neo4j.kernel.impl.transaction.log.checkpoint.SimpleTriggerInfo;
-import org.neo4j.test.rule.EmbeddedDatabaseRule;
-import org.neo4j.test.rule.RandomRule;
-
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class IndexBackupIT
 {

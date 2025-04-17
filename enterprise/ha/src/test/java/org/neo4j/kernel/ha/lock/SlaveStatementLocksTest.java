@@ -35,13 +35,10 @@
 package org.neo4j.kernel.ha.lock;
 
 import org.junit.Test;
-
 import org.neo4j.kernel.impl.locking.LockTracer;
 import org.neo4j.kernel.impl.locking.StatementLocks;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SlaveStatementLocksTest
 {

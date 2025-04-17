@@ -45,20 +45,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
-
-import java.time.ZoneOffset;
-import java.util.List;
-
 import org.neo4j.bolt.v1.transport.integration.Neo4jWithSocket;
 import org.neo4j.bolt.v1.transport.integration.TransportTestUtil;
-import org.neo4j.bolt.v1.transport.socket.client.SecureSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SecureWebSocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.SocketConnection;
-import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
-import org.neo4j.bolt.v1.transport.socket.client.WebSocketConnection;
+import org.neo4j.bolt.v1.transport.socket.client.*;
 import org.neo4j.bolt.v2.messaging.Neo4jPackV2;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.values.AnyValue;
+
+import java.time.ZoneOffset;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;

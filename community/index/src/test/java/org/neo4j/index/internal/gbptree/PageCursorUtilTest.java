@@ -40,15 +40,11 @@ package org.neo4j.index.internal.gbptree;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.io.pagecache.ByteArrayPageCursor;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.test.rule.RandomRule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import static org.junit.Assert.*;
 import static org.neo4j.index.internal.gbptree.PageCursorUtil._6B_MASK;
 
 public class PageCursorUtilTest

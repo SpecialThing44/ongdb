@@ -40,17 +40,10 @@ package org.neo4j.bolt.v1.runtime;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.time.Clock;
-import java.time.Duration;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.function.Supplier;
-
 import org.neo4j.graphdb.DependencyResolver;
+import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.AvailabilityGuard;
 import org.neo4j.kernel.GraphDatabaseQueryService;
-import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge;
 import org.neo4j.kernel.impl.query.QueryExecutionEngine;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
@@ -59,13 +52,17 @@ import org.neo4j.logging.NullLog;
 import org.neo4j.test.rule.concurrent.OtherThreadRule;
 import org.neo4j.time.FakeClock;
 
+import java.time.Clock;
+import java.time.Duration;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.function.Supplier;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class TransactionStateMachineSPITest
 {

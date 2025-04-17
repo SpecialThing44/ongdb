@@ -38,14 +38,12 @@
  */
 package org.neo4j.shell.kernel.apps.cypher;
 
-import java.io.PrintWriter;
-import java.rmi.RemoteException;
-
 import org.neo4j.cypher.export.SubGraph;
 import org.neo4j.cypher.export.SubGraphExporter;
 import org.neo4j.shell.Output;
 import org.neo4j.shell.OutputAsWriter;
-import org.neo4j.shell.ShellException;
+
+import java.io.PrintWriter;
 
 public class Exporter
 {

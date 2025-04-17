@@ -39,6 +39,14 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.neo4j.collection.primitive.Primitive;
+import org.neo4j.collection.primitive.PrimitiveLongSet;
+import org.neo4j.cursor.RawCursor;
+import org.neo4j.helpers.Exceptions;
+import org.neo4j.io.pagecache.IOLimiter;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PagedFile;
 
 import java.io.Closeable;
 import java.io.File;
@@ -51,20 +59,9 @@ import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
-import org.neo4j.collection.primitive.Primitive;
-import org.neo4j.collection.primitive.PrimitiveLongSet;
-import org.neo4j.cursor.RawCursor;
-import org.neo4j.helpers.Exceptions;
-import org.neo4j.io.pagecache.IOLimiter;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PagedFile;
-
 import static java.lang.String.format;
 import static org.neo4j.helpers.Exceptions.withMessage;
-import static org.neo4j.index.internal.gbptree.Generation.generation;
-import static org.neo4j.index.internal.gbptree.Generation.stableGeneration;
-import static org.neo4j.index.internal.gbptree.Generation.unstableGeneration;
+import static org.neo4j.index.internal.gbptree.Generation.*;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointer.MIN_GENERATION;
 import static org.neo4j.index.internal.gbptree.Header.CARRY_OVER_PREVIOUS_HEADER;
 import static org.neo4j.index.internal.gbptree.Header.replace;

@@ -40,9 +40,7 @@ package org.neo4j.index.internal.gbptree;
 
 import org.neo4j.io.pagecache.PageCursor;
 
-import static org.neo4j.index.internal.gbptree.PageCursorUtil.get6BLong;
-import static org.neo4j.index.internal.gbptree.PageCursorUtil.getUnsignedInt;
-import static org.neo4j.index.internal.gbptree.PageCursorUtil.put6BLong;
+import static org.neo4j.index.internal.gbptree.PageCursorUtil.*;
 
 /**
  * Manages the physical format of a free-list node, i.e. how bytes about free-list pages

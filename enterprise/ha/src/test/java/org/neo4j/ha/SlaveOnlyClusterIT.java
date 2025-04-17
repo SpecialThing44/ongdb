@@ -36,10 +36,6 @@ package org.neo4j.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.client.ClusterClient;
 import org.neo4j.cluster.protocol.heartbeat.HeartbeatListener;
@@ -52,6 +48,9 @@ import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.kernel.impl.ha.ClusterManager.ManagedCluster;
 import org.neo4j.kernel.impl.ha.ClusterManager.RepairKit;
 import org.neo4j.test.ha.ClusterRule;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;

@@ -40,10 +40,6 @@ package org.neo4j.kernel.impl.index.schema;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.ResourceIterator;
@@ -52,10 +48,11 @@ import org.neo4j.test.OtherThreadExecutor.WorkerCommand;
 import org.neo4j.test.rule.ImpermanentDatabaseRule;
 import org.neo4j.test.rule.concurrent.OtherThreadRule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class NestedIndexReadersIT
 {

@@ -40,19 +40,16 @@ package org.neo4j.index.internal.gbptree;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.helpers.collection.Pair;
+import org.neo4j.test.Race;
+import org.neo4j.test.rule.concurrent.OtherThreadRule;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.LockSupport;
 
-import org.neo4j.helpers.collection.Pair;
-import org.neo4j.test.Race;
-import org.neo4j.test.rule.concurrent.OtherThreadRule;
-
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class GBPTreeLockTest
 {

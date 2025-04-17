@@ -36,20 +36,14 @@ package org.neo4j.kernel.ha.cluster;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.cluster.InstanceId;
 
 import java.net.URI;
-
-import org.neo4j.cluster.InstanceId;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.ILLEGAL;
-import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.MASTER;
-import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.PENDING;
-import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.SLAVE;
-import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.TO_MASTER;
-import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.TO_SLAVE;
+import static org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState.*;
 
 /**
  * This is the full specification for state switching in HA according to incoming cluster

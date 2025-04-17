@@ -34,9 +34,6 @@
  */
 package org.neo4j.graphdb.factory;
 
-import java.io.File;
-import java.util.Map;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.configuration.Config;
@@ -44,6 +41,9 @@ import org.neo4j.kernel.ha.HaSettings;
 import org.neo4j.kernel.ha.HighlyAvailableGraphDatabase;
 import org.neo4j.kernel.impl.factory.Edition;
 import org.neo4j.kernel.impl.factory.GraphDatabaseFacadeFactory;
+
+import java.io.File;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
 

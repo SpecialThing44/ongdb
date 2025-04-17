@@ -43,12 +43,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -56,10 +51,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian_3D;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.WGS84;
-import static org.neo4j.values.storable.CoordinateReferenceSystem.WGS84_3D;
+import static org.neo4j.values.storable.CoordinateReferenceSystem.*;
 import static org.neo4j.values.storable.DateTimeValue.datetime;
 import static org.neo4j.values.storable.DateValue.date;
 import static org.neo4j.values.storable.DurationValue.duration;

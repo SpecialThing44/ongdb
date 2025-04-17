@@ -39,11 +39,10 @@
 package org.neo4j.dbms;
 
 import org.junit.Test;
-
-import java.io.File;
-
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.kernel.configuration.Config;
+
+import java.io.File;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;

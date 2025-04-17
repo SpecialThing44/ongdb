@@ -38,36 +38,18 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
-
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.traversal.BranchState;
 import org.neo4j.graphdb.traversal.Paths;
 import org.neo4j.helpers.Service;
 import org.neo4j.helpers.collection.FilteringIterator;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.ColumnPrinter;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
+
+import java.rmi.RemoteException;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 /**
  * Mimics the POSIX application with the same name, i.e. lists

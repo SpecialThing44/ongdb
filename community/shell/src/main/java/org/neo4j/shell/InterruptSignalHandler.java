@@ -38,12 +38,11 @@
  */
 package org.neo4j.shell;
 
+import org.neo4j.helpers.Cancelable;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
 import java.util.concurrent.atomic.AtomicReference;
-
-import org.neo4j.helpers.Cancelable;
 
 public class InterruptSignalHandler implements SignalHandler, CtrlCHandler
 {

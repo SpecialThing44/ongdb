@@ -38,17 +38,17 @@
  */
 package org.neo4j.bolt.security.auth;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.neo4j.graphdb.security.AuthorizationViolationException;
 import org.neo4j.internal.kernel.api.security.LoginContext;
+import org.neo4j.kernel.api.exceptions.InvalidArgumentsException;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.api.security.AuthManager;
 import org.neo4j.kernel.api.security.AuthToken;
-import org.neo4j.kernel.api.exceptions.InvalidArgumentsException;
 import org.neo4j.kernel.api.security.UserManagerSupplier;
 import org.neo4j.kernel.api.security.exception.InvalidAuthTokenException;
+
+import java.io.IOException;
+import java.util.Map;
 
 import static org.neo4j.kernel.api.security.AuthToken.NEW_CREDENTIALS;
 import static org.neo4j.kernel.api.security.AuthToken.PRINCIPAL;

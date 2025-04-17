@@ -38,16 +38,12 @@
  */
 package org.neo4j.codegen.bytecode;
 
+import org.neo4j.codegen.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.neo4j.codegen.ByteCodes;
-import org.neo4j.codegen.ClassEmitter;
-import org.neo4j.codegen.CodeGenerator;
-import org.neo4j.codegen.CompilationFailureException;
-import org.neo4j.codegen.TypeReference;
 
 class ByteCodeGenerator extends CodeGenerator
 {

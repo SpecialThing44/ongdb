@@ -38,20 +38,15 @@
  */
 package org.neo4j.codegen.source;
 
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import javax.annotation.processing.Processor;
-import javax.tools.JavaCompiler;
-
 import org.neo4j.codegen.CodeGenerationStrategy;
 import org.neo4j.codegen.CodeGenerationStrategyNotSupportedException;
 import org.neo4j.codegen.TypeReference;
+
+import javax.annotation.processing.Processor;
+import javax.tools.JavaCompiler;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.util.*;
 
 class Configuration
 {

@@ -38,12 +38,12 @@
  */
 package org.neo4j.io.pagecache.randomharness;
 
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.impl.muninn.MuninnPageCache;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.impl.muninn.MuninnPageCache;
 
 public class StandardRecordFormat extends RecordFormat
 {

@@ -38,14 +38,14 @@
  */
 package org.neo4j.io.pagecache;
 
+import org.neo4j.io.fs.FileSystemAbstraction;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
-
-import org.neo4j.io.fs.FileSystemAbstraction;
 
 /**
  * A page caching mechanism that allows caching multiple files and accessing their data

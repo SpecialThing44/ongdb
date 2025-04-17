@@ -34,14 +34,14 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted.pipes
 
-import java.util
-
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.SlotConfiguration
-import org.neo4j.cypher.internal.runtime.slotted.helpers.NullChecker.entityIsNull
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{Pipe, QueryState}
 import org.neo4j.cypher.internal.runtime.slotted.SlottedExecutionContext
+import org.neo4j.cypher.internal.runtime.slotted.helpers.NullChecker.entityIsNull
 import org.neo4j.cypher.internal.util.v3_4.attribution.Id
+
+import java.util
 
 case class NodeHashJoinSlottedPipe(leftSide: Array[Int],
                                    rightSide: Array[Int],

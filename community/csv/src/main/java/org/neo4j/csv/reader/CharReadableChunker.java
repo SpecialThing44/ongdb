@@ -38,10 +38,10 @@
  */
 package org.neo4j.csv.reader;
 
+import org.neo4j.csv.reader.Source.Chunk;
+
 import java.io.IOException;
 import java.util.Arrays;
-
-import org.neo4j.csv.reader.Source.Chunk;
 
 /**
  * Chunks up a {@link CharReadable}.

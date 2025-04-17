@@ -36,11 +36,6 @@ package org.neo4j.com;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.junit.Test;
-
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.neo4j.kernel.NeoStoreDataSource;
 import org.neo4j.kernel.impl.store.record.NodeRecord;
 import org.neo4j.kernel.impl.transaction.TransactionRepresentation;
@@ -50,6 +45,10 @@ import org.neo4j.kernel.impl.transaction.log.PhysicalTransactionRepresentation;
 import org.neo4j.kernel.impl.transaction.log.ReadableClosablePositionAwareChannel;
 import org.neo4j.kernel.impl.transaction.log.entry.VersionAwareLogEntryReader;
 import org.neo4j.storageengine.api.StorageCommand;
+
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

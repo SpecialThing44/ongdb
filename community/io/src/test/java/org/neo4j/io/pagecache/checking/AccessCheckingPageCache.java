@@ -38,15 +38,15 @@
  */
 package org.neo4j.io.pagecache.checking;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.OpenOption;
-import java.util.Optional;
-
 import org.neo4j.io.pagecache.DelegatingPageCache;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.PagedFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.OpenOption;
+import java.util.Optional;
 
 /**
  * Wraps a {@link PageCache} and ensures that read {@link PageCursor} i.e. page cursors which are created

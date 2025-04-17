@@ -34,13 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.io.OutputStream;
-import java.time.Clock;
-import java.time.Duration;
-import java.util.Collection;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
-
 import org.neo4j.causalclustering.catchup.CatchUpClient;
 import org.neo4j.causalclustering.catchup.CatchupClientBuilder;
 import org.neo4j.causalclustering.catchup.storecopy.RemoteStore;
@@ -63,6 +56,13 @@ import org.neo4j.kernel.impl.enterprise.configuration.OnlineBackupSettings;
 import org.neo4j.kernel.impl.pagecache.ConfigurableStandalonePageCacheFactory;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.LogProvider;
+
+import java.io.OutputStream;
+import java.time.Clock;
+import java.time.Duration;
+import java.util.Collection;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * The dependencies for the backup strategies require a valid configuration for initialisation.

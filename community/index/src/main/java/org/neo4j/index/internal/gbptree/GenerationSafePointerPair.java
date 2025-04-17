@@ -41,11 +41,7 @@ package org.neo4j.index.internal.gbptree;
 import org.neo4j.io.pagecache.PageCursor;
 
 import static java.lang.String.format;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointer.MIN_GENERATION;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointer.checksumOf;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointer.readChecksum;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointer.readGeneration;
-import static org.neo4j.index.internal.gbptree.GenerationSafePointer.readPointer;
+import static org.neo4j.index.internal.gbptree.GenerationSafePointer.*;
 
 /**
  * Two {@link GenerationSafePointer} forming the basis for a B+tree becoming generate-aware.

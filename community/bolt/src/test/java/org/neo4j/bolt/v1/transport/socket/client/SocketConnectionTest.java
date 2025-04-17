@@ -41,19 +41,15 @@ package org.neo4j.bolt.v1.transport.socket.client;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.neo4j.helpers.HostnamePort;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-import org.neo4j.helpers.HostnamePort;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class SocketConnectionTest

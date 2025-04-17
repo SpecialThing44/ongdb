@@ -38,19 +38,6 @@
  */
 package org.neo4j.ext.udc.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.regex.Pattern;
-
 import org.neo4j.ext.udc.UdcSettings;
 import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.config.Setting;
@@ -66,31 +53,16 @@ import org.neo4j.storageengine.api.StoreFileMetadata;
 import org.neo4j.udc.UsageData;
 import org.neo4j.udc.UsageDataKeys;
 
-import static org.neo4j.ext.udc.UdcConstants.CLUSTER_HASH;
-import static org.neo4j.ext.udc.UdcConstants.DATABASE_MODE;
-import static org.neo4j.ext.udc.UdcConstants.DISTRIBUTION;
-import static org.neo4j.ext.udc.UdcConstants.EDITION;
-import static org.neo4j.ext.udc.UdcConstants.FEATURES;
-import static org.neo4j.ext.udc.UdcConstants.HEAP_SIZE;
-import static org.neo4j.ext.udc.UdcConstants.ID;
-import static org.neo4j.ext.udc.UdcConstants.LABEL_IDS_IN_USE;
-import static org.neo4j.ext.udc.UdcConstants.MAC;
-import static org.neo4j.ext.udc.UdcConstants.NODE_IDS_IN_USE;
-import static org.neo4j.ext.udc.UdcConstants.NUM_PROCESSORS;
-import static org.neo4j.ext.udc.UdcConstants.OS_PROPERTY_PREFIX;
-import static org.neo4j.ext.udc.UdcConstants.PROPERTY_IDS_IN_USE;
-import static org.neo4j.ext.udc.UdcConstants.REGISTRATION;
-import static org.neo4j.ext.udc.UdcConstants.RELATIONSHIP_IDS_IN_USE;
-import static org.neo4j.ext.udc.UdcConstants.REVISION;
-import static org.neo4j.ext.udc.UdcConstants.SERVER_ID;
-import static org.neo4j.ext.udc.UdcConstants.SOURCE;
-import static org.neo4j.ext.udc.UdcConstants.STORE_SIZE;
-import static org.neo4j.ext.udc.UdcConstants.TAGS;
-import static org.neo4j.ext.udc.UdcConstants.TOTAL_MEMORY;
-import static org.neo4j.ext.udc.UdcConstants.UDC_PROPERTY_PREFIX;
-import static org.neo4j.ext.udc.UdcConstants.UNKNOWN_DIST;
-import static org.neo4j.ext.udc.UdcConstants.USER_AGENTS;
-import static org.neo4j.ext.udc.UdcConstants.VERSION;
+import java.io.File;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import static org.neo4j.ext.udc.UdcConstants.*;
 
 public class DefaultUdcInformationCollector implements UdcInformationCollector
 {

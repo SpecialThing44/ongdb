@@ -38,10 +38,6 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.function.Consumer;
-
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.IncorrectUsage;
@@ -55,6 +51,10 @@ import org.neo4j.kernel.impl.store.format.RecordFormatSelector;
 import org.neo4j.kernel.impl.store.format.RecordFormats;
 import org.neo4j.kernel.impl.storemigration.StoreVersionCheck;
 import org.neo4j.kernel.impl.util.Validators;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.function.Consumer;
 
 import static org.neo4j.kernel.impl.store.format.RecordFormatSelector.findSuccessor;
 

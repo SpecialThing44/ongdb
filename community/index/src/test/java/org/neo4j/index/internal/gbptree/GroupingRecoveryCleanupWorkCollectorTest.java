@@ -39,23 +39,16 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.junit.Test;
+import org.neo4j.scheduler.JobSchedulerAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import org.neo4j.scheduler.JobSchedulerAdapter;
+import java.util.concurrent.*;
 
 import static java.lang.String.format;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class GroupingRecoveryCleanupWorkCollectorTest
 {

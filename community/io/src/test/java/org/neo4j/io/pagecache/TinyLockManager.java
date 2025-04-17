@@ -38,9 +38,9 @@
  */
 package org.neo4j.io.pagecache;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.neo4j.concurrent.BinaryLatch;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A tiny dumb lock manager built specifically for the page cache stress test, because it needs something to represent

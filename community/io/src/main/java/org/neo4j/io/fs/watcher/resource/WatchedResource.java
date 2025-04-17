@@ -38,9 +38,9 @@
  */
 package org.neo4j.io.fs.watcher.resource;
 
-import java.io.Closeable;
-
 import org.neo4j.io.fs.watcher.FileWatcher;
+
+import java.io.Closeable;
 
 /**
  * Resource watched by {@link FileWatcher}.

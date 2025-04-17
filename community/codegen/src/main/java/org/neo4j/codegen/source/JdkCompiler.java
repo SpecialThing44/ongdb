@@ -38,17 +38,13 @@
  */
 package org.neo4j.codegen.source;
 
-import java.util.List;
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.ToolProvider;
-
 import org.neo4j.codegen.ByteCodes;
 import org.neo4j.codegen.CodeGenerationStrategy;
 import org.neo4j.codegen.CodeGenerationStrategyNotSupportedException;
 import org.neo4j.codegen.CompilationFailureException;
+
+import javax.tools.*;
+import java.util.List;
 
 class JdkCompiler implements SourceCompiler
 {

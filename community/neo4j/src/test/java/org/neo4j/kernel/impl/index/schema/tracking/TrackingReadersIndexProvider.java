@@ -38,8 +38,6 @@
  */
 package org.neo4j.kernel.impl.index.schema.tracking;
 
-import java.io.IOException;
-
 import org.neo4j.internal.kernel.api.IndexCapability;
 import org.neo4j.internal.kernel.api.InternalIndexState;
 import org.neo4j.io.fs.FileSystemAbstraction;
@@ -51,6 +49,8 @@ import org.neo4j.kernel.api.index.IndexProvider;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.impl.api.index.sampling.IndexSamplingConfig;
 import org.neo4j.kernel.impl.storemigration.StoreMigrationParticipant;
+
+import java.io.IOException;
 
 public class TrackingReadersIndexProvider extends IndexProvider
 {

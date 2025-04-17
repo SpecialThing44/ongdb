@@ -43,11 +43,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.virtual.VirtualValues.EMPTY_LIST;
-import static org.neo4j.values.virtual.VirtualValues.drop;
-import static org.neo4j.values.virtual.VirtualValues.list;
-import static org.neo4j.values.virtual.VirtualValues.slice;
-import static org.neo4j.values.virtual.VirtualValues.take;
+import static org.neo4j.values.virtual.VirtualValues.*;
 
 public class ListSliceTest
 {

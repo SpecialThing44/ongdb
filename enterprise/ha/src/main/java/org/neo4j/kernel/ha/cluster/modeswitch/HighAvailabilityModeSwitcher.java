@@ -34,26 +34,13 @@
  */
 package org.neo4j.kernel.ha.cluster.modeswitch;
 
-import java.net.URI;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Supplier;
-
 import org.neo4j.cluster.BindingListener;
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.client.ClusterClient;
 import org.neo4j.cluster.member.ClusterMemberAvailability;
 import org.neo4j.cluster.protocol.election.Election;
 import org.neo4j.helpers.CancellationRequest;
-import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberChangeEvent;
-import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberListener;
-import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState;
-import org.neo4j.kernel.ha.cluster.SwitchToMaster;
-import org.neo4j.kernel.ha.cluster.SwitchToSlave;
+import org.neo4j.kernel.ha.cluster.*;
 import org.neo4j.kernel.ha.store.HighAvailabilityStoreFailureException;
 import org.neo4j.kernel.ha.store.UnableToCopyStoreFromOldMasterException;
 import org.neo4j.kernel.impl.logging.LogService;
@@ -63,6 +50,15 @@ import org.neo4j.kernel.impl.transaction.state.DataSourceManager;
 import org.neo4j.kernel.lifecycle.LifeSupport;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.logging.Log;
+
+import java.net.URI;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Supplier;
 
 import static org.neo4j.cluster.ClusterSettings.INSTANCE_ID;
 import static org.neo4j.helpers.NamedThreadFactory.named;

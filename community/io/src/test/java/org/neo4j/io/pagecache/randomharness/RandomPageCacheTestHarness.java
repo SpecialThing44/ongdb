@@ -38,26 +38,6 @@
  */
 package org.neo4j.io.pagecache.randomharness;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.neo4j.adversaries.RandomAdversary;
 import org.neo4j.adversaries.fs.AdversarialFileSystemAbstraction;
 import org.neo4j.graphdb.config.Configuration;
@@ -75,6 +55,17 @@ import org.neo4j.io.pagecache.tracing.cursor.context.EmptyVersionContextSupplier
 import org.neo4j.io.pagecache.tracing.linear.LinearHistoryPageCacheTracerTest;
 import org.neo4j.io.pagecache.tracing.linear.LinearTracers;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The RandomPageCacheTestHarness can plan and run random page cache tests, repeatably if necessary, and verify that

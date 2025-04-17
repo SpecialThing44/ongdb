@@ -38,21 +38,15 @@
  */
 package org.neo4j.io.pagecache.randomharness;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-
 import org.neo4j.collection.primitive.Primitive;
 import org.neo4j.collection.primitive.PrimitiveLongSet;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.PagedFile;
 import org.neo4j.io.pagecache.TinyLockManager;
 import org.neo4j.io.pagecache.impl.muninn.MuninnPageCache;
+
+import java.io.File;
+import java.util.*;
 
 import static org.hamcrest.Matchers.isOneOf;
 import static org.junit.Assert.assertThat;

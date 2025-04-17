@@ -42,24 +42,17 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.bolt.AbstractBoltTransportsTest;
 import org.neo4j.bolt.v1.messaging.message.InitMessage;
 import org.neo4j.bolt.v1.transport.socket.client.TransportConnection;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptyMap;
-import static java.util.Collections.singletonList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
+
+import static java.util.Collections.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

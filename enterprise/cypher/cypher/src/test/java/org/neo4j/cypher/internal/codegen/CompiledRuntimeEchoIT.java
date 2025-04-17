@@ -36,7 +36,6 @@ package org.neo4j.cypher.internal.codegen;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.test.rule.EnterpriseDatabaseRule;
 
 import static java.util.Arrays.asList;

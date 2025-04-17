@@ -34,8 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.util.List;
-
 import org.neo4j.causalclustering.catchup.storecopy.StoreFiles;
 import org.neo4j.com.storecopy.FileMoveProvider;
 import org.neo4j.commandline.admin.OutsideWorld;
@@ -45,6 +43,8 @@ import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.logging.LogProvider;
+
+import java.util.List;
 
 /*
  * Backup strategy coordinators iterate through backup strategies and make sure at least one of them can perform a valid backup.

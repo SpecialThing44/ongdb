@@ -39,9 +39,6 @@
 package org.neo4j.bolt.v1.messaging;
 
 import org.junit.Test;
-
-import java.io.IOException;
-
 import org.neo4j.bolt.runtime.BoltConnection;
 import org.neo4j.bolt.v1.packstream.PackOutputClosedException;
 import org.neo4j.bolt.v1.runtime.Neo4jError;
@@ -51,14 +48,13 @@ import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.logging.Log;
 import org.neo4j.values.virtual.MapValue;
 
-import static org.hamcrest.Matchers.both;
-import static org.hamcrest.Matchers.equalTo;
+import java.io.IOException;
+
 import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.neo4j.logging.AssertableLogProvider.inLog;
 import static org.neo4j.test.matchers.CommonMatchers.hasSuppressed;
 

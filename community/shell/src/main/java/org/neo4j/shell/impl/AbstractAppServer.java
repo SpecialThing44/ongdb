@@ -38,27 +38,14 @@
  */
 package org.neo4j.shell.impl;
 
-import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.regex.Pattern;
-
 import org.neo4j.helpers.Service;
 import org.neo4j.helpers.TextUtil;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.AppShellServer;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Response;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.TabCompletion;
+import org.neo4j.shell.*;
+
+import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * A common implementation of an {@link AppShellServer}. The server can be given

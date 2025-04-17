@@ -38,9 +38,9 @@
  */
 package org.neo4j.codegen.source;
 
-import java.util.List;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
+import java.util.List;
 
 interface WarningsHandler
 {

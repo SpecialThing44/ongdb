@@ -38,8 +38,6 @@
  */
 package org.neo4j.kernel.impl.index.schema.tracking;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.neo4j.collection.primitive.PrimitiveLongResourceIterator;
 import org.neo4j.internal.kernel.api.IndexOrder;
 import org.neo4j.internal.kernel.api.IndexQuery;
@@ -49,6 +47,8 @@ import org.neo4j.storageengine.api.schema.IndexProgressor;
 import org.neo4j.storageengine.api.schema.IndexReader;
 import org.neo4j.storageengine.api.schema.IndexSampler;
 import org.neo4j.values.storable.Value;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TrackingIndexReader implements IndexReader
 {

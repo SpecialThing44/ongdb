@@ -40,15 +40,7 @@ package migration;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.TransactionFailureException;
+import org.neo4j.graphdb.*;
 import org.neo4j.helpers.Exceptions;
 import org.neo4j.kernel.impl.store.format.standard.Standard;
 import org.neo4j.kernel.impl.store.format.standard.StandardV3_2;
@@ -57,13 +49,12 @@ import org.neo4j.kernel.impl.storemigration.StoreUpgrader;
 import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.values.storable.PointValue;
 
+import java.io.File;
+
 import static migration.RecordFormatMigrationIT.startDatabaseWithFormat;
 import static migration.RecordFormatMigrationIT.startNonUpgradableDatabaseWithFormat;
 import static org.hamcrest.Matchers.arrayWithSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian;
 import static org.neo4j.values.storable.Values.pointValue;
 

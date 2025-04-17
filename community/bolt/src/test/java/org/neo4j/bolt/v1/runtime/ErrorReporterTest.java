@@ -39,12 +39,11 @@
 package org.neo4j.bolt.v1.runtime;
 
 import org.junit.Test;
-
-import java.util.UUID;
-
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.logging.LogProvider;
+
+import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

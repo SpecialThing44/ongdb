@@ -34,28 +34,11 @@
  */
 package org.neo4j.ha.correctness;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executor;
-
-import org.neo4j.cluster.ClusterSettings;
-import org.neo4j.cluster.DelayedDirectExecutor;
 import org.neo4j.cluster.InstanceId;
-import org.neo4j.cluster.MultiPaxosServerFactory;
-import org.neo4j.cluster.ProtocolServer;
-import org.neo4j.cluster.StateMachines;
-import org.neo4j.cluster.com.message.Message;
-import org.neo4j.cluster.com.message.MessageProcessor;
-import org.neo4j.cluster.com.message.MessageSender;
-import org.neo4j.cluster.com.message.MessageSource;
-import org.neo4j.cluster.com.message.MessageType;
+import org.neo4j.cluster.*;
+import org.neo4j.cluster.com.message.*;
 import org.neo4j.cluster.protocol.atomicbroadcast.ObjectStreamFactory;
-import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.AcceptorMessage;
-import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.AtomicBroadcastMessage;
-import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.InMemoryAcceptorInstanceStore;
-import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.LearnerMessage;
-import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.ProposerMessage;
+import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.*;
 import org.neo4j.cluster.protocol.atomicbroadcast.multipaxos.context.MultiPaxosContext;
 import org.neo4j.cluster.protocol.cluster.ClusterConfiguration;
 import org.neo4j.cluster.protocol.cluster.ClusterMessage;
@@ -73,6 +56,11 @@ import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState;
 import org.neo4j.kernel.impl.core.LastTxIdGetter;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.LogProvider;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executor;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

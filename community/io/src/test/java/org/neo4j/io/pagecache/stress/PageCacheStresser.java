@@ -38,21 +38,17 @@
  */
 package org.neo4j.io.pagecache.stress;
 
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PagedFile;
+import org.neo4j.io.pagecache.TinyLockManager;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PagedFile;
-import org.neo4j.io.pagecache.TinyLockManager;
+import java.util.concurrent.*;
 
 import static org.junit.Assert.assertTrue;
 

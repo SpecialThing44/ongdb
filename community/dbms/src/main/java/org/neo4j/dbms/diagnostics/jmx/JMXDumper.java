@@ -38,17 +38,13 @@
  */
 package org.neo4j.dbms.diagnostics.jmx;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import org.neo4j.io.fs.FileSystemAbstraction;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Optional;
-
-import org.neo4j.io.fs.FileSystemAbstraction;
 
 import static org.neo4j.commandline.dbms.DiagnosticsReportCommand.PID_KEY;
 

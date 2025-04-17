@@ -38,9 +38,6 @@
  */
 package org.neo4j.bolt.v1.runtime;
 
-import java.time.Clock;
-import java.util.Collections;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.security.auth.AuthenticationException;
 import org.neo4j.bolt.security.auth.AuthenticationResult;
@@ -49,12 +46,13 @@ import org.neo4j.kernel.impl.logging.NullLogService;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.VirtualValues;
 
+import java.time.Clock;
+import java.util.Collections;
+
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.RETURNS_MOCKS;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.bolt.testing.BoltMatchers.hasTransaction;
 import static org.neo4j.bolt.testing.NullResponseHandler.nullResponseHandler;
 

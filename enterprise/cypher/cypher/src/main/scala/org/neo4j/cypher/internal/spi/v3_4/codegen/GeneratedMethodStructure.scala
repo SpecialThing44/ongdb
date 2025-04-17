@@ -34,9 +34,6 @@
  */
 package org.neo4j.cypher.internal.spi.v3_4.codegen
 
-import java.util.stream.{DoubleStream, IntStream, LongStream}
-import java.util.{PrimitiveIterator, ArrayList => JArrayList, HashMap => JHashMap, HashSet => JHashSet, Iterator => JIterator, Map => JMap, Set => JSet}
-
 import org.neo4j.codegen.Expression.{invoke, not, or, _}
 import org.neo4j.codegen.MethodReference.methodReference
 import org.neo4j.codegen._
@@ -63,6 +60,8 @@ import org.neo4j.values.AnyValue
 import org.neo4j.values.storable._
 import org.neo4j.values.virtual._
 
+import java.util.stream.{DoubleStream, IntStream, LongStream}
+import java.util.{PrimitiveIterator, ArrayList => JArrayList, HashMap => JHashMap, HashSet => JHashSet, Iterator => JIterator, Map => JMap, Set => JSet}
 import scala.collection.mutable
 
 object GeneratedMethodStructure {

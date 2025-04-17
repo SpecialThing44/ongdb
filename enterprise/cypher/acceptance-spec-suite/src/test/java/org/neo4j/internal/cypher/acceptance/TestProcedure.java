@@ -34,6 +34,16 @@
  */
 package org.neo4j.internal.cypher.acceptance;
 
+import org.neo4j.graphalgo.GraphAlgoFactory;
+import org.neo4j.graphalgo.PathFinder;
+import org.neo4j.graphalgo.WeightedPath;
+import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.traversal.*;
+import org.neo4j.procedure.Context;
+import org.neo4j.procedure.Description;
+import org.neo4j.procedure.Name;
+import org.neo4j.procedure.Procedure;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,32 +52,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.neo4j.graphalgo.GraphAlgoFactory;
-import org.neo4j.graphalgo.PathFinder;
-import org.neo4j.graphalgo.WeightedPath;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.PathExpanders;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Result;
-import org.neo4j.graphdb.traversal.Evaluation;
-import org.neo4j.graphdb.traversal.Evaluator;
-import org.neo4j.graphdb.traversal.Evaluators;
-import org.neo4j.graphdb.traversal.TraversalDescription;
-import org.neo4j.graphdb.traversal.Uniqueness;
-import org.neo4j.procedure.Context;
-import org.neo4j.procedure.Description;
-import org.neo4j.procedure.Name;
-import org.neo4j.procedure.Procedure;
-
-import static org.neo4j.graphdb.traversal.Evaluation.EXCLUDE_AND_CONTINUE;
-import static org.neo4j.graphdb.traversal.Evaluation.EXCLUDE_AND_PRUNE;
-import static org.neo4j.graphdb.traversal.Evaluation.INCLUDE_AND_CONTINUE;
+import static org.neo4j.graphdb.traversal.Evaluation.*;
 import static org.neo4j.procedure.Mode.WRITE;
 
 public class TestProcedure

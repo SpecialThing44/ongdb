@@ -41,7 +41,6 @@ package org.neo4j.bolt.transport.pipeline;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.EventExecutorGroup;
-
 import org.neo4j.bolt.runtime.BoltConnection;
 import org.neo4j.helpers.Exceptions;
 import org.neo4j.logging.Log;

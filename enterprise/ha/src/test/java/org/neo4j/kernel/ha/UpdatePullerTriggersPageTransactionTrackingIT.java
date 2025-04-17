@@ -37,11 +37,6 @@ package org.neo4j.kernel.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.Map;
-import java.util.function.LongSupplier;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.QueryExecutionException;
@@ -62,6 +57,10 @@ import org.neo4j.kernel.impl.factory.PlatformModule;
 import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.test.ha.ClusterRule;
+
+import java.io.File;
+import java.util.Map;
+import java.util.function.LongSupplier;
 
 import static org.junit.Assert.assertEquals;
 import static org.neo4j.helpers.collection.MapUtil.stringMap;

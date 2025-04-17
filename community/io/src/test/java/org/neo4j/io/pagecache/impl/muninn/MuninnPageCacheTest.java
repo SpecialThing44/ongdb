@@ -40,6 +40,22 @@ package org.neo4j.io.pagecache.impl.muninn;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.junit.Test;
+import org.neo4j.graphdb.mockfs.DelegatingFileSystemAbstraction;
+import org.neo4j.graphdb.mockfs.DelegatingStoreChannel;
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.io.fs.OpenMode;
+import org.neo4j.io.fs.StoreChannel;
+import org.neo4j.io.pagecache.PageCacheTest;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PagedFile;
+import org.neo4j.io.pagecache.tracing.*;
+import org.neo4j.io.pagecache.tracing.cursor.DefaultPageCursorTracerSupplier;
+import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
+import org.neo4j.io.pagecache.tracing.cursor.context.VersionContext;
+import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
+import org.neo4j.io.pagecache.tracing.recording.RecordingPageCacheTracer;
+import org.neo4j.io.pagecache.tracing.recording.RecordingPageCursorTracer;
+import org.neo4j.io.pagecache.tracing.recording.RecordingPageCursorTracer.Fault;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,37 +65,9 @@ import java.util.concurrent.Future;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 
-import org.neo4j.graphdb.mockfs.DelegatingFileSystemAbstraction;
-import org.neo4j.graphdb.mockfs.DelegatingStoreChannel;
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.fs.OpenMode;
-import org.neo4j.io.fs.StoreChannel;
-import org.neo4j.io.pagecache.PageCacheTest;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PagedFile;
-import org.neo4j.io.pagecache.tracing.ConfigurablePageCursorTracerSupplier;
-import org.neo4j.io.pagecache.tracing.DelegatingPageCacheTracer;
-import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
-import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
-import org.neo4j.io.pagecache.tracing.PageCacheTracer;
-import org.neo4j.io.pagecache.tracing.cursor.DefaultPageCursorTracerSupplier;
-import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
-import org.neo4j.io.pagecache.tracing.cursor.context.VersionContext;
-import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
-import org.neo4j.io.pagecache.tracing.recording.RecordingPageCacheTracer;
-import org.neo4j.io.pagecache.tracing.recording.RecordingPageCursorTracer;
-import org.neo4j.io.pagecache.tracing.recording.RecordingPageCursorTracer.Fault;
-
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.neo4j.io.pagecache.PagedFile.PF_NO_GROW;
-import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_READ_LOCK;
-import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_WRITE_LOCK;
+import static org.junit.Assert.*;
+import static org.neo4j.io.pagecache.PagedFile.*;
 import static org.neo4j.io.pagecache.tracing.recording.RecordingPageCacheTracer.Evict;
 
 public class MuninnPageCacheTest extends PageCacheTest<MuninnPageCache>

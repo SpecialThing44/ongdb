@@ -40,23 +40,7 @@ package org.neo4j.commandline.dbms;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import org.neo4j.commandline.admin.CommandFailed;
-import org.neo4j.commandline.admin.CommandLocator;
-import org.neo4j.commandline.admin.IncorrectUsage;
-import org.neo4j.commandline.admin.NullOutsideWorld;
-import org.neo4j.commandline.admin.OutsideWorld;
-import org.neo4j.commandline.admin.RealOutsideWorld;
-import org.neo4j.commandline.admin.Usage;
+import org.neo4j.commandline.admin.*;
 import org.neo4j.helpers.Args;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.store.MetaDataStore;
@@ -64,16 +48,15 @@ import org.neo4j.kernel.impl.storemigration.StoreFileType;
 import org.neo4j.test.rule.SuppressOutput;
 import org.neo4j.test.rule.TestDirectory;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.io.NullOutputStream.NULL_OUTPUT_STREAM;
 
 public class ImportCommandTest

@@ -37,9 +37,6 @@ package org.neo4j.kernel.ha;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.logging.Level;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.impl.ha.ClusterManager;
@@ -48,9 +45,9 @@ import org.neo4j.kernel.impl.ha.ClusterManager.RepairKit;
 import org.neo4j.test.ha.ClusterRule;
 import org.neo4j.test.rule.LoggerRule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.logging.Level;
+
+import static org.junit.Assert.*;
 
 public class BasicHaOperationsIT
 {

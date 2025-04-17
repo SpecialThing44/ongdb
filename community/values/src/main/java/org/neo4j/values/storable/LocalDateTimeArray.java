@@ -38,10 +38,10 @@
  */
 package org.neo4j.values.storable;
 
+import org.neo4j.values.ValueMapper;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
-
-import org.neo4j.values.ValueMapper;
 
 public class LocalDateTimeArray extends TemporalArray<LocalDateTime, LocalDateTimeValue>
 {

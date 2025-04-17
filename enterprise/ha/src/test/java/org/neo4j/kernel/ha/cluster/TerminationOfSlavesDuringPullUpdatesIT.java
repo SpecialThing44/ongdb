@@ -39,22 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
-import org.parboiled.common.StringUtils;
-
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.PropertyContainer;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.TransactionTerminatedException;
-import org.neo4j.graphdb.TransientTransactionFailureException;
+import org.neo4j.graphdb.*;
 import org.neo4j.helpers.Strings;
 import org.neo4j.kernel.ha.HaSettings;
 import org.neo4j.kernel.ha.HighlyAvailableGraphDatabase;
@@ -63,6 +48,14 @@ import org.neo4j.kernel.impl.ha.ClusterManager;
 import org.neo4j.kernel.impl.storageengine.impl.recordstorage.id.IdController;
 import org.neo4j.test.Race;
 import org.neo4j.test.ha.ClusterRule;
+import org.parboiled.common.StringUtils;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsIn.isIn;

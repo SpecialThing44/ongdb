@@ -42,19 +42,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
-
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
-
 import org.neo4j.consistency.ConsistencyCheckService;
 import org.neo4j.consistency.checking.full.ConsistencyCheckIncompleteException;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.helpers.progress.ProgressMonitorFactory;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.logging.FormattedLogProvider;
@@ -62,6 +52,10 @@ import org.neo4j.logging.LogProvider;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.SuppressOutput;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;

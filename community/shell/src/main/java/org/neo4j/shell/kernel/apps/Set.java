@@ -38,21 +38,14 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.helpers.Service;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
+
+import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Sets a property for the current node or relationship.

@@ -37,17 +37,6 @@ package org.neo4j.kernel.ha.cluster;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 import org.neo4j.backup.OnlineBackupKernelExtension;
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.cluster.InstanceId;
@@ -64,13 +53,7 @@ import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.io.pagecache.PagedFile;
 import org.neo4j.kernel.NeoStoreDataSource;
 import org.neo4j.kernel.configuration.Config;
-import org.neo4j.kernel.ha.BranchedDataException;
-import org.neo4j.kernel.ha.BranchedDataPolicy;
-import org.neo4j.kernel.ha.DelegateInvocationHandler;
-import org.neo4j.kernel.ha.PullerFactory;
-import org.neo4j.kernel.ha.SlaveUpdatePuller;
-import org.neo4j.kernel.ha.UpdatePuller;
-import org.neo4j.kernel.ha.UpdatePullerScheduler;
+import org.neo4j.kernel.ha.*;
 import org.neo4j.kernel.ha.cluster.member.ClusterMember;
 import org.neo4j.kernel.ha.cluster.member.ClusterMembers;
 import org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher;
@@ -97,23 +80,21 @@ import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.NullLogProvider;
 import org.neo4j.scheduler.JobScheduler;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.withSettings;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.neo4j.com.StoreIdTestFactory.newStoreIdForCurrentVersion;
 
 public class SwitchToSlaveCopyThenBranchTest

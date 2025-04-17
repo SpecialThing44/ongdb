@@ -38,20 +38,11 @@
  */
 package org.neo4j.codegen.bytecode;
 
+import org.neo4j.codegen.*;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
-import org.neo4j.codegen.Expression;
-import org.neo4j.codegen.ExpressionVisitor;
-import org.neo4j.codegen.FieldReference;
-import org.neo4j.codegen.LocalVariable;
-import org.neo4j.codegen.MethodReference;
-import org.neo4j.codegen.TypeReference;
-
-import static org.objectweb.asm.Opcodes.IFEQ;
-import static org.objectweb.asm.Opcodes.IFNE;
-import static org.objectweb.asm.Opcodes.IFNONNULL;
-import static org.objectweb.asm.Opcodes.IFNULL;
+import static org.objectweb.asm.Opcodes.*;
 
 class JumpVisitor implements ExpressionVisitor
 {

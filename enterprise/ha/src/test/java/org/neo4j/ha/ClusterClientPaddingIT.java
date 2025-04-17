@@ -37,16 +37,12 @@ package org.neo4j.ha;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.kernel.ha.HighlyAvailableGraphDatabase;
-import org.neo4j.kernel.impl.ha.ClusterManager.ManagedCluster;
+import org.neo4j.kernel.impl.ha.ClusterManager.*;
 import org.neo4j.test.ha.ClusterRule;
 
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsJoined;
-import static org.neo4j.kernel.impl.ha.ClusterManager.clusterWithAdditionalClients;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterSeesMembers;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 
 public class ClusterClientPaddingIT
 {

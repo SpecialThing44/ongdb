@@ -36,10 +36,6 @@ package jmx;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.net.URI;
-import java.util.Arrays;
-
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.jmx.Kernel;
@@ -55,10 +51,10 @@ import org.neo4j.management.HighAvailability;
 import org.neo4j.management.Neo4jManager;
 import org.neo4j.test.ha.ClusterRule;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.net.URI;
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
 import static org.neo4j.helpers.collection.Iterables.filter;
 import static org.neo4j.helpers.collection.Iterables.firstOrNull;
 import static org.neo4j.kernel.configuration.Settings.STRING;

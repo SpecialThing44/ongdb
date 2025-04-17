@@ -40,6 +40,14 @@ package org.neo4j.bolt.runtime;
 
 import io.netty.channel.Channel;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.neo4j.bolt.BoltChannel;
+import org.neo4j.bolt.BoltKernelExtension;
+import org.neo4j.bolt.v1.packstream.PackOutput;
+import org.neo4j.bolt.v1.runtime.*;
+import org.neo4j.kernel.api.exceptions.Status;
+import org.neo4j.kernel.impl.logging.LogService;
+import org.neo4j.logging.Log;
+import org.neo4j.util.FeatureToggles;
 
 import java.net.SocketAddress;
 import java.util.ArrayList;
@@ -47,19 +55,6 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.neo4j.bolt.BoltChannel;
-import org.neo4j.bolt.BoltKernelExtension;
-import org.neo4j.bolt.v1.packstream.PackOutput;
-import org.neo4j.bolt.v1.runtime.BoltConnectionAuthFatality;
-import org.neo4j.bolt.v1.runtime.BoltProtocolBreachFatality;
-import org.neo4j.bolt.v1.runtime.BoltStateMachine;
-import org.neo4j.bolt.v1.runtime.Job;
-import org.neo4j.bolt.v1.runtime.Neo4jError;
-import org.neo4j.kernel.api.exceptions.Status;
-import org.neo4j.kernel.impl.logging.LogService;
-import org.neo4j.logging.Log;
-import org.neo4j.util.FeatureToggles;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 

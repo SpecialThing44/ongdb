@@ -40,11 +40,6 @@ package org.neo4j.bolt.v1.transport;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Objects;
-
 import org.neo4j.bolt.transport.TransportThrottleException;
 import org.neo4j.bolt.transport.TransportThrottleGroup;
 import org.neo4j.bolt.v1.messaging.BoltIOException;
@@ -52,6 +47,10 @@ import org.neo4j.bolt.v1.packstream.PackOutput;
 import org.neo4j.bolt.v1.packstream.PackOutputClosedException;
 import org.neo4j.bolt.v1.packstream.PackStream;
 import org.neo4j.kernel.api.exceptions.Status;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Objects;
 
 /**
  * A target output for {@link PackStream} which breaks the data into a continuous stream of chunks before pushing them into a netty

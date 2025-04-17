@@ -38,20 +38,13 @@
  */
 package org.neo4j.values.storable;
 
+import org.neo4j.helpers.collection.Pair;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.neo4j.helpers.collection.Pair;
-
-import static java.lang.Math.asin;
-import static java.lang.Math.atan2;
-import static java.lang.Math.cos;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
-import static java.lang.Math.sqrt;
-import static java.lang.Math.toDegrees;
-import static java.lang.Math.toRadians;
+import static java.lang.Math.*;
 
 public abstract class CRSCalculator
 {

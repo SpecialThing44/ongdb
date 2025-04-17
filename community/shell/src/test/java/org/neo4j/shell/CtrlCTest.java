@@ -39,13 +39,12 @@
 package org.neo4j.shell;
 
 import org.junit.Test;
-
-import java.rmi.RemoteException;
-import java.util.HashMap;
-
 import org.neo4j.helpers.Cancelable;
 import org.neo4j.shell.impl.AbstractClient;
 import org.neo4j.shell.impl.CollectingOutput;
+
+import java.rmi.RemoteException;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

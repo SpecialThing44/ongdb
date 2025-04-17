@@ -42,10 +42,9 @@ import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.neo4j.test.rule.SuppressOutput;
 
 import java.io.IOException;
-
-import org.neo4j.test.rule.SuppressOutput;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

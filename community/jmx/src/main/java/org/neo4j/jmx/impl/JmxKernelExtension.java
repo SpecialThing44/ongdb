@@ -38,19 +38,15 @@
  */
 package org.neo4j.jmx.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import javax.management.MBeanServer;
-
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.helpers.Service;
 import org.neo4j.kernel.internal.KernelData;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import javax.management.MBeanServer;
+import java.util.*;
 
 public class JmxKernelExtension implements Lifecycle
 {

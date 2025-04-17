@@ -40,17 +40,10 @@ package org.neo4j.values.virtual;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.neo4j.values.storable.Values.booleanValue;
-import static org.neo4j.values.storable.Values.intValue;
-import static org.neo4j.values.storable.Values.longValue;
-import static org.neo4j.values.storable.Values.stringValue;
+import static org.junit.Assert.*;
+import static org.neo4j.values.storable.Values.*;
 import static org.neo4j.values.virtual.VirtualValueTestUtil.map;
-import static org.neo4j.values.virtual.VirtualValues.EMPTY_LIST;
-import static org.neo4j.values.virtual.VirtualValues.concat;
-import static org.neo4j.values.virtual.VirtualValues.list;
+import static org.neo4j.values.virtual.VirtualValues.*;
 
 public class ConcatListTest
 {

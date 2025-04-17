@@ -38,18 +38,11 @@
  */
 package org.neo4j.jmx.impl;
 
-import javax.management.DynamicMBean;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanFeatureInfo;
-import javax.management.MBeanInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
-import javax.management.StandardMBean;
-
 import org.neo4j.jmx.Description;
 import org.neo4j.jmx.Kernel;
 import org.neo4j.kernel.internal.KernelData;
+
+import javax.management.*;
 
 public abstract class Neo4jMBean extends StandardMBean
 {

@@ -38,16 +38,12 @@
  */
 package org.neo4j.bolt.v1.messaging.example;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.neo4j.values.storable.TextArray;
 import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.PathValue;
-import org.neo4j.values.virtual.VirtualValues;
+import org.neo4j.values.virtual.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Support
 {

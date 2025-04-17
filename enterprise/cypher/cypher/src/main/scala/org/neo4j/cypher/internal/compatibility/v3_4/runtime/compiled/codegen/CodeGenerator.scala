@@ -34,9 +34,6 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen
 
-import java.time.Clock
-import java.util
-
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.CompiledRuntimeName
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.ExecutionPlanBuilder.DescriptionProvider
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir._
@@ -57,6 +54,9 @@ import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
 import org.neo4j.cypher.internal.v3_4.executionplan.{GeneratedQuery, GeneratedQueryExecution}
 import org.neo4j.cypher.internal.v3_4.logical.plans.{LogicalPlan, ProduceResult}
 import org.neo4j.values.virtual.MapValue
+
+import java.time.Clock
+import java.util
 
 class CodeGenerator(val structure: CodeStructure[GeneratedQuery], clock: Clock, conf: CodeGenConfiguration = CodeGenConfiguration() ) {
 

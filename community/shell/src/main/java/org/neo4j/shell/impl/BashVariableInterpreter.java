@@ -38,16 +38,16 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.kernel.internal.Version;
+import org.neo4j.shell.Session;
+import org.neo4j.shell.ShellServer;
+
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.neo4j.kernel.internal.Version;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellServer;
 
 /**
  * Can replace the prompt string (PS1) with common Bash variable interpretation,

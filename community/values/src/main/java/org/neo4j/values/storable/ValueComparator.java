@@ -38,10 +38,10 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.Comparator;
-
 import org.neo4j.values.Comparison;
 import org.neo4j.values.TernaryComparator;
+
+import java.util.Comparator;
 
 /**
  * Comparator for values. Usable for sorting values, for example during index range scans.

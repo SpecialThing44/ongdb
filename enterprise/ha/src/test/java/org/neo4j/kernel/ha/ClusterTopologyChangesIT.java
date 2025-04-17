@@ -38,11 +38,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.client.ClusterClient;
@@ -59,7 +54,7 @@ import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState;
 import org.neo4j.kernel.impl.ha.ClusterManager;
-import org.neo4j.kernel.impl.ha.ClusterManager.RepairKit;
+import org.neo4j.kernel.impl.ha.ClusterManager.*;
 import org.neo4j.kernel.impl.logging.SimpleLogService;
 import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.kernel.lifecycle.LifeSupport;
@@ -71,14 +66,14 @@ import org.neo4j.test.rule.CleanupRule;
 import org.neo4j.test.rule.RepeatRule;
 import org.neo4j.test.rule.SuppressOutput;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.neo4j.cluster.protocol.cluster.ClusterConfiguration.COORDINATOR;
-import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterAvailable;
-import static org.neo4j.kernel.impl.ha.ClusterManager.masterSeesSlavesAsAvailable;
+import static org.neo4j.kernel.impl.ha.ClusterManager.*;
 
 public class ClusterTopologyChangesIT
 {

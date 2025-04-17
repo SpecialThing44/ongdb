@@ -34,13 +34,13 @@
  */
 package org.neo4j.backup.impl;
 
-import java.time.Clock;
-
 import org.neo4j.causalclustering.catchup.tx.TransactionLogCatchUpFactory;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.LogProvider;
+
+import java.time.Clock;
 
 public class BackupModule
 {

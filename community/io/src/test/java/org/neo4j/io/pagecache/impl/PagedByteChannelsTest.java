@@ -42,18 +42,17 @@ import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
+import org.neo4j.function.ThrowingFunction;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PagedFile;
+import org.neo4j.io.pagecache.StubPagedFile;
 
 import java.io.IOException;
 import java.nio.channels.Channel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.neo4j.function.ThrowingFunction;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PagedFile;
-import org.neo4j.io.pagecache.StubPagedFile;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

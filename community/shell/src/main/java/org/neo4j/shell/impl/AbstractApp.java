@@ -38,22 +38,13 @@
  */
 package org.neo4j.shell.impl;
 
-import java.rmi.RemoteException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppShellServer;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
 import org.neo4j.shell.util.json.JSONArray;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
+
+import java.rmi.RemoteException;
+import java.util.*;
 
 /**
  * Common abstract implementation of an {@link App}.

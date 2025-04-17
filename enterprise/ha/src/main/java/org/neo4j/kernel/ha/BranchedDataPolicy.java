@@ -34,19 +34,14 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.logging.Log;
 
-import static org.neo4j.com.storecopy.StoreUtil.cleanStoreDir;
-import static org.neo4j.com.storecopy.StoreUtil.deleteRecursive;
-import static org.neo4j.com.storecopy.StoreUtil.getBranchedDataRootDirectory;
-import static org.neo4j.com.storecopy.StoreUtil.isBranchedDataDirectory;
-import static org.neo4j.com.storecopy.StoreUtil.moveAwayDb;
-import static org.neo4j.com.storecopy.StoreUtil.newBranchedDataDir;
+import java.io.File;
+import java.io.IOException;
+
+import static org.neo4j.com.storecopy.StoreUtil.*;
 
 public enum BranchedDataPolicy
 {

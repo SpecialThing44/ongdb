@@ -38,11 +38,11 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.shell.Output;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-
-import org.neo4j.shell.Output;
 
 /**
  * An implementation of {@link Output} which outputs over RMI to from the

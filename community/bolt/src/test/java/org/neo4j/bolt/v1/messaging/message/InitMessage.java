@@ -38,9 +38,9 @@
  */
 package org.neo4j.bolt.v1.messaging.message;
 
-import java.util.Map;
-
 import org.neo4j.bolt.v1.messaging.BoltRequestMessageHandler;
+
+import java.util.Map;
 
 public class InitMessage implements RequestMessage
 {

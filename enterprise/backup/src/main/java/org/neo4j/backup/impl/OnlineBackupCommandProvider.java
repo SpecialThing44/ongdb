@@ -34,10 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
-
 import org.neo4j.OnlineBackupCommandSection;
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.AdminCommandSection;
@@ -47,6 +43,10 @@ import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.FormattedLogProvider;
 import org.neo4j.logging.Level;
 import org.neo4j.logging.LogProvider;
+
+import javax.annotation.Nonnull;
+import java.nio.file.Path;
+import java.util.function.Supplier;
 
 import static java.lang.String.format;
 import static org.neo4j.backup.impl.BackupSupportingClassesFactoryProvider.getProvidersByPriority;

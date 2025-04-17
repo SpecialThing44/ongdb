@@ -44,6 +44,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.RuleChain;
+import org.neo4j.io.mem.MemoryAllocator;
+import org.neo4j.memory.LocalMemoryTracker;
+import org.neo4j.test.rule.TestDirectory;
+import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,27 +55,13 @@ import java.nio.channels.ClosedChannelException;
 import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.neo4j.io.mem.MemoryAllocator;
-import org.neo4j.memory.LocalMemoryTracker;
-import org.neo4j.test.rule.TestDirectory;
-import org.neo4j.unsafe.impl.internal.dragons.UnsafeUtil;
-
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isOneOf;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @SuppressWarnings( "OptionalGetWithoutIsPresent" )
 public abstract class PageSwapperTest

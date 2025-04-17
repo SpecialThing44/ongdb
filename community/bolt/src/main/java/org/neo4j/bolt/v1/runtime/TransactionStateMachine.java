@@ -38,27 +38,24 @@
  */
 package org.neo4j.bolt.v1.runtime;
 
-import java.time.Clock;
-import java.util.Optional;
-import java.util.regex.Pattern;
-
 import org.neo4j.bolt.security.auth.AuthenticationResult;
 import org.neo4j.bolt.v1.runtime.bookmarking.Bookmark;
 import org.neo4j.bolt.v1.runtime.spi.BoltResult;
 import org.neo4j.bolt.v1.runtime.spi.BookmarkResult;
 import org.neo4j.cypher.InvalidSemanticsException;
-import org.neo4j.function.ThrowingAction;
 import org.neo4j.function.ThrowingConsumer;
 import org.neo4j.graphdb.TransactionTerminatedException;
-import org.neo4j.internal.kernel.api.security.LoginContext;
 import org.neo4j.internal.kernel.api.exceptions.KernelException;
+import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
+import org.neo4j.internal.kernel.api.security.LoginContext;
 import org.neo4j.kernel.api.KernelTransaction;
 import org.neo4j.kernel.api.exceptions.Status;
-import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.impl.query.QueryExecutionKernelException;
 import org.neo4j.values.virtual.MapValue;
 
-import static org.neo4j.function.ThrowingAction.noop;
+import java.time.Clock;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class TransactionStateMachine implements StatementProcessor
 {

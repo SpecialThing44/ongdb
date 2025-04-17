@@ -40,12 +40,6 @@ package db;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.function.Supplier;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.DelegatingPageCache;
@@ -54,13 +48,7 @@ import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
 import org.neo4j.kernel.NeoStoreDataSource;
 import org.neo4j.kernel.configuration.Config;
-import org.neo4j.kernel.impl.factory.CommunityEditionModule;
-import org.neo4j.kernel.impl.factory.DataSourceModule;
-import org.neo4j.kernel.impl.factory.DatabaseInfo;
-import org.neo4j.kernel.impl.factory.EditionModule;
-import org.neo4j.kernel.impl.factory.GraphDatabaseFacade;
-import org.neo4j.kernel.impl.factory.GraphDatabaseFacadeFactory;
-import org.neo4j.kernel.impl.factory.PlatformModule;
+import org.neo4j.kernel.impl.factory.*;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.impl.query.QueryExecutionEngine;
 import org.neo4j.kernel.lifecycle.LifeSupport;
@@ -70,6 +58,11 @@ import org.neo4j.kernel.monitoring.tracing.Tracers;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.function.Supplier;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

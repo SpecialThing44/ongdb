@@ -38,12 +38,7 @@
  */
 package org.neo4j.bolt.transport;
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandler;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.WriteBufferWaterMark;
+import io.netty.channel.*;
 import io.netty.util.AttributeKey;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 

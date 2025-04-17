@@ -38,18 +38,18 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import org.neo4j.io.IOUtils;
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.kernel.StoreLockException;
 import org.neo4j.kernel.internal.locker.GlobalStoreLocker;
 import org.neo4j.kernel.internal.locker.StoreLocker;
+
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 class StoreLockChecker implements Closeable
 {

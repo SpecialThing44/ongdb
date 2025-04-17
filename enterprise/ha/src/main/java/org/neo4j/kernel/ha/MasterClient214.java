@@ -35,17 +35,7 @@
 package org.neo4j.kernel.ha;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-
-import org.neo4j.com.Client;
-import org.neo4j.com.Deserializer;
-import org.neo4j.com.ObjectSerializer;
-import org.neo4j.com.Protocol;
-import org.neo4j.com.Protocol214;
-import org.neo4j.com.ProtocolVersion;
-import org.neo4j.com.RequestContext;
-import org.neo4j.com.RequestType;
-import org.neo4j.com.Response;
-import org.neo4j.com.Serializer;
+import org.neo4j.com.*;
 import org.neo4j.com.monitor.RequestMonitor;
 import org.neo4j.com.storecopy.ResponseUnpacker;
 import org.neo4j.com.storecopy.StoreWriter;
@@ -68,10 +58,7 @@ import org.neo4j.logging.LogProvider;
 import org.neo4j.storageengine.api.lock.ResourceType;
 
 import static java.lang.String.format;
-import static org.neo4j.com.Protocol.EMPTY_SERIALIZER;
-import static org.neo4j.com.Protocol.VOID_DESERIALIZER;
-import static org.neo4j.com.Protocol.readString;
-import static org.neo4j.com.Protocol.writeString;
+import static org.neo4j.com.Protocol.*;
 import static org.neo4j.com.ProtocolVersion.INTERNAL_PROTOCOL_VERSION;
 
 /**

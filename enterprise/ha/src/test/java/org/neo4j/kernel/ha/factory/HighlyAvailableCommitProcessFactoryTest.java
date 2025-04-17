@@ -35,9 +35,6 @@
 package org.neo4j.kernel.ha.factory;
 
 import org.junit.Test;
-
-import java.lang.reflect.Proxy;
-
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.ha.DelegateInvocationHandler;
@@ -45,6 +42,8 @@ import org.neo4j.kernel.impl.api.ReadOnlyTransactionCommitProcess;
 import org.neo4j.kernel.impl.api.TransactionCommitProcess;
 import org.neo4j.kernel.impl.transaction.log.TransactionAppender;
 import org.neo4j.storageengine.api.StorageEngine;
+
+import java.lang.reflect.Proxy;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;

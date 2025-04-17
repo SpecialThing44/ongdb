@@ -40,10 +40,6 @@ package org.neo4j.kernel.impl.index.schema;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -60,13 +56,12 @@ import org.neo4j.test.rule.DatabaseRule;
 import org.neo4j.test.rule.EmbeddedDatabaseRule;
 import org.neo4j.test.rule.RandomRule;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.test.Randoms.CSA_LETTERS_AND_DIGITS;
 
 public class NativeStringIndexingIT

@@ -39,23 +39,6 @@
 package org.neo4j.shell;
 
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
-import java.rmi.ConnectException;
-import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.helpers.Args;
@@ -65,6 +48,16 @@ import org.neo4j.shell.impl.ShellBootstrap;
 import org.neo4j.shell.impl.SimpleAppServer;
 import org.neo4j.shell.impl.SystemOutput;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
+
+import java.io.*;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.rmi.ConnectException;
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.neo4j.io.fs.FileUtils.newBufferedFileReader;
 

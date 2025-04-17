@@ -38,17 +38,17 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.helpers.Exceptions;
+import org.neo4j.index.internal.gbptree.GBPTree.Monitor;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.io.pagecache.PagedFile;
+
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-
-import org.neo4j.helpers.Exceptions;
-import org.neo4j.index.internal.gbptree.GBPTree.Monitor;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.io.pagecache.PagedFile;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;

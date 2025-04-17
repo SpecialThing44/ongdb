@@ -38,10 +38,10 @@
  */
 package org.neo4j.values.storable;
 
-import java.time.temporal.Temporal;
-
 import org.neo4j.graphdb.spatial.Geometry;
 import org.neo4j.values.AnyValue;
+
+import java.time.temporal.Temporal;
 
 public abstract class TemporalArray<T extends Temporal & Comparable<? super T>, V extends TemporalValue<T,V>> extends NonPrimitiveArray<T>
 {

@@ -34,11 +34,11 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 import org.neo4j.kernel.lifecycle.Lifecycle;
+
+import java.nio.file.Path;
 
 interface BackupStrategy extends Lifecycle
 {

@@ -34,12 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.consistency.ConsistencyCheckService;
@@ -47,6 +41,12 @@ import org.neo4j.consistency.checking.full.ConsistencyFlags;
 import org.neo4j.helpers.progress.ProgressMonitorFactory;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.logging.LogProvider;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 import static java.lang.String.format;
 

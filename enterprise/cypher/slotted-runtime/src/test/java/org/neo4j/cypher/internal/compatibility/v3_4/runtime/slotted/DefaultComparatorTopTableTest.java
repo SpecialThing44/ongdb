@@ -41,9 +41,7 @@ import org.junit.rules.ExpectedException;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DefaultComparatorTopTableTest
 {

@@ -38,14 +38,14 @@
  */
 package org.neo4j.shell.apps.extra;
 
+import org.neo4j.shell.Output;
+import org.neo4j.shell.ShellException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.Map;
-
-import org.neo4j.shell.Output;
-import org.neo4j.shell.ShellException;
 
 /**
  * Runs Python scripts.

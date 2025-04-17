@@ -36,17 +36,13 @@ package org.neo4j.com;
 
 import org.jboss.netty.channel.Channel;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.logging.NullLogProvider;
 import org.neo4j.time.Clocks;
 import org.neo4j.time.FakeClock;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import java.util.concurrent.TimeUnit;
+
+import static org.mockito.Mockito.*;
 
 public class IdleChannelReaperTest
 {

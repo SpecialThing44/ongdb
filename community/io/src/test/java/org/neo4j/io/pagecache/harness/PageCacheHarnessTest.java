@@ -39,34 +39,22 @@
 package org.neo4j.io.pagecache.harness;
 
 import org.junit.Test;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.io.fs.OpenMode;
 import org.neo4j.io.fs.StoreChannel;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.io.pagecache.PageCacheTestSupport;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.PagedFile;
-import org.neo4j.io.pagecache.randomharness.PageCountRecordFormat;
-import org.neo4j.io.pagecache.randomharness.Phase;
-import org.neo4j.io.pagecache.randomharness.RandomPageCacheTestHarness;
-import org.neo4j.io.pagecache.randomharness.RecordFormat;
-import org.neo4j.io.pagecache.randomharness.StandardRecordFormat;
+import org.neo4j.io.pagecache.randomharness.*;
 import org.neo4j.test.rule.RepeatRule;
+
+import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_READ_LOCK;
 import static org.neo4j.io.pagecache.PagedFile.PF_SHARED_WRITE_LOCK;
-import static org.neo4j.io.pagecache.randomharness.Command.FlushCache;
-import static org.neo4j.io.pagecache.randomharness.Command.FlushFile;
-import static org.neo4j.io.pagecache.randomharness.Command.MapFile;
-import static org.neo4j.io.pagecache.randomharness.Command.ReadMulti;
-import static org.neo4j.io.pagecache.randomharness.Command.ReadRecord;
-import static org.neo4j.io.pagecache.randomharness.Command.UnmapFile;
-import static org.neo4j.io.pagecache.randomharness.Command.WriteMulti;
-import static org.neo4j.io.pagecache.randomharness.Command.WriteRecord;
+import static org.neo4j.io.pagecache.randomharness.Command.*;
 
 abstract class PageCacheHarnessTest<T extends PageCache> extends PageCacheTestSupport<T>
 {

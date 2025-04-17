@@ -38,14 +38,14 @@
  */
 package org.neo4j.io.pagecache.tracing.recording;
 
-import java.util.Objects;
-
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.tracing.EvictionEvent;
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.PageFaultEvent;
 import org.neo4j.io.pagecache.tracing.PinEvent;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracer;
+
+import java.util.Objects;
 
 /**
  * Recording tracer of page cursor events.

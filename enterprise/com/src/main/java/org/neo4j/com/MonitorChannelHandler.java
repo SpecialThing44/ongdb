@@ -38,7 +38,6 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
-
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 
 /**

@@ -39,7 +39,6 @@
 package org.neo4j.bolt.v1.runtime;
 
 import org.junit.Test;
-
 import org.neo4j.graphdb.DatabaseShutdownException;
 import org.neo4j.kernel.DeadlockDetectedException;
 import org.neo4j.kernel.api.exceptions.Status;

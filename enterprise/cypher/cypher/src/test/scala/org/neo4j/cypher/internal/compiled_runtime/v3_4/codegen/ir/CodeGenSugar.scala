@@ -34,8 +34,6 @@
  */
 package org.neo4j.cypher.internal.compiled_runtime.v3_4.codegen.ir
 
-import java.util.concurrent.atomic.AtomicInteger
-
 import org.mockito.Mockito._
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.ExecutionPlanBuilder.tracer
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen._
@@ -67,6 +65,8 @@ import org.neo4j.time.Clocks
 import org.neo4j.values.virtual.MapValue
 import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP
 import org.scalatest.mock.MockitoSugar
+
+import java.util.concurrent.atomic.AtomicInteger
 
 trait CodeGenSugar extends MockitoSugar with LogicalPlanConstructionTestSupport {
 

@@ -39,12 +39,11 @@
 package org.neo4j.bolt.runtime;
 
 import io.netty.channel.Channel;
-
-import java.util.Collection;
-
 import org.neo4j.bolt.v1.runtime.Job;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.logging.Log;
+
+import java.util.Collection;
 
 /**
  * Queue monitor that changes {@link Channel} auto-read setting based on the job queue size.

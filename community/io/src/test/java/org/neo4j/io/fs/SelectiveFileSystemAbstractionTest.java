@@ -39,19 +39,15 @@
 package org.neo4j.io.fs;
 
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.graphdb.mockfs.SelectiveFileSystemAbstraction;
 import org.neo4j.io.fs.watcher.FileWatcher;
 import org.neo4j.io.fs.watcher.resource.WatchedResource;
 
+import java.io.File;
+import java.io.IOException;
+
 import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SelectiveFileSystemAbstractionTest
 {

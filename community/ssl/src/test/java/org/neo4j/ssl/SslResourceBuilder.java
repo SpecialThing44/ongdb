@@ -38,6 +38,9 @@
  */
 package org.neo4j.ssl;
 
+import org.neo4j.io.fs.DefaultFileSystemAbstraction;
+import org.neo4j.io.fs.FileSystemAbstraction;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,9 +48,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.neo4j.io.fs.DefaultFileSystemAbstraction;
-import org.neo4j.io.fs.FileSystemAbstraction;
 
 import static org.neo4j.ssl.SslResourceBuilder.SignedBy.CA;
 import static org.neo4j.ssl.SslResourceBuilder.SignedBy.SELF;

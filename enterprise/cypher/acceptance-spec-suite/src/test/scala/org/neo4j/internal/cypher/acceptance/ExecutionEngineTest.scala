@@ -34,13 +34,10 @@
  */
 package org.neo4j.internal.cypher.acceptance
 
-import java.io.{File, PrintWriter}
-
 import org.neo4j.cypher.ExecutionEngineHelper.createEngine
 import org.neo4j.cypher._
 import org.neo4j.cypher.internal.ExecutionEngine
 import org.neo4j.cypher.internal.frontend.v3_4.phases.CompilationPhaseTracer.CompilationPhase
-import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.cypher.internal.runtime.CreateTempFileTestSupport
 import org.neo4j.cypher.internal.tracing.TimingCompilationTracer
 import org.neo4j.cypher.internal.tracing.TimingCompilationTracer.QueryEvent
@@ -48,15 +45,16 @@ import org.neo4j.graphdb._
 import org.neo4j.graphdb.config.Setting
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Runtimes.ProcedureOrSchema
-import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Versions.{V2_3, V3_1, V3_4}
+import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Versions.{V3_1, V3_4}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
+import org.neo4j.internal.kernel.api.Transaction.Type
 import org.neo4j.io.fs.FileUtils
 import org.neo4j.kernel.NeoStoreDataSource
-import org.neo4j.internal.kernel.api.Transaction.Type
 import org.neo4j.kernel.api.security.AnonymousContext
 import org.neo4j.kernel.impl.coreapi.TopLevelTransaction
 import org.neo4j.test.{TestEnterpriseGraphDatabaseFactory, TestGraphDatabaseFactory}
 
+import java.io.{File, PrintWriter}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 

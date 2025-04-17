@@ -34,12 +34,6 @@
  */
 package org.neo4j.com.storecopy;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.OpenOption;
-import java.util.List;
-import java.util.Optional;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.io.fs.FileSystemAbstraction;
@@ -56,6 +50,12 @@ import org.neo4j.kernel.impl.factory.GraphDatabaseFacadeFactory;
 import org.neo4j.kernel.impl.factory.PlatformModule;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.monitoring.tracing.Tracers;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.OpenOption;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A PageCache implementation that delegates to another page cache, whose life cycle is managed elsewhere.

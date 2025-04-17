@@ -39,11 +39,6 @@
 package org.neo4j.jmx.impl;
 
 import org.apache.commons.lang3.mutable.MutableLong;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.Clock;
-
 import org.neo4j.graphdb.DependencyResolver;
 import org.neo4j.helpers.Service;
 import org.neo4j.io.fs.FileSystemAbstraction;
@@ -61,24 +56,13 @@ import org.neo4j.kernel.impl.transaction.state.DataSourceManager;
 import org.neo4j.kernel.spi.explicitindex.IndexImplementation;
 import org.neo4j.util.VisibleForTesting;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.Clock;
+
 import static java.util.Objects.requireNonNull;
 import static org.neo4j.jmx.impl.ThrottlingBeanSnapshotProxy.newThrottlingBeanSnapshotProxy;
-import static org.neo4j.kernel.impl.store.StoreFile.COUNTS_STORE_LEFT;
-import static org.neo4j.kernel.impl.store.StoreFile.COUNTS_STORE_RIGHT;
-import static org.neo4j.kernel.impl.store.StoreFile.LABEL_TOKEN_NAMES_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.LABEL_TOKEN_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.NODE_LABEL_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.NODE_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.PROPERTY_ARRAY_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.PROPERTY_KEY_TOKEN_NAMES_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.PROPERTY_KEY_TOKEN_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.PROPERTY_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.PROPERTY_STRING_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.RELATIONSHIP_GROUP_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.RELATIONSHIP_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.RELATIONSHIP_TYPE_TOKEN_NAMES_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.RELATIONSHIP_TYPE_TOKEN_STORE;
-import static org.neo4j.kernel.impl.store.StoreFile.SCHEMA_STORE;
+import static org.neo4j.kernel.impl.store.StoreFile.*;
 
 @Service.Implementation( ManagementBeanProvider.class )
 public final class StoreSizeBean extends ManagementBeanProvider

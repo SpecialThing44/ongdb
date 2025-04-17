@@ -41,9 +41,6 @@ package org.neo4j.kernel.impl.index.schema;
 import org.hamcrest.core.CombinableMatcher;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
-
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -60,11 +57,10 @@ import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.test.rule.fs.DefaultFileSystemRule;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.util.Collections.singletonList;
-import static org.hamcrest.Matchers.both;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.graphdb.Label.label;

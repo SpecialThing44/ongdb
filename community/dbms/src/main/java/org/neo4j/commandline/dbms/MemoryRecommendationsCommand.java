@@ -38,13 +38,6 @@
  */
 package org.neo4j.commandline.dbms;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
-import java.nio.file.Path;
-import java.util.Locale;
-import java.util.function.ToDoubleFunction;
-
 import org.neo4j.commandline.admin.AdminCommand;
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.IncorrectUsage;
@@ -58,19 +51,19 @@ import org.neo4j.kernel.impl.index.labelscan.NativeLabelScanStore;
 import org.neo4j.kernel.impl.store.StoreType;
 import org.neo4j.kernel.internal.NativeIndexFileFilter;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
+import java.nio.file.Path;
+import java.util.Locale;
+import java.util.function.ToDoubleFunction;
+
 import static java.lang.String.format;
 import static org.neo4j.commandline.arguments.common.Database.ARG_DATABASE;
 import static org.neo4j.configuration.ExternalSettings.initialHeapSize;
 import static org.neo4j.configuration.ExternalSettings.maxHeapSize;
-import static org.neo4j.graphdb.factory.GraphDatabaseSettings.active_database;
-import static org.neo4j.graphdb.factory.GraphDatabaseSettings.database_path;
-import static org.neo4j.graphdb.factory.GraphDatabaseSettings.pagecache_memory;
-import static org.neo4j.io.ByteUnit.ONE_GIBI_BYTE;
-import static org.neo4j.io.ByteUnit.ONE_KIBI_BYTE;
-import static org.neo4j.io.ByteUnit.ONE_MEBI_BYTE;
-import static org.neo4j.io.ByteUnit.gibiBytes;
-import static org.neo4j.io.ByteUnit.mebiBytes;
-import static org.neo4j.io.ByteUnit.tebiBytes;
+import static org.neo4j.graphdb.factory.GraphDatabaseSettings.*;
+import static org.neo4j.io.ByteUnit.*;
 import static org.neo4j.kernel.api.index.IndexDirectoryStructure.baseSchemaIndexFolder;
 import static org.neo4j.kernel.configuration.Settings.BYTES;
 import static org.neo4j.kernel.configuration.Settings.buildSetting;

@@ -38,21 +38,16 @@
  */
 package org.neo4j.bolt.v1.messaging;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.Map;
-
 import org.neo4j.bolt.v1.messaging.message.RequestMessage;
 import org.neo4j.bolt.v1.runtime.Neo4jError;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.virtual.MapValue;
 
-import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.ACK_FAILURE;
-import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.DISCARD_ALL;
-import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.INIT;
-import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.PULL_ALL;
-import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.RESET;
-import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.RUN;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Map;
+
+import static org.neo4j.bolt.v1.messaging.BoltRequestMessage.*;
 
 public class BoltRequestMessageWriter implements BoltRequestMessageHandler
 {

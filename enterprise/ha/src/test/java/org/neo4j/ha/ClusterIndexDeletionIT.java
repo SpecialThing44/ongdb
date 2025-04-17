@@ -36,7 +36,6 @@ package org.neo4j.ha;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.configuration.Settings;
 import org.neo4j.kernel.ha.HaSettings;

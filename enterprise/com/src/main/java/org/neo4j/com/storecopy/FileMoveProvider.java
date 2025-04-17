@@ -34,15 +34,15 @@
  */
 package org.neo4j.com.storecopy;
 
+import org.neo4j.io.fs.FileSystemAbstraction;
+import org.neo4j.io.pagecache.PageCache;
+import org.neo4j.kernel.impl.store.StoreType;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
-
-import org.neo4j.io.fs.FileSystemAbstraction;
-import org.neo4j.io.pagecache.PageCache;
-import org.neo4j.kernel.impl.store.StoreType;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;

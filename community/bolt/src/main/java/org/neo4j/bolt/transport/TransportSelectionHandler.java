@@ -48,9 +48,6 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrameAggregator;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslHandler;
-
-import java.util.List;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.logging.BoltMessageLogging;
 import org.neo4j.bolt.transport.pipeline.ProtocolHandshaker;
@@ -58,6 +55,8 @@ import org.neo4j.bolt.transport.pipeline.WebSocketFrameTranslator;
 import org.neo4j.helpers.Exceptions;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.util.List;
 
 import static org.neo4j.bolt.transport.pipeline.ProtocolHandshaker.BOLT_MAGIC_PREAMBLE;
 

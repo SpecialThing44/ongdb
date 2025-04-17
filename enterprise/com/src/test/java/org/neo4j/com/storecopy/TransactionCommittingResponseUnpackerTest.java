@@ -37,15 +37,7 @@ package org.neo4j.com.storecopy;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InOrder;
-
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.neo4j.com.ResourceReleaser;
-import org.neo4j.com.Response;
-import org.neo4j.com.TransactionObligationResponse;
-import org.neo4j.com.TransactionStream;
-import org.neo4j.com.TransactionStreamResponse;
+import org.neo4j.com.*;
 import org.neo4j.com.storecopy.TransactionCommittingResponseUnpacker.Dependencies;
 import org.neo4j.io.pagecache.tracing.cursor.context.EmptyVersionContextSupplier;
 import org.neo4j.kernel.impl.api.KernelTransactions;
@@ -61,15 +53,14 @@ import org.neo4j.kernel.impl.transaction.tracing.CommitEvent;
 import org.neo4j.kernel.lifecycle.LifeRule;
 import org.neo4j.storageengine.api.TransactionApplicationMode;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.com.storecopy.ResponseUnpacker.TxHandler.NO_OP_TX_HANDLER;
 import static org.neo4j.kernel.impl.transaction.log.LogPosition.UNSPECIFIED;
 import static org.neo4j.kernel.impl.transaction.log.TransactionIdStore.BASE_TX_ID;

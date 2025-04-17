@@ -41,10 +41,6 @@ package org.neo4j.bolt.v1.transport.integration;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.Collections;
-
 import org.neo4j.bolt.AbstractBoltTransportsTest;
 import org.neo4j.bolt.v1.messaging.BoltRequestMessage;
 import org.neo4j.bolt.v1.messaging.Neo4jPack;
@@ -53,6 +49,9 @@ import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.virtual.PathValue;
+
+import java.io.IOException;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.neo4j.bolt.v1.messaging.example.Edges.ALICE_KNOWS_BOB;

@@ -39,6 +39,8 @@
 package org.neo4j.values.storable;
 
 import org.junit.Test;
+import org.neo4j.values.utils.InvalidValuesArgumentException;
+import org.neo4j.values.utils.TemporalParseException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -46,22 +48,12 @@ import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neo4j.values.utils.InvalidValuesArgumentException;
-import org.neo4j.values.utils.TemporalParseException;
-
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
-import static org.neo4j.values.storable.DateValue.date;
-import static org.neo4j.values.storable.DateValue.ordinalDate;
-import static org.neo4j.values.storable.DateValue.parse;
-import static org.neo4j.values.storable.DateValue.quarterDate;
-import static org.neo4j.values.storable.DateValue.weekDate;
-import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
-import static org.neo4j.values.utils.AnyValueTestUtil.assertNotEqual;
+import static org.neo4j.values.storable.DateValue.*;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertThrows;
+import static org.neo4j.values.utils.AnyValueTestUtil.*;
 
 @SuppressWarnings( "ThrowableNotThrown" )
 public class DateValueTest

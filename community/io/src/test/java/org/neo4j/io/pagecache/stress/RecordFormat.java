@@ -38,9 +38,9 @@
  */
 package org.neo4j.io.pagecache.stress;
 
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.PageCursor;
+
+import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

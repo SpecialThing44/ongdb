@@ -39,11 +39,10 @@
 package org.neo4j.index.internal.gbptree;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.neo4j.io.pagecache.PageCursor;
 
 import java.io.IOException;
 import java.util.Optional;
-
-import org.neo4j.io.pagecache.PageCursor;
 
 import static org.neo4j.index.internal.gbptree.PageCursorUtil.checkOutOfBounds;
 

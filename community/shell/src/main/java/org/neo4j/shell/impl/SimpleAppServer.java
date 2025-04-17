@@ -38,18 +38,14 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.shell.*;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
-import org.neo4j.shell.ShellServer;
-import org.neo4j.shell.TabCompletion;
-import org.neo4j.shell.Welcome;
 
 /**
  * A common implementation of a {@link ShellServer}.

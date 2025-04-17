@@ -38,10 +38,10 @@
  */
 package org.neo4j.csv.reader;
 
+import org.neo4j.csv.reader.Source.Chunk;
+
 import java.io.Closeable;
 import java.io.IOException;
-
-import org.neo4j.csv.reader.Source.Chunk;
 
 /**
  * Takes a bigger stream of data and chunks it up into smaller chunks. The {@link Chunk chunks} are allocated

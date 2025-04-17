@@ -41,17 +41,16 @@ package org.neo4j.shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.regex.Pattern;
-
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.shell.impl.CollectingOutput;
 import org.neo4j.shell.impl.SameJvmClient;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 import org.neo4j.test.TestGraphDatabaseFactory;
+
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.compile;
 import static org.junit.Assert.assertTrue;

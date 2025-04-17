@@ -38,14 +38,14 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.io.pagecache.CursorException;
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.neo4j.io.pagecache.CursorException;
-import org.neo4j.io.pagecache.PageCursor;
 
 import static java.lang.String.format;
 import static org.neo4j.io.pagecache.ByteArrayPageCursor.wrap;

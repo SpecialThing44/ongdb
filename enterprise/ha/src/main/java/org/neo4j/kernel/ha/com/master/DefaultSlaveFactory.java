@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha.com.master;
 
-import java.util.function.Supplier;
-
 import org.neo4j.com.monitor.RequestMonitor;
 import org.neo4j.kernel.ha.cluster.member.ClusterMember;
 import org.neo4j.kernel.impl.store.StoreId;
@@ -45,6 +43,8 @@ import org.neo4j.kernel.lifecycle.LifeSupport;
 import org.neo4j.kernel.monitoring.ByteCounterMonitor;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.LogProvider;
+
+import java.util.function.Supplier;
 
 public class DefaultSlaveFactory implements SlaveFactory
 {

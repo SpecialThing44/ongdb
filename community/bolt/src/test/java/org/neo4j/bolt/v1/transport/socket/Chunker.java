@@ -41,12 +41,11 @@ package org.neo4j.bolt.v1.transport.socket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.Channel;
+import org.neo4j.bolt.transport.TransportThrottleGroup;
+import org.neo4j.bolt.v1.transport.ChunkedOutput;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import org.neo4j.bolt.transport.TransportThrottleGroup;
-import org.neo4j.bolt.v1.transport.ChunkedOutput;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;

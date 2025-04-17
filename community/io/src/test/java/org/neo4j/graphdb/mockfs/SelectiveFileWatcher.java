@@ -38,12 +38,12 @@
  */
 package org.neo4j.graphdb.mockfs;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.io.fs.watcher.FileWatchEventListener;
 import org.neo4j.io.fs.watcher.FileWatcher;
 import org.neo4j.io.fs.watcher.resource.WatchedResource;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * File watcher that will perform watching activities using specific file watcher in case if

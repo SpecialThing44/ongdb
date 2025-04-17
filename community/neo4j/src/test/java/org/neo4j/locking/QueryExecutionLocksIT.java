@@ -41,35 +41,9 @@ package org.neo4j.locking;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EventListener;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Lock;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.internal.kernel.api.CursorFactory;
-import org.neo4j.internal.kernel.api.ExecutionStatistics;
-import org.neo4j.internal.kernel.api.ExplicitIndexRead;
-import org.neo4j.internal.kernel.api.ExplicitIndexWrite;
-import org.neo4j.internal.kernel.api.Locks;
-import org.neo4j.internal.kernel.api.NodeCursor;
-import org.neo4j.internal.kernel.api.Procedures;
-import org.neo4j.internal.kernel.api.PropertyCursor;
-import org.neo4j.internal.kernel.api.Read;
-import org.neo4j.internal.kernel.api.RelationshipScanCursor;
-import org.neo4j.internal.kernel.api.SchemaRead;
-import org.neo4j.internal.kernel.api.SchemaWrite;
-import org.neo4j.internal.kernel.api.TokenRead;
-import org.neo4j.internal.kernel.api.TokenWrite;
-import org.neo4j.internal.kernel.api.Write;
+import org.neo4j.graphdb.*;
+import org.neo4j.internal.kernel.api.*;
 import org.neo4j.internal.kernel.api.exceptions.InvalidTransactionTypeKernelException;
 import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.internal.kernel.api.security.AuthSubject;
@@ -88,24 +62,18 @@ import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge;
 import org.neo4j.kernel.impl.coreapi.InternalTransaction;
 import org.neo4j.kernel.impl.coreapi.PropertyContainerLocker;
 import org.neo4j.kernel.impl.locking.ResourceTypes;
-import org.neo4j.kernel.impl.query.Neo4jTransactionalContextFactory;
-import org.neo4j.kernel.impl.query.QueryExecutionEngine;
-import org.neo4j.kernel.impl.query.QueryExecutionKernelException;
-import org.neo4j.kernel.impl.query.TransactionalContext;
-import org.neo4j.kernel.impl.query.TransactionalContextFactory;
+import org.neo4j.kernel.impl.query.*;
 import org.neo4j.kernel.impl.query.clientconnection.ClientConnectionInfo;
 import org.neo4j.kernel.impl.query.statistic.StatisticProvider;
 import org.neo4j.storageengine.api.lock.ResourceType;
 import org.neo4j.test.rule.EmbeddedDatabaseRule;
 
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
 
 public class QueryExecutionLocksIT

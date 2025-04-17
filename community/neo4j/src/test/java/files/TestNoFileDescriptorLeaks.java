@@ -43,12 +43,11 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.io.os.OsBeanUtil;
 import org.neo4j.test.rule.EmbeddedDatabaseRule;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;

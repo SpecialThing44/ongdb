@@ -38,8 +38,6 @@
  */
 package org.neo4j.bolt.runtime;
 
-import java.time.Clock;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.transport.TransportThrottleGroup;
 import org.neo4j.bolt.v1.runtime.BoltFactory;
@@ -48,6 +46,8 @@ import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.monitoring.Monitors;
+
+import java.time.Clock;
 
 public class DefaultBoltConnectionFactory implements BoltConnectionFactory
 {

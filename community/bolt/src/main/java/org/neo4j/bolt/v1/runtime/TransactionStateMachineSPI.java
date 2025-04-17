@@ -38,34 +38,30 @@
  */
 package org.neo4j.bolt.v1.runtime;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.util.function.Supplier;
-
 import org.neo4j.bolt.v1.runtime.TransactionStateMachine.BoltResultHandle;
 import org.neo4j.bolt.v1.runtime.spi.BoltResult;
 import org.neo4j.cypher.internal.javacompat.QueryResultProvider;
 import org.neo4j.graphdb.Result;
 import org.neo4j.internal.kernel.api.exceptions.KernelException;
+import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.internal.kernel.api.security.LoginContext;
 import org.neo4j.kernel.AvailabilityGuard;
 import org.neo4j.kernel.GraphDatabaseQueryService;
 import org.neo4j.kernel.api.KernelTransaction;
-import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.kernel.api.txtracking.TransactionIdTracker;
 import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge;
 import org.neo4j.kernel.impl.coreapi.InternalTransaction;
 import org.neo4j.kernel.impl.coreapi.PropertyContainerLocker;
-import org.neo4j.kernel.impl.query.Neo4jTransactionalContextFactory;
-import org.neo4j.kernel.impl.query.QueryExecutionEngine;
-import org.neo4j.kernel.impl.query.QueryExecutionKernelException;
-import org.neo4j.kernel.impl.query.TransactionalContext;
-import org.neo4j.kernel.impl.query.TransactionalContextFactory;
+import org.neo4j.kernel.impl.query.*;
 import org.neo4j.kernel.impl.query.clientconnection.BoltConnectionInfo;
 import org.neo4j.kernel.impl.query.clientconnection.ClientConnectionInfo;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.values.virtual.MapValue;
+
+import java.time.Clock;
+import java.time.Duration;
+import java.util.function.Supplier;
 
 import static java.lang.String.format;
 import static org.neo4j.internal.kernel.api.Transaction.Type.implicit;

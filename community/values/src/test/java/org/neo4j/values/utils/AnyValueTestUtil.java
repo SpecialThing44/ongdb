@@ -38,13 +38,11 @@
  */
 package org.neo4j.values.utils;
 
-import java.util.function.Supplier;
-
 import org.neo4j.values.AnyValue;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import java.util.function.Supplier;
+
+import static org.junit.Assert.*;
 
 public class AnyValueTestUtil
 {

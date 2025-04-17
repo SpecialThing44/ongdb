@@ -38,16 +38,16 @@
  */
 package org.neo4j.values.storable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.neo4j.hashing.HashFunction;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.ValueMapper;
 import org.neo4j.values.virtual.ListValue;
 import org.neo4j.values.virtual.VirtualValues;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 
@@ -289,4 +289,3 @@ public abstract class StringValue extends TextValue
         }
     };
 }
-

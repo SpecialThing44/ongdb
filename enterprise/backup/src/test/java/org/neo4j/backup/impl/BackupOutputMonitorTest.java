@@ -36,15 +36,14 @@ package org.neo4j.backup.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import org.neo4j.com.storecopy.StoreCopyClientMonitor;
 import org.neo4j.commandline.admin.OutsideWorld;
 import org.neo4j.commandline.admin.ParameterisedOutsideWorld;
 import org.neo4j.io.fs.DefaultFileSystemAbstraction;
 import org.neo4j.kernel.monitoring.Monitors;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.Assert.assertTrue;
 import static org.neo4j.backup.impl.OnlineBackupCommandCcIT.wrapWithNormalOutput;

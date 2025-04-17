@@ -34,9 +34,9 @@
  */
 package org.neo4j.kernel.ha.lock.trace;
 
-import java.util.Objects;
-
 import org.neo4j.storageengine.api.lock.ResourceType;
+
+import java.util.Objects;
 
 public class LockRecord
 {

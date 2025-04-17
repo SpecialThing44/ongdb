@@ -38,12 +38,12 @@
  */
 package org.neo4j.bolt.v1.messaging;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.neo4j.bolt.v1.packstream.PackStream;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.values.virtual.MapValue;
+
+import java.io.IOException;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 

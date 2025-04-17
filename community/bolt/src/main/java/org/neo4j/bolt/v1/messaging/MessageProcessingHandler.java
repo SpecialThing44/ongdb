@@ -38,13 +38,6 @@
  */
 package org.neo4j.bolt.v1.messaging;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.neo4j.bolt.runtime.BoltConnection;
 import org.neo4j.bolt.v1.packstream.PackOutputClosedException;
 import org.neo4j.bolt.v1.runtime.BoltResponseHandler;
@@ -55,6 +48,9 @@ import org.neo4j.logging.Log;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.VirtualValues;
+
+import java.io.IOException;
+import java.util.*;
 
 class MessageProcessingHandler implements BoltResponseHandler
 {

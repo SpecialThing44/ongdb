@@ -38,10 +38,10 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.nio.ByteBuffer;
 import java.util.function.Consumer;
-
-import org.neo4j.io.pagecache.PageCursor;
 
 /**
  * Defines interfaces and common implementations of header reader/writer for {@link GBPTree}.

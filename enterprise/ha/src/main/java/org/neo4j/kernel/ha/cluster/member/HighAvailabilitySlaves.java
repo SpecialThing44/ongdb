@@ -34,10 +34,6 @@
  */
 package org.neo4j.kernel.ha.cluster.member;
 
-import java.net.URI;
-import java.util.Map;
-import java.util.function.Function;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.protocol.cluster.Cluster;
 import org.neo4j.cluster.protocol.cluster.ClusterConfiguration;
@@ -50,6 +46,10 @@ import org.neo4j.kernel.ha.com.master.Slaves;
 import org.neo4j.kernel.impl.util.CopyOnWriteHashMap;
 import org.neo4j.kernel.lifecycle.LifeSupport;
 import org.neo4j.kernel.lifecycle.Lifecycle;
+
+import java.net.URI;
+import java.util.Map;
+import java.util.function.Function;
 
 import static org.neo4j.helpers.collection.Iterables.filter;
 import static org.neo4j.helpers.collection.Iterables.map;

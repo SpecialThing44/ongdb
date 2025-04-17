@@ -42,17 +42,12 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.neo4j.kernel.impl.transaction.log.files.TransactionLogFiles;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.FileSystemException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.neo4j.kernel.impl.transaction.log.files.TransactionLogFiles;
+import java.nio.file.*;
 
 import static java.nio.file.Files.exists;
 import static org.neo4j.dbms.archive.Utils.checkWritableDirectory;

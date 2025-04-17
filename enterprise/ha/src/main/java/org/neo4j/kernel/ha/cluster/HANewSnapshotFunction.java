@@ -34,14 +34,14 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
+import org.neo4j.backup.OnlineBackupKernelExtension;
+import org.neo4j.cluster.member.paxos.MemberIsAvailable;
+import org.neo4j.helpers.collection.Iterables;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiFunction;
-
-import org.neo4j.backup.OnlineBackupKernelExtension;
-import org.neo4j.cluster.member.paxos.MemberIsAvailable;
-import org.neo4j.helpers.collection.Iterables;
 
 import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.MASTER;
 import static org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher.SLAVE;

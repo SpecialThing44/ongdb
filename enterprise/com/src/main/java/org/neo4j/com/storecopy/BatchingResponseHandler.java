@@ -34,8 +34,6 @@
  */
 package org.neo4j.com.storecopy;
 
-import java.io.IOException;
-
 import org.neo4j.com.ComException;
 import org.neo4j.com.Response;
 import org.neo4j.com.Response.Handler;
@@ -48,6 +46,8 @@ import org.neo4j.kernel.impl.transaction.CommittedTransactionRepresentation;
 import org.neo4j.kernel.impl.transaction.log.Commitment;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.logging.Log;
+
+import java.io.IOException;
 
 /**
  * {@link Handler Response handler} which commits received transactions (for transaction stream responses)

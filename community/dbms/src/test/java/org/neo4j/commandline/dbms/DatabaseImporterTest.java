@@ -43,10 +43,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.HashMap;
-
 import org.neo4j.commandline.admin.IncorrectUsage;
 import org.neo4j.commandline.admin.NullOutsideWorld;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -58,12 +54,12 @@ import org.neo4j.kernel.impl.util.Validators;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.TestDirectory;
 
+import java.io.File;
+import java.util.HashMap;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class DatabaseImporterTest
 {

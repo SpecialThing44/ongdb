@@ -43,10 +43,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static java.lang.String.format;
-import static org.neo4j.kernel.api.exceptions.Status.Classification.ClientError;
-import static org.neo4j.kernel.api.exceptions.Status.Classification.ClientNotification;
-import static org.neo4j.kernel.api.exceptions.Status.Classification.DatabaseError;
-import static org.neo4j.kernel.api.exceptions.Status.Classification.TransientError;
+import static org.neo4j.kernel.api.exceptions.Status.Classification.*;
 
 /**
  * This is the codification of all available surface-api status codes. If you are throwing an error to a user through

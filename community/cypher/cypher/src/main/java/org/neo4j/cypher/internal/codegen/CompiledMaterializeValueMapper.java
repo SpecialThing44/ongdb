@@ -38,36 +38,18 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.SequenceValue;
 import org.neo4j.values.ValueMapper;
-import org.neo4j.values.storable.BooleanValue;
-import org.neo4j.values.storable.DateTimeValue;
-import org.neo4j.values.storable.DateValue;
-import org.neo4j.values.storable.DurationValue;
-import org.neo4j.values.storable.LocalDateTimeValue;
-import org.neo4j.values.storable.LocalTimeValue;
-import org.neo4j.values.storable.NumberValue;
-import org.neo4j.values.storable.PointValue;
-import org.neo4j.values.storable.TextValue;
-import org.neo4j.values.storable.TimeValue;
-import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.NodeReference;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.PathValue;
-import org.neo4j.values.virtual.RelationshipReference;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.VirtualNodeValue;
-import org.neo4j.values.virtual.VirtualRelationshipValue;
-import org.neo4j.values.virtual.VirtualValues;
+import org.neo4j.values.storable.*;
+import org.neo4j.values.virtual.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class CompiledMaterializeValueMapper
 {

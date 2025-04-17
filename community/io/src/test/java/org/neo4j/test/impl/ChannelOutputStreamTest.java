@@ -41,13 +41,12 @@ package org.neo4j.test.impl;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
+import org.neo4j.test.rule.fs.FileSystemRule;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
-import org.neo4j.test.rule.fs.FileSystemRule;
 
 public class ChannelOutputStreamTest
 {

@@ -41,19 +41,15 @@ package org.neo4j.index.internal.gbptree;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.neo4j.index.internal.gbptree.TreeNode.Overflow;
+import org.neo4j.io.pagecache.PageCursor;
+import org.neo4j.test.rule.RandomRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neo4j.index.internal.gbptree.TreeNode.Overflow;
-import org.neo4j.io.pagecache.PageCursor;
-import org.neo4j.test.rule.RandomRule;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.neo4j.index.internal.gbptree.GBPTreeTestUtil.contains;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.pointer;
 import static org.neo4j.index.internal.gbptree.GenerationSafePointerPair.resultIsFromSlotA;

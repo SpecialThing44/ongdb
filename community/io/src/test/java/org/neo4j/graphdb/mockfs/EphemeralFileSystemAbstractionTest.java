@@ -41,6 +41,9 @@ package org.neo4j.graphdb.mockfs;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.io.ByteUnit;
+import org.neo4j.io.fs.OpenMode;
+import org.neo4j.io.fs.StoreChannel;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,15 +57,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.neo4j.io.ByteUnit;
-import org.neo4j.io.fs.OpenMode;
-import org.neo4j.io.fs.StoreChannel;
-
 import static java.nio.ByteBuffer.allocate;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class EphemeralFileSystemAbstractionTest
 {

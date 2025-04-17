@@ -34,16 +34,6 @@
  */
 package org.neo4j.backup.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.commandline.admin.IncorrectUsage;
 import org.neo4j.commandline.arguments.Arguments;
@@ -59,10 +49,17 @@ import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.util.OptionalHostnamePort;
 
-import static org.neo4j.consistency.ConsistencyCheckSettings.consistency_check_graph;
-import static org.neo4j.consistency.ConsistencyCheckSettings.consistency_check_indexes;
-import static org.neo4j.consistency.ConsistencyCheckSettings.consistency_check_label_scan_store;
-import static org.neo4j.consistency.ConsistencyCheckSettings.consistency_check_property_owners;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.neo4j.consistency.ConsistencyCheckSettings.*;
 import static org.neo4j.graphdb.factory.GraphDatabaseSettings.logical_logs_location;
 import static org.neo4j.graphdb.factory.GraphDatabaseSettings.pagecache_memory;
 import static org.neo4j.kernel.impl.util.Converters.toOptionalHostnamePortFromRawAddress;

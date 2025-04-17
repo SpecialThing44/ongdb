@@ -38,23 +38,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
-
 import org.neo4j.cluster.ClusterSettings;
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.client.ClusterClient;
@@ -70,6 +53,14 @@ import org.neo4j.kernel.impl.factory.GraphDatabaseFacade;
 import org.neo4j.ports.allocation.PortAuthority;
 import org.neo4j.test.StreamConsumer;
 import org.neo4j.test.rule.TestDirectory;
+
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

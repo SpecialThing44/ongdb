@@ -36,7 +36,6 @@ package org.neo4j.kernel.index;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.kernel.ha.HighlyAvailableGraphDatabase;

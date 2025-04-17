@@ -39,12 +39,6 @@
 package org.neo4j.bolt.v1.runtime;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-
-import java.time.Clock;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.BoltConnectionDescriptor;
 import org.neo4j.bolt.security.auth.AuthenticationException;
@@ -61,6 +55,11 @@ import org.neo4j.logging.Log;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.Values;
 import org.neo4j.values.virtual.MapValue;
+
+import java.time.Clock;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.neo4j.kernel.api.security.AuthToken.PRINCIPAL;
 import static org.neo4j.values.storable.Values.stringArray;

@@ -34,9 +34,6 @@
  */
 package org.neo4j.restore;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.neo4j.commandline.admin.CommandFailed;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.io.fs.FileSystemAbstraction;
@@ -44,6 +41,9 @@ import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.impl.transaction.log.files.LogFiles;
 import org.neo4j.kernel.impl.transaction.log.files.LogFilesBuilder;
 import org.neo4j.kernel.impl.util.Validators;
+
+import java.io.File;
+import java.io.IOException;
 
 import static java.lang.String.format;
 import static org.neo4j.commandline.Util.checkLock;

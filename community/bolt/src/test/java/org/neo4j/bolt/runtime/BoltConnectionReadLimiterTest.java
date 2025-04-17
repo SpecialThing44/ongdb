@@ -42,28 +42,20 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-
 import org.neo4j.bolt.v1.runtime.Job;
 import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.logging.Log;
 
+import java.util.Arrays;
+
 import static java.util.Collections.singleton;
 import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.contains;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class BoltConnectionReadLimiterTest
 {

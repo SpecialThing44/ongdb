@@ -38,15 +38,15 @@
  */
 package org.neo4j.index.internal.gbptree;
 
+import org.neo4j.collection.primitive.PrimitiveLongIterator;
+import org.neo4j.io.pagecache.CursorException;
+import org.neo4j.io.pagecache.PageCursor;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.List;
-
-import org.neo4j.collection.primitive.PrimitiveLongIterator;
-import org.neo4j.io.pagecache.CursorException;
-import org.neo4j.io.pagecache.PageCursor;
 
 import static java.lang.Math.toIntExact;
 import static java.lang.String.format;

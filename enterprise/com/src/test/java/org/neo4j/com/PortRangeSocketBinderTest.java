@@ -38,10 +38,9 @@ import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelException;
 import org.junit.Test;
+import org.neo4j.helpers.HostnamePort;
 
 import java.net.InetSocketAddress;
-
-import org.neo4j.helpers.HostnamePort;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

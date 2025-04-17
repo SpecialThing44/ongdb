@@ -35,7 +35,6 @@
 package org.neo4j.backup.impl;
 
 import org.junit.Test;
-
 import org.neo4j.backup.TheBackupInterface;
 import org.neo4j.backup.impl.BackupClient.BackupRequestType;
 import org.neo4j.com.RequestContext;

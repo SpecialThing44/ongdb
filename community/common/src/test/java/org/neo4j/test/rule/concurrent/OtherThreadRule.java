@@ -43,12 +43,11 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.neo4j.test.OtherThreadExecutor;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.neo4j.test.OtherThreadExecutor;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 

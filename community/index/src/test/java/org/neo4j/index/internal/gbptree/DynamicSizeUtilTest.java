@@ -45,12 +45,8 @@ import org.neo4j.io.pagecache.ByteArrayPageCursor;
 import org.neo4j.io.pagecache.PageCursor;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.fail;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.extractKeySize;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.extractValueSize;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.putKeyValueSize;
-import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.readKeyValueSize;
+import static org.neo4j.index.internal.gbptree.DynamicSizeUtil.*;
 
 public class DynamicSizeUtilTest
 {

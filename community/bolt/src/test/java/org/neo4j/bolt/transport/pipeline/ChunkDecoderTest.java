@@ -43,12 +43,8 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
 import org.junit.Test;
 
-import static io.netty.buffer.Unpooled.buffer;
-import static io.netty.buffer.Unpooled.copyShort;
-import static io.netty.buffer.Unpooled.wrappedBuffer;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static io.netty.buffer.Unpooled.*;
+import static org.junit.Assert.*;
 import static org.neo4j.bolt.testing.BoltTestUtil.assertByteBufEquals;
 
 public class ChunkDecoderTest

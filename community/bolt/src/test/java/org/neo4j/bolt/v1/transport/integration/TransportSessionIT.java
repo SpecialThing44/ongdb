@@ -44,10 +44,6 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.neo4j.bolt.AbstractBoltTransportsTest;
 import org.neo4j.bolt.v1.messaging.Neo4jPackV1;
 import org.neo4j.graphdb.InputPosition;
@@ -56,6 +52,9 @@ import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.kernel.impl.util.ValueUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;
@@ -71,11 +70,7 @@ import static org.neo4j.bolt.v1.messaging.message.DiscardAllMessage.discardAll;
 import static org.neo4j.bolt.v1.messaging.message.InitMessage.init;
 import static org.neo4j.bolt.v1.messaging.message.PullAllMessage.pullAll;
 import static org.neo4j.bolt.v1.messaging.message.RunMessage.run;
-import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.hasNotification;
-import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.msgFailure;
-import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.msgIgnored;
-import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.msgRecord;
-import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.msgSuccess;
+import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.*;
 import static org.neo4j.bolt.v1.runtime.spi.StreamMatchers.eqRecord;
 import static org.neo4j.bolt.v1.transport.integration.TransportTestUtil.eventuallyReceives;
 import static org.neo4j.values.storable.Values.longValue;

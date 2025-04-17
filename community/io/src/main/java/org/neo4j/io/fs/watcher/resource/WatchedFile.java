@@ -38,7 +38,6 @@
  */
 package org.neo4j.io.fs.watcher.resource;
 
-import java.io.IOException;
 import java.nio.file.WatchKey;
 
 /**

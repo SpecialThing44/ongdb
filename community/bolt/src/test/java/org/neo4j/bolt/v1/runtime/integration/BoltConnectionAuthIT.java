@@ -40,7 +40,6 @@ package org.neo4j.bolt.v1.runtime.integration;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.bolt.BoltChannel;
 import org.neo4j.bolt.testing.BoltResponseRecorder;
 import org.neo4j.bolt.v1.runtime.BoltStateMachine;
@@ -49,10 +48,7 @@ import org.neo4j.kernel.internal.Version;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.neo4j.bolt.testing.BoltMatchers.failedWithStatus;
-import static org.neo4j.bolt.testing.BoltMatchers.succeeded;
-import static org.neo4j.bolt.testing.BoltMatchers.succeededWithMetadata;
-import static org.neo4j.bolt.testing.BoltMatchers.verifyKillsConnection;
+import static org.neo4j.bolt.testing.BoltMatchers.*;
 import static org.neo4j.helpers.collection.MapUtil.map;
 import static org.neo4j.values.storable.Values.TRUE;
 import static org.neo4j.values.storable.Values.stringValue;

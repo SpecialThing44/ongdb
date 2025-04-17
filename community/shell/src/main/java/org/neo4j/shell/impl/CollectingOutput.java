@@ -38,6 +38,8 @@
  */
 package org.neo4j.shell.impl;
 
+import org.neo4j.shell.Output;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -47,8 +49,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.neo4j.shell.Output;
 
 public class CollectingOutput extends UnicastRemoteObject implements Output, Serializable, Iterable<String>
 {

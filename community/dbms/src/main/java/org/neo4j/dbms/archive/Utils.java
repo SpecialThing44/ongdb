@@ -46,9 +46,7 @@ import java.nio.file.FileSystemException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
-import static java.nio.file.Files.exists;
-import static java.nio.file.Files.isRegularFile;
-import static java.nio.file.Files.isWritable;
+import static java.nio.file.Files.*;
 
 public class Utils
 {

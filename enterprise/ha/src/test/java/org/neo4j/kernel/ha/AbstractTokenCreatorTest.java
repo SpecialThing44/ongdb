@@ -36,7 +36,6 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.neo4j.com.RequestContext;
 import org.neo4j.com.Response;
 import org.neo4j.com.TransactionStreamResponse;
@@ -47,10 +46,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.neo4j.com.ResourceReleaser.NO_OP;
 
 public class AbstractTokenCreatorTest

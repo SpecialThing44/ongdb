@@ -34,14 +34,14 @@
  */
 package org.neo4j.kernel.ha.lock;
 
-import java.io.StringWriter;
-
 import org.neo4j.kernel.DeadlockDetectedException;
 import org.neo4j.kernel.impl.locking.DumpLocksVisitor;
 import org.neo4j.kernel.impl.locking.LockType;
 import org.neo4j.kernel.impl.locking.Locks;
 import org.neo4j.logging.FormattedLog;
 import org.neo4j.storageengine.api.lock.ResourceType;
+
+import java.io.StringWriter;
 
 import static java.lang.String.format;
 

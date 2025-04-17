@@ -34,13 +34,13 @@
  */
 package org.neo4j.kernel.ha.cluster.member;
 
-import java.util.function.Predicate;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberState;
 import org.neo4j.kernel.ha.cluster.HighAvailabilityMemberStateMachine;
 import org.neo4j.kernel.ha.cluster.modeswitch.HighAvailabilityModeSwitcher;
+
+import java.util.function.Predicate;
 
 import static java.lang.String.format;
 

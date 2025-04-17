@@ -40,27 +40,12 @@ package org.neo4j.bolt;
 
 import io.netty.handler.ssl.SslContext;
 import io.netty.util.internal.logging.InternalLoggerFactory;
-
-import java.time.Clock;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import org.neo4j.bolt.logging.BoltMessageLogging;
-import org.neo4j.bolt.runtime.BoltConnectionFactory;
-import org.neo4j.bolt.runtime.BoltSchedulerProvider;
-import org.neo4j.bolt.runtime.CachedThreadPoolExecutorFactory;
-import org.neo4j.bolt.runtime.DefaultBoltConnectionFactory;
-import org.neo4j.bolt.runtime.ExecutorBoltSchedulerProvider;
+import org.neo4j.bolt.runtime.*;
 import org.neo4j.bolt.security.auth.Authentication;
 import org.neo4j.bolt.security.auth.BasicAuthentication;
-import org.neo4j.bolt.transport.BoltProtocolPipelineInstallerFactory;
-import org.neo4j.bolt.transport.DefaultBoltProtocolPipelineInstallerFactory;
-import org.neo4j.bolt.transport.Netty4LoggerFactory;
-import org.neo4j.bolt.transport.NettyServer;
+import org.neo4j.bolt.transport.*;
 import org.neo4j.bolt.transport.NettyServer.ProtocolInitializer;
-import org.neo4j.bolt.transport.SocketTransport;
-import org.neo4j.bolt.transport.TransportThrottleGroup;
 import org.neo4j.bolt.v1.runtime.BoltFactory;
 import org.neo4j.bolt.v1.runtime.BoltFactoryImpl;
 import org.neo4j.configuration.Description;
@@ -89,6 +74,11 @@ import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.Log;
 import org.neo4j.scheduler.JobScheduler;
 import org.neo4j.udc.UsageData;
+
+import java.time.Clock;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.neo4j.kernel.configuration.Settings.STRING;

@@ -38,12 +38,11 @@
  */
 package org.neo4j.io.pagecache;
 
+import org.neo4j.helpers.Exceptions;
+
 import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-
-import org.neo4j.helpers.Exceptions;
 
 /**
  * Wraps a byte array and present it as a PageCursor.

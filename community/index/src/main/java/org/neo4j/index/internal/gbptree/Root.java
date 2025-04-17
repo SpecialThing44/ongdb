@@ -38,9 +38,9 @@
  */
 package org.neo4j.index.internal.gbptree;
 
-import java.io.IOException;
-
 import org.neo4j.io.pagecache.PageCursor;
+
+import java.io.IOException;
 
 /**
  * Keeps id and generation of root of the tree. Can move {@link PageCursor} to root id and return its generation,

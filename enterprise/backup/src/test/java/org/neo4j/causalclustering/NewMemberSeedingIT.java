@@ -41,12 +41,6 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-
 import org.neo4j.causalclustering.backup_stores.BackupStore;
 import org.neo4j.causalclustering.backup_stores.BackupStoreWithSomeData;
 import org.neo4j.causalclustering.backup_stores.BackupStoreWithSomeDataButNoTransactionLogs;
@@ -62,6 +56,11 @@ import org.neo4j.kernel.impl.store.format.standard.Standard;
 import org.neo4j.test.rule.SuppressOutput;
 import org.neo4j.test.rule.TestDirectory;
 import org.neo4j.test.rule.fs.DefaultFileSystemRule;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 
 import static java.util.Collections.emptyMap;
 import static org.junit.Assert.assertFalse;

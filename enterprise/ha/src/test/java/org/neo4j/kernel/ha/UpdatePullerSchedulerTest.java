@@ -36,16 +36,13 @@ package org.neo4j.kernel.ha;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.neo4j.logging.NullLogProvider;
 import org.neo4j.scheduler.JobScheduler;
 import org.neo4j.test.OnDemandJobScheduler;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 public class UpdatePullerSchedulerTest
 {

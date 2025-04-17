@@ -35,14 +35,11 @@
 package org.neo4j.kernel.ha;
 
 import org.junit.Test;
-
 import org.neo4j.graphdb.TransactionFailureException;
 import org.neo4j.graphdb.TransientDatabaseFailureException;
 
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class DelegateInvocationHandlerTest
 {

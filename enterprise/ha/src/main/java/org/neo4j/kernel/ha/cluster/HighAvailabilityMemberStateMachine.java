@@ -34,8 +34,6 @@
  */
 package org.neo4j.kernel.ha.cluster;
 
-import java.net.URI;
-
 import org.neo4j.cluster.InstanceId;
 import org.neo4j.cluster.member.ClusterMemberEvents;
 import org.neo4j.cluster.member.ClusterMemberListener;
@@ -49,6 +47,8 @@ import org.neo4j.kernel.impl.store.StoreId;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.net.URI;
 
 import static java.lang.String.format;
 import static org.neo4j.cluster.util.Quorums.isQuorum;

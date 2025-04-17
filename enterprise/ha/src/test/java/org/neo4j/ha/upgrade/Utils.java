@@ -34,12 +34,9 @@
  */
 package org.neo4j.ha.upgrade;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.neo4j.io.fs.FileUtils;
+
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,16 +44,12 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.neo4j.io.fs.FileUtils;
-
 import static java.lang.Runtime.getRuntime;
 import static java.util.Arrays.asList;
 import static org.apache.commons.io.FileUtils.copyURLToFile;
 import static org.apache.commons.io.IOUtils.closeQuietly;
 import static org.apache.commons.io.IOUtils.copy;
-import static org.neo4j.io.fs.FileUtils.deleteFile;
-import static org.neo4j.io.fs.FileUtils.deleteRecursively;
-import static org.neo4j.io.fs.FileUtils.moveFile;
+import static org.neo4j.io.fs.FileUtils.*;
 
 public class Utils
 {

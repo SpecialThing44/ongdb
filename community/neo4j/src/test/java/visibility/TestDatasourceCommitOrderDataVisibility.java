@@ -41,15 +41,14 @@ package visibility;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Collection;
-import java.util.HashSet;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.test.TestGraphDatabaseFactory;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

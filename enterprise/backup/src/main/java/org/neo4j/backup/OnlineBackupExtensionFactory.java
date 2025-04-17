@@ -34,8 +34,6 @@
  */
 package org.neo4j.backup;
 
-import java.util.function.Supplier;
-
 import org.neo4j.helpers.Service;
 import org.neo4j.io.fs.FileSystemAbstraction;
 import org.neo4j.io.pagecache.PageCache;
@@ -55,6 +53,8 @@ import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
 import org.neo4j.kernel.monitoring.Monitors;
+
+import java.util.function.Supplier;
 
 @Service.Implementation( KernelExtensionFactory.class )
 public class OnlineBackupExtensionFactory extends KernelExtensionFactory<OnlineBackupExtensionFactory.Dependencies>

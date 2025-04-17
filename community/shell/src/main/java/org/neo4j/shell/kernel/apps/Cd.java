@@ -38,12 +38,6 @@
  */
 package org.neo4j.shell.kernel.apps;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.TreeSet;
-
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.ResourceIterable;
@@ -51,15 +45,10 @@ import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.helpers.Service;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.helpers.collection.MappingResourceIterator;
-import org.neo4j.shell.App;
-import org.neo4j.shell.AppCommandParser;
-import org.neo4j.shell.Continuation;
-import org.neo4j.shell.OptionDefinition;
-import org.neo4j.shell.OptionValueType;
-import org.neo4j.shell.Output;
-import org.neo4j.shell.Session;
-import org.neo4j.shell.ShellException;
+import org.neo4j.shell.*;
 import org.neo4j.shell.impl.RelationshipToNodeIterable;
+
+import java.util.*;
 
 import static org.neo4j.helpers.TextUtil.lastWordOrQuoteOf;
 

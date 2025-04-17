@@ -38,15 +38,15 @@
  */
 package org.neo4j.adversaries.pagecache;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Objects;
-
 import org.neo4j.adversaries.Adversary;
 import org.neo4j.io.pagecache.CursorException;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.io.pagecache.impl.DelegatingPageCursor;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A write {@linkplain PageCursor page cursor} that wraps another page cursor and an {@linkplain Adversary adversary}

@@ -34,14 +34,14 @@
  */
 package org.neo4j.backup.impl;
 
-import java.nio.file.Path;
-import java.util.Map;
-
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.io.pagecache.PageCache;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.configuration.Settings;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
+
+import java.nio.file.Path;
+import java.util.Map;
 
 import static org.neo4j.backup.impl.BackupProtocolService.startTemporaryDb;
 

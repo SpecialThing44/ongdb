@@ -38,9 +38,9 @@
  */
 package org.neo4j.bolt.v1.messaging;
 
-import java.io.IOException;
-
 import org.neo4j.kernel.api.exceptions.Status;
+
+import java.io.IOException;
 
 public class BoltIOException extends IOException implements Status.HasStatus
 {

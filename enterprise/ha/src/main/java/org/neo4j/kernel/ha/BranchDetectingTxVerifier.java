@@ -34,12 +34,12 @@
  */
 package org.neo4j.kernel.ha;
 
-import java.io.IOException;
-
 import org.neo4j.com.TxChecksumVerifier;
 import org.neo4j.kernel.impl.transaction.log.NoSuchTransactionException;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
+
+import java.io.IOException;
 
 /**
  * Used on the master to verify that slaves are using the same logical database as the master is running. This is done

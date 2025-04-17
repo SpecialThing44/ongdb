@@ -38,12 +38,12 @@
  */
 package org.neo4j.shell;
 
-import java.io.File;
-import java.util.HashMap;
-
 import org.neo4j.shell.impl.SameJvmClient;
 import org.neo4j.shell.impl.SystemOutput;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
+
+import java.io.File;
+import java.util.HashMap;
 
 import static org.neo4j.shell.RmiPublicationIT.createDefaultConfigFile;
 

@@ -39,18 +39,11 @@
 package org.neo4j.codegen.source;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.neo4j.codegen.*;
 
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.function.Consumer;
-
-import org.neo4j.codegen.Expression;
-import org.neo4j.codegen.ExpressionVisitor;
-import org.neo4j.codegen.FieldReference;
-import org.neo4j.codegen.LocalVariable;
-import org.neo4j.codegen.MethodEmitter;
-import org.neo4j.codegen.MethodReference;
-import org.neo4j.codegen.TypeReference;
 
 class MethodSourceWriter implements MethodEmitter, ExpressionVisitor
 {

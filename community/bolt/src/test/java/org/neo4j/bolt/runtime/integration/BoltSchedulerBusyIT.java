@@ -45,12 +45,6 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.function.Consumer;
-
 import org.neo4j.bolt.AbstractBoltTransportsTest;
 import org.neo4j.bolt.runtime.BoltConnection;
 import org.neo4j.bolt.v1.transport.integration.Neo4jWithSocket;
@@ -62,11 +56,14 @@ import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.function.Consumer;
+
 import static java.util.Collections.emptyMap;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.isA;
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.neo4j.bolt.v1.messaging.message.DiscardAllMessage.discardAll;
 import static org.neo4j.bolt.v1.messaging.message.InitMessage.init;
