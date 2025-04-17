@@ -41,8 +41,16 @@ package org.neo4j.cypher.internal
 import org.neo4j.cypher._
 import org.neo4j.cypher.internal.compatibility._
 import org.neo4j.cypher.internal.frontend.v3_4.phases.CompilationPhaseTracer
-import org.neo4j.cypher.internal.runtime.interpreted.{LastCommittedTxIdProvider, TransactionalContextWrapper, ValueConversion}
-import org.neo4j.cypher.internal.runtime.{RuntimeJavaValueConverter, RuntimeScalaValueConverter, isGraphKernelResultValue}
+import org.neo4j.cypher.internal.runtime.interpreted.{
+  LastCommittedTxIdProvider,
+  TransactionalContextWrapper,
+  ValueConversion
+}
+import org.neo4j.cypher.internal.runtime.{
+  RuntimeJavaValueConverter,
+  RuntimeScalaValueConverter,
+  isGraphKernelResultValue
+}
 import org.neo4j.cypher.internal.tracing.{CompilationTracer, TimingCompilationTracer}
 import org.neo4j.graphdb.Result
 import org.neo4j.graphdb.config.Setting
@@ -86,9 +94,9 @@ class ExecutionEngine(
   private val log = logProvider.getLog(getClass)
   private val cacheMonitor = kernelMonitors.newMonitor(classOf[StringCacheMonitor])
   kernelMonitors.addMonitorListener(new StringCacheMonitor {
-    override def cacheDiscard(ignored: String, query: String, secondsSinceReplan: Int) {
+    override def cacheDiscard(ignored: String, query: String, secondsSinceReplan: Int): Unit = {
       log.info(
-        s"Discarded stale query from the query cache after ${secondsSinceReplan} seconds: $query"
+        s"Discarded stale query from the query cache after $secondsSinceReplan seconds: $query"
       )
     }
   })
@@ -182,7 +190,7 @@ class ExecutionEngine(
   }
 
   @throws(classOf[SyntaxException])
-  protected def planQuery(
+  private def planQuery(
       transactionalContext: TransactionalContext
   ): (PreparedPlanExecution, TransactionalContextWrapper, Seq[String]) = {
     val executingQuery = transactionalContext.executingQuery()
@@ -252,7 +260,7 @@ class ExecutionEngine(
           }
           (plan, touched)
         } catch {
-          case (t: Throwable) =>
+          case t: Throwable =>
             tc.close(success = false)
             throw t
         } finally {
@@ -285,7 +293,7 @@ class ExecutionEngine(
       queryParams: Seq[String],
       givenParams: MapValue,
       extractedParams: Map[String, Any]
-  ) {
+  ): Unit = {
     exceptionHandler.runSafely {
       val missingKeys =
         queryParams.filter(key => !(givenParams.containsKey(key) || extractedParams.contains(key)))
@@ -295,11 +303,11 @@ class ExecutionEngine(
     }
   }
 
-  private def releasePlanLabels(tc: TransactionalContextWrapper, labelIds: Seq[Long]) = {
+  private def releasePlanLabels(tc: TransactionalContextWrapper, labelIds: Seq[Long]): Unit = {
     tc.kernelTransaction.locks().releaseSharedLabelLock(labelIds.toArray[Long]: _*)
   }
 
-  private def lockPlanLabels(tc: TransactionalContextWrapper, labelIds: Seq[Long]) = {
+  private def lockPlanLabels(tc: TransactionalContextWrapper, labelIds: Seq[Long]): Unit = {
     tc.kernelTransaction.locks().acquireSharedLabelLock(labelIds.toArray[Long]: _*)
   }
 
@@ -338,7 +346,7 @@ class ExecutionEngine(
 
   private def getOrCreateFromSchemaState[V](operations: SchemaRead, creator: => V) = {
     val javaCreator = new java.util.function.Function[ExecutionEngine, V]() {
-      def apply(key: ExecutionEngine) = creator
+      def apply(key: ExecutionEngine): V = creator
     }
     operations.schemaStateGetOrCreate(this, javaCreator)
   }
@@ -470,5 +478,5 @@ class ExecutionEngine(
 }
 
 object ExecutionEngine {
-  val PLAN_BUILDING_TRIES: Int = 20
+  private val PLAN_BUILDING_TRIES: Int = 20
 }
