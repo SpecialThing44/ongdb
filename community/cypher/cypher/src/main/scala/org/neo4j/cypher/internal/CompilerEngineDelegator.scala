@@ -152,18 +152,19 @@ class CompilerEngineDelegator(
     ) =
       CypherStatementWithOptions(preParsedStatement)
 
-    val cypherVersion = version.getOrElse(configuredVersion)
+//    val cypherVersion = version.getOrElse(configuredVersion)
+    val cypherVersion = configuredVersion
     val pickedExecutionMode = mode.getOrElse(CypherExecutionMode.default)
 
     val pickedPlanner = pick(
       planner,
       CypherPlanner,
-      if (cypherVersion == configuredVersion) Some(configuredPlanner) else None
+      Some(configuredPlanner)
     )
     val pickedRuntime = pick(
       runtime,
       CypherRuntime,
-      if (cypherVersion == configuredVersion) Some(configuredRuntime) else None
+      Some(configuredRuntime)
     )
     val pickedUpdateStrategy = pick(updateStrategy, CypherUpdateStrategy, None)
 
