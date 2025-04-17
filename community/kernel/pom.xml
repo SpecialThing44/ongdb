@@ -163,17 +163,6 @@
             <artifactId>ongdb-logging</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.graphfoundation.ongdb</groupId>
-            <artifactId>ongdb-lucene-upgrade</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!--lucene should be included here to be able to produce correct licensing file-->
         <dependency>
             <groupId>org.apache.lucene</groupId>
