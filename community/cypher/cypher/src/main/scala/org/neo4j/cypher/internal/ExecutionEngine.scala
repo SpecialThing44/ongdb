@@ -73,7 +73,6 @@ class ExecutionEngine(val queryService: GraphDatabaseQueryService,
   require(queryService != null, "Can't work with a null graph database")
 
   // true means we run inside REST server
-  protected val isServer = false
   private val resolver = queryService.getDependencyResolver
   private val lastCommittedTxId = LastCommittedTxIdProvider(queryService)
   private val kernelMonitors: KernelMonitors = resolver.resolveDependency(classOf[KernelMonitors])
