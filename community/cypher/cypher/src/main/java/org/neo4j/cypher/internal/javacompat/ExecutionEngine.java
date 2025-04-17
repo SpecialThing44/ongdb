@@ -119,19 +119,6 @@ public class ExecutionEngine implements QueryExecutionEngine
         return inner.isPeriodicCommit( query );
     }
 
-    /**
-     * Turns a valid Cypher query and returns it with keywords in uppercase,
-     * and new-lines in the appropriate places.
-     *
-     * @param query The query to make pretty
-     * @return The same query, but prettier
-     */
-    @Override
-    public String prettify( String query )
-    {
-        return inner.prettify( query );
-    }
-
     @Override
     public long clearQueryCaches()
     {
