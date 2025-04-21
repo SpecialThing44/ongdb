@@ -42,9 +42,11 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
  * If you only want to verify that plans using indexes are actually planned, please use
  * [[org.neo4j.cypher.internal.compiler.v3_4.planner.logical.LeafPlanningIntegrationTest]]
  */
-class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport{
+class NodeIndexContainsScanAcceptanceTest
+    extends ExecutionEngineFunSuite
+    with CypherComparisonSupport {
   val expectedToSucceed = Configs.Interpreted
-  val expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3
+  val expectPlansToFail = Configs.AllRulePlanners
 
   test("should be case sensitive for CONTAINS with indexes") {
     val london = createLabeledNode(Map("name" -> "London"), "Location")
@@ -62,8 +64,12 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name CONTAINS 'ondo' RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexContainsScan"), expectPlansToFail))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy =
+        ComparePlansWithAssertion(_ should useOperators("NodeIndexContainsScan"), expectPlansToFail)
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
@@ -84,8 +90,12 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name CONTAINS 'ondo' RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexContainsScan"), expectPlansToFail))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy =
+        ComparePlansWithAssertion(_ should useOperators("NodeIndexContainsScan"), expectPlansToFail)
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
@@ -107,13 +117,19 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name CONTAINS 'ondo' AND l.country = 'UK' RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-    planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexContainsScan"), expectPlansToFail))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy =
+        ComparePlansWithAssertion(_ should useOperators("NodeIndexContainsScan"), expectPlansToFail)
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
 
-  test("should not use contains index with multiple indexes and predicates where other index is more selective") {
+  test(
+    "should not use contains index with multiple indexes and predicates where other index is more selective"
+  ) {
     val london = createLabeledNode(Map("name" -> "London", "country" -> "UK"), "Location")
     createLabeledNode(Map("name" -> "LONDON", "country" -> "UK"), "Location")
     graph.inTx {
@@ -130,13 +146,21 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name CONTAINS 'ondo' AND l.country = 'UK' RETURN l"
 
-    val result = executeWith(Configs.Interpreted, query,
-    planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexSeek"), expectPlansToFail = Configs.AllRulePlanners))
+    val result = executeWith(
+      Configs.Interpreted,
+      query,
+      planComparisonStrategy = ComparePlansWithAssertion(
+        _ should useOperators("NodeIndexSeek"),
+        expectPlansToFail = Configs.AllRulePlanners
+      )
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
 
-  test("should use contains index with multiple indexes and predicates where other index is more selective but we add index hint") {
+  test(
+    "should use contains index with multiple indexes and predicates where other index is more selective but we add index hint"
+  ) {
     val london = createLabeledNode(Map("name" -> "London", "country" -> "UK"), "Location")
     createLabeledNode(Map("name" -> "LONDON", "country" -> "UK"), "Location")
     graph.inTx {
@@ -151,10 +175,12 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
     graph.createIndex("Location", "name")
     graph.createIndex("Location", "country")
 
-    val query = "MATCH (l:Location) USING INDEX l:Location(name) WHERE l.name CONTAINS 'ondo' AND l.country = 'UK' RETURN l"
+    val query =
+      "MATCH (l:Location) USING INDEX l:Location(name) WHERE l.name CONTAINS 'ondo' AND l.country = 'UK' RETURN l"
 
     // RULE has bug with this query
-    val result = executeWith(expectedToSucceed , query, expectedDifferentResults = Configs.AllRulePlanners)
+    val result =
+      executeWith(expectedToSucceed, query, expectedDifferentResults = Configs.AllRulePlanners)
 
     result should evaluateTo(List(Map("l" -> london)))
   }
@@ -175,9 +201,15 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name CONTAINS {param} RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexContainsScan"), expectPlansToFail),
-      params = Map("param" -> null))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy = ComparePlansWithAssertion(
+        _ should useOperators("NodeIndexContainsScan"),
+        expectPlansToFail
+      ),
+      params = Map("param" -> null)
+    )
 
     result should evaluateTo(List.empty)
   }
@@ -198,10 +230,24 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name CONTAINS {param} RETURN l"
 
-    failWithError(TestConfiguration(Versions.Default, Planners.Default, Runtimes(Runtimes.ProcedureOrSchema, Runtimes.Interpreted, Runtimes.Slotted)) +
-      TestConfiguration(Versions.all, Planners.Cost, Runtimes(Runtimes.Interpreted, Runtimes.Default)) +
-      TestConfiguration(Versions.V2_3, Planners.Rule, Runtimes(Runtimes.Interpreted, Runtimes.Default)),
-      query, message = List("Expected a string value, but got 42","Expected a string value, but got Long(42)","Expected two strings, but got London and 42"),
-      params = Map("param" -> 42))
+    failWithError(
+      TestConfiguration(
+        Versions.Default,
+        Planners.Default,
+        Runtimes(Runtimes.ProcedureOrSchema, Runtimes.Interpreted, Runtimes.Slotted)
+      ) +
+        TestConfiguration(
+          Versions.all,
+          Planners.Cost,
+          Runtimes(Runtimes.Interpreted, Runtimes.Default)
+        ),
+      query,
+      message = List(
+        "Expected a string value, but got 42",
+        "Expected a string value, but got Long(42)",
+        "Expected two strings, but got London and 42"
+      ),
+      params = Map("param" -> 42)
+    )
   }
 }

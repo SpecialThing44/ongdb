@@ -41,7 +41,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 class QueryPlanCompactionAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport
   with CypherComparisonSupport {
 
-  val expectedToSucceed = Configs.Interpreted - Configs.Cost2_3
+  val expectedToSucceed = Configs.Interpreted
 
   implicit val windowsSafe = WindowsStringSafe
 
@@ -844,7 +844,7 @@ class QueryPlanCompactionAcceptanceTest extends ExecutionEngineFunSuite with Que
         || +NodeByLabelScan |              5 | n                                    | :Actor                      |
         |+------------------+----------------+--------------------------------------+-----------------------------+
         |""".stripMargin
-    val ignoreConfiguration = Configs.Version2_3 + Configs.Version3_1 + Configs.AllRulePlanners + Configs.SlottedInterpreted
+    val ignoreConfiguration = Configs.AllRulePlanners + Configs.SlottedInterpreted
     executeWith(Configs.All, query, planComparisonStrategy = ComparePlansWithAssertion(_ should matchPlan(expectedPlan), expectPlansToFail = ignoreConfiguration))
   }
 

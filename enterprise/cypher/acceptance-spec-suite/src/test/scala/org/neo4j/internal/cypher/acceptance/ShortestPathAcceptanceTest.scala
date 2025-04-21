@@ -746,7 +746,7 @@ class ShortestPathAcceptanceTest extends ExecutionEngineFunSuite with CypherComp
     relate(intermediate, p2, "KNOWS", Map("prop" -> 42))
 
     // When
-    val result = executeWith(expectedToSucceed - Configs.Cost2_3,
+    val result = executeWith(expectedToSucceed,
       """MATCH (person1:Person {id:1}), (person2:Person {id:2})
         |OPTIONAL MATCH path = shortestPath((person1)-[k:KNOWS*0..]-(person2))
         |WHERE all(r in k WHERE r.prop IN [42])

@@ -46,7 +46,7 @@ class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with 
 
   val hasActiveRead = ComparePlansWithAssertion((plan) => {
     plan should useOperators("ActiveRead")
-  }, Configs.Cost3_1 + Configs.Cost2_3 + Configs.AllRulePlanners)
+  }, Configs.AllRulePlanners)
 
   Seq(UniquenessConstraintCreator, NodeKeyConstraintCreator).foreach { constraintCreator =>
 
@@ -59,7 +59,7 @@ class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with 
 
       // when
       val results =
-        executeWith(Configs.UpdateConf, "merge (a:Person {id: 23, mail: 'emil@neo.com'}) on match set a.country='Sweden' return a", planComparisonStrategy = hasActiveRead)
+        executeWith(Configs.DefaultInterpreted, "merge (a:Person {id: 23, mail: 'emil@neo.com'}) on match set a.country='Sweden' return a", planComparisonStrategy = hasActiveRead)
       val result = results.columnAs("a").next().asInstanceOf[Node]
 
       // then
@@ -80,7 +80,7 @@ class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with 
 
       // when
       val results =
-        executeWith(Configs.UpdateConf, "merge (a:Person:User {id: 23, mail: 'emil@neo.com'}) on match set a.country='Sweden' return a", planComparisonStrategy = hasActiveRead)
+        executeWith(Configs.DefaultInterpreted, "merge (a:Person:User {id: 23, mail: 'emil@neo.com'}) on match set a.country='Sweden' return a", planComparisonStrategy = hasActiveRead)
       val result = results.columnAs("a").next().asInstanceOf[Node]
 
       // then
@@ -101,7 +101,7 @@ class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with 
 
       // when
       val results =
-        executeWith(Configs.UpdateConf, "merge (a:Person:User {id: 23}) on match set a.country='Sweden' return a", planComparisonStrategy = hasActiveRead)
+        executeWith(Configs.DefaultInterpreted, "merge (a:Person:User {id: 23}) on match set a.country='Sweden' return a", planComparisonStrategy = hasActiveRead)
       val result = results.columnAs("a").next().asInstanceOf[Node]
 
       // then
@@ -121,7 +121,7 @@ class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with 
       createLabeledNode(Map("id" -> 23), "User")
 
       // when + then
-      failWithError(Configs.UpdateConf + Configs.Procs, "merge (a:Person:User {id: 23}) return a",
+      failWithError(Configs.DefaultInterpreted + Configs.Procs, "merge (a:Person:User {id: 23}) return a",
         List("can not create a new node due to conflicts with existing unique nodes"))
       countNodes() should equal(2)
     }
@@ -133,7 +133,7 @@ class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with 
 
       // when
       val results =
-        executeWith(Configs.UpdateConf, "merge (a:Person {id: 23, mail: 'emil@neo.com'}) on create set a.country='Sweden' return a.id, a.mail, a.country, labels(a)", planComparisonStrategy = hasActiveRead)
+        executeWith(Configs.DefaultInterpreted, "merge (a:Person {id: 23, mail: 'emil@neo.com'}) on create set a.country='Sweden' return a.id, a.mail, a.country, labels(a)", planComparisonStrategy = hasActiveRead)
 
       // then
       results.toSet should equal(Set(Map("a.id" -> 23, "a.mail" -> "emil@neo.com", "a.country" -> "Sweden", "labels(a)" -> List("Person"))))
@@ -146,7 +146,7 @@ class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with 
 
       // when
       val results =
-        executeWith(Configs.UpdateConf, "merge (a:Person:User {id: 23, mail: 'emil@neo.com'}) on create set a.country='Sweden' return a.id, a.mail, a.country, labels(a)", planComparisonStrategy = hasActiveRead)
+        executeWith(Configs.DefaultInterpreted, "merge (a:Person:User {id: 23, mail: 'emil@neo.com'}) on create set a.country='Sweden' return a.id, a.mail, a.country, labels(a)", planComparisonStrategy = hasActiveRead)
 
       // then
       results.toSet should equal(Set(Map("a.id" -> 23, "a.mail" -> "emil@neo.com", "a.country" -> "Sweden", "labels(a)" -> List("Person", "User"))))

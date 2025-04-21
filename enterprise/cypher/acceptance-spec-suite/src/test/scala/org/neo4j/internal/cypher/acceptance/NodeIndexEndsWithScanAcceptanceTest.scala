@@ -35,7 +35,6 @@
 package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.ExecutionEngineFunSuite
-import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Versions.V3_1
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
 /**
@@ -43,9 +42,11 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
  * If you only want to verify that plans using indexes are actually planned, please use
  * [[org.neo4j.cypher.internal.compiler.v3_4.planner.logical.LeafPlanningIntegrationTest]]
  */
-class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport{
+class NodeIndexEndsWithScanAcceptanceTest
+    extends ExecutionEngineFunSuite
+    with CypherComparisonSupport {
   val expectedToSucceed = Configs.Interpreted
-  val expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3
+  val expectPlansToFail = Configs.AllRulePlanners
 
   test("should be case sensitive for ENDS WITH with indexes") {
     val london = createLabeledNode(Map("name" -> "London"), "Location")
@@ -63,8 +64,12 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name ENDS WITH 'ondon' RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"), expectPlansToFail))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy =
+        ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"), expectPlansToFail)
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
@@ -85,8 +90,12 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name ENDS WITH 'ondon' RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"), expectPlansToFail))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy =
+        ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"), expectPlansToFail)
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
@@ -108,13 +117,19 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name ENDS WITH 'ondon' AND l.country = 'UK' RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"), expectPlansToFail))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy =
+        ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"), expectPlansToFail)
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
 
-  test("should not use endsWith index scan with multiple indexes and predicates where other index is more selective") {
+  test(
+    "should not use endsWith index scan with multiple indexes and predicates where other index is more selective"
+  ) {
     val london = createLabeledNode(Map("name" -> "London", "country" -> "UK"), "Location")
     createLabeledNode(Map("name" -> "LONDON", "country" -> "UK"), "Location")
     graph.inTx {
@@ -131,13 +146,21 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name ENDS WITH 'ondon' AND l.country = 'UK' RETURN l"
 
-    val result = executeWith(Configs.Interpreted, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexSeek"), expectPlansToFail = Configs.AllRulePlanners))
+    val result = executeWith(
+      Configs.Interpreted,
+      query,
+      planComparisonStrategy = ComparePlansWithAssertion(
+        _ should useOperators("NodeIndexSeek"),
+        expectPlansToFail = Configs.AllRulePlanners
+      )
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
 
-  test("should use endsWith index with multiple indexes and predicates where other index is more selective but we add index hint") {
+  test(
+    "should use endsWith index with multiple indexes and predicates where other index is more selective but we add index hint"
+  ) {
     val london = createLabeledNode(Map("name" -> "London", "country" -> "UK"), "Location")
     createLabeledNode(Map("name" -> "LONDON", "country" -> "UK"), "Location")
     graph.inTx {
@@ -152,11 +175,16 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
     graph.createIndex("Location", "name")
     graph.createIndex("Location", "country")
 
-    val query = "MATCH (l:Location) USING INDEX l:Location(name) WHERE l.name ENDS WITH 'ondon' AND l.country = 'UK' RETURN l"
+    val query =
+      "MATCH (l:Location) USING INDEX l:Location(name) WHERE l.name ENDS WITH 'ondon' AND l.country = 'UK' RETURN l"
 
     // RULE has bug with this query
-    val result = executeWith(expectedToSucceed  - Configs.AllRulePlanners, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan")))
+    val result = executeWith(
+      expectedToSucceed - Configs.AllRulePlanners,
+      query,
+      planComparisonStrategy =
+        ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"))
+    )
 
     result should evaluateTo(List(Map("l" -> london)))
   }
@@ -177,9 +205,15 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     val query = "MATCH (l:Location) WHERE l.name ENDS WITH {param} RETURN l"
 
-    val result = executeWith(expectedToSucceed, query,
-      planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan"), expectPlansToFail),
-      params = Map("param" -> null))
+    val result = executeWith(
+      expectedToSucceed,
+      query,
+      planComparisonStrategy = ComparePlansWithAssertion(
+        _ should useOperators("NodeIndexEndsWithScan"),
+        expectPlansToFail
+      ),
+      params = Map("param" -> null)
+    )
 
     result should evaluateTo(List.empty)
   }
@@ -198,9 +232,17 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
 
     graph.createConstraint("Location", "name")
 
-    val config = Configs.AbsolutelyAll - Configs.Compiled - TestConfiguration(Versions(V3_1, Versions.Default), Planners.Rule, Runtimes.Default)
+    val config = Configs.AbsolutelyAll - Configs.Compiled - TestConfiguration(
+      Versions(Versions.Default),
+      Planners.Rule,
+      Runtimes.Default
+    )
     val query = "MATCH (l:Location) WHERE l.name ENDS WITH {param} RETURN l"
-    val message = List("Expected a string value, but got 42","Expected a string value, but got Long(42)","Expected two strings, but got London and 42")
+    val message = List(
+      "Expected a string value, but got 42",
+      "Expected a string value, but got Long(42)",
+      "Expected two strings, but got London and 42"
+    )
 
     failWithError(config, query, message, params = Map("param" -> 42))
   }

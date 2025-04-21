@@ -198,18 +198,18 @@ class CompilerEngineDelegator(
   @throws(classOf[SyntaxException])
   def parseQuery(preParsedQueryArg: PreParsedQuery, tracer: CompilationPhaseTracer): ParsedQuery = {
     var preParsedQuery = preParsedQueryArg
-    val supportedRuntimes3_1 = Seq(CypherRuntime.interpreted, CypherRuntime.default)
+    val supportedRuntimes3_4 = Seq(CypherRuntime.interpreted, CypherRuntime.default)
 
     var preParsingNotifications: Set[org.neo4j.graphdb.Notification] = Set.empty
-    if ((preParsedQuery.version == CypherVersion.v3_4) && preParsedQuery.planner == CypherPlanner.rule) {
-      preParsingNotifications = preParsingNotifications + rulePlannerUnavailableFallbackNotification(
-        preParsedQuery.offset
-      )
-      preParsedQuery = preParsedQuery.copy(version = CypherVersion.v3_4)(preParsedQuery.offset)
-    }
+//    if ((preParsedQuery.version == CypherVersion.v3_4) && preParsedQuery.planner == CypherPlanner.rule) {
+//      preParsingNotifications = preParsingNotifications + rulePlannerUnavailableFallbackNotification(
+//        preParsedQuery.offset
+//      )
+//      preParsedQuery = preParsedQuery.copy(version = CypherVersion.v3_4)(preParsedQuery.offset)
+//    }
 
     def checkSupportedRuntime(ex: util.v3_4.SyntaxException): Unit = {
-      if (!supportedRuntimes3_1.contains(preParsedQuery.runtime)) {
+      if (!supportedRuntimes3_4.contains(preParsedQuery.runtime)) {
         if (config.useErrorsOverWarnings) {
           throw new InvalidArgumentException(
             "The given query is not currently supported in the selected runtime"
@@ -225,7 +225,8 @@ class CompilerEngineDelegator(
     def planForVersion(
         input: Either[CypherVersion, ParsedQuery]
     ): Either[CypherVersion, ParsedQuery] = input match {
-      case _ @Right(_) =>
+      case r @ Right(_) => r
+      case _ =>
         val parserQuery = compatibilityFactory
           .create(
             PlannerSpec_v3_4(

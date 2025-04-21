@@ -49,7 +49,7 @@ class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
     createNode("id" -> 0)
     for (i <- 1 to 1000) createNode("id" -> i)
     val result = executeWith(
-      Configs.Interpreted - Configs.OldAndRule,
+      Configs.Interpreted,
       "MATCH (n) WHERE id(n) IN {ids} RETURN n.id",
       params = Map("ids" -> List(-2, -3, 0, -4)))
     result.executionPlanDescription() should useOperators("NodeByIdSeek")
@@ -146,7 +146,7 @@ class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
   test("OPTIONAL MATCH, DISTINCT and DELETE in an unfortunate combination") {
     val start = createLabeledNode("Start")
     createLabeledNode("End")
-    val result = executeWith(Configs.UpdateConf,
+    val result = executeWith(Configs.DefaultInterpreted,
       """
         |MATCH (start:Start),(end:End)
         |OPTIONAL MATCH (start)-[rel]->(end)
@@ -417,8 +417,8 @@ class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
   test("should be able to set properties with a literal map twice in the same transaction") {
     val node = createLabeledNode("FOO")
 
-    executeWith(Configs.UpdateConf, "MATCH (n:FOO) SET n = { first: 'value' }")
-    executeWith(Configs.UpdateConf, "MATCH (n:FOO) SET n = { second: 'value' }")
+    executeWith(Configs.DefaultInterpreted, "MATCH (n:FOO) SET n = { first: 'value' }")
+    executeWith(Configs.DefaultInterpreted, "MATCH (n:FOO) SET n = { second: 'value' }")
 
     graph.inTx {
       node.getProperty("first", null) should equal(null)
@@ -601,8 +601,8 @@ class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
         |RETURN project.p""".stripMargin
 
     //WHEN
-    val first = executeWith(Configs.UpdateConf, query).length
-    val second = executeWith(Configs.UpdateConf, query).length
+    val first = executeWith(Configs.DefaultInterpreted, query).length
+    val second = executeWith(Configs.DefaultInterpreted, query).length
     val check = executeWith(Configs.All, "MATCH (f:Folder) RETURN f.name").toSet
 
     //THEN
@@ -636,8 +636,8 @@ class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
 
     //WHEN
 
-    val first = executeWith(Configs.UpdateConf, query).length
-    val second = executeWith(Configs.UpdateConf, query).length
+    val first = executeWith(Configs.DefaultInterpreted, query).length
+    val second = executeWith(Configs.DefaultInterpreted, query).length
     val check = executeWith(Configs.All, "MATCH (f:Folder) RETURN f.name").toSet
 
     //THEN
@@ -683,7 +683,7 @@ class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
 
     val query = "MATCH (a) MERGE (b) WITH * OPTIONAL MATCH (a)--(b) RETURN count(*)"
 
-    val result = executeWith(Configs.UpdateConf, query)
+    val result = executeWith(Configs.DefaultInterpreted, query)
 
     result.columnAs[Long]("count(*)").next shouldBe 6
   }

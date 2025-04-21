@@ -42,7 +42,7 @@ class StartAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
   // START gets executed on legacy cypher, because it's deprecated and will be removes in 4.0. Therefore it is only
   // executable on the community interpreted runtime.
   val expectedToSucceed = Configs.CommunityInterpreted
-  val expectedToSucceedNoCost = Configs.CommunityInterpreted - Configs.Cost3_1 - Configs.Cost2_3
+  val expectedToSucceedNoCost = Configs.CommunityInterpreted
 
   test("START n=node:index(key = \"value\") RETURN n") {
     val node = createNode()

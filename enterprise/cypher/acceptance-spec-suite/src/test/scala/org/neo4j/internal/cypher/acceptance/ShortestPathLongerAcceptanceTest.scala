@@ -189,7 +189,7 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
          |WHERE ANY(n in nodes(p) WHERE n:$topRight)
          |RETURN nodes(p) AS nodes""".stripMargin,
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("VarLengthExpand(Into)"),
-        expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+        expectPlansToFail = Configs.AllRulePlanners))
 
     dprintln(s"Query took ${(System.currentTimeMillis - start)/1000.0}s")
 
@@ -209,7 +209,7 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
          |WHERE ANY(n in nodes(p) WHERE n:$bottomLeft)
          |RETURN nodes(p) AS nodes""".stripMargin,
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("VarLengthExpand(Into)"),
-        expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+        expectPlansToFail = Configs.AllRulePlanners))
 
     val result = results.columnAs[List[Node]]("nodes").toList
 
@@ -230,7 +230,7 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
          |  AND ANY(n in nodes(p) WHERE n:$bottomLeft)
          |RETURN nodes(p) AS nodes""".stripMargin,
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("VarLengthExpand(Into)"),
-        expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+        expectPlansToFail = Configs.AllRulePlanners))
 
     val result = results.columnAs[List[Node]]("nodes").toList
 
@@ -633,7 +633,7 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
                   |WITH p, size(nodes(p)) as length order by length DESC limit 1
                   |RETURN EXTRACT(n IN nodes(p) | n.id) as nodes""".stripMargin
     val result = executeWith(Configs.Interpreted, query,
-      expectedDifferentResults = Configs.AllRulePlanners + Configs.Cost2_3)
+      expectedDifferentResults = Configs.AllRulePlanners)
 
     result.toList should equal(List(Map("nodes" -> List(3, 2, 1, 11, 12, 13, 26, 27, 14))))
   }

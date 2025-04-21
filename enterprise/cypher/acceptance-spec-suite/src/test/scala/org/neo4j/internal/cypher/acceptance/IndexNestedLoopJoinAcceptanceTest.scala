@@ -62,7 +62,7 @@ class IndexNestedLoopJoinAcceptanceTest extends ExecutionEngineFunSuite with Cyp
       planComparisonStrategy = ComparePlansWithAssertion(planDescription => {
         planDescription should useOperators("Apply", "NodeIndexSeek")
         planDescription should not(useOperators("ValueHashJoin", "CartesianProduct", "NodeByLabelScan", "Filter"))
-      }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+      }, expectPlansToFail = Configs.AllRulePlanners))
 
     result.toList should equal(List(Map("count(*)" -> 3)))
   }
@@ -88,7 +88,7 @@ class IndexNestedLoopJoinAcceptanceTest extends ExecutionEngineFunSuite with Cyp
       planComparisonStrategy = ComparePlansWithAssertion(planDescription => {
         planDescription should useOperators("Apply", "NodeIndexSeek")
         planDescription should not(useOperators("ValueHashJoin", "CartesianProduct", "NodeByLabelScan", "Filter"))
-      }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+      }, expectPlansToFail = Configs.AllRulePlanners))
 
     result.toList should equal(List(Map("count(*)" -> 3)))
   }
@@ -124,7 +124,7 @@ class IndexNestedLoopJoinAcceptanceTest extends ExecutionEngineFunSuite with Cyp
         | RETURN f
       """.stripMargin
     val result = executeWith(Configs.All, query,
-      planComparisonStrategy = ComparePlansWithAssertion( _ should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "f"), expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+      planComparisonStrategy = ComparePlansWithAssertion( _ should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "f"), expectPlansToFail = Configs.AllRulePlanners))
     result.columnAs[Node]("f").toList should equal(List(nodes(123)))
   }
 
@@ -142,7 +142,7 @@ class IndexNestedLoopJoinAcceptanceTest extends ExecutionEngineFunSuite with Cyp
         | RETURN f
       """.stripMargin
     val result = executeWith(Configs.All, query,
-      planComparisonStrategy = ComparePlansWithAssertion( _ should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "f"), expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+      planComparisonStrategy = ComparePlansWithAssertion( _ should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "f"), expectPlansToFail = Configs.AllRulePlanners))
     result.columnAs[Node]("f").toSet should equal(Set(nodes(122), nodes(123)))
   }
 }

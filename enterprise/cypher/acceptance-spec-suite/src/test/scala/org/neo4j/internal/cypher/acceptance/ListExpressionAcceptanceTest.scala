@@ -53,7 +53,7 @@ class ListExpressionAcceptanceTest extends ExecutionEngineFunSuite with CypherCo
                   |SET n.name = "newName"
                   |RETURN n.name, oldNames""".stripMargin
 
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, QUERY).toList
+    val result = executeWith(Configs.Interpreted, QUERY).toList
 
     result should equal(List(Map("n.name" -> "newName", "oldNames" -> List("original"))))
   }
@@ -70,7 +70,7 @@ class ListExpressionAcceptanceTest extends ExecutionEngineFunSuite with CypherCo
                   |SET n.name = "newName"
                   |RETURN n.name, length(noopFiltered)""".stripMargin
 
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, QUERY).toList
+    val result = executeWith(Configs.Interpreted, QUERY).toList
 
     result should equal(List(Map("n.name" -> "newName", "length(noopFiltered)" -> 1)))
   }

@@ -209,7 +209,7 @@ class PatternExpressionImplementationAcceptanceTest extends ExecutionEngineFunSu
     val node1 = createLabeledNode("FOO")
     val node2 = createNode()
     relate(node1, node2, "BAR")
-    val result = executeWith(Configs.Interpreted - Configs.Cost3_1,
+    val result = executeWith(Configs.Interpreted,
       """
         |MATCH (n:FOO)
         |WITH n, COLLECT (DISTINCT{
@@ -312,7 +312,7 @@ class PatternExpressionImplementationAcceptanceTest extends ExecutionEngineFunSu
 
     executeWith(Configs.Interpreted, "match (a:Start), (b:End) with (a)-[*]->(b) as path, count(a) as c return path, c",
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("VarLengthExpand(Into)"),
-        expectPlansToFail = Configs.AllRulePlanners + Configs.Version2_3))
+        expectPlansToFail = Configs.AllRulePlanners))
   }
 
   // FAIL: <default version> <default planner> runtime=slotted returned different results than <default version> <default planner> runtime=interpreted List() did not contain the same elements as List(Map("r" -> (20000)-[T,0]->(20001)))
@@ -361,7 +361,7 @@ class PatternExpressionImplementationAcceptanceTest extends ExecutionEngineFunSu
         expandArgs collect {
           case ExpandExpression("n", _, Seq("HAS"), _, SemanticDirection.OUTGOING, 1, Some(1)) => true
         } should not be empty
-      }, Configs.AllRulePlanners + Configs.Version2_3))
+      }, Configs.AllRulePlanners))
   }
 
   test("should be able to execute aggregating-functions on pattern expressions") {
@@ -373,7 +373,7 @@ class PatternExpressionImplementationAcceptanceTest extends ExecutionEngineFunSu
 
     executeWith(Configs.Interpreted, "MATCH (n:A) RETURN count((n)-[:HAS]->()) as c",
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("Expand(All)"),
-        expectPlansToFail = Configs.AllRulePlanners + Configs.Version2_3))
+        expectPlansToFail = Configs.AllRulePlanners))
   }
 
   test("use getDegree for simple pattern expression with length clause, outgoing") {

@@ -741,7 +741,7 @@ class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTest
         |RETURN count(p)
         |""".stripMargin
 
-    executeWith(Configs.Interpreted  - Configs.Cost3_1 - Configs.Cost2_3, query,
+    executeWith(Configs.Interpreted , query,
       planComparisonStrategy = ComparePlansWithAssertion(planDescription => {
         planDescription should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "k")
         planDescription should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "t")
@@ -773,7 +773,7 @@ class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTest
         |USING INDEX a:PERSON(prop)
         |USING INDEX b:PERSON(prop)
         |RETURN a, b""".stripMargin
-    val result = executeWith(Configs.All  - Configs.Cost3_1 - Configs.Cost2_3, query,
+    val result = executeWith(Configs.All , query,
       planComparisonStrategy = ComparePlansWithAssertion(planDescription => {
         planDescription should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "a")
         planDescription should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "b")
@@ -794,7 +794,7 @@ class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTest
           |WHERE a.prop = 'foo' and b.prop = 'bar'
           |RETURN b.prop AS res""".stripMargin
 
-    val result = executeWith(Configs.All  - Configs.Cost3_1 - Configs.Cost2_3, query,
+    val result = executeWith(Configs.All , query,
       planComparisonStrategy = ComparePlansWithAssertion(planDescription => {
         planDescription should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "a")
         planDescription should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "b")

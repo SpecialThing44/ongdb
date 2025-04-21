@@ -117,7 +117,7 @@ class NodeIndexSeekByRangeAcceptanceTest extends ExecutionEngineFunSuite with Cy
         |CREATE (L:Location {name: toUpper(l.name)})
         |RETURN L.name AS NAME""".stripMargin
 
-    val result = executeWith(Configs.UpdateConf, query)
+    val result = executeWith(Configs.DefaultInterpreted, query)
 
     result.toList should equal(List(Map("NAME" -> "LONDON")))
   }
@@ -1063,7 +1063,7 @@ class NodeIndexSeekByRangeAcceptanceTest extends ExecutionEngineFunSuite with Cy
 
     val query = "MATCH (n:Label) WHERE n.prop >= {param} RETURN n.prop AS prop"
 
-    val result = executeWith(Configs.Interpreted - Configs.OldAndRule, query,
+    val result = executeWith(Configs.Interpreted, query,
       planComparisonStrategy = ComparePlansWithAssertion((plan) => {
         //THEN
         plan should useOperators(IndexSeekByRange.name)
@@ -1146,7 +1146,7 @@ class NodeIndexSeekByRangeAcceptanceTest extends ExecutionEngineFunSuite with Cy
 
     val query = "MATCH (n:Label) WHERE n.prop < 10 CREATE () RETURN n.prop"
 
-    val result = executeWith(Configs.UpdateConf, query,
+    val result = executeWith(Configs.DefaultInterpreted, query,
       planComparisonStrategy = ComparePlansWithAssertion((plan) => {
         //THEN
         plan should useOperators(IndexSeekByRange.name)

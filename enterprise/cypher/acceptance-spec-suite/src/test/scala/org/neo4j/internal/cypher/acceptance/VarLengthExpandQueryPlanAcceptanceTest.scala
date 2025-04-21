@@ -49,7 +49,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
       ComparePlansWithAssertion(plan => {
         plan should useOperatorWithText("VarLengthExpand(All)", "(e)<-[:*..4]-(a)")
         plan should useOperatorWithText("NodeByLabelScan", ":To")
-      }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+      }, expectPlansToFail = Configs.AllRulePlanners))
   }
 
   test("Plan should have right relationship direction, other direction") {
@@ -59,7 +59,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
       ComparePlansWithAssertion( plan => {
         plan should useOperatorWithText("VarLengthExpand(All)", "(a)-[:*..4]->(e)")
         plan should useOperatorWithText("NodeByLabelScan", ":From")
-      }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3))
+      }, expectPlansToFail = Configs.AllRulePlanners))
   }
 
   test("Plan pruning var expand on distinct var-length match") {
@@ -67,7 +67,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("Plan pruning var expand on distinct var-length match with projection and aggregation") {
@@ -75,7 +75,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("query with distinct aggregation") {
@@ -83,7 +83,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("Simple query that filters between expand and distinct") {
@@ -91,7 +91,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("Query that aggregates before making the result DISTINCT") {
@@ -107,7 +107,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("var expand followed by normal expand") {
@@ -115,7 +115,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("optional match can be solved with PruningVarExpand") {
@@ -123,12 +123,12 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("should not rewrite when doing non-distinct aggregation") {
     val query = "MATCH (a)-[*1..3]->(b) RETURN b, count(*)"
-    executeWith(Configs.Interpreted + Configs.Cost2_3, query, planComparisonStrategy =
+    executeWith(Configs.Interpreted, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(All)")
       }, expectPlansToFail = Configs.AllRulePlanners))
@@ -139,7 +139,7 @@ class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite wit
     executeWith(expectedToSucceed, query, planComparisonStrategy =
       ComparePlansWithAssertion( plan => {
         plan should useOperators("VarLengthExpand(Pruning)")
-      }, expectPlansToFail = Configs.OldAndRule))
+      }))
   }
 
   test("Do not plan pruning var expand for length=1") {

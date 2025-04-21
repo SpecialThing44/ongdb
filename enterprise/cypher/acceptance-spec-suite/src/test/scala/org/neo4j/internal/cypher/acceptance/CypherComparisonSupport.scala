@@ -799,11 +799,11 @@ object CypherComparisonSupport {
         Planners.Default,
         Runtimes(Runtimes.Interpreted, Runtimes.Slotted)
       ) +
-        TestScenario(Versions.Default, Planners.Rule, Runtimes.Default) +
+        TestScenario(Versions.Default, Planners.Rule, Runtimes.Default)
 
     def CommunityInterpreted: TestConfiguration =
       TestScenario(Versions.Default, Planners.Default, Runtimes.Interpreted) +
-        TestScenario(Versions.Default, Planners.Rule, Runtimes.Default) +
+        TestScenario(Versions.Default, Planners.Rule, Runtimes.Default)
 
     def SlottedInterpreted: TestConfiguration =
       TestScenario(Versions.Default, Planners.Default, Runtimes.Slotted)
@@ -863,7 +863,7 @@ object CypherComparisonSupport {
           Planners.Default,
           Runtimes(Runtimes.Interpreted, Runtimes.Slotted, Runtimes.ProcedureOrSchema)
         ) +
-        TestScenario(Versions.Default, Planners.Rule, Runtimes.Default) +
+        TestScenario(Versions.Default, Planners.Rule, Runtimes.Default)
 
     /**
      * These experimental configurations will only be executed if you explicitly specify them in the test expectation.

@@ -88,7 +88,7 @@ class QueryPlanCompatibilityTest extends ExecutionEngineFunSuite with CypherComp
       """.stripMargin
     val expectedPlan = generateExpectedPlan(query)
     executeWith(Configs.Interpreted, query,
-      planComparisonStrategy = ComparePlansWithAssertion(assertSimilarPlans(_, expectedPlan), expectPlansToFail = Configs.AllRulePlanners + Configs.Version2_3))
+      planComparisonStrategy = ComparePlansWithAssertion(assertSimilarPlans(_, expectedPlan), expectPlansToFail = Configs.AllRulePlanners))
   }
 
   private def assertSimilarPlans(plan: InternalPlanDescription, expected: InternalPlanDescription): Unit = {

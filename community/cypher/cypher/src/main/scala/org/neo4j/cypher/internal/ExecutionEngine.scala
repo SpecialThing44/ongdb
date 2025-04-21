@@ -417,14 +417,6 @@ class ExecutionEngine(
       GraphDatabaseSettings.cypher_lenient_create_relationship.getDefaultValue.toBoolean
     )
 
-    if ((version != CypherVersion.v3_4) &&
-      (planner == CypherPlanner.greedy || planner == CypherPlanner.idp || planner == CypherPlanner.dp)) {
-      val message = s"Cannot combine configurations: ${GraphDatabaseSettings.cypher_parser_version.name}=${version.name} " +
-        s"with ${GraphDatabaseSettings.cypher_planner.name} = ${planner.name}"
-      log.error(message)
-      throw new IllegalStateException(message)
-    }
-
     val compatibilityCache = new CompatibilityCache(compatibilityFactory)
     new CompilerEngineDelegator(
       queryService,

@@ -52,7 +52,7 @@ class ShortestPathComplexQueryAcceptanceTest extends ExecutionEngineFunSuite wit
         |RETURN extract(node in nodes(pathx) | id(node)) as ids
       """.stripMargin,
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("VarLengthExpand(Into)", "AntiConditionalApply"),
-        expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3), expectedDifferentResults = Configs.Cost2_3)
+        expectPlansToFail = Configs.AllRulePlanners))
 
     val results = result.columnAs("ids").toList
     results should be(List(List(0, 4, 3, 2)))
@@ -71,7 +71,7 @@ class ShortestPathComplexQueryAcceptanceTest extends ExecutionEngineFunSuite wit
         |RETURN extract(node in nodes(pathx) | id(node)) as ids
       """.stripMargin,
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("VarLengthExpand(Into)", "AntiConditionalApply"),
-        expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3), expectedDifferentResults = Configs.Cost2_3)
+        expectPlansToFail = Configs.AllRulePlanners))
 
     val results = result.columnAs("ids").toList
     results should be(List(List(0, 4, 3, 2)))

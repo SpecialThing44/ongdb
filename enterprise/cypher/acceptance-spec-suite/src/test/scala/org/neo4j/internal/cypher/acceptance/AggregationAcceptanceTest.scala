@@ -37,21 +37,24 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-
 class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
 
   // Non-deterministic query -- needs TCK design
-  test("should aggregate using as grouping key expressions using variables in scope and nothing else") {
+  test(
+    "should aggregate using as grouping key expressions using variables in scope and nothing else"
+  ) {
     val userId = createLabeledNode(Map("userId" -> 11), "User")
     relate(userId, createNode(), "FRIEND", Map("propFive" -> 1))
     relate(userId, createNode(), "FRIEND", Map("propFive" -> 3))
     relate(createNode(), userId, "FRIEND", Map("propFive" -> 2))
     relate(createNode(), userId, "FRIEND", Map("propFive" -> 4))
 
-    val query1 = """MATCH (user:User {userId: 11})-[friendship:FRIEND]-()
+    val query1 =
+      """MATCH (user:User {userId: 11})-[friendship:FRIEND]-()
                    |WITH user, collect(friendship)[toInt({param} * count(friendship))] AS selectedFriendship
                    |RETURN id(selectedFriendship) AS friendshipId, selectedFriendship.propFive AS propertyValue""".stripMargin
-    val query2 = """MATCH (user:User {userId: 11})-[friendship:FRIEND]-()
+    val query2 =
+      """MATCH (user:User {userId: 11})-[friendship:FRIEND]-()
                    |WITH user, collect(friendship) AS friendships
                    |WITH user, friendships[toInt({param} * size(friendships))] AS selectedFriendship
                    |RETURN id(selectedFriendship) AS friendshipId, selectedFriendship.propFive AS propertyValue""".stripMargin
@@ -74,12 +77,14 @@ class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherCompa
   }
 
   test("distinct aggregation on array property") {
-    createNode("prop"-> Array(42))
-    createNode("prop"-> Array(42))
-    createNode("prop"-> Array(1337))
+    createNode("prop" -> Array(42))
+    createNode("prop" -> Array(42))
+    createNode("prop" -> Array(1337))
     val result = executeWith(Configs.All, "MATCH (a) RETURN DISTINCT a.prop")
 
-    result.toComparableResult.toSet should equal(Set(Map("a.prop" -> List(1337)), Map("a.prop" -> List(42))))
+    result.toComparableResult.toSet should equal(
+      Set(Map("a.prop" -> List(1337)), Map("a.prop" -> List(42)))
+    )
   }
 
   test("Node count from count store plan should work with labeled nodes") {
@@ -96,7 +101,8 @@ class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherCompa
     val node2 = createLabeledNode("Person")
     val node3 = createNode()
     // This does not use countstore
-    val result = executeWith(Configs.All, "MATCH (a:Person) WITH a as b WITH count(b) as c RETURN c")
+    val result =
+      executeWith(Configs.All, "MATCH (a:Person) WITH a as b WITH count(b) as c RETURN c")
     result.toList should equal(List(Map("c" -> 2L)))
   }
 
@@ -107,7 +113,8 @@ class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherCompa
     val r1 = relate(node1, node2)
     val r2 = relate(node1, node3)
 
-    val result = executeWith(Configs.All, "MATCH (a:Person)-[r]->() WITH r as s WITH count(s) as c RETURN c")
+    val result =
+      executeWith(Configs.All, "MATCH (a:Person)-[r]->() WITH r as s WITH count(s) as c RETURN c")
     result.toList should equal(List(Map("c" -> 2L)))
   }
 
@@ -117,7 +124,9 @@ class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherCompa
     val r1 = relate(node1, node2)
 
     val result = executeWith(Configs.All, "MATCH (a)--(b) RETURN a.prop, count(a) ORDER BY a.prop")
-    result.toList should equal(List(Map("a.prop" -> 1, "count(a)" -> 1), Map("a.prop" -> 2, "count(a)" -> 1)))
+    result.toList should equal(
+      List(Map("a.prop" -> 1, "count(a)" -> 1), Map("a.prop" -> 2, "count(a)" -> 1))
+    )
   }
 
   test("combine simple aggregation on projection with sorting") {
@@ -199,17 +208,21 @@ class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherCompa
     result.toList should equal(List(Map("count(a)" -> 1)))
   }
 
-  test("grouping and ordering with multiple different types that can all be represented by primitives") {
+  test(
+    "grouping and ordering with multiple different types that can all be represented by primitives"
+  ) {
     val node1 = createNode(Map("prop" -> 1))
     val node2 = createNode(Map("prop" -> 2))
     val r1 = relate(node1, node2)
 
     val query = "MATCH (a)-[r]-(b) RETURN a, r, b, count(a) ORDER BY a, r, b"
-    val result = executeWith(Configs.All - Configs.OldAndRule, query) // Neo4j version <= 3.1 cannot order by nodes
-    result.toList should equal(List(
-      Map("a" -> node1, "r" -> r1, "b" -> node2, "count(a)" -> 1),
-      Map("a" -> node2, "r" -> r1, "b" -> node1, "count(a)" -> 1)
-    ))
+    val result = executeWith(Configs.All, query) // Neo4j version <= 3.1 cannot order by nodes
+    result.toList should equal(
+      List(
+        Map("a" -> node1, "r" -> r1, "b" -> node2, "count(a)" -> 1),
+        Map("a" -> node2, "r" -> r1, "b" -> node1, "count(a)" -> 1)
+      )
+    )
   }
 
   test("grouping and ordering with multiple different types with mixed representations") {
@@ -218,11 +231,13 @@ class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherCompa
     val r1 = relate(node1, node2)
 
     val query = "MATCH (a)-[r]-(b) RETURN a, r, b, a.prop as s, count(a) ORDER BY a, r, b, s"
-    val result = executeWith(Configs.All - Configs.OldAndRule, query) // Neo4j version <= 3.1 cannot order by nodes
-    result.toList should equal(List(
-      Map("a" -> node1, "r" -> r1, "b" -> node2, "s" -> "alice", "count(a)" -> 1),
-      Map("a" -> node2, "r" -> r1, "b" -> node1, "s" -> "bob", "count(a)" -> 1)
-    ))
+    val result = executeWith(Configs.All, query) // Neo4j version <= 3.1 cannot order by nodes
+    result.toList should equal(
+      List(
+        Map("a" -> node1, "r" -> r1, "b" -> node2, "s" -> "alice", "count(a)" -> 1),
+        Map("a" -> node2, "r" -> r1, "b" -> node1, "s" -> "bob", "count(a)" -> 1)
+      )
+    )
   }
 
   test("grouping and ordering with multiple different Value types") {
@@ -232,9 +247,11 @@ class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherCompa
 
     val query = "MATCH (a)-[r]-(b) RETURN a.prop, b.prop, count(a) ORDER BY a.prop, b.prop"
     val result = executeWith(Configs.All, query) // Neo4j version <= 3.1 cannot order by nodes
-    result.toList should equal(List(
-      Map("a.prop" -> "alice", "b.prop" -> "bob", "count(a)" -> 1),
-      Map("a.prop" -> "bob", "b.prop" -> "alice", "count(a)" -> 1)
-    ))
+    result.toList should equal(
+      List(
+        Map("a.prop" -> "alice", "b.prop" -> "bob", "count(a)" -> 1),
+        Map("a.prop" -> "bob", "b.prop" -> "alice", "count(a)" -> 1)
+      )
+    )
   }
 }
