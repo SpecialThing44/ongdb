@@ -56,7 +56,7 @@ abstract class TimeZoneAcceptanceTest(timezone: String) extends ExecutionEngineF
   test("should use default timezone for current date and time") {
     for (func <- Seq("date", "localtime", "time", "localdatetime", "datetime")) {
       val query = s"RETURN duration.inSeconds($func.statement(), $func.statement('$timezone')) as diff"
-      val result = executeWith(Configs.Interpreted - Configs.Version2_3, query)
+      val result = executeWith(Configs.Interpreted , query)
       result.toList should equal(List(Map("diff" -> DurationValue.duration(0, 0, 0, 0))))
     }
   }

@@ -75,7 +75,7 @@ class ShortestPathAcceptanceTest extends ExecutionEngineFunSuite with CypherComp
         | RETURN nodes(x)
       """.stripMargin
 
-    val result = executeWith(expectedToSucceed - Configs.Version2_3, query).columnAs[List[Node]]("nodes(x)").toList
+    val result = executeWith(expectedToSucceed , query).columnAs[List[Node]]("nodes(x)").toList
 
     result should equal(List(List(nodeA, nodeB)))
   }
@@ -91,7 +91,7 @@ class ShortestPathAcceptanceTest extends ExecutionEngineFunSuite with CypherComp
         | RETURN nodes(x)
       """.stripMargin
 
-    val result = executeWith(expectedToSucceed - Configs.Version2_3, query).columnAs[List[Node]]("nodes(x)").toList
+    val result = executeWith(expectedToSucceed , query).columnAs[List[Node]]("nodes(x)").toList
 
     result should equal(List(null))
   }
@@ -108,7 +108,7 @@ class ShortestPathAcceptanceTest extends ExecutionEngineFunSuite with CypherComp
         | RETURN nodes(x)
       """.stripMargin
 
-    val result = executeWith(expectedToSucceed - Configs.Version2_3, query).columnAs[List[Node]]("nodes(x)").toList
+    val result = executeWith(expectedToSucceed , query).columnAs[List[Node]]("nodes(x)").toList
 
     result should equal(List(List(nodeA, nodeB)))
   }
@@ -125,7 +125,7 @@ class ShortestPathAcceptanceTest extends ExecutionEngineFunSuite with CypherComp
         | RETURN nodes(x)
       """.stripMargin
 
-    val result = executeWith(expectedToSucceed - Configs.Version2_3, query).columnAs[List[Node]]("nodes(x)").toList
+    val result = executeWith(expectedToSucceed , query).columnAs[List[Node]]("nodes(x)").toList
 
     result should equal(List.empty)
   }

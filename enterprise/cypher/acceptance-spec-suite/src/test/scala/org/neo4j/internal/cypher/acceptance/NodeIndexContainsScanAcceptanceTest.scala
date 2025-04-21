@@ -154,7 +154,7 @@ class NodeIndexContainsScanAcceptanceTest extends ExecutionEngineFunSuite with C
     val query = "MATCH (l:Location) USING INDEX l:Location(name) WHERE l.name CONTAINS 'ondo' AND l.country = 'UK' RETURN l"
 
     // RULE has bug with this query
-    val result = executeWith(expectedToSucceed - Configs.Version2_3, query, expectedDifferentResults = Configs.AllRulePlanners)
+    val result = executeWith(expectedToSucceed , query, expectedDifferentResults = Configs.AllRulePlanners)
 
     result should evaluateTo(List(Map("l" -> london)))
   }

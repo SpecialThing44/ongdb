@@ -37,7 +37,10 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport, SyntaxException}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport with QueryStatisticsTestSupport {
+class ForeachAcceptanceTest
+    extends ExecutionEngineFunSuite
+    with CypherComparisonSupport
+    with QueryStatisticsTestSupport {
 
   test("should understand symbols introduced by FOREACH") {
     createLabeledNode("Label")
@@ -68,13 +71,22 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
         | )
         |)""".stripMargin
 
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, query)
+    val result = executeWith(Configs.Interpreted, query)
 
     // then
-    assertStats(result, nodesCreated = 110, relationshipsCreated = 110, propertiesWritten = 110, labelsAdded = 110)
+    assertStats(
+      result,
+      nodesCreated = 110,
+      relationshipsCreated = 110,
+      propertiesWritten = 110,
+      labelsAdded = 110
+    )
     val rows = executeScalar[Number]("MATCH (:Root)-[:PARENT]->(:Child) RETURN count(*)")
     rows should equal(10)
-    val ids = executeWith(Configs.Interpreted, "MATCH (:Root)-[:PARENT*]->(c:Child) RETURN c.id AS id ORDER BY c.id").toList
+    val ids = executeWith(
+      Configs.Interpreted,
+      "MATCH (:Root)-[:PARENT*]->(c:Child) RETURN c.id AS id ORDER BY c.id"
+    ).toList
     ids should equal((1 to 110).map(i => Map("id" -> i)))
   }
 
@@ -83,11 +95,14 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
     val query = "FOREACH( n in range( 0, 1 ) | CREATE (p:Person) )"
 
     // when
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, query,
+    val result = executeWith(
+      Configs.Interpreted,
+      query,
       planComparisonStrategy = ComparePlansWithAssertion((plan) => {
         //THEN
         plan should useOperators("Foreach", "CreateNode")
-      }, Configs.AllRulePlanners))
+      }, Configs.AllRulePlanners)
+    )
 
     // then
     assertStats(result, nodesCreated = 2, labelsAdded = 2)
@@ -119,10 +134,16 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
         |RETURN e.foo, i.foo, p.foo""".stripMargin
 
     // when
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, query)
+    val result = executeWith(Configs.Interpreted, query)
 
     // then
-    assertStats(result, nodesCreated = 2, relationshipsCreated = 1, labelsAdded = 2, propertiesWritten = 3)
+    assertStats(
+      result,
+      nodesCreated = 2,
+      relationshipsCreated = 1,
+      labelsAdded = 2,
+      propertiesWritten = 3
+    )
     val resultList = result.toList
     resultList.head.get("e.foo") should equal(Some("e_bar"))
     resultList.head.get("i.foo") should equal(Some("i_bar"))
@@ -140,7 +161,7 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
         |FOREACH (r IN CASE WHEN rel IS NOT NULL THEN [rel] ELSE [] END | DELETE r )""".stripMargin
 
     // when
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, query)
+    val result = executeWith(Configs.Interpreted, query)
 
     // then
     assertStats(result, relationshipsDeleted = 1)
@@ -155,13 +176,15 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
          |  MERGE (a)-[:FOO]->(b))""".stripMargin
 
     // when
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, query)
+    val result = executeWith(Configs.Interpreted, query)
 
     // then
     assertStats(result, nodesCreated = 2, relationshipsCreated = 1)
   }
 
-  test("foreach with non-trivially typed collection and create pattern should not create bound node") {
+  test(
+    "foreach with non-trivially typed collection and create pattern should not create bound node"
+  ) {
     // given
     val query =
       """CREATE (a),(b)
@@ -169,7 +192,7 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
         |FOREACH (x IN CASE WHEN condition THEN nodes ELSE [] END | CREATE (a)-[:X]->(x) );""".stripMargin
 
     // when
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, query)
+    val result = executeWith(Configs.Interpreted, query)
 
     // then
     assertStats(result, nodesCreated = 2, relationshipsCreated = 1)
@@ -186,13 +209,15 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
         |   MERGE (x)-[:FOOBAR]->(m) );""".stripMargin
 
     // when
-    val result = executeWith(Configs.Interpreted - Configs.Cost2_3, query)
+    val result = executeWith(Configs.Interpreted, query)
 
     // then
     assertStats(result, relationshipsCreated = 1)
   }
 
-  test("foreach with mixed type collection should not plan create of bound node and fail at runtime") {
+  test(
+    "foreach with mixed type collection should not plan create of bound node and fail at runtime"
+  ) {
     // given
     createLabeledNode("Foo")
     createLabeledNode("Bar")
@@ -203,14 +228,18 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
         |FOREACH (x IN mixedTypeCollection | CREATE (n)-[:FOOBAR]->(x) );""".stripMargin
 
     // when
-    val explain = executeWith(Configs.Interpreted - Configs.Version2_3, s"EXPLAIN $query")
+    val explain = executeWith(Configs.Interpreted, s"EXPLAIN $query")
 
     // then
     explain.executionPlanDescription().toString shouldNot include("CreateNode")
 
     // when
-    val config = TestConfiguration(Versions.Default, Planners.Default, Runtimes(Runtimes.Interpreted, Runtimes.Slotted, Runtimes.ProcedureOrSchema)) +
-      TestConfiguration(Versions(Versions.V3_1, Versions.V3_3), Planners.Cost, Runtimes.Default)
+    val config = TestConfiguration(
+      Versions.Default,
+      Planners.Default,
+      Runtimes(Runtimes.Interpreted, Runtimes.Slotted, Runtimes.ProcedureOrSchema)
+    ) +
+      TestConfiguration(Versions(), Planners.Cost, Runtimes.Default)
     failWithError(config, query, List("Expected to find a node at"))
   }
 }

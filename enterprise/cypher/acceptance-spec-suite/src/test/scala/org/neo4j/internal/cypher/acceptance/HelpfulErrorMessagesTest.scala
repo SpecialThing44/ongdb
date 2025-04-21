@@ -41,7 +41,7 @@ class HelpfulErrorMessagesTest extends ExecutionEngineFunSuite with CypherCompar
 
   test("should provide sensible error message when omitting colon before relationship type on create") {
 
-    failWithError(Configs.AbsolutelyAll - Configs.Version2_3,
+    failWithError(Configs.AbsolutelyAll ,
 
       "CREATE (a)-[ASSOCIATED_WITH]->(b)",
       Seq("Exactly one relationship type must be specified for CREATE. Did you forget to prefix your relationship type with a ':'?"))
@@ -55,7 +55,7 @@ class HelpfulErrorMessagesTest extends ExecutionEngineFunSuite with CypherCompar
   }
 
   test("should provide sensible error message when omitting colon before relationship type on merge") {
-    failWithError(Configs.AbsolutelyAll - Configs.Version2_3,
+    failWithError(Configs.AbsolutelyAll ,
       "MERGE (a)-[ASSOCIATED_WITH]->(b)",
       Seq("Exactly one relationship type must be specified for MERGE. Did you forget to prefix your relationship type with a ':'?"))
   }
@@ -83,7 +83,7 @@ class HelpfulErrorMessagesTest extends ExecutionEngineFunSuite with CypherCompar
 
     // Fixed in 3.2.8
     graph.execute("CREATE (n:Person {text:'abcxxxdefyyyfff'})")
-    failWithError(Configs.AbsolutelyAll - Configs.AllRulePlanners - Configs.Compiled - Configs.Version3_1 - Configs.Version2_3,
+    failWithError(Configs.AbsolutelyAll - Configs.AllRulePlanners - Configs.Compiled - Configs.Version3_1 ,
       "MATCH (x:Person) WHERE x.text =~ '*xxx*yyy*' RETURN x.text", List("Invalid Regex:"))
   }
 

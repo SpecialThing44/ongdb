@@ -45,7 +45,7 @@ import org.neo4j.values.storable.{DateValue, DurationValue}
 class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   private val failConf1 = Configs.Interpreted + Configs.Procs - Configs.OldAndRule
-  private val failConf2 = Configs.Interpreted + Configs.Procs - Configs.Version2_3
+  private val failConf2 = Configs.Interpreted + Configs.Procs
 
   // Getting current value of a temporal
 
@@ -175,7 +175,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4),
       params = Map("param" ->
         Array(LocalDate.of(2018, 4, 1))))
 
@@ -201,7 +201,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4),
       params = Map("param" ->
         List(LocalDate.of(2018, 4, 1))))
 
@@ -227,7 +227,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4),
       params = Map("param" ->
         Array(LocalDate.of(2018, 4, 1), LocalDate.of(2018, 4, 2))))
 
@@ -254,7 +254,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4),
       params = Map("param" ->
         List(LocalDate.of(2018, 4, 1), LocalDate.of(2018, 4, 2))))
 
@@ -385,7 +385,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
   {
     val query = "WITH datetime('1984-07-07T12:34+03:00[Europe/Stockholm]') as d RETURN d"
     val errorMsg = "Timezone and offset do not match"
-    failWithError(Configs.Interpreted - Configs.Version2_3 + Configs.Procs, query, Seq(errorMsg), Seq("InvalidArgumentException"))
+    failWithError(Configs.Interpreted  + Configs.Procs, query, Seq(errorMsg), Seq("InvalidArgumentException"))
   }
 
   // Failing when selecting a wrong group
@@ -804,7 +804,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
     for (func <- Seq("time", "localtime", "date", "datetime", "localdatetime", "duration")) {
       val query = s"RETURN $func('', '', '', '')"
       withClue(s"Executing $query") {
-        failWithError(Configs.AbsolutelyAll - Configs.Version2_3, query,
+        failWithError(Configs.AbsolutelyAll , query,
           Seq("Function call does not provide the required number of arguments"))
       }
     }

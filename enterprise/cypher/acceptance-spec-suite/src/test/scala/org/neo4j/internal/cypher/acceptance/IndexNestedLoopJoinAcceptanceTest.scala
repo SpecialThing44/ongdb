@@ -106,7 +106,7 @@ class IndexNestedLoopJoinAcceptanceTest extends ExecutionEngineFunSuite with Cyp
         | RETURN f
       """.stripMargin
 
-    val result = executeWith(Configs.All - Configs.Version2_3, query,
+    val result = executeWith(Configs.All , query,
       planComparisonStrategy = ComparePlansWithAssertion( _ should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "f"), expectPlansToFail = Configs.AllRulePlanners ))
 
     result.columnAs[Node]("f").toSet should equal(Set(nodes(122),nodes(123)))

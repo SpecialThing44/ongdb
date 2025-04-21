@@ -151,20 +151,9 @@ public class NotificationAcceptanceTest
     }
 
     @Test
-    public void shouldGetErrorWhenUsingCreateUniqueWhenCypherVersionIs3_3()
-    {
-        // expect exception
-        thrown.expect( QueryExecutionException.class );
-        thrown.expectMessage( "CREATE UNIQUE is no longer supported. You can achieve the same result using MERGE");
-
-        // when
-        db().execute( "CYPHER 3.3 MATCH (b) WITH b LIMIT 1 CREATE UNIQUE (b)-[:REL]->()" );
-    }
-
-    @Test
     public void shouldWarnWhenUsingLengthOnNonPath()
     {
-        Stream.of( "CYPHER 3.1", "CYPHER 3.4" ).forEach( version ->
+        Stream.of( "CYPHER 3.4" ).forEach( version ->
         {
             // pattern
             shouldNotifyInStream( version, "explain match (a) where a.name='Alice' return length((a)-->()-->())", new InputPosition( 63, 1, 64 ),

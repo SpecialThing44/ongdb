@@ -39,7 +39,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
 class ListExpressionAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
 
-  private val combinedCallconfiguration = Configs.CommunityInterpreted - Configs.AllRulePlanners - Configs.Version2_3
+  private val combinedCallconfiguration = Configs.CommunityInterpreted - Configs.AllRulePlanners
 
   // EXTRACT
 

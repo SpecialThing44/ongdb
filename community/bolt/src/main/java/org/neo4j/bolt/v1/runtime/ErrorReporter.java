@@ -43,6 +43,8 @@ import org.neo4j.kernel.impl.logging.StoreLogService;
 import org.neo4j.logging.DuplicatingLogProvider;
 import org.neo4j.logging.Log;
 
+import java.util.Arrays;
+
 import static java.lang.String.format;
 import static org.neo4j.kernel.api.exceptions.Status.Classification.DatabaseError;
 
@@ -79,8 +81,8 @@ class ErrorReporter
     {
         if ( error.status().code().classification() == DatabaseError )
         {
-            String message = format( "Client triggered an unexpected error [%s]: %s, reference %s.",
-                    error.status().code().serialize(), error.message(), error.reference() );
+            String message = format( "Client triggered an unexpected error [%s]: %s, reference %s. Trace %s",
+                    error.status().code().serialize(), error.message(), error.reference(), Arrays.toString(error.cause().getStackTrace()));
 
             // Writing to user log gets duplicated to the internal log
             userLog.error( message );

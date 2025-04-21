@@ -51,12 +51,6 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
       .shouldHavePlanner(CostBasedPlannerName.default)
   }
 
-  test("3.3 query should have 3.3 version") {
-    given("match (n) return n")
-      .withCypherVersion(CypherVersion.v3_3)
-      .shouldHaveCypherVersion(CypherVersion.v3_3)
-  }
-
   test("interpreted should be default runtime in 3.4") {
     given("match (n) return n")
       .withCypherVersion(CypherVersion.v3_4)
@@ -85,8 +79,7 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
   }
 
   test("troublesome query that should be run in cost") {
-    given(
-      """MATCH (person)-[:ACTED_IN]->(:Movie)<-[:ACTED_IN]-()-[:ACTED_IN]->(:Movie)<-[:ACTED_IN]-(coc)-[:DIRECTED]->()
+    given("""MATCH (person)-[:ACTED_IN]->(:Movie)<-[:ACTED_IN]-()-[:ACTED_IN]->(:Movie)<-[:ACTED_IN]-(coc)-[:DIRECTED]->()
         |WHERE NOT ((coc)-[:ACTED_IN]->()<-[:ACTED_IN]-(person)) AND coc <> person
         |RETURN coc, COUNT(*) AS times
         |ORDER BY times DESC
@@ -97,8 +90,7 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
   }
 
   test("another troublesome query that should be run in cost") {
-    given(
-      """MATCH (s:Location {name:'DeliverySegment-257227'}), (e:Location {name:'DeliverySegment-476821'})
+    given("""MATCH (s:Location {name:'DeliverySegment-257227'}), (e:Location {name:'DeliverySegment-476821'})
         |MATCH (s)<-[:DELIVERY_ROUTE]-(db1) MATCH (db2)-[:DELIVERY_ROUTE]->(e)
         |MATCH (db1)<-[:CONNECTED_TO]-()-[:CONNECTED_TO]-(db2) RETURN s""".stripMargin)
       .withCypherVersion(CypherVersion.v3_4)
@@ -131,19 +123,24 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
   test("Rows should be properly formatted in interpreted runtime") {
     given("match (n) return n")
       .withRuntime(InterpretedRuntimeName)
-      .planDescription.getArguments.get("Rows") should equal(0)
+      .planDescription
+      .getArguments
+      .get("Rows") should equal(0)
   }
 
   test("EstimatedRows should be properly formatted") {
-    given("match (n) return n").planDescription.getArguments.get("EstimatedRows") should equal(1) // on missing statistics, we fake cardinality to one
+    given("match (n) return n").planDescription.getArguments
+      .get("EstimatedRows") should equal(1) // on missing statistics, we fake cardinality to one
   }
 
   def given(query: String) = TestQuery(query)
 
-  case class TestQuery(query: String,
-                       cypherVersion: Option[CypherVersion] = None,
-                       planner: Option[PlannerName] = None,
-                       runtime: Option[RuntimeName] = None) {
+  case class TestQuery(
+      query: String,
+      cypherVersion: Option[CypherVersion] = None,
+      planner: Option[PlannerName] = None,
+      runtime: Option[RuntimeName] = None
+  ) {
 
     lazy val planDescription: ExecutionPlanDescription = execute()
 

@@ -197,18 +197,15 @@ class CompilerEngineDelegator(
 
   @throws(classOf[SyntaxException])
   def parseQuery(preParsedQueryArg: PreParsedQuery, tracer: CompilationPhaseTracer): ParsedQuery = {
-    import org.neo4j.cypher.internal.compatibility.v2_3.helpers._
-    import org.neo4j.cypher.internal.compatibility.v3_1.helpers._
-
     var preParsedQuery = preParsedQueryArg
     val supportedRuntimes3_1 = Seq(CypherRuntime.interpreted, CypherRuntime.default)
 
     var preParsingNotifications: Set[org.neo4j.graphdb.Notification] = Set.empty
-    if ((preParsedQuery.version == CypherVersion.v3_3 || preParsedQuery.version == CypherVersion.v3_4) && preParsedQuery.planner == CypherPlanner.rule) {
+    if ((preParsedQuery.version == CypherVersion.v3_4) && preParsedQuery.planner == CypherPlanner.rule) {
       preParsingNotifications = preParsingNotifications + rulePlannerUnavailableFallbackNotification(
         preParsedQuery.offset
       )
-      preParsedQuery = preParsedQuery.copy(version = CypherVersion.v3_1)(preParsedQuery.offset)
+      preParsedQuery = preParsedQuery.copy(version = CypherVersion.v3_4)(preParsedQuery.offset)
     }
 
     def checkSupportedRuntime(ex: util.v3_4.SyntaxException): Unit = {
@@ -228,9 +225,7 @@ class CompilerEngineDelegator(
     def planForVersion(
         input: Either[CypherVersion, ParsedQuery]
     ): Either[CypherVersion, ParsedQuery] = input match {
-      case r @ Right(_) => r
-
-      case Left(CypherVersion.v3_4) =>
+      case _ @Right(_) =>
         val parserQuery = compatibilityFactory
           .create(
             PlannerSpec_v3_4(
@@ -243,76 +238,13 @@ class CompilerEngineDelegator(
           .produceParsedQuery(preParsedQuery, tracer, preParsingNotifications)
 
         parserQuery
-          .onError {
-            // if there is a create unique in the cypher 3.4 query try to fallback to 3.1
-            case ex: util.v3_4.SyntaxException if ex.getMessage.startsWith("CREATE UNIQUE") =>
-              preParsingNotifications = preParsingNotifications +
-                createUniqueNotification(ex, preParsedQuery)
-              checkSupportedRuntime(ex)
-              Left(CypherVersion.v3_1)
-            case ex: util.v3_4.SyntaxException if ex.getMessage.startsWith("START is deprecated") =>
-              preParsingNotifications = preParsingNotifications +
-                createStartUnavailableNotification(ex, preParsedQuery) +
-                createStartDeprecatedNotification(ex, preParsedQuery)
-              checkSupportedRuntime(ex)
-              Left(CypherVersion.v3_1)
-            case _ => Right(parserQuery)
-          }
+          .onError(_ => Right(parserQuery))
           .getOrElse(Right(parserQuery))
-
-      case Left(CypherVersion.v3_3) =>
-        val parsedQuery = compatibilityFactory
-          .create(
-            PlannerSpec_v3_3(
-              preParsedQueryArg.planner,
-              preParsedQueryArg.runtime,
-              preParsedQueryArg.updateStrategy
-            ),
-            config
-          )
-          .produceParsedQuery(preParsedQuery, tracer, preParsingNotifications)
-        Right(parsedQuery)
-
-      case Left(CypherVersion.v3_1) =>
-        val parsedQuery = compatibilityFactory
-          .create(
-            PlannerSpec_v3_1(
-              preParsedQuery.planner,
-              preParsedQuery.runtime,
-              preParsedQuery.updateStrategy
-            ),
-            config
-          )
-          .produceParsedQuery(preParsedQuery, as3_1(tracer), preParsingNotifications)
-        Right(parsedQuery)
-
-      case Left(CypherVersion.v2_3) =>
-        val parsedQuery = compatibilityFactory
-          .create(PlannerSpec_v2_3(preParsedQuery.planner, preParsedQuery.runtime), config)
-          .produceParsedQuery(preParsedQuery, as2_3(tracer), preParsingNotifications)
-        Right(parsedQuery)
     }
 
     val result: Either[CypherVersion, ParsedQuery] =
       fixedPoint(planForVersion).apply(Left(preParsedQuery.version))
     result.right.get
-  }
-
-  private def createStartUnavailableNotification(
-      ex: util.v3_4.SyntaxException,
-      preParsedQuery: PreParsedQuery
-  ) = {
-    val pos = convertInputPosition(ex.pos.getOrElse(preParsedQuery.offset))
-
-    START_UNAVAILABLE_FALLBACK.notification(pos)
-  }
-
-  private def createStartDeprecatedNotification(
-      ex: util.v3_4.SyntaxException,
-      preParsedQuery: PreParsedQuery
-  ) = {
-    val pos = convertInputPosition(ex.pos.getOrElse(preParsedQuery.offset))
-    START_DEPRECATED.notification(pos, message("START", ex.getMessage))
   }
 
   private def runtimeUnsupportedNotification(

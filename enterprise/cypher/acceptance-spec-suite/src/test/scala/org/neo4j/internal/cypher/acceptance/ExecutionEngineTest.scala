@@ -45,7 +45,7 @@ import org.neo4j.graphdb._
 import org.neo4j.graphdb.config.Setting
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Runtimes.ProcedureOrSchema
-import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Versions.{V3_1, V3_4}
+import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Versions.V3_4
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import org.neo4j.internal.kernel.api.Transaction.Type
 import org.neo4j.io.fs.FileUtils
@@ -64,7 +64,7 @@ class ExecutionEngineTest
     with CreateTempFileTestSupport
     with CypherComparisonSupport {
 
-  val startConf = Configs.CommunityInterpreted - Configs.Version3_3
+  val startConf = Configs.CommunityInterpreted
 
   test("shouldGetRelationshipById") {
     val n = createNode()
@@ -630,7 +630,7 @@ order by a.COL1""".format(a, b))
   }
 
   test("with should not forget original type") {
-    val result = executeWith(Configs.UpdateConf, "create (a{x:8}) with a.x as foo return sum(foo)")
+    val result = executeWith(Configs.Interpreted, "create (a{x:8}) with a.x as foo return sum(foo)")
 
     result.toList should equal(List(Map("sum(foo)" -> 8)))
   }
@@ -639,7 +639,7 @@ order by a.COL1""".format(a, b))
     graph.inTx(graph.index().forNodes("test"))
     val id = "bar"
     val result = executeWith(
-      startConf - Configs.Cost2_3,
+      startConf,
       "start n=node:test(name={id}) with count(*) as c where c=0 create (x{name:{id}}) return c, x.name as name",
       params = Map("id" -> id)
     ).toList
@@ -652,7 +652,7 @@ order by a.COL1""".format(a, b))
   test("with should not forget parameters2") {
     val id = createNode().getId
     val result = executeWith(
-      Configs.UpdateConf,
+      Configs.Interpreted,
       "match (n) where id(n) = {id} with n set n.foo={id} return n",
       params = Map("id" -> id)
     ).toList
@@ -715,7 +715,7 @@ order by a.COL1""".format(a, b))
   test("can use variables created inside the foreach") {
     createNode()
     val result = executeWith(
-      Configs.UpdateConf,
+      Configs.Interpreted,
       "match (n) where id(n) = 0 foreach (x in [1,2,3] | create (a { name: 'foo'})  set a.id = x)"
     )
 
@@ -788,7 +788,7 @@ order by a.COL1""".format(a, b))
 
   test("should add label to node") {
     val a = createNode()
-    val result = executeWith(Configs.UpdateConf, "match (a) where id(a) = 0 SET a :foo RETURN a")
+    val result = executeWith(Configs.Interpreted, "match (a) where id(a) = 0 SET a :foo RETURN a")
 
     result.toList should equal(List(Map("a" -> a)))
   }
@@ -796,21 +796,22 @@ order by a.COL1""".format(a, b))
   test("should add multiple labels to node") {
     val a = createNode()
     val result =
-      executeWith(Configs.UpdateConf, "match (a) where id(a) = 0 SET a :foo:bar RETURN a")
+      executeWith(Configs.Interpreted, "match (a) where id(a) = 0 SET a :foo:bar RETURN a")
 
     result.toList should equal(List(Map("a" -> a)))
   }
 
   test("should set label on node") {
     val a = createNode()
-    val result = executeWith(Configs.UpdateConf, "match (a) SET a:foo RETURN a")
+    val result = executeWith(Configs.Interpreted, "match (a) SET a:foo RETURN a")
 
     result.toList should equal(List(Map("a" -> a)))
   }
 
   test("should set multiple labels on node") {
     val a = createNode()
-    val result = executeWith(Configs.UpdateConf, "match (a) where id(a) = 0 SET a:foo:bar RETURN a")
+    val result =
+      executeWith(Configs.Interpreted, "match (a) where id(a) = 0 SET a:foo:bar RETURN a")
 
     result.toList should equal(List(Map("a" -> a)))
   }
@@ -870,10 +871,10 @@ order by a.COL1""".format(a, b))
     val propertyKeys = Seq("name")
 
     val testconfiguration = TestConfiguration(
-      Versions(V3_1, V3_4, Versions.Default),
+      Versions(V3_4, Versions.Default),
       Planners.Default,
       Runtimes(ProcedureOrSchema, Runtimes.Default)
-    ) + Configs.Rule2_3
+    )
     // WHEN
     executeWith(testconfiguration, s"""CREATE INDEX ON :$labelName(${propertyKeys.reduce(
       _ ++ "," ++ _
@@ -961,7 +962,7 @@ order by a.COL1""".format(a, b))
 
     //WHEN
     val result = executeWith(
-      Configs.UpdateConf,
+      Configs.Interpreted,
       """MATCH (a), (b)
          WHERE id(a) = 0 AND id(b) = 1
          AND not (a)-[:FOO]->(b)
@@ -1019,11 +1020,11 @@ order by a.COL1""".format(a, b))
 
   test("doctest gone wild") {
     // given
-    executeWith(Configs.UpdateConf, "CREATE (n:Actor {name:'Tom Hanks'})")
+    executeWith(Configs.Interpreted, "CREATE (n:Actor {name:'Tom Hanks'})")
 
     // when
     val result = executeWith(
-      Configs.UpdateConf,
+      Configs.Interpreted,
       """MATCH (actor:Actor)
                                WHERE actor.name = "Tom Hanks"
                                CREATE (movie:Movie {title:'Sleepless in Seattle'})
@@ -1067,7 +1068,7 @@ order by a.COL1""".format(a, b))
   test("merge should support single parameter") {
     //WHEN
     val result = executeWith(
-      Configs.UpdateConf,
+      Configs.Interpreted,
       "MERGE (n:User {foo: {single_param}})",
       params = Map("single_param" -> 42)
     )
@@ -1144,7 +1145,7 @@ order by a.COL1""".format(a, b))
 
   test("should not mind rewriting NOT queries") {
     val result = executeWith(
-      Configs.UpdateConf,
+      Configs.Interpreted,
       " create (a {x: 1}) return a.x is not null as A, a.y is null as B, a.x is not null as C, a.y is not null as D"
     )
     result.toList should equal(List(Map("A" -> true, "B" -> true, "C" -> true, "D" -> false)))

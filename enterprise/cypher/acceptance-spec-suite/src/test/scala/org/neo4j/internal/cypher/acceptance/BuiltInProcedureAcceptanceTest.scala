@@ -40,9 +40,11 @@ import org.neo4j.kernel.api.impl.schema.NativeLuceneFusionIndexProviderFactory20
 
 import scala.collection.JavaConversions._
 
-class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with CypherComparisonSupport {
+class BuiltInProcedureAcceptanceTest
+    extends ProcedureCallAcceptanceTest
+    with CypherComparisonSupport {
 
-  private val combinedCallconfiguration = Configs.Interpreted - Configs.AllRulePlanners - Configs.Version2_3
+  private val combinedCallconfiguration = Configs.Interpreted - Configs.AllRulePlanners
 
   test("should be able to filter as part of call") {
     // Given
@@ -51,13 +53,13 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
     createLabeledNode("C")
 
     //When
-    val result = executeWith(combinedCallconfiguration, "CALL db.labels() YIELD label WHERE label <> 'A' RETURN *")
+    val result = executeWith(
+      combinedCallconfiguration,
+      "CALL db.labels() YIELD label WHERE label <> 'A' RETURN *"
+    )
 
     // Then
-    result.toList should equal(
-      List(
-        Map("label" -> "B"),
-        Map("label" -> "C")))
+    result.toList should equal(List(Map("label" -> "B"), Map("label" -> "C")))
   }
 
   test("should be able to use db.schema") {
@@ -79,16 +81,26 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
     // And then nodes
     val nodes = result.head("nodes").asInstanceOf[Seq[Node]]
 
-    val nodeState: Set[(List[Label], Map[String,AnyRef])] =
+    val nodeState: Set[(List[Label], Map[String, AnyRef])] =
       nodes.map(n => (n.getLabels.toList, n.getAllProperties.toMap)).toSet
 
     val empty = new java.util.ArrayList()
     nodeState should equal(
       Set(
-        (List(Label.label("Neo")),        Map("indexes" -> empty, "constraints" -> empty, "name" -> "Neo")),
-        (List(Label.label("Department")), Map("indexes" -> empty, "constraints" -> empty, "name" -> "Department")),
-        (List(Label.label("Employee")),   Map("indexes" -> empty, "constraints" -> empty, "name" -> "Employee"))
-      ))
+        (
+          List(Label.label("Neo")),
+          Map("indexes" -> empty, "constraints" -> empty, "name" -> "Neo")
+        ),
+        (
+          List(Label.label("Department")),
+          Map("indexes" -> empty, "constraints" -> empty, "name" -> "Department")
+        ),
+        (
+          List(Label.label("Employee")),
+          Map("indexes" -> empty, "constraints" -> empty, "name" -> "Employee")
+        )
+      )
+    )
 
     // And then relationships
     val relationships = result.head("relationships").asInstanceOf[Seq[Relationship]]
@@ -99,9 +111,10 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
 
   test("should not be able to filter as part of standalone call") {
     failWithError(
-      Configs.AbsolutelyAll - Configs.Version2_3,
+      Configs.AbsolutelyAll,
       "CALL db.labels() YIELD label WHERE label <> 'A'",
-      List("Cannot use standalone call with WHERE"))
+      List("Cannot use standalone call with WHERE")
+    )
   }
 
   test("should be able to find labels from built-in-procedure") {
@@ -114,11 +127,7 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
     val result = executeWith(combinedCallconfiguration, "CALL db.labels() YIELD label RETURN *")
 
     // Then
-    result.toList should equal(
-      List(
-        Map("label" -> "A"),
-        Map("label" -> "B"),
-        Map("label" -> "C")))
+    result.toList should equal(List(Map("label" -> "A"), Map("label" -> "B"), Map("label" -> "C")))
   }
 
   test("should be able to find labels from built-in-procedure from within a query") {
@@ -128,14 +137,19 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
     createLabeledNode(Map("name" -> "Toc"), "C")
 
     //When
-    val result = executeWith(combinedCallconfiguration, "MATCH (n {name: 'Toc'}) WITH n.name AS name CALL db.labels() YIELD label RETURN *")
+    val result = executeWith(
+      combinedCallconfiguration,
+      "MATCH (n {name: 'Toc'}) WITH n.name AS name CALL db.labels() YIELD label RETURN *"
+    )
 
     // Then
     result.toList should equal(
       List(
         Map("name" -> "Toc", "label" -> "A"),
         Map("name" -> "Toc", "label" -> "B"),
-        Map("name" -> "Toc", "label" -> "C")))
+        Map("name" -> "Toc", "label" -> "C")
+      )
+    )
   }
 
   test("db.labels works on an empty database") {
@@ -194,7 +208,9 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
       List(
         Map("relationshipType" -> "A"),
         Map("relationshipType" -> "B"),
-        Map("relationshipType" -> "C")))
+        Map("relationshipType" -> "C")
+      )
+    )
   }
 
   test("db.relationshipType work on an empty database") {
@@ -229,10 +245,8 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
 
     // Then
     result.toList should equal(
-      List(
-        Map("propertyKey" -> "A"),
-        Map("propertyKey" -> "B"),
-        Map("propertyKey" -> "C")))
+      List(Map("propertyKey" -> "A"), Map("propertyKey" -> "B"), Map("propertyKey" -> "C"))
+    )
   }
 
   test("db.propertyKeys works on an empty database") {
@@ -247,7 +261,7 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
 
   test("removing properties from nodes and relationships does not remove them from the store") {
     // Given
-    relate(createNode("A" -> 1), createNode("B" -> 1), "R" ->1)
+    relate(createNode("A" -> 1), createNode("B" -> 1), "R" -> 1)
     execute("MATCH (a)-[r]-(b) REMOVE a.A, r.R, b.B")
 
     // When
@@ -255,15 +269,13 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
 
     // Then
     result.toList should equal(
-      List(
-        Map("propertyKey" -> "A"),
-        Map("propertyKey" -> "B"),
-        Map("propertyKey" -> "R")))
+      List(Map("propertyKey" -> "A"), Map("propertyKey" -> "B"), Map("propertyKey" -> "R"))
+    )
   }
 
   test("removing all nodes and relationship does not remove properties from the store") {
     // Given
-    relate(createNode("A" -> 1), createNode("B" -> 1), "R" ->1)
+    relate(createNode("A" -> 1), createNode("B" -> 1), "R" -> 1)
     execute("MATCH (a) DETACH DELETE a")
 
     // When
@@ -271,10 +283,8 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
 
     // Then
     result.toList should equal(
-      List(
-        Map("propertyKey" -> "A"),
-        Map("propertyKey" -> "B"),
-        Map("propertyKey" -> "R")))
+      List(Map("propertyKey" -> "A"), Map("propertyKey" -> "B"), Map("propertyKey" -> "R"))
+    )
   }
 
   test("should be able to find indexes from built-in-procedure") {
@@ -286,20 +296,28 @@ class BuiltInProcedureAcceptanceTest extends ProcedureCallAcceptanceTest with Cy
 
     // Then
     result.toList should equal(
-      List(Map("description" -> "INDEX ON :A(prop)",
-        "label" -> "A",
-        "properties" -> List("prop"),
-        "state" -> "ONLINE",
-        "type" -> "node_label_property",
-        "provider" -> Map(
-          "version" -> NativeLuceneFusionIndexProviderFactory20.DESCRIPTOR.getVersion,
-          "key" -> NativeLuceneFusionIndexProviderFactory20.DESCRIPTOR.getKey),
-        "failureMessage" -> "")))
+      List(
+        Map(
+          "description" -> "INDEX ON :A(prop)",
+          "label" -> "A",
+          "properties" -> List("prop"),
+          "state" -> "ONLINE",
+          "type" -> "node_label_property",
+          "provider" -> Map(
+            "version" -> NativeLuceneFusionIndexProviderFactory20.DESCRIPTOR.getVersion,
+            "key" -> NativeLuceneFusionIndexProviderFactory20.DESCRIPTOR.getKey
+          ),
+          "failureMessage" -> ""
+        )
+      )
+    )
   }
 
   test("yield from void procedure should return correct error msg") {
-    failWithError(Configs.Procs + Configs.Version3_4 + Configs.Version3_3 - Configs.AllRulePlanners,
+    failWithError(
+      Configs.Procs + Configs.Version3_4 - Configs.AllRulePlanners,
       "CALL db.createLabel('Label') yield node",
-      List("Cannot yield value from void procedure."))
+      List("Cannot yield value from void procedure.")
+    )
   }
 }

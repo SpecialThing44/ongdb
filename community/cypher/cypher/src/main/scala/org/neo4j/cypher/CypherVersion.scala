@@ -41,11 +41,8 @@ package org.neo4j.cypher
 sealed abstract class CypherVersion(versionName: String) extends CypherOption(versionName)
 
 case object CypherVersion extends CypherOptionCompanion[CypherVersion] {
-  case object v2_3 extends CypherVersion("2.3")
-  case object v3_1 extends CypherVersion("3.1")
-  case object v3_3 extends CypherVersion("3.3")
   case object v3_4 extends CypherVersion("3.4")
 
   val default = v3_4
-  val all: Set[CypherVersion] = Set(v2_3, v3_1, v3_3, v3_4)
+  val all: Set[CypherVersion] = Set(v3_4)
 }

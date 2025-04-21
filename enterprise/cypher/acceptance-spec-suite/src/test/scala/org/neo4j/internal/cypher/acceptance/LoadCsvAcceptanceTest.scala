@@ -86,7 +86,7 @@ class LoadCsvAcceptanceTest
 
     // when & then
     for (url <- urls) {
-      val result = executeWith(Configs.Interpreted - Configs.Version2_3,
+      val result = executeWith(Configs.Interpreted ,
         s"""LOAD CSV WITH HEADERS FROM '$url' AS row
             | MATCH (user:User{userID: row.USERID}) USING INDEX user:User(userID)
             | MATCH (order:Order{orderID: row.OrderId})

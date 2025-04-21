@@ -39,9 +39,12 @@ import java.time._
 import org.neo4j.cypher.{ExecutionEngineFunSuite, FakeClock}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class TemporalFunctionsAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport with FakeClock {
+class TemporalFunctionsAcceptanceTest
+    extends ExecutionEngineFunSuite
+    with CypherComparisonSupport
+    with FakeClock {
 
-  val supported = (Configs.Version3_4 + Configs.Version3_3 + Configs.Version3_1) - Configs.Compiled
+  val supported = (Configs.Version3_4) - Configs.Compiled
 
   test("should get current default datetime") {
     val result = executeWith(supported, "RETURN datetime() as now")
@@ -91,7 +94,7 @@ class TemporalFunctionsAcceptanceTest extends ExecutionEngineFunSuite with Cyphe
     now shouldBe a[LocalTime]
   }
 
-  def single[T](values: Iterator[T]):T = {
+  def single[T](values: Iterator[T]): T = {
     val value = values.next()
     values.hasNext shouldBe false
     value

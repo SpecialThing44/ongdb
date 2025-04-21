@@ -155,7 +155,7 @@ class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with C
     val query = "MATCH (l:Location) USING INDEX l:Location(name) WHERE l.name ENDS WITH 'ondon' AND l.country = 'UK' RETURN l"
 
     // RULE has bug with this query
-    val result = executeWith(expectedToSucceed - Configs.Version2_3 - Configs.AllRulePlanners, query,
+    val result = executeWith(expectedToSucceed  - Configs.AllRulePlanners, query,
       planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeIndexEndsWithScan")))
 
     result should evaluateTo(List(Map("l" -> london)))

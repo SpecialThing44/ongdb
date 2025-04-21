@@ -40,7 +40,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import org.neo4j.kernel.impl.proc.Procedures
 
 class PatternComprehensionAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
-  val expectedToSucceed = Configs.Interpreted - Configs.Version2_3
+  val expectedToSucceed = Configs.Interpreted
   val expectedToSucceedRestricted = expectedToSucceed - Configs.AllRulePlanners
 
   test("pattern comprehension nested in pattern comprehension") {

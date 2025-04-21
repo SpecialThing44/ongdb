@@ -245,7 +245,7 @@ class ExecutionEngine(
           var (plan: (ExecutionPlan, Map[String, Any], Seq[String]), touched: Boolean) =
             cache.getOrElseUpdate(cacheKey, queryText, (isStale _).tupled, producePlan)
           if (!touched) {
-            val labelIds: Seq[Long] = extractPlanLabels(plan, preParsedQuery.version, tc)
+            val labelIds: Seq[Long] = extractPlanLabels(plan)
             if (labelIds.nonEmpty) {
               lockPlanLabels(tc, labelIds)
               val stateAfter = schemaState(tc)
@@ -311,9 +311,7 @@ class ExecutionEngine(
   }
 
   private def extractPlanLabels(
-      plan: (ExecutionPlan, Map[String, Any], Seq[String]),
-      version: CypherVersion,
-      tc: TransactionalContextWrapper
+      plan: (ExecutionPlan, Map[String, Any], Seq[String])
   ): Seq[Long] = {
     import scala.collection.JavaConverters._
 
@@ -322,18 +320,7 @@ class ExecutionEngine(
         case item: SchemaIndexUsage => item.getLabelId.toLong
       }
     }
-
-    def allLabels: Seq[Long] = {
-      tc.kernelTransaction.tokenRead().labelsGetAllTokens().asScala.map(t => t.id().toLong).toSeq
-    }
-
-    version match {
-      // old cypher versions plans do not contain information about indexes used in query
-      // and since we do not know what labels are actually used by the query we assume that all of them are
-      case CypherVersion.v2_3 => allLabels
-      case CypherVersion.v3_1 => allLabels
-      case _ => planLabels
-    }
+    planLabels
   }
 
   private def schemaState(tc: TransactionalContextWrapper): QueryCache[
@@ -430,7 +417,7 @@ class ExecutionEngine(
       GraphDatabaseSettings.cypher_lenient_create_relationship.getDefaultValue.toBoolean
     )
 
-    if (((version != CypherVersion.v2_3) || (version != CypherVersion.v3_1) || (version != CypherVersion.v3_4) || (version != CypherVersion.v3_3)) &&
+    if ((version != CypherVersion.v3_4) &&
       (planner == CypherPlanner.greedy || planner == CypherPlanner.idp || planner == CypherPlanner.dp)) {
       val message = s"Cannot combine configurations: ${GraphDatabaseSettings.cypher_parser_version.name}=${version.name} " +
         s"with ${GraphDatabaseSettings.cypher_planner.name} = ${planner.name}"

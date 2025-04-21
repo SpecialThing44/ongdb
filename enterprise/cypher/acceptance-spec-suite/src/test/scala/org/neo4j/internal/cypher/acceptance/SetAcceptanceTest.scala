@@ -40,7 +40,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 class SetAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   val expectedToFail = Configs.Interpreted + Configs.Procs - Configs.Cost2_3
-  val expectedToFail2 = Configs.Interpreted  + Configs.Procs - Configs.Version2_3
+  val expectedToFail2 = Configs.Interpreted  + Configs.Procs
 
   test("optional match and set") {
     val n1 = createLabeledNode("L1")

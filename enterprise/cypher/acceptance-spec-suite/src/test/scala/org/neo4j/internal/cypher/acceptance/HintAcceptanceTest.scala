@@ -39,17 +39,23 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
 import scala.collection.Map
 
-class HintAcceptanceTest
-    extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class HintAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should use a simple hint") {
     val query = "MATCH (a)--(b)--(c) USING JOIN ON b RETURN a,b,c"
-    executeWith(Configs.All, query, planComparisonStrategy = ComparePlansWithAssertion(_ should useOperators("NodeHashJoin"), expectPlansToFail = Configs.AllRulePlanners))
+    executeWith(
+      Configs.All,
+      query,
+      planComparisonStrategy = ComparePlansWithAssertion(
+        _ should useOperators("NodeHashJoin"),
+        expectPlansToFail = Configs.AllRulePlanners
+      )
+    )
   }
 
   test("should not plan multiple joins for one hint - left outer join") {
     val a = createLabeledNode(Map[String, Any]("name" -> "a"), "A")
-    for(i <- 0 until 10) {
+    for (i <- 0 until 10) {
       val b = createLabeledNode(Map[String, Any]("name" -> s"${i}b"), "B")
       relate(a, b)
     }
@@ -59,18 +65,21 @@ class HintAcceptanceTest
                   |USING JOIN ON a
                   |RETURN a.name, b.name""".stripMargin
 
-    executeWith(Configs.Interpreted + Configs.Version3_3 - Configs.Cost2_3 - Configs.Cost3_1, query,
+    executeWith(
+      Configs.Interpreted,
+      query,
       planComparisonStrategy = ComparePlansWithAssertion((p) => {
-      p should useOperators("NodeLeftOuterHashJoin")
-      p should not(useOperators("NodeHashJoin"))
-    }, expectPlansToFail = Configs.OldAndRule))
+        p should useOperators("NodeLeftOuterHashJoin")
+        p should not(useOperators("NodeHashJoin"))
+      }, expectPlansToFail = Configs.AllRulePlanners)
+    )
   }
 
   test("should not plan multiple joins for one hint - right outer join") {
     val b = createLabeledNode(Map[String, Any]("name" -> "b"), "B")
-    for(i <- 0 until 10) {
+    for (i <- 0 until 10) {
       val a = createLabeledNode(Map[String, Any]("name" -> s"${i}a"), "A")
-      if(i == 0) relate(a, b)
+      if (i == 0) relate(a, b)
     }
 
     val query = """MATCH (a:A)
@@ -78,10 +87,17 @@ class HintAcceptanceTest
                   |USING JOIN ON a
                   |RETURN a.name, b.name""".stripMargin
 
-    executeWith(Configs.Interpreted - Configs.Cost2_3 - Configs.Cost3_1, query, planComparisonStrategy = ComparePlansWithAssertion((p) => {
-      p should useOperators("NodeRightOuterHashJoin")
-      p should not(useOperators("NodeHashJoin"))
-    }, expectPlansToFail = Configs.AllRulePlanners + Configs.BackwardsCompatibility))
+    executeWith(
+      Configs.Interpreted,
+      query,
+      planComparisonStrategy = ComparePlansWithAssertion(
+        (p) => {
+          p should useOperators("NodeRightOuterHashJoin")
+          p should not(useOperators("NodeHashJoin"))
+        },
+        expectPlansToFail = Configs.AllRulePlanners
+      )
+    )
   }
 
   test("should solve join hint on 1 variable with join on more, if possible") {
@@ -93,12 +109,13 @@ class HintAcceptanceTest
         |USING JOIN ON pB
         |RETURN *""".stripMargin
 
-    // TODO: Once 3.3 comes out with the same bugfix, we should change the following lines to not exclude 3.3
-    val cost3_3 = TestScenario(Versions.V3_3, Planners.Cost, Runtimes.Default)
-    executeWith(Configs.Interpreted - Configs.Cost2_3 - Configs.Cost3_1, query,
+    executeWith(
+      Configs.Interpreted,
+      query,
       planComparisonStrategy = ComparePlansWithAssertion((p) => {
         p should useOperators("NodeRightOuterHashJoin")
-      }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3 + Configs.Cost3_1 + cost3_3))
+      }, expectPlansToFail = Configs.AllRulePlanners)
+    )
   }
 
   test("should do index seek instead of index scan with explicit index seek hint") {
@@ -122,9 +139,12 @@ class HintAcceptanceTest
                   |RETURN a.prop, b.prop
                 """.stripMargin
 
-    executeWith(Configs.Interpreted - Configs.AllRulePlanners - Configs.Cost2_3 - Configs.Cost3_1, query,
+    executeWith(
+      Configs.Interpreted - Configs.AllRulePlanners,
+      query,
       planComparisonStrategy = ComparePlansWithAssertion((p) => {
         p should useOperatorTimes("NodeIndexSeek", 2)
-      }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3 + Configs.Cost3_1))
+      }, expectPlansToFail = Configs.AllRulePlanners)
+    )
   }
 }
