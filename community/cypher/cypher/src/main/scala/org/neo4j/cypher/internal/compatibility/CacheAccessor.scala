@@ -49,14 +49,22 @@ trait PlanProducer[T] {
   def produceWithExistingTX: T
 }
 
-class QueryCache[K <: AnyRef, T <: AnyRef](cacheAccessor: CacheAccessor[K, T], cache: LFUCache[K, T]) {
-  def getOrElseUpdate(key: K, userKey: String, checkPlanStillValid: T => CacheCheckResult, planProducer: PlanProducer[T]): (T, Boolean) = {
+class QueryCache[K <: AnyRef, T <: AnyRef](
+    cacheAccessor: CacheAccessor[K, T],
+    cache: LFUCache[K, T]
+) {
+  def getOrElseUpdate(
+      key: K,
+      userKey: String,
+      checkPlanStillValid: T => CacheCheckResult,
+      planProducer: PlanProducer[T]
+  ): (T, Boolean) = {
     if (cache.size == 0)
       (planProducer.produceWithExistingTX, false)
     else {
       var planned = false
       val plan: T = cacheAccessor.getOrElseUpdate(cache)(key, {
-        planned = true
+        planned = false
         planProducer.produceWithExistingTX
       })
 
@@ -78,7 +86,8 @@ class QueryCache[K <: AnyRef, T <: AnyRef](cacheAccessor: CacheAccessor[K, T], c
   }
 }
 
-class MonitoringCacheAccessor[K <: AnyRef, T <: AnyRef](monitor: CypherCacheHitMonitor[K]) extends CacheAccessor[K, T] {
+class MonitoringCacheAccessor[K <: AnyRef, T <: AnyRef](monitor: CypherCacheHitMonitor[K])
+    extends CacheAccessor[K, T] {
 
   override def getOrElseUpdate(cache: LFUCache[K, T])(key: K, f: => T): T = {
     var updated = false
@@ -95,7 +104,9 @@ class MonitoringCacheAccessor[K <: AnyRef, T <: AnyRef](monitor: CypherCacheHitM
     value
   }
 
-  override def put(cache: LFUCache[K, T])(key: K, value: T, userKey: String, secondsSinceReplan: Int): T = {
+  override def put(
+      cache: LFUCache[K, T]
+  )(key: K, value: T, userKey: String, secondsSinceReplan: Int): T = {
     cache.put(key, value)
     monitor.cacheDiscard(key, userKey, secondsSinceReplan)
     value
