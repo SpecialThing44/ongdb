@@ -47,8 +47,6 @@ import org.neo4j.cypher.internal.frontend.v3_4.phases.CompilationPhaseTracer
 import org.neo4j.cypher.internal.util.v3_4.InputPosition
 import org.neo4j.cypher._
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
-import org.neo4j.graphdb.impl.notification.NotificationCode._
-import org.neo4j.graphdb.impl.notification.NotificationDetail.Factory.message
 import org.neo4j.kernel.GraphDatabaseQueryService
 import org.neo4j.kernel.configuration.Config
 
@@ -197,30 +195,8 @@ class CompilerEngineDelegator(
 
   @throws(classOf[SyntaxException])
   def parseQuery(preParsedQueryArg: PreParsedQuery, tracer: CompilationPhaseTracer): ParsedQuery = {
-    var preParsedQuery = preParsedQueryArg
-    val supportedRuntimes3_4 = Seq(CypherRuntime.interpreted, CypherRuntime.default)
-
-    var preParsingNotifications: Set[org.neo4j.graphdb.Notification] = Set.empty
-//    if ((preParsedQuery.version == CypherVersion.v3_4) && preParsedQuery.planner == CypherPlanner.rule) {
-//      preParsingNotifications = preParsingNotifications + rulePlannerUnavailableFallbackNotification(
-//        preParsedQuery.offset
-//      )
-//      preParsedQuery = preParsedQuery.copy(version = CypherVersion.v3_4)(preParsedQuery.offset)
-//    }
-
-    def checkSupportedRuntime(ex: util.v3_4.SyntaxException): Unit = {
-      if (!supportedRuntimes3_4.contains(preParsedQuery.runtime)) {
-        if (config.useErrorsOverWarnings) {
-          throw new InvalidArgumentException(
-            "The given query is not currently supported in the selected runtime"
-          )
-        } else {
-          preParsingNotifications += runtimeUnsupportedNotification(ex, preParsedQuery)
-          preParsedQuery =
-            preParsedQuery.copy(runtime = CypherRuntime.interpreted)(preParsedQuery.offset)
-        }
-      }
-    }
+    val preParsedQuery = preParsedQueryArg
+    val preParsingNotifications: Set[org.neo4j.graphdb.Notification] = Set.empty
 
     def planForVersion(
         input: Either[CypherVersion, ParsedQuery]
@@ -247,28 +223,6 @@ class CompilerEngineDelegator(
       fixedPoint(planForVersion).apply(Left(preParsedQuery.version))
     result.right.get
   }
-
-  private def runtimeUnsupportedNotification(
-      ex: util.v3_4.SyntaxException,
-      preParsedQuery: PreParsedQuery
-  ) = {
-    val pos = convertInputPosition(ex.pos.getOrElse(preParsedQuery.offset))
-    RUNTIME_UNSUPPORTED.notification(pos)
-  }
-
-  private def createUniqueNotification(
-      ex: util.v3_4.SyntaxException,
-      preParsedQuery: PreParsedQuery
-  ) = {
-    val pos = convertInputPosition(ex.pos.getOrElse(preParsedQuery.offset))
-    CREATE_UNIQUE_UNAVAILABLE_FALLBACK.notification(pos)
-  }
-
-  private def rulePlannerUnavailableFallbackNotification(offset: InputPosition) =
-    RULE_PLANNER_UNAVAILABLE_FALLBACK.notification(convertInputPosition(offset))
-
-  private def convertInputPosition(offset: InputPosition) =
-    new org.neo4j.graphdb.InputPosition(offset.offset, offset.line, offset.column)
 
   private def getQueryCacheSize: Int = {
     val setting: Config => Int = config =>
