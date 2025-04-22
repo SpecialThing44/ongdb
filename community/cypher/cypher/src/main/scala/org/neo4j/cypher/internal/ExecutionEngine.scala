@@ -234,7 +234,7 @@ class ExecutionEngine(
           def isStale(plan: ExecutionPlan, ignored1: Map[String, Any], ignored2: Seq[String]) =
             plan.isStale(lastCommittedTxId, tc)
 
-          val producePlan = new PlanProducer[(ExecutionPlan, Map[String, Any], Seq[String])] {
+          val planProducer = new PlanProducer[(ExecutionPlan, Map[String, Any], Seq[String])] {
             override def produceWithExistingTX: (ExecutionPlan, Map[String, Any], Seq[String]) = {
               val parsedQuery = parsePreParsedQuery(preParsedQuery, phaseTracer)
               parsedQuery.plan(tc, phaseTracer)
@@ -243,7 +243,7 @@ class ExecutionEngine(
 
           val stateBefore = schemaState(tc)
           var (plan: (ExecutionPlan, Map[String, Any], Seq[String]), touched: Boolean) =
-            cache.getOrElseUpdate(cacheKey, queryText, (isStale _).tupled, producePlan)
+            cache.getOrElseUpdate(cacheKey, queryText, (isStale _).tupled, planProducer)
           if (!touched) {
             val labelIds: Seq[Long] = extractPlanLabels(plan)
             if (labelIds.nonEmpty) {

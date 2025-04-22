@@ -50,14 +50,14 @@ trait PlanProducer[T] {
 }
 
 class QueryCache[K <: AnyRef, T <: AnyRef](cacheAccessor: CacheAccessor[K, T], cache: LFUCache[K, T]) {
-  def getOrElseUpdate(key: K, userKey: String, checkPlanStillValid: T => CacheCheckResult, produce: PlanProducer[T]): (T, Boolean) = {
+  def getOrElseUpdate(key: K, userKey: String, checkPlanStillValid: T => CacheCheckResult, planProducer: PlanProducer[T]): (T, Boolean) = {
     if (cache.size == 0)
-      (produce.produceWithExistingTX, false)
+      (planProducer.produceWithExistingTX, false)
     else {
       var planned = false
       val plan: T = cacheAccessor.getOrElseUpdate(cache)(key, {
         planned = true
-        produce.produceWithExistingTX
+        planProducer.produceWithExistingTX
       })
 
       if (planned)
@@ -66,7 +66,7 @@ class QueryCache[K <: AnyRef, T <: AnyRef](cacheAccessor: CacheAccessor[K, T], c
         // We found a matching plan in the cache. let's make sure it's OK to use again.
         checkPlanStillValid(plan) match {
           case NeedsReplan(secondsSinceReplan) =>
-            val newPlan = produce.produceWithExistingTX
+            val newPlan = planProducer.produceWithExistingTX
             cacheAccessor.put(cache)(key, newPlan, userKey, secondsSinceReplan)
             (newPlan, true)
           case FineToReuse =>
