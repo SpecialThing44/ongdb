@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -39,6 +20,7 @@
 package org.neo4j.cypher.internal.runtime.interpreted.pipes
 
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
+import org.neo4j.cypher.internal.v3_5.logical.plans.CachedNodeProperty
 import org.neo4j.values.AnyValue
 import org.neo4j.values.storable.Values
 import org.neo4j.values.virtual.VirtualNodeValue
@@ -46,10 +28,14 @@ import org.neo4j.values.virtual.VirtualNodeValue
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, MutableList}
 
-abstract class NodeOuterHashJoinPipe(nodeVariables: Set[String], lhs: Pipe, rhs: Pipe, nullableVariables: Set[String]) extends PipeWithSource(lhs) {
+abstract class NodeOuterHashJoinPipe(nodeVariables: Set[String],
+                                     lhs: Pipe,
+                                     rhs: Pipe,
+                                     nullableVariables: Set[String],
+                                     nullableCachedProperties: Set[CachedNodeProperty]) extends PipeWithSource(lhs) {
 
   private val myVariables = nodeVariables.toIndexedSeq
-  private val nullColumns: Seq[(String, AnyValue)] = nullableVariables.map(_ -> Values.NO_VALUE).toSeq
+  private val nullVariables: Array[(String, AnyValue)] = nullableVariables.map(_ -> Values.NO_VALUE).toArray
 
   protected def computeKey(context: ExecutionContext): Option[IndexedSeq[Long]] = {
     val key = new Array[Long](myVariables.length)
@@ -63,7 +49,13 @@ abstract class NodeOuterHashJoinPipe(nodeVariables: Set[String], lhs: Pipe, rhs:
     Some(key.toIndexedSeq)
   }
 
-  protected def addNulls(in: ExecutionContext): ExecutionContext = executionContextFactory.copyWith(in).set(nullColumns)
+  protected def addNulls(in: ExecutionContext): ExecutionContext = {
+    val withNulls = executionContextFactory.copyWith(in)
+    withNulls.set(nullVariables)
+    for (x <- nullableCachedProperties)
+      withNulls.setCachedProperty(x, Values.NO_VALUE)
+    withNulls
+  }
 
   protected def buildProbeTableAndFindNullRows(input: Iterator[ExecutionContext], withNulls: Boolean): ProbeTable = {
     val probeTable = new ProbeTable()

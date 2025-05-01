@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -42,9 +23,11 @@ import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.commands.ReturnItem
 import org.neo4j.cypher.internal.runtime.interpreted.commands.predicates.{CoercedPredicate, Not, True}
 import org.neo4j.cypher.internal.runtime.interpreted.commands.values.TokenType.PropertyKey
+import org.neo4j.cypher.internal.runtime.interpreted.commands.{AstNode, ReturnItem}
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.QueryState
-import org.neo4j.cypher.internal.util.v3_4.symbols._
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
+import org.neo4j.cypher.internal.v3_5.util.symbols._
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
+import org.neo4j.values.AnyValue
 
 import scala.collection.Map
 
@@ -140,23 +123,25 @@ class ExpressionTest extends CypherFunSuite {
     }).toMap
 
     if (result != expected) {
-      fail("""
+      fail(s"""
 Merged:
-    %s with
-    %s
+    $a with
+    $b
 
-     Got: %s
-Expected: %s""".format(a, b, result, expected))
+     Got: $result
+Expected: $expected""")
     }
   }
 }
 
 class TestExpression extends Expression {
-  def arguments = Nil
+  override def arguments: Seq[Expression] = Seq.empty
 
-  def rewrite(f: (Expression) => Expression): Expression = null
+  override def children: Seq[AstNode[_]] = Seq.empty
 
-  def symbolTableDependencies = Set()
+  override def rewrite(f: Expression => Expression): Expression = null
 
-  def apply(v1: ExecutionContext, state: QueryState) = null
+  override def symbolTableDependencies: Set[String] = Set()
+
+  override def apply(v1: ExecutionContext, state: QueryState): AnyValue = null
 }

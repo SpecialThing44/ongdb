@@ -1,20 +1,3 @@
-ONgDB
-Copyright © 2018-2020 Graph Foundation, Inc.
-(referred to in this notice as "Graph Foundation")
-[https://graphfoundation.org]
-
-This product includes software ("Software") developed by Graph Foundation.
-
-The copyright in the bundled ONgDB graph database (including the
-Software) is owned by Graph Foundation. The Software developed and owned
-by Graph Foundation is licensed under the GNU GENERAL PUBLIC LICENSE Version 3
-(http://www.fsf.org/licensing/licenses/gpl-3.0.html) ("GPL")
-to all third parties and that license, as required by the GPL, is
-included in the LICENSE.txt file.
-
-Full license texts are found in LICENSES.txt.
-
-
 Neo4j
 Copyright © 2002-2018 Neo4j Sweden AB (referred to in this notice as "Neo4j")
 [http://neo4j.com]
@@ -44,35 +27,9 @@ Third-party licenses
 
 Apache Software License, Version 2.0
   Apache Commons Lang
+  IPAddress
   Lucene Core
   Netty/All-in-One
-  Netty/Buffer
-  Netty/Codec
-  Netty/Codec/DNS
-  Netty/Codec/HAProxy
-  Netty/Codec/HTTP
-  Netty/Codec/HTTP2
-  Netty/Codec/Memcache
-  Netty/Codec/MQTT
-  Netty/Codec/Redis
-  Netty/Codec/SMTP
-  Netty/Codec/Socks
-  Netty/Codec/Stomp
-  Netty/Codec/XML
-  Netty/Common
-  Netty/Handler
-  Netty/Handler/Proxy
-  Netty/Handler/Ssl/Ocsp
-  Netty/Resolver
-  Netty/Resolver/DNS
-  Netty/Resolver/DNS/Classes/MacOS
-  Netty/Transport
-  Netty/Transport/Classes/Epoll
-  Netty/Transport/Classes/KQueue
-  Netty/Transport/Native/Unix/Common
-  Netty/Transport/RXTX
-  Netty/Transport/SCTP
-  Netty/Transport/UDT
   parboiled-core
   parboiled-scala
 
@@ -83,7 +40,25 @@ BSD License
   Scala Compiler
 
 Bouncy Castle License
-  Bouncy Castle ASN.1 Extension and Utility APIs
   Bouncy Castle PKIX, CMS, EAC, TSP, PKCS, OCSP, CMP, and CRMF APIs
   Bouncy Castle Provider
+
+Eclipse Distribution License - v 1.0
+  Eclipse Collections API
+  Eclipse Collections Main Library
+
+Eclipse Public License - v 1.0
+  Eclipse Collections API
+  Eclipse Collections Main Library
+
+Dependencies with multiple licenses
+-----------------------------------
+
+Eclipse Collections API
+  Eclipse Distribution License - v 1.0
+  Eclipse Public License - v 1.0
+
+Eclipse Collections Main Library
+  Eclipse Distribution License - v 1.0
+  Eclipse Public License - v 1.0
 

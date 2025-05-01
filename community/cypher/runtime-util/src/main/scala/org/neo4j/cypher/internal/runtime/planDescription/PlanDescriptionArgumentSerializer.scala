@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,11 +19,12 @@
  */
 package org.neo4j.cypher.internal.runtime.planDescription
 
+import org.neo4j.cypher.internal.ir.v3_5.ProvidedOrder
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments._
-import org.neo4j.cypher.internal.util.v3_4.UnNamedNameGenerator._
-import org.neo4j.cypher.internal.frontend.v3_4.prettifier.ExpressionStringifier
-import org.neo4j.cypher.internal.v3_4.expressions
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.ast.prettifier.ExpressionStringifier
+import org.neo4j.cypher.internal.v3_5.expressions
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.util.UnNamedNameGenerator._
 
 object PlanDescriptionArgumentSerializer {
   private val SEPARATOR = ", "
@@ -82,6 +64,7 @@ object PlanDescriptionArgumentSerializer {
       case Rows(value) => Long.box(value)
       case Time(value) => Long.box(value)
       case EstimatedRows(value) => Double.box(value)
+      case Order(providedOrder) => serializeProvidedOrder(providedOrder)
       case Version(version) => version
       case Planner(planner) => planner
       case PlannerImpl(plannerName) => plannerName
@@ -121,8 +104,27 @@ object PlanDescriptionArgumentSerializer {
     }
   }
 
-   def removeGeneratedNames(s: String): String = {
+  def serializeProvidedOrder(providedOrder: ProvidedOrder): String = {
+    providedOrder.columns.map(col => {
+      val direction = if (col.isAscending) "ASC" else "DESC"
+      s"${removeGeneratedNames(col.id)} $direction"
+    }).mkString(", ")
+  }
+
+  def removeGeneratedNames(s: String): String = {
     val named = UNNAMED_PATTERN.replaceAllIn(s, m => s"anon[${m group 2}]")
-    DEDUP_PATTERN.replaceAllIn(named, _.group(1))
+    deduplicateVariableNames(named)
+  }
+
+  def deduplicateVariableNames(in: String): String = {
+    val sb = new StringBuilder
+    var i = 0
+    for (m <- DEDUP_PATTERN.findAllMatchIn(in)) {
+      sb ++= in.substring(i, m.start)
+      sb ++= m.group(1)
+      i = m.end
+    }
+    sb ++= in.substring(i)
+    sb.toString()
   }
 }

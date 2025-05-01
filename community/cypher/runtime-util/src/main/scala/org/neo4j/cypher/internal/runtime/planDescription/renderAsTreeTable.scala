@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -45,7 +26,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection.{Map, mutable}
 
 object renderAsTreeTable extends (InternalPlanDescription => String) {
-  private val UNNAMED_PATTERN = """  (UNNAMED|FRESHID|AGGREGATION)\d+"""
+  val UNNAMED_PATTERN = """  (UNNAMED|FRESHID|AGGREGATION)\d+"""
   val OPERATOR = "Operator"
   private val ESTIMATED_ROWS = "Estimated Rows"
   private val ROWS = "Rows"
@@ -54,17 +35,18 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
   private val PAGE_CACHE_MISSES = "Page Cache Misses"
   private val PAGE_CACHE_HIT_RATIO = "Page Cache Hit Ratio"
   private val TIME = "Time (ms)"
+  private val ORDER = "Order"
   val VARIABLES = "Variables"
   val MAX_VARIABLE_COLUMN_WIDTH = 100
   private val OTHER = "Other"
   private val HEADERS = Seq(OPERATOR, ESTIMATED_ROWS, ROWS, HITS, PAGE_CACHE_HITS, PAGE_CACHE_MISSES, PAGE_CACHE_HIT_RATIO, TIME,
-    VARIABLES, OTHER)
+    ORDER, VARIABLES, OTHER)
   private val newLine = System.lineSeparator()
 
   def apply(plan: InternalPlanDescription): String = {
 
-    implicit val columns = new mutable.HashMap[String, Int]()
-    val lines = accumulate(plan)
+    val columns = new mutable.HashMap[String, Int]()
+    val lines = accumulate(plan, columns)
 
     def compactLine(line: Line, previous: Seq[(Line, CompactedLine)]) = {
       val repeatedVariables = if (previous.nonEmpty) previous.head._1.variables.intersect(line.variables) else Set.empty[String]
@@ -103,8 +85,7 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
       result.append("+").append(newLine)
     }
 
-    for ( line <- Seq(Line( OPERATOR, headers.map(header => header -> Left(header)).toMap, Set(VARIABLES))) ++
-      compactedLines ) {
+    for ( line <- Seq(Line( OPERATOR, headers.map(header => header -> Left(header)).toMap, Set(VARIABLES))) ++ compactedLines ) {
       divider(line)
       for ( header <- headers ) {
         val detail = line(header)
@@ -126,8 +107,7 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
     result.toString()
   }
 
-  private def accumulate(incoming: InternalPlanDescription)(implicit columns: mutable.Map[String,
-    Int]): Seq[Line] = {
+  private def accumulate(incoming: InternalPlanDescription, columns: mutable.Map[String, Int]): Seq[Line] = {
 
     val stack = new mutable.Stack[(InternalPlanDescription, Level)]
     stack.push((compactPlan(incoming), Root))
@@ -136,8 +116,8 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
       val (plan, level) = stack.pop()
 
       val line = level.line + plan.name
-      mapping(OPERATOR, Left(line))
-      lines.append(Line(line, details(plan), plan.variables, level.connector))
+      mapping(OPERATOR, Left(line), columns)
+      lines.append(Line(line, details(plan, columns), plan.variables, level.connector))
       plan.children match {
         case NoChildren =>
         case SingleChild(inner) => stack.push((compactPlan(inner), level.child))
@@ -163,19 +143,20 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
     CompactedPlanDescription.create(similar)
   }
 
-  private def details(description: InternalPlanDescription)(implicit columns: mutable.Map[String,Int]): Predef.Map[String, Justified] = description.arguments.flatMap {
-    case EstimatedRows(count) => mapping(ESTIMATED_ROWS, Right(format(count)))
-    case Rows(count) => mapping(ROWS, Right(count.toString))
-    case DbHits(count) => mapping(HITS, Right(count.toString))
-    case PageCacheHits(count) => mapping(PAGE_CACHE_HITS, Right(count.toString))
-    case PageCacheMisses(count) => mapping(PAGE_CACHE_MISSES, Right(count.toString))
-    case PageCacheHitRatio(ratio) => mapping(PAGE_CACHE_HIT_RATIO, Right("%.4f".format(ratio)))
-    case Time(nanos) => mapping(TIME, Right("%.3f".format(nanos/1000000.0)))
+  private def details(description: InternalPlanDescription, columns: mutable.Map[String,Int]): Predef.Map[String, Justified] = description.arguments.flatMap {
+    case EstimatedRows(count) => mapping(ESTIMATED_ROWS, Right(format(count)), columns)
+    case Rows(count) => mapping(ROWS, Right(count.toString), columns)
+    case DbHits(count) => mapping(HITS, Right(count.toString), columns)
+    case PageCacheHits(count) => mapping(PAGE_CACHE_HITS, Right(count.toString), columns)
+    case PageCacheMisses(count) => mapping(PAGE_CACHE_MISSES, Right(count.toString), columns)
+    case PageCacheHitRatio(ratio) => mapping(PAGE_CACHE_HIT_RATIO, Right("%.4f".format(ratio)), columns)
+    case Time(nanos) => mapping(TIME, Right("%.3f".format(nanos/1000000.0)), columns)
+    case Order(providedOrder) => mapping(ORDER, Left(PlanDescriptionArgumentSerializer.serializeProvidedOrder(providedOrder)), columns)
     case _ => None
   }.toMap + (
-    OTHER -> Left(other(description)))
+    OTHER -> Left(other(description, columns)))
 
-  private def mapping(key: String, value: Justified)(implicit columns: mutable.Map[String,Int]) = {
+  private def mapping(key: String, value: Justified, columns: mutable.Map[String,Int]) = {
     update(columns, key, value.length)
     Some(key -> value)
   }
@@ -192,6 +173,7 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
         !x.isInstanceOf[PageCacheMisses] &&
         !x.isInstanceOf[PageCacheHitRatio] &&
         !x.isInstanceOf[EstimatedRows] &&
+        !x.isInstanceOf[Order] &&
         !x.isInstanceOf[Planner] &&
         !x.isInstanceOf[PlannerImpl] &&
         !x.isInstanceOf[PlannerVersion] &&
@@ -205,7 +187,7 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
     }
   }
 
-  private def other(description: InternalPlanDescription)(implicit columns: mutable.Map[String,Int]): String = {
+  private def other(description: InternalPlanDescription, columns: mutable.Map[String,Int]): String = {
     val result = otherFields(description).mkString("; ").replaceAll(UNNAMED_PATTERN, "")
     if (result.nonEmpty) {
       update(columns, OTHER, result.length)
@@ -216,7 +198,7 @@ object renderAsTreeTable extends (InternalPlanDescription => String) {
   private def format(v: Double) = if (v.isNaN) v.toString else math.round(v).toString
 }
 
-trait LineDetails extends ((String) => Justified) {
+trait LineDetails extends (String => Justified) {
   def connection: Option[String]
 }
 

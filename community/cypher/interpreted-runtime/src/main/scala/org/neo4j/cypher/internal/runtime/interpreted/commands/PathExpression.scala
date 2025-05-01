@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -44,9 +25,9 @@ import org.neo4j.cypher.internal.runtime.interpreted.commands.predicates.Predica
 import org.neo4j.cypher.internal.runtime.interpreted.PatternGraphBuilder
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.QueryState
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.matching.MatchingContext
-import org.neo4j.cypher.internal.runtime.interpreted.symbols.SymbolTable
-import org.neo4j.cypher.internal.util.v3_4.UnNamedNameGenerator.isNamed
-import org.neo4j.cypher.internal.util.v3_4.symbols._
+import org.neo4j.cypher.internal.runtime.interpreted.symbols.{SymbolTable, TypeSafe}
+import org.neo4j.cypher.internal.v3_5.util.UnNamedNameGenerator.isNamed
+import org.neo4j.cypher.internal.v3_5.util.symbols._
 import org.neo4j.values.AnyValue
 import org.neo4j.values.storable.Values
 import org.neo4j.values.virtual.VirtualValues
@@ -84,11 +65,12 @@ case class PathExpression(pathPattern: Seq[Pattern], predicate: Predicate,
     }
   }
 
-  override def children = pathPattern :+ predicate
+  override def children: Seq[TypeSafe with AstNode[_ >: Expression with Pattern <: TypeSafe with AstNode[_ >: Expression with Pattern]]] =
+    pathPattern :+ predicate :+ projection
 
-  override def arguments = Seq.empty
+  override def arguments: Seq[Nothing] = Seq.empty
 
-  override def rewrite(f: (Expression) => Expression) =
+  override def rewrite(f: Expression => Expression): Expression =
     f(PathExpression(pathPattern.map(_.rewrite(f)), predicate.rewriteAsPredicate(f), projection, allowIntroducingNewIdentifiers))
 
   override def symbolTableDependencies = {

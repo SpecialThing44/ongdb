@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,22 +19,22 @@
  */
 package org.neo4j.cypher.internal.runtime.interpreted.commands.expressions
 
-import org.neo4j.cypher.internal.util.v3_4.SyntaxException
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
+import org.neo4j.cypher.internal.runtime.interpreted.commands.AstNode
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.QueryState
+import org.neo4j.cypher.operations.CypherFunctions
 import org.neo4j.values.AnyValue
-import org.neo4j.values.virtual.{PathValue, VirtualValues}
 
 case class NodesFunction(path: Expression) extends NullInNullOutExpression(path) {
 
-  override def compute(value: AnyValue, m: ExecutionContext, state: QueryState) = value match {
-    case p: PathValue => VirtualValues.list(p.nodes():_*)
-    case x => throw new SyntaxException("Expected " + path + " to be a path.")
-  }
+  override def compute(value: AnyValue, m: ExecutionContext, state: QueryState): AnyValue =
+    CypherFunctions.nodes(value)
 
-  def rewrite(f: (Expression) => Expression) = f(NodesFunction(path.rewrite(f)))
+  override def rewrite(f: Expression => Expression): Expression = f(NodesFunction(path.rewrite(f)))
 
-  def arguments = Seq(path)
+  override def arguments: Seq[Expression] = Seq(path)
 
-  def symbolTableDependencies = path.symbolTableDependencies
+  override def children: Seq[AstNode[_]] = Seq(path)
+
+  override def symbolTableDependencies: Set[String] = path.symbolTableDependencies
 }

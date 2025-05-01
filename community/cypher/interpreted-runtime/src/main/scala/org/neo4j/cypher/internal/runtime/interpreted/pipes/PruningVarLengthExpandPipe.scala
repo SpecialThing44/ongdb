@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,12 +19,13 @@
  */
 package org.neo4j.cypher.internal.runtime.interpreted.pipes
 
-import org.neo4j.collection.primitive.{Primitive, PrimitiveLongObjectMap}
+import org.eclipse.collections.impl.map.mutable.primitive.LongObjectHashMap
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
-import org.neo4j.cypher.internal.util.v3_4.InternalException
-import org.neo4j.cypher.internal.util.v3_4.attribution.Id
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.util.InternalException
+import org.neo4j.cypher.internal.v3_5.util.attribution.Id
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
 import org.neo4j.values.storable.{Value, Values}
+import org.neo4j.values.virtual.NodeValue
 import org.neo4j.values.virtual.{RelationshipValue, VirtualNodeValue}
 
 case class PruningVarLengthExpandPipe(source: Pipe,
@@ -104,7 +86,7 @@ case class PruningVarLengthExpandPipe(source: Pipe,
                    val pathLength: Int,
                    val queryState: QueryState,
                    val row: ExecutionContext,
-                   val expandMap: PrimitiveLongObjectMap[NodeState],
+                   val expandMap: LongObjectHashMap[NodeState],
                    val prevLocalRelIndex: Int,
                    val prevNodeState: NodeState ) {
 
@@ -283,18 +265,27 @@ case class PruningVarLengthExpandPipe(source: Pipe,
       depth = -1
     }
     def canContinue: Boolean = inputRow != null
+
+    private def satisfiesPredicate(node: VirtualNodeValue) = {
+      node match {
+        case n: NodeValue => filteringStep.filterNode(inputRow, queryState)(n)
+        case _ => filteringStep.filterNode(inputRow, queryState)(queryState.query.nodeById(node.id()))
+      }
+    }
+
     def next(): ExecutionContext = {
       val endNode =
         if (depth == -1) {
           val fromValue = inputRow.getOrElse(fromName, error(s"Required variable `$fromName` is not in context"))
           fromValue match {
-            case node: VirtualNodeValue =>
+            case node: VirtualNodeValue if satisfiesPredicate(node) =>
               push( node = node,
                 pathLength = 0,
-                expandMap = Primitive.longObjectMap[NodeState](),
+                expandMap = new LongObjectHashMap[NodeState](),
                 prevLocalRelIndex = -1,
                 prevNodeState = NodeState.NOOP )
 
+            case _: VirtualNodeValue => null
             case x: Value if x == Values.NO_VALUE =>
               null
 
@@ -316,11 +307,11 @@ case class PruningVarLengthExpandPipe(source: Pipe,
       else executionContextFactory.copyWith(inputRow, self.toName, endNode)
     }
 
-    def push( node: VirtualNodeValue,
-              pathLength: Int,
-              expandMap: PrimitiveLongObjectMap[NodeState],
-              prevLocalRelIndex: Int,
-              prevNodeState: NodeState ): VirtualNodeValue = {
+    def push(node: VirtualNodeValue,
+             pathLength: Int,
+             expandMap: LongObjectHashMap[NodeState],
+             prevLocalRelIndex: Int,
+             prevNodeState: NodeState): VirtualNodeValue = {
       depth += 1
       nodeState(depth) =
         new PruningDFS(this, node, path, pathLength, queryState, inputRow, expandMap, prevLocalRelIndex, prevNodeState)

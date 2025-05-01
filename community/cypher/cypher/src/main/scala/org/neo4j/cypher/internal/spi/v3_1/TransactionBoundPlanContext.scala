@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -54,8 +35,7 @@ import org.neo4j.internal.kernel.api.procs.Neo4jTypes.AnyType
 import org.neo4j.internal.kernel.api.procs.{DefaultParameterValue, Neo4jTypes}
 import org.neo4j.internal.kernel.api.{IndexReference, InternalIndexState, procs}
 import org.neo4j.kernel.api.schema.SchemaDescriptorFactory
-import org.neo4j.kernel.api.schema.constaints.ConstraintDescriptor
-import org.neo4j.kernel.api.schema.index.{SchemaIndexDescriptor => KernelIndexDescriptor}
+import org.neo4j.kernel.api.schema.constraints.ConstraintDescriptor
 import org.neo4j.procedure.Mode
 
 import scala.collection.JavaConverters._
@@ -96,7 +76,7 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
 
   private def getOnlineIndex(descriptor: IndexReference): Option[SchemaTypes.IndexDescriptor] =
     tc.kernelTransaction.schemaRead.indexGetState(descriptor) match {
-      case InternalIndexState.ONLINE => Some(SchemaTypes.IndexDescriptor(descriptor.label(), descriptor.properties()(0)))
+      case InternalIndexState.ONLINE => Some(SchemaTypes.IndexDescriptor(descriptor.schema().getEntityTokenIds()(0), descriptor.schema().getPropertyIds()(0)))
       case _                         => None
     }
 
@@ -117,7 +97,9 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
     try {
       val labelId = getLabelId(labelName)
       val propId = getPropertyKeyId(propertyKey)
-      tc.kernelTransaction.schemaRead().constraintsGetForSchema(SchemaDescriptorFactory.forLabel(labelId, propId)).hasNext
+      tc.kernelTransaction.schemaRead().constraintsGetForSchema(SchemaDescriptorFactory.forLabel(labelId, propId)).asScala
+        .filter(c => c.enforcesPropertyExistence())
+        .hasNext
     } catch {
       case _: KernelException => false
     }

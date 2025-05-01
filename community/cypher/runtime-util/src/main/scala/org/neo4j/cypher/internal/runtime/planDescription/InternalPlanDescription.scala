@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -41,17 +22,17 @@ package org.neo4j.cypher.internal.runtime.planDescription
 import java.util
 
 import org.neo4j.cypher.exceptionHandler
+import org.neo4j.cypher.internal.ir.v3_5.ProvidedOrder
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments._
-import org.neo4j.cypher.internal.util.v3_4.InternalException
-import org.neo4j.cypher.internal.util.v3_4.attribution.Id
-import org.neo4j.cypher.internal.util.v3_4.symbols.CypherType
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
-import org.neo4j.cypher.internal.v3_4.logical.plans.{QualifiedName, SeekableArgs}
-import org.neo4j.cypher.internal.v3_4.{expressions => ast}
+import org.neo4j.cypher.internal.v3_5.logical.plans.{QualifiedName, SeekableArgs}
 import org.neo4j.graphdb.ExecutionPlanDescription
 import org.neo4j.graphdb.ExecutionPlanDescription.ProfilerStatistics
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.util.InternalException
+import org.neo4j.cypher.internal.v3_5.util.attribution.Id
+import org.neo4j.cypher.internal.v3_5.util.symbols.CypherType
+import org.neo4j.cypher.internal.v3_5.{expressions => ast}
 
-import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
@@ -159,6 +140,8 @@ object InternalPlanDescription {
 
     case class DbHits(value: Long) extends Argument
 
+    case class Order(order: ProvidedOrder) extends Argument
+
     case class PageCacheHits(value: Long) extends Argument
 
     case class PageCacheMisses(value: Long) extends Argument
@@ -256,6 +239,8 @@ object InternalPlanDescription {
 
   }
 
+  def error(msg: String): InternalPlanDescription =
+    new PlanDescriptionImpl(Id.INVALID_ID, msg, NoChildren, Nil, Set.empty)
 }
 
 sealed trait Children {
@@ -358,7 +343,7 @@ final case class CompactedPlanDescription(similar: Seq[InternalPlanDescription])
 
   override def name: String = s"${similar.head.name}(${similar.size})"
 
-  override def variables: Set[String] = similar.foldLeft(Set.empty[String]) { (acc, plan) =>
+  override lazy val variables: Set[String] = similar.foldLeft(Set.empty[String]) { (acc, plan) =>
     acc ++ plan.variables
   }
 

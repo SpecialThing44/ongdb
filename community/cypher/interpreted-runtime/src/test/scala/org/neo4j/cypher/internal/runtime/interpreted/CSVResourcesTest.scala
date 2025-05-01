@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -43,19 +24,19 @@ import java.net.URL
 import org.apache.commons.lang3.SystemUtils
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
-import org.neo4j.cypher.internal.runtime.CreateTempFileTestSupport
+import org.neo4j.cypher.internal.runtime.{CreateTempFileTestSupport, ResourceManager}
+import org.neo4j.cypher.internal.v3_5.util.{LoadExternalResourceException, TaskCloser}
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.cypher.internal.runtime.interpreted.CSVResources.DEFAULT_BUFFER_SIZE
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
-import org.neo4j.cypher.internal.util.v3_4.{LoadExternalResourceException, TaskCloser}
 import org.neo4j.io.fs.FileUtils
 
 class CSVResourcesTest extends CypherFunSuite with CreateTempFileTestSupport {
 
   var resources: CSVResources = _
-  var cleaner: TaskCloser = _
+  var cleaner: ResourceManager = _
 
   override def beforeEach() {
-    cleaner = mock[TaskCloser]
+    cleaner = mock[ResourceManager]
     resources = new CSVResources(cleaner)
   }
 
@@ -143,7 +124,7 @@ class CSVResourcesTest extends CypherFunSuite with CreateTempFileTestSupport {
     result should equal(List.empty)
   }
 
-  test("should register a task in the cleanupper") {
+  test("should register a task in the resource manager") {
     // given
     val url = createCSVTempFileURL {
       writer =>
@@ -156,7 +137,7 @@ class CSVResourcesTest extends CypherFunSuite with CreateTempFileTestSupport {
     resources.getCsvIterator(new URL(url), None, legacyCsvQuoteEscaping = false, DEFAULT_BUFFER_SIZE)
 
     // then
-    verify(cleaner, times(1)).addTask(any(classOf[Boolean => Unit]))
+    verify(cleaner, times(1)).trace(any(classOf[AutoCloseable]))
   }
 
   test("should accept and use a custom field terminator") {

@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -39,20 +20,16 @@
 package org.neo4j.cypher.internal.runtime.interpreted.pipes
 
 import java.net.URL
-import java.util
 
-import org.neo4j.cypher.internal.util.v3_4.LoadExternalResourceException
+import org.neo4j.cypher.internal.v3_5.util.LoadExternalResourceException
+import org.neo4j.cypher.internal.ir.v3_5.{CSVFormat, HasHeaders, NoHeaders}
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
-import org.neo4j.cypher.internal.ir.v3_4.{CSVFormat, HasHeaders, NoHeaders}
 import org.neo4j.cypher.internal.runtime.{ArrayBackedMap, QueryContext}
-import org.neo4j.cypher.internal.util.v3_4.attribution.Id
-
+import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 import org.neo4j.values._
 import org.neo4j.values.storable.{TextValue, Value, Values}
-import org.neo4j.values.virtual.VirtualValues
-
-import scala.collection.JavaConverters._
+import org.neo4j.values.virtual.{MapValueBuilder, VirtualValues}
 
 case class LoadCSVPipe(source: Pipe,
                        format: CSVFormat,
@@ -109,12 +86,13 @@ case class LoadCSVPipe(source: Pipe,
         //we need to make a copy here since someone may hold on this
         //reference, e.g. EagerPipe
 
-        val resultCopy = new util.HashMap[String, AnyValue](internalMap.size)
+
+        var builder = new MapValueBuilder
         for ((key, maybeNull) <- internalMap) {
           val value = if (maybeNull == null) Values.NO_VALUE else maybeNull
-          resultCopy.put(key, value)
+          builder.add(key, value)
         }
-        executionContextFactory.copyWith(context, variable, VirtualValues.map(resultCopy))
+        executionContextFactory.copyWith(context, variable, builder.build())
       } else null
     }
   }

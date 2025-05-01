@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -46,8 +27,9 @@ import java.util.zip.{GZIPInputStream, InflaterInputStream}
 
 import org.neo4j.csv.reader._
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.ExternalCSVResource
-import org.neo4j.cypher.internal.util.v3_4.{LoadExternalResourceException, TaskCloser}
+import org.neo4j.cypher.internal.v3_5.util.{LoadExternalResourceException, TaskCloser}
 import org.neo4j.cypher.CypherExecutionException
+import org.neo4j.cypher.internal.runtime.ResourceManager
 import sun.net.www.protocol.http.HttpURLConnection
 
 import scala.collection.mutable.ArrayBuffer
@@ -73,21 +55,23 @@ object CSVResources {
   }
 }
 
-class CSVResources(cleaner: TaskCloser) extends ExternalCSVResource {
+case class CSVResource(url: URL, resource: AutoCloseable) extends AutoCloseable {
+  override def close(): Unit = resource.close()
+}
+
+class CSVResources(resourceManager: ResourceManager) extends ExternalCSVResource {
 
   def getCsvIterator(url: URL, fieldTerminator: Option[String], legacyCsvQuoteEscaping: Boolean, bufferSize: Int,
                      headers: Boolean = false): Iterator[Array[String]] = {
 
     val reader: CharReadable = getReader(url)
     val delimiter: Char = fieldTerminator.map(_.charAt(0)).getOrElse(CSVResources.DEFAULT_FIELD_TERMINATOR)
-    val seeker = CharSeekers.charSeeker(reader, CSVResources.config(legacyCsvQuoteEscaping, bufferSize), true)
+    val seeker = CharSeekers.charSeeker(reader, CSVResources.config(legacyCsvQuoteEscaping, bufferSize), false)
     val extractor = new Extractors(delimiter).string()
     val intDelimiter = delimiter.toInt
     val mark = new Mark
 
-    cleaner.addTask(_ => {
-      seeker.close()
-    })
+    resourceManager.trace(CSVResource(url, seeker))
 
     new Iterator[Array[String]] {
       private def readNextRow: Array[String] = {

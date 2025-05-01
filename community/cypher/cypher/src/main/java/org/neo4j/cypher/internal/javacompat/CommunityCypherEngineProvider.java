@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,7 +19,10 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
-import org.neo4j.cypher.internal.CommunityCompatibilityFactory;
+import org.neo4j.cypher.internal.CommunityCompilerFactory;
+import org.neo4j.cypher.internal.CypherConfiguration;
+import org.neo4j.cypher.internal.compatibility.CypherRuntimeConfiguration;
+import org.neo4j.cypher.internal.compiler.v3_5.CypherPlannerConfiguration;
 import org.neo4j.graphdb.DependencyResolver;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.helpers.Service;
@@ -75,30 +59,33 @@ public class CommunityCypherEngineProvider extends QueryEngineProvider
         LogService logService = resolver.resolveDependency( LogService.class );
         Monitors monitors = resolver.resolveDependency( Monitors.class );
         Config config = resolver.resolveDependency( Config.class );
+        CypherConfiguration cypherConfig = CypherConfiguration.fromConfig( config );
+        CypherPlannerConfiguration plannerConfig = cypherConfig.toCypherPlannerConfiguration( config );
+        CypherRuntimeConfiguration runtimeConfig = cypherConfig.toCypherRuntimeConfiguration();
         LogProvider logProvider = logService.getInternalLogProvider();
-        CommunityCompatibilityFactory compatibilityFactory =
-                new CommunityCompatibilityFactory( queryService, monitors, logProvider );
-        deps.satisfyDependencies( compatibilityFactory );
-        return createEngine( queryService, config, logProvider, compatibilityFactory );
+        CommunityCompilerFactory compilerFactory =
+                new CommunityCompilerFactory( queryService, monitors, logProvider, plannerConfig, runtimeConfig );
+        deps.satisfyDependencies( compilerFactory );
+        return createEngine( queryService, config, logProvider, compilerFactory );
     }
 
     private QueryExecutionEngine createEngine( GraphDatabaseCypherService queryService, Config config,
-            LogProvider logProvider, CommunityCompatibilityFactory compatibilityFactory )
+                                               LogProvider logProvider, CommunityCompilerFactory compilerFactory )
     {
         return config.get( GraphDatabaseSettings.snapshot_query ) ?
-               snapshotEngine( queryService, config, logProvider, compatibilityFactory ) :
-               standardEngine( queryService, logProvider, compatibilityFactory );
+               snapshotEngine( queryService, config, logProvider, compilerFactory ) :
+               standardEngine( queryService, logProvider, compilerFactory );
     }
 
     private SnapshotExecutionEngine snapshotEngine( GraphDatabaseCypherService queryService, Config config,
-            LogProvider logProvider, CommunityCompatibilityFactory compatibilityFactory )
+                                                    LogProvider logProvider, CommunityCompilerFactory compilerFactory )
     {
-        return new SnapshotExecutionEngine( queryService, config, logProvider, compatibilityFactory );
+        return new SnapshotExecutionEngine( queryService, config, logProvider, compilerFactory );
     }
 
     private ExecutionEngine standardEngine( GraphDatabaseCypherService queryService, LogProvider logProvider,
-            CommunityCompatibilityFactory compatibilityFactory )
+                                            CommunityCompilerFactory compilerFactory )
     {
-        return new ExecutionEngine( queryService, logProvider, compatibilityFactory );
+        return new ExecutionEngine( queryService, logProvider, compilerFactory );
     }
 }

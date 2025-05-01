@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -41,7 +22,7 @@ package org.neo4j.cypher.internal.runtime.interpreted.commands.expressions
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.ListSupport
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.QueryState
-import org.neo4j.cypher.internal.util.v3_4.symbols._
+import org.neo4j.cypher.internal.v3_5.util.symbols._
 import org.neo4j.values.AnyValue
 
 case class ReduceFunction(collection: Expression, id: String, expression: Expression, acc: String, init: Expression)
@@ -50,10 +31,10 @@ case class ReduceFunction(collection: Expression, id: String, expression: Expres
   override def compute(value: AnyValue, m: ExecutionContext, state: QueryState) = {
     val list = makeTraversable(value)
     val iterator = list.iterator()
-    var contextWithAcc = m.copyWith(acc, init(m, state))
+    val contextWithAcc = m.copyWith(acc, init(m, state))
     while(iterator.hasNext) {
-      val innerMap = contextWithAcc.set(id, iterator.next())
-      contextWithAcc = contextWithAcc.set(acc, expression(innerMap, state))
+      contextWithAcc.set(id, iterator.next())
+      contextWithAcc.set(acc, expression(contextWithAcc, state))
     }
     contextWithAcc(acc)
   }
@@ -61,7 +42,7 @@ case class ReduceFunction(collection: Expression, id: String, expression: Expres
   def rewrite(f: (Expression) => Expression) =
     f(ReduceFunction(collection.rewrite(f), id, expression.rewrite(f), acc, init.rewrite(f)))
 
-  def arguments: Seq[Expression] = Seq(collection, init)
+  override def arguments: Seq[Expression] = Seq(collection, init)
 
   override def children = Seq(collection, expression, init)
 

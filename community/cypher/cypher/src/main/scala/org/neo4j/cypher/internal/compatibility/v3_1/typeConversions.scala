@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,23 +19,22 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_1
 
-import java.util.Collections
-
 import org.neo4j.cypher.internal.compiler.v3_1.helpers.RuntimeTypeConverter
 import org.neo4j.cypher.internal.compiler.v3_1.{CRS, Coordinate, Geometry, Point}
 import org.neo4j.cypher.internal.frontend.v3_1.helpers.Eagerly
 import org.neo4j.graphdb.spatial
+import org.neo4j.values.storable.{CoordinateReferenceSystem, Values}
 
 import scala.collection.JavaConverters._
 
 object typeConversions extends RuntimeTypeConverter {
-  override def asPublicType = {
+  override def asPublicType: Any => Any = {
     case point: Point => asPublicPoint(point)
-    case geometry: Geometry => asPublicGeometry(geometry)
+    case geometry: Geometry => throw new IllegalStateException("There are no non-point geometries in 3.1")
     case other => other
   }
 
-  override def asPrivateType = {
+  override def asPrivateType: Any => Any = {
     case map: Map[_, _] => asPrivateMap(map.asInstanceOf[Map[String, Any]])
     case seq: Seq[_] => seq.map(asPrivateType)
     case javaMap: java.util.Map[_, _] => Eagerly.immutableMapValues(javaMap.asScala, asPrivateType)
@@ -65,32 +45,8 @@ object typeConversions extends RuntimeTypeConverter {
     case value => value
   }
 
-  private def asPublicPoint(point: Point) = new spatial.Point {
-    override def getGeometryType = "Point"
-
-    override def getCRS: spatial.CRS = asPublicCRS(point.crs)
-
-    override def getCoordinates: java.util.List[spatial.Coordinate] = Collections
-      .singletonList(new spatial.Coordinate(point.coordinate.values: _*))
-  }
-
-  private def asPublicGeometry(geometry: Geometry) = new spatial.Geometry {
-    override def getGeometryType: String = geometry.geometryType
-
-    override def getCRS: spatial.CRS = asPublicCRS(geometry.crs)
-
-    override def getCoordinates = geometry.coordinates.map { c =>
-      new spatial.Coordinate(c.values: _*)
-    }.toIndexedSeq.asJava
-  }
-
-  private def asPublicCRS(crs: CRS) = new spatial.CRS {
-    override def getType: String = crs.name
-
-    override def getHref: String = crs.url
-
-    override def getCode: Int = crs.code
-  }
+  private def asPublicPoint(point: Point): org.neo4j.graphdb.spatial.Point =
+    Values.pointValue(CoordinateReferenceSystem.get(point.crs.url), point.coordinate.values:_*)
 
   def asPrivateMap(incoming: Map[String, Any]): Map[String, Any] =
     Eagerly.immutableMapValues[String,Any, Any](incoming, asPrivateType)
