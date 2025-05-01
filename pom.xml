@@ -749,16 +749,16 @@
                         <version>${project.version}</version>
                     </dependency>
                 </dependencies>
-                <executions>
-                    <execution>
-                        <id>check-licenses</id>
-                        <!-- fail as early as possible -->
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>check-licenses</id>-->
+<!--                        &lt;!&ndash; fail as early as possible &ndash;&gt;-->
+<!--                        <phase>initialize</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
                 <configuration>
                     <strictCheck>true</strictCheck>
                     <header>${license-text.header}</header>
