@@ -21,7 +21,6 @@ package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.net.URL
 import java.util.function.Predicate
-
 import org.eclipse.collections.api.iterator.LongIterator
 import org.neo4j.collection.PrimitiveLongResourceIterator
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
@@ -51,7 +50,8 @@ import org.neo4j.kernel.api.exceptions.schema.{AlreadyConstrainedException, Alre
 import org.neo4j.kernel.api.schema.SchemaDescriptorFactory
 import org.neo4j.kernel.api.schema.constraints.ConstraintDescriptorFactory
 import org.neo4j.kernel.api.{SilentTokenNameLookup, StatementConstants}
-import org.neo4j.kernel.impl.api.store.RelationshipIterator
+import org.neo4j.kernel.guard.TerminationGuard
+import org.neo4j.kernel.impl.api.store.{DefaultIndexReference, RelationshipIterator}
 import org.neo4j.kernel.impl.core.{EmbeddedProxySPI, ThreadToStatementContextBridge}
 import org.neo4j.kernel.impl.coreapi.PropertyContainerLocker
 import org.neo4j.kernel.impl.query.Neo4jTransactionalContext
@@ -89,11 +89,12 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
       get
     val locker = new PropertyContainerLocker
     val query = transactionalContext.tc.executingQuery()
+    val guard = new TerminationGuard
 
     val context = transactionalContext.tc.asInstanceOf[Neo4jTransactionalContext]
     val newTx = transactionalContext.graph.beginTransaction(context.transactionType, context.securityContext)
-    val neo4jTransactionalContext = context.copyFrom(context.graph, statementProvider, locker, newTx,
-      statementProvider.get(), query)
+    val neo4jTransactionalContext = context.copyFrom(context.graph, guard, statementProvider, locker, newTx, statementProvider.get(), query)
+
     new TransactionBoundQueryContext(TransactionalContextWrapper(neo4jTransactionalContext))
   }
 
@@ -169,16 +170,13 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
   }
 
   override def isLabelSetOnNode(label: Int, node: Long): Boolean = {
-    if (label == StatementConstants.NO_SUCH_LABEL) false
-    else {
-      val cursor = allocateNodeCursor()
-      try {
-        reads().singleNode(node, cursor)
-        if (!cursor.next()) false
-        else cursor.hasLabel(label)
-      } finally {
-        cursor.close()
-      }
+    val cursor = allocateNodeCursor()
+    try {
+      reads().singleNode(node, cursor)
+      if (!cursor.next()) false
+      else cursor.labels().contains(label)
+    } finally {
+      cursor.close()
     }
   }
 
@@ -334,13 +332,13 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
                                                      needsValues: Boolean,
                                                      indexOrder: IndexOrder,
                                                      value: TextValue): NodeValueIndexCursor =
-    seek(index, needsValues, indexOrder, IndexQuery.stringContains(index.properties()(0), value))
+    seek(index, needsValues, indexOrder, IndexQuery.stringContains(index.properties()(0), value.stringValue()))
 
   override def indexSeekByEndsWith[RESULT <: AnyRef](index: IndexReference,
                                                      needsValues: Boolean,
                                                      indexOrder: IndexOrder,
                                                      value: TextValue): NodeValueIndexCursor =
-    seek(index, needsValues, indexOrder, IndexQuery.stringSuffix(index.properties()(0), value))
+    seek(index, needsValues, indexOrder, IndexQuery.stringSuffix(index.properties()(0), value.stringValue()))
 
   override def lockingUniqueIndexSeek[RESULT](indexReference: IndexReference,
                                               queries: Seq[IndexQuery.ExactPredicate]): NodeValueIndexCursor = {
@@ -349,7 +347,7 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
     if (queries.exists(q => q.value() == Values.NO_VALUE))
       NodeValueHit.EMPTY
     else {
-      val index = transactionalContext.kernelTransaction.schemaRead().indexReferenceUnchecked(indexReference.schema())
+      val index = DefaultIndexReference.general(indexReference.label(), indexReference.properties(): _*)
       val resultNodeId = reads().lockingNodeUniqueIndexSeek(index, queries: _*)
       if (StatementConstants.NO_SUCH_NODE == resultNodeId) {
         NodeValueHit.EMPTY

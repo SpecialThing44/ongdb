@@ -118,7 +118,7 @@ abstract class Read implements TxStateHolder,
     public final void nodeIndexSeek(
             IndexReference index,
             NodeValueIndexCursor cursor,
-            IndexOrder indexOrder,
+            IndexOrder indexOrder, boolean needsValues,
             IndexQuery... query ) throws IndexNotApplicableKernelException, IndexNotFoundKernelException
     {
         ktx.assertOpen();
@@ -132,7 +132,7 @@ abstract class Read implements TxStateHolder,
         IndexReader reader = indexReader( index, false );
         cursorImpl.setRead( this );
         IndexProgressor.NodeValueClient target = withFullValuePrecision( cursorImpl, query, reader );
-        reader.query( target, indexOrder, query );
+        reader.query( target, indexOrder, needsValues, query );
     }
 
     @Override
@@ -236,14 +236,14 @@ abstract class Read implements TxStateHolder,
     {
         cursor.setRead( this );
         IndexProgressor.NodeValueClient target = withFullValuePrecision( cursor, query, indexReader );
-        indexReader.query( target, IndexOrder.NONE, query );
+        indexReader.query( target, IndexOrder.NONE, false, query );
     }
 
     @Override
     public final void nodeIndexScan(
             IndexReference index,
             NodeValueIndexCursor cursor,
-            IndexOrder indexOrder ) throws KernelException
+            IndexOrder indexOrder, boolean needsValues ) throws KernelException
     {
         ktx.assertOpen();
         if ( hasForbiddenProperties( index ) )
@@ -255,7 +255,7 @@ abstract class Read implements TxStateHolder,
         // for a scan, we simply query for existence of the first property, which covers all entries in an index
         int firstProperty = index.properties()[0];
         ((DefaultNodeValueIndexCursor) cursor).setRead( this );
-        indexReader( index, false ).query( (DefaultNodeValueIndexCursor) cursor, indexOrder, IndexQuery.exists( firstProperty ) );
+        indexReader( index, false ).query( (DefaultNodeValueIndexCursor) cursor, indexOrder, needsValues, IndexQuery.exists( firstProperty ) );
     }
 
     private boolean hasForbiddenProperties( IndexReference index )

@@ -41,6 +41,7 @@ package org.neo4j.kernel.impl.newapi;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -175,6 +176,7 @@ public class AllStoreHolder extends Read
         }
         return storeReadLayer.nodeExists( reference );
     }
+    
 
     @Override
     public long countsForNode( int labelId )

@@ -58,7 +58,7 @@ public interface Read
      * {@link IndexReference referenced index}, or {@link IndexOrder#NONE}.
      * @param query Combination of {@link IndexQuery index queries} to run against referenced index.
      */
-    void nodeIndexSeek( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder, IndexQuery... query )
+    void nodeIndexSeek( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder, boolean needsValues, IndexQuery... query )
             throws KernelException;
 
     /**
@@ -101,7 +101,7 @@ public interface Read
      * @param indexOrder requested {@link IndexOrder} of result. Must be among the capabilities of
      * {@link IndexReference referenced index}, or {@link IndexOrder#NONE}.
      */
-    void nodeIndexScan( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder ) throws KernelException;
+    void nodeIndexScan( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder, boolean needsValues ) throws KernelException;
 
     void nodeLabelScan( int label, NodeLabelIndexCursor cursor );
 

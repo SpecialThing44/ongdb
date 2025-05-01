@@ -849,7 +849,7 @@ public class MultipleOpenCursorsTest
         {
             NodeValueIndexCursor cursor = ktx.cursors().allocateNodeValueIndexCursor();
             ktx.dataRead().nodeIndexSeek( DefaultIndexReference.fromDescriptor( indexDescriptor ),
-                    cursor, IndexOrder.NONE, indexQueries );
+                    cursor, IndexOrder.NONE, false, indexQueries );
             return cursor;
         }
     }

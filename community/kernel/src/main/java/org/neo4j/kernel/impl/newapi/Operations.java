@@ -116,13 +116,13 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static org.neo4j.internal.kernel.api.exceptions.schema.ConstraintValidationException.Phase.VALIDATION;
 import static org.neo4j.internal.kernel.api.exceptions.schema.SchemaKernelException.OperationContext.CONSTRAINT_CREATION;
-import static org.neo4j.kernel.api.StatementConstants.NO_SUCH_NODE;
-import static org.neo4j.kernel.api.StatementConstants.NO_SUCH_PROPERTY_KEY;
+import static org.neo4j.kernel.api.StatementConstants.*;
 import static org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor.Type.UNIQUE;
 import static org.neo4j.kernel.impl.locking.ResourceTypes.INDEX_ENTRY;
 import static org.neo4j.kernel.impl.locking.ResourceTypes.indexEntryResourceId;
 import static org.neo4j.kernel.impl.newapi.IndexTxStateUpdater.LabelChangeType.ADDED_LABEL;
 import static org.neo4j.kernel.impl.newapi.IndexTxStateUpdater.LabelChangeType.REMOVED_LABEL;
+import static org.neo4j.storageengine.api.EntityType.NODE;
 import static org.neo4j.values.storable.Values.NO_VALUE;
 
 
@@ -186,6 +186,69 @@ public class Operations implements Write, ExplicitIndexWrite, SchemaWrite
         long nodeId = statement.reserveNode();
         ktx.txState().nodeDoCreate( nodeId );
         return nodeId;
+    }
+
+    @Override
+    public long nodeCreateWithLabels( int[] labels ) throws ConstraintValidationException
+    {
+        if ( labels == null || labels.length == 0 )
+        {
+            return nodeCreate();
+        }
+
+        // We don't need to check the node for existence, like we do in nodeAddLabel, because we just created it.
+        // We also don't need to check if the node already has some of the labels, because we know it has none.
+        // And we don't need to take the exclusive lock on the node, because it was created in this transaction and
+        // isn't visible to anyone else yet.
+        ktx.assertOpen();
+        long[] lockingIds = SchemaDescriptor.schemaTokenLockingIds( labels );
+        Arrays.sort( lockingIds ); // Sort to ensure labels are locked and assigned in order.
+        ktx.statementLocks().optimistic().acquireShared( ktx.lockTracer(), ResourceTypes.LABEL, lockingIds );
+        long nodeId = statement.reserveNode();
+        ktx.txState().nodeDoCreate( nodeId );
+        nodeCursor.single( nodeId, allStoreHolder );
+        nodeCursor.next();
+
+        int prevLabel = NO_SUCH_LABEL;
+        for ( long lockingId : lockingIds )
+        {
+            int label = (int) lockingId;
+            if ( label != prevLabel ) // Filter out duplicates.
+            {
+                checkConstraintsAndAddLabelToNode( nodeId, label );
+                prevLabel = label;
+            }
+        }
+        return nodeId;
+    }
+
+    private void checkConstraintsAndAddLabelToNode( long node, int nodeLabel )
+            throws UniquePropertyValueValidationException, UnableToValidateConstraintException
+    {
+        // Load the property key id list for this node. We may need it for constraint validation if there are any related constraints,
+        // but regardless we need it for tx state updating
+        int[] existingPropertyKeyIds = loadSortedPropertyKeyList();
+
+        //Check so that we are not breaking uniqueness constraints
+        //We do this by checking if there is an existing node in the index that
+        //with the same label and property combination.
+        if ( existingPropertyKeyIds.length > 0 )
+        {
+            for ( IndexBackedConstraintDescriptor uniquenessConstraint : indexingService.getRelatedUniquenessConstraints( new long[]{nodeLabel},
+                    existingPropertyKeyIds, NODE ) )
+            {
+                IndexQuery.ExactPredicate[] propertyValues = getAllPropertyValues( uniquenessConstraint.schema(),
+                        StatementConstants.NO_SUCH_PROPERTY_KEY, Values.NO_VALUE );
+                if ( propertyValues != null )
+                {
+                    validateNoExistingNodeWithExactValues( uniquenessConstraint, propertyValues, node );
+                }
+            }
+        }
+
+        //node is there and doesn't already have the label, let's add
+        ktx.txState().nodeDoAddLabel( nodeLabel, node );
+        updater.onLabelChange( nodeLabel, existingPropertyKeyIds, nodeCursor, propertyCursor, ADDED_LABEL );
     }
 
     @Override
