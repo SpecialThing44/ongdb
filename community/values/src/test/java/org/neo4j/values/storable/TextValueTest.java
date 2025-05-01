@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -85,10 +66,10 @@ public class TextValueTest
         assertThat( value.apply( "hello" ).substring( 2, 5 ), equalTo( value.apply( "llo" ) ) );
         assertThat( value.apply( "hello" ).substring( 4, 5 ), equalTo( value.apply( "o" ) ) );
         assertThat( value.apply( "hello" ).substring( 1, 3 ), equalTo( value.apply( "ell" ) ) );
-        assertThat( value.apply( "hello" ).substring( 8, 5 ), equalTo( StringValue.EMTPY ) );
+        assertThat( value.apply( "hello" ).substring( 8, 5 ), equalTo( StringValue.EMPTY ) );
         assertThat( value.apply( "0123456789" ).substring( 1 ), equalTo( value.apply( "123456789" ) ) );
         assertThat( value.apply( "0123456789" ).substring( 5 ), equalTo( value.apply( "56789" ) ) );
-        assertThat( value.apply( "0123456789" ).substring( 15 ), equalTo( StringValue.EMTPY ) );
+        assertThat( value.apply( "0123456789" ).substring( 15 ), equalTo( StringValue.EMPTY ) );
         assertThat( value.apply( "\uD83D\uDE21\uD83D\uDCA9\uD83D\uDC7B" ).substring( 1, 1 ),
                 equalTo( value.apply( "\uD83D\uDCA9" ) ) );
         assertThat( value.apply( "\uD83D\uDE21\uD83D\uDCA9\uD83D\uDC7B" ).substring( 1, 2 ),
@@ -148,7 +129,7 @@ public class TextValueTest
     public void reverse()
     {
         assertThat( value.apply( "Foo" ).reverse(), equalTo( value.apply( "ooF" ) ) );
-        assertThat( value.apply( "" ).reverse(), equalTo( StringValue.EMTPY ) );
+        assertThat( value.apply( "" ).reverse(), equalTo( StringValue.EMPTY ) );
         assertThat( value.apply( " L" ).reverse(), equalTo( value.apply( "L " ) ) );
         assertThat( value.apply( "\r\n" ).reverse(), equalTo( value.apply( "\n\r" ) ) );
         assertThat( value.apply( "\uD801\uDC37" ).reverse(), equalTo( value.apply( "\uD801\uDC37" ) ) );

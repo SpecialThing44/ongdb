@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,9 +19,9 @@
  */
 package org.neo4j.values.storable;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.neo4j.values.storable.Values.booleanArray;
 import static org.neo4j.values.storable.Values.booleanValue;
 import static org.neo4j.values.storable.Values.byteArray;
@@ -61,14 +42,14 @@ import static org.neo4j.values.storable.Values.stringArray;
 import static org.neo4j.values.storable.Values.stringValue;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
 
-public class ValuesTest
+class ValuesTest
 {
     @Test
-    public void shouldBeEqualToItself()
+    void shouldBeEqualToItself()
     {
         assertEqual( booleanValue( false ), booleanValue( false ) );
-        assertEqual( byteValue( (byte)0 ), byteValue( (byte)0 ) );
-        assertEqual( shortValue( (short)0 ), shortValue( (short)0 ) );
+        assertEqual( byteValue( (byte) 0 ), byteValue( (byte) 0 ) );
+        assertEqual( shortValue( (short) 0 ), shortValue( (short) 0 ) );
         assertEqual( intValue( 0 ), intValue( 0 ) );
         assertEqual( longValue( 0 ), longValue( 0 ) );
         assertEqual( floatValue( 0.0f ), floatValue( 0.0f ) );
@@ -76,8 +57,8 @@ public class ValuesTest
         assertEqual( stringValue( "" ), stringValue( "" ) );
 
         assertEqual( booleanValue( true ), booleanValue( true ) );
-        assertEqual( byteValue( (byte)1 ), byteValue( (byte)1 ) );
-        assertEqual( shortValue( (short)1 ), shortValue( (short)1 ) );
+        assertEqual( byteValue( (byte) 1 ), byteValue( (byte) 1 ) );
+        assertEqual( shortValue( (short) 1 ), shortValue( (short) 1 ) );
         assertEqual( intValue( 1 ), intValue( 1 ) );
         assertEqual( longValue( 1 ), longValue( 1 ) );
         assertEqual( floatValue( 1.0f ), floatValue( 1.0f ) );
@@ -107,24 +88,11 @@ public class ValuesTest
     }
 
     @Test
-    public void pointValueShouldRequireConsistentInput()
+    void pointValueShouldRequireConsistentInput()
     {
-        assertThrowsIllegalArgument( CoordinateReferenceSystem.Cartesian, 1, 2, 3 );
-        assertThrowsIllegalArgument( CoordinateReferenceSystem.Cartesian_3D, 1, 2 );
-        assertThrowsIllegalArgument( CoordinateReferenceSystem.WGS84, 1, 2, 3 );
-        assertThrowsIllegalArgument( CoordinateReferenceSystem.WGS84_3D, 1, 2 );
-    }
-
-    private void assertThrowsIllegalArgument( CoordinateReferenceSystem crs, double... coordinates )
-    {
-        try
-        {
-            Values.pointValue( crs, coordinates );
-            fail( "exception expected" );
-        }
-        catch ( IllegalArgumentException e )
-        {
-            // this is what we want
-        }
+        assertThrows( IllegalArgumentException.class, () -> Values.pointValue( CoordinateReferenceSystem.Cartesian, 1, 2, 3 ) );
+        assertThrows( IllegalArgumentException.class, () -> Values.pointValue( CoordinateReferenceSystem.Cartesian_3D, 1, 2 ) );
+        assertThrows( IllegalArgumentException.class, () -> Values.pointValue( CoordinateReferenceSystem.WGS84, 1, 2, 3 ) );
+        assertThrows( IllegalArgumentException.class, () -> Values.pointValue( CoordinateReferenceSystem.WGS84_3D, 1, 2 ) );
     }
 }

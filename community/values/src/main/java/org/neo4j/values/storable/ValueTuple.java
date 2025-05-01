@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -39,6 +20,8 @@
 package org.neo4j.values.storable;
 
 import java.util.Comparator;
+
+import static org.neo4j.values.utils.ValueMath.HASH_CONSTANT;
 
 /**
  * A tuple of n values.
@@ -66,7 +49,7 @@ public class ValueTuple
 
     private final Value[] values;
 
-    private ValueTuple( Value[] values )
+    protected ValueTuple( Value[] values )
     {
         this.values = values;
     }
@@ -79,6 +62,14 @@ public class ValueTuple
     public Value valueAt( int offset )
     {
         return values[offset];
+    }
+
+    /**
+     * WARNING: this method does not create a defensive copy. Do not modify the returned array.
+     */
+    public Value[] getValues()
+    {
+        return values;
     }
 
     @Override
@@ -116,7 +107,7 @@ public class ValueTuple
         int result = 1;
         for ( Object value : values )
         {
-            result = 31 * result + value.hashCode();
+            result = HASH_CONSTANT * result + value.hashCode();
         }
         return result;
     }

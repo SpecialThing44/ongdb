@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -51,13 +32,11 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 import org.neo4j.graphdb.spatial.CRS;
 import org.neo4j.graphdb.spatial.Point;
-import org.neo4j.values.TernaryComparator;
 
 import static java.lang.String.format;
 import static org.neo4j.values.storable.DateTimeValue.datetime;
@@ -86,11 +65,11 @@ public final class Values
     public static final Value MAX_NUMBER = Values.doubleValue( Double.NaN );
     public static final Value ZERO_FLOAT = Values.doubleValue( 0.0 );
     public static final IntegralValue ZERO_INT = Values.longValue( 0 );
-    public static final Value MIN_STRING = StringValue.EMTPY;
+    public static final Value MIN_STRING = StringValue.EMPTY;
     public static final Value MAX_STRING = Values.booleanValue( false );
     public static final BooleanValue TRUE = Values.booleanValue( true );
     public static final BooleanValue FALSE = Values.booleanValue( false );
-    public static final TextValue EMPTY_STRING = StringValue.EMTPY;
+    public static final TextValue EMPTY_STRING = StringValue.EMPTY;
     public static final DoubleValue E = Values.doubleValue( Math.E );
     public static final DoubleValue PI = Values.doubleValue( Math.PI );
     public static final ArrayValue EMPTY_SHORT_ARRAY = Values.shortArray( new short[0] );
@@ -140,9 +119,19 @@ public final class Values
         return value instanceof PointValue;
     }
 
+    public static boolean isGeometryArray( Value value )
+    {
+        return value instanceof PointArray;
+    }
+
     public static boolean isTemporalValue( Value value )
     {
         return value instanceof TemporalValue || value instanceof DurationValue;
+    }
+
+    public static boolean isTemporalArray( Value value )
+    {
+        return value instanceof TemporalArray || value instanceof DurationArray;
     }
 
     public static double coerceToDouble( Value value )
@@ -463,37 +452,37 @@ public final class Values
         return duration;
     }
 
-    public static ArrayValue dateTimeArray( ZonedDateTime[] values )
+    public static DateTimeArray dateTimeArray( ZonedDateTime[] values )
     {
         return new DateTimeArray( values );
     }
 
-    public static ArrayValue localDateTimeArray( LocalDateTime[] values )
+    public static LocalDateTimeArray localDateTimeArray( LocalDateTime[] values )
     {
         return new LocalDateTimeArray( values );
     }
 
-    public static ArrayValue localTimeArray( LocalTime[] values )
+    public static LocalTimeArray localTimeArray( LocalTime[] values )
     {
         return new LocalTimeArray( values );
     }
 
-    public static ArrayValue timeArray( OffsetTime[] values )
+    public static TimeArray timeArray( OffsetTime[] values )
     {
         return new TimeArray( values );
     }
 
-    public static ArrayValue dateArray( LocalDate[] values )
+    public static DateArray dateArray( LocalDate[] values )
     {
         return new DateArray( values );
     }
 
-    public static ArrayValue durationArray( DurationValue[] values )
+    public static DurationArray durationArray( DurationValue[] values )
     {
         return new DurationArray( values );
     }
 
-    public static ArrayValue durationArray( TemporalAmount[] values )
+    public static DurationArray durationArray( TemporalAmount[] values )
     {
         DurationValue[] durations = new DurationValue[values.length];
         for ( int i = 0; i < values.length; i++ )

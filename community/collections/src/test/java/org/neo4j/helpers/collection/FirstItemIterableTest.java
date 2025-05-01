@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,30 +19,29 @@
  */
 package org.neo4j.helpers.collection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-/**
- * @author mh
- * @since 19.04.12
- */
-public class FirstItemIterableTest
+class FirstItemIterableTest
 {
     @Test
-    public void testEmptyIterator()
+    void testEmptyIterator()
     {
         FirstItemIterable<?> firstItemIterable = new FirstItemIterable<>( Collections.emptyList() );
         Iterator<?> empty = firstItemIterable.iterator();
-        assertEquals( false, empty.hasNext() );
+        assertFalse( empty.hasNext() );
         try
         {
             empty.next();
@@ -71,18 +51,18 @@ public class FirstItemIterableTest
         {
             assertThat( e, instanceOf( NoSuchElementException.class ) );
         }
-        assertEquals( null, firstItemIterable.getFirst() );
+        assertNull( firstItemIterable.getFirst() );
     }
 
     @Test
-    public void testSingleIterator()
+    void testSingleIterator()
     {
         FirstItemIterable<Boolean> firstItemIterable = new FirstItemIterable<>( Collections.singleton( Boolean.TRUE ) );
         Iterator<Boolean> empty = firstItemIterable.iterator();
-        assertEquals( true, empty.hasNext() );
+        assertTrue( empty.hasNext() );
         assertEquals( Boolean.TRUE, empty.next() );
         assertEquals( Boolean.TRUE, firstItemIterable.getFirst() );
-        assertEquals( false, empty.hasNext() );
+        assertFalse( empty.hasNext() );
         try
         {
             empty.next();
@@ -96,17 +76,17 @@ public class FirstItemIterableTest
     }
 
     @Test
-    public void testMultiIterator()
+    void testMultiIterator()
     {
         FirstItemIterable<Boolean> firstItemIterable = new FirstItemIterable<>( asList( Boolean.TRUE, Boolean.FALSE ) );
         Iterator<Boolean> empty = firstItemIterable.iterator();
-        assertEquals( true, empty.hasNext() );
+        assertTrue( empty.hasNext() );
         assertEquals( Boolean.TRUE, empty.next() );
         assertEquals( Boolean.TRUE, firstItemIterable.getFirst() );
-        assertEquals( true, empty.hasNext() );
+        assertTrue( empty.hasNext() );
         assertEquals( Boolean.FALSE, empty.next() );
         assertEquals( Boolean.TRUE, firstItemIterable.getFirst() );
-        assertEquals( false, empty.hasNext() );
+        assertFalse( empty.hasNext() );
         try
         {
             empty.next();

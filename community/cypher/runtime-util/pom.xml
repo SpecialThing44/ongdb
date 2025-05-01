@@ -62,32 +62,32 @@
     <!-- neo4j -->
 
     <dependency>
-      <groupId>org.neo4j</groupId>
+      <groupId>org.graphfoundation.ongdb</groupId>
       <artifactId>ongdb-geequel-logical-plans-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-cypher-planner-spi-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-geequel-planner-spi-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
+      <groupId>org.graphfoundation.ongdb</groupId>
       <artifactId>ongdb-values</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-graphdb-api</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-graphdb-api</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-kernel</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-kernel</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -145,8 +145,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-kernel</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-kernel</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>

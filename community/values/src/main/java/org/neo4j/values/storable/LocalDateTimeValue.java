@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -51,7 +32,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.IsoFields;
 import java.time.temporal.TemporalUnit;
-import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,7 +43,6 @@ import org.neo4j.values.ValueMapper;
 import org.neo4j.values.utils.InvalidValuesArgumentException;
 import org.neo4j.values.utils.UnsupportedTemporalUnitException;
 import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.VirtualValues;
 
 import static java.time.Instant.ofEpochSecond;
 import static java.time.LocalDateTime.ofInstant;
@@ -99,7 +78,12 @@ public final class LocalDateTimeValue extends TemporalValue<LocalDateTime,LocalD
 
     public static LocalDateTimeValue localDateTime( long epochSecond, long nano )
     {
-        return new LocalDateTimeValue( assertValidArgument( () -> ofInstant( ofEpochSecond( epochSecond, nano ), UTC ) ) );
+        return new LocalDateTimeValue( localDateTimeRaw( epochSecond, nano ) );
+    }
+
+    public static LocalDateTime localDateTimeRaw( long epochSecond, long nano )
+    {
+        return assertValidArgument( () -> ofInstant( ofEpochSecond( epochSecond, nano ), UTC ) );
     }
 
     public static LocalDateTimeValue parse( CharSequence text )
@@ -156,14 +140,18 @@ public final class LocalDateTimeValue extends TemporalValue<LocalDateTime,LocalD
         }
         else
         {
-            Map<String,AnyValue> updatedFields = fields.getMapCopy();
-            truncatedLDT = updateFieldMapWithConflictingSubseconds( updatedFields, unit, truncatedLDT );
-            if ( updatedFields.size() == 0 )
-            {
-                return localDateTime( truncatedLDT );
-            }
-            updatedFields.put( "datetime", localDateTime( truncatedLDT ) );
-            return build( VirtualValues.map( updatedFields ), defaultZone );
+            return updateFieldMapWithConflictingSubseconds( fields, unit, truncatedLDT,
+                    ( mapValue, localDateTime ) -> {
+                        if ( mapValue.size() == 0 )
+                        {
+                            return localDateTime( localDateTime );
+                        }
+                        else
+                        {
+                            return build( mapValue.updatedWith( "datetime", localDateTime( localDateTime ) ),
+                                    defaultZone );
+                        }
+                    } );
         }
     }
 

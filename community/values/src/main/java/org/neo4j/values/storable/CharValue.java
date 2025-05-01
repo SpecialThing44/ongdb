@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -46,6 +27,7 @@ import org.neo4j.values.ValueMapper;
 import org.neo4j.values.virtual.ListValue;
 
 import static java.lang.String.format;
+import static org.neo4j.values.utils.ValueMath.HASH_CONSTANT;
 import static org.neo4j.values.virtual.VirtualValues.list;
 
 public final class CharValue extends TextValue
@@ -60,7 +42,7 @@ public final class CharValue extends TextValue
     @Override
     public boolean eq( Object other )
     {
-        return other != null && other instanceof Value && equals( (Value) other );
+        return other instanceof Value && equals( (Value) other );
     }
 
     @Override
@@ -85,7 +67,7 @@ public final class CharValue extends TextValue
     public int computeHash()
     {
         //The 31 is there to give it the same hash as the string equivalent
-        return 31 + value;
+        return HASH_CONSTANT + value;
     }
 
     @Override
@@ -135,7 +117,7 @@ public final class CharValue extends TextValue
     {
         if ( length != 1 && start != 0 )
         {
-            return StringValue.EMTPY;
+            return StringValue.EMPTY;
         }
 
         return this;
@@ -146,7 +128,7 @@ public final class CharValue extends TextValue
     {
         if ( Character.isWhitespace( value ) )
         {
-            return StringValue.EMTPY;
+            return StringValue.EMPTY;
         }
         else
         {
@@ -210,6 +192,30 @@ public final class CharValue extends TextValue
     public TextValue reverse()
     {
         return this;
+    }
+
+    @Override
+    public TextValue plus( TextValue other )
+    {
+        return Values.stringValue( value + other.stringValue() );
+    }
+
+    @Override
+    public boolean startsWith( TextValue other )
+    {
+        return other.length() == 1 && other.stringValue().charAt( 0 ) == value;
+    }
+
+    @Override
+    public boolean endsWith( TextValue other )
+    {
+        return startsWith( other );
+    }
+
+    @Override
+    public boolean contains( TextValue other )
+    {
+        return startsWith( other );
     }
 
     public char value()

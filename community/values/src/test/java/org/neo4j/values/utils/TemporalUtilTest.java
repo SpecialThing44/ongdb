@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,7 +19,7 @@
  */
 package org.neo4j.values.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -46,12 +27,12 @@ import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TemporalUtilTest
+class TemporalUtilTest
 {
     @Test
-    public void shouldDoNothingForOffsetWithoutSeconds()
+    void shouldDoNothingForOffsetWithoutSeconds()
     {
         OffsetTime time = OffsetTime.of( 23, 30, 10, 0, ZoneOffset.ofHoursMinutes( -5, -30 ) );
 
@@ -61,7 +42,7 @@ public class TemporalUtilTest
     }
 
     @Test
-    public void shouldTruncateOffsetSeconds()
+    void shouldTruncateOffsetSeconds()
     {
         OffsetTime time = OffsetTime.of( 14, 55, 50, 0, ZoneOffset.ofHoursMinutesSeconds( 2, 15, 45 ) );
 
@@ -71,7 +52,7 @@ public class TemporalUtilTest
     }
 
     @Test
-    public void shouldConvertNanosOfDayToUTCWhenOffsetIsZero()
+    void shouldConvertNanosOfDayToUTCWhenOffsetIsZero()
     {
         int nanosOfDayLocal = 42;
 
@@ -81,7 +62,7 @@ public class TemporalUtilTest
     }
 
     @Test
-    public void shouldConvertNanosOfDayToUTC()
+    void shouldConvertNanosOfDayToUTC()
     {
         int nanosOfDayLocal = 42;
         Duration offsetDuration = Duration.ofMinutes( 35 );
@@ -92,7 +73,7 @@ public class TemporalUtilTest
     }
 
     @Test
-    public void shouldGetNanosOfDayUTC()
+    void shouldGetNanosOfDayUTC()
     {
         LocalTime localTime = LocalTime.of( 14, 19, 18, 123999 );
         ZoneOffset offset = ZoneOffset.ofHours( -12 );

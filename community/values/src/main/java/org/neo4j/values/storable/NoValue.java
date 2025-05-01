@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -48,10 +29,10 @@ import org.neo4j.values.ValueMapper;
  * The NULL object of the Value world. Is implemented as a singleton, to allow direct reference equality checks (==),
  * and avoid unnecessary object creation.
  */
-final class NoValue extends Value
+public final class NoValue extends Value
 {
     @SuppressWarnings( "WeakerAccess" )
-    static final NoValue NO_VALUE = new NoValue();
+    public static final NoValue NO_VALUE = new NoValue();
 
     private NoValue()
     {

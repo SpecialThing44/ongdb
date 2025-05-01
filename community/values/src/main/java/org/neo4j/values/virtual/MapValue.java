@@ -19,6 +19,18 @@
  */
 package org.neo4j.values.virtual;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
+import java.util.stream.StreamSupport;
+
 import org.neo4j.function.ThrowingBiConsumer;
 import org.neo4j.helpers.collection.PrefetchingIterator;
 import org.neo4j.values.AnyValue;
@@ -26,10 +38,6 @@ import org.neo4j.values.AnyValueWriter;
 import org.neo4j.values.ValueMapper;
 import org.neo4j.values.VirtualValue;
 import org.neo4j.values.storable.Values;
-
-import java.util.*;
-import java.util.function.BiFunction;
-import java.util.stream.StreamSupport;
 
 import static org.neo4j.values.storable.Values.NO_VALUE;
 

@@ -112,16 +112,16 @@
                         ^((org.graphfoundation.ongdb){1}|(org.graphfoundation.ongdb.app){1}|(org.graphfoundation.ongdb.server.plugin){1}|(org.graphfoundation.ongdb.assembly){1})$
                     </excludedGroups>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>list-all-licenses</id>
-                        <configuration>
-                            <licensingRequirementFiles combine.children="append">
-                                <licensingRequirementFile>licensing/licensing-requirements-browser.xml</licensingRequirementFile>
-                            </licensingRequirementFiles>
-                        </configuration>
-                    </execution>
-                </executions>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>list-all-licenses</id>-->
+<!--                        <configuration>-->
+<!--                            <licensingRequirementFiles combine.children="append">-->
+<!--                                <licensingRequirementFile>licensing/licensing-requirements-browser.xml</licensingRequirementFile>-->
+<!--                            </licensingRequirementFiles>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
 
             <plugin>

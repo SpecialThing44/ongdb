@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,7 +19,7 @@
  */
 package org.neo4j.helpers.collection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.neo4j.graphdb.ResourceIterator;
 
@@ -51,10 +32,10 @@ import static org.mockito.Mockito.verify;
 import static org.neo4j.helpers.collection.Iterators.asResourceIterator;
 import static org.neo4j.helpers.collection.Iterators.iterator;
 
-public class CombiningResourceIteratorTest
+class CombiningResourceIteratorTest
 {
     @Test
-    public void shouldNotCloseDuringIteration()
+    void shouldNotCloseDuringIteration()
     {
         // Given
         ResourceIterator<Long> it1 = spy( asResourceIterator( iterator( 1L, 2L, 3L ) ) );
@@ -70,7 +51,7 @@ public class CombiningResourceIteratorTest
     }
 
     @Test
-    public void closesAllIteratorsOnShutdown()
+    void closesAllIteratorsOnShutdown()
     {
         // Given
         ResourceIterator<Long> it1 = spy( asResourceIterator( iterator( 1L, 2L, 3L ) ) );
@@ -93,7 +74,7 @@ public class CombiningResourceIteratorTest
     }
 
     @Test
-    public void shouldHandleSingleItemIterators()
+    void shouldHandleSingleItemIterators()
     {
         // Given
         ResourceIterator<Long> it1 = asResourceIterator( iterator( 1L ) );

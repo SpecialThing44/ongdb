@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -76,6 +57,7 @@ import org.neo4j.values.utils.InvalidValuesArgumentException;
 import org.neo4j.values.utils.TemporalArithmeticException;
 import org.neo4j.values.utils.TemporalParseException;
 import org.neo4j.values.utils.UnsupportedTemporalUnitException;
+import org.neo4j.values.virtual.MapValue;
 
 import static org.neo4j.values.storable.DateTimeValue.datetime;
 import static org.neo4j.values.storable.DateTimeValue.parseZoneName;
@@ -1361,7 +1343,7 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
     }
 
     @SafeVarargs
-    static void assertDefinedInOrder( Pair<org.neo4j.values.AnyValue, String>... values )
+    static void assertDefinedInOrder( Pair<AnyValue, String>... values )
     {
         if ( values[0].first() == null )
         {
@@ -1370,7 +1352,7 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
 
         String firstNotAssigned = null;
 
-        for ( Pair<org.neo4j.values.AnyValue,String> value : values )
+        for ( Pair<AnyValue,String> value : values )
         {
             if ( value.first() == null )
             {
@@ -1387,9 +1369,9 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
     }
 
     @SafeVarargs
-    static void assertAllDefined( Pair<org.neo4j.values.AnyValue, String>... values )
+    static void assertAllDefined( Pair<AnyValue, String>... values )
     {
-        for ( Pair<org.neo4j.values.AnyValue,String> value : values )
+        for ( Pair<AnyValue,String> value : values )
         {
             if ( value.first() == null )
             {
@@ -1398,7 +1380,7 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
         }
     }
 
-    static org.neo4j.values.AnyValue oneOf( org.neo4j.values.AnyValue a, org.neo4j.values.AnyValue b, org.neo4j.values.AnyValue c )
+    static AnyValue oneOf( AnyValue a, AnyValue b, AnyValue c )
     {
         return a != null ? a : b != null ? b : c;
     }
@@ -1432,39 +1414,42 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
         return (int) (ms * 1000_000 + us * 1000 + ns);
     }
 
-    static <TEMP extends Temporal> TEMP updateFieldMapWithConflictingSubseconds( Map<String,AnyValue> fields, TemporalUnit unit, TEMP truncated )
+    static <TEMP extends Temporal, VALUE> VALUE updateFieldMapWithConflictingSubseconds( MapValue fields,
+            TemporalUnit unit,
+            TEMP temporal, BiFunction<MapValue,TEMP,VALUE> mapFunction )
     {
-        boolean conflictingMilliSeconds = false;
-        boolean conflictingMicroSeconds = false;
-
-        for ( Map.Entry<String,AnyValue> entry : fields.entrySet() )
-        {
-            if ( unit == ChronoUnit.MILLIS && ( "microsecond".equals( entry.getKey() ) || "nanosecond".equals( entry.getKey() ) ) )
-            {
-                conflictingMilliSeconds = true;
-            }
-            else if ( unit == ChronoUnit.MICROS && "nanosecond".equals( entry.getKey() ) )
-            {
-                conflictingMicroSeconds = true;
-            }
-        }
+        boolean conflictingMilliSeconds =
+                unit == ChronoUnit.MILLIS &&
+                (fields.containsKey( "microsecond" ) || fields.containsKey( "nanosecond" ));
+        boolean conflictingMicroSeconds = unit == ChronoUnit.MICROS && fields.containsKey( "nanosecond" );
 
         if ( conflictingMilliSeconds )
         {
-            AnyValue millis = Values.intValue( truncated.get( ChronoField.MILLI_OF_SECOND ) );
-            AnyValue micros = fields.remove( "microsecond" );
-            AnyValue nanos = fields.remove( "nanosecond" );
+            AnyValue millis = Values.intValue( temporal.get( ChronoField.MILLI_OF_SECOND ) );
+            AnyValue micros = fields.get( "microsecond" );
+            AnyValue nanos = fields.get( "nanosecond" );
+
             int newNanos = validNano( millis, micros, nanos );
-            truncated = (TEMP) truncated.with( ChronoField.NANO_OF_SECOND, newNanos );
+            TEMP newTemporal = (TEMP) temporal.with( ChronoField.NANO_OF_SECOND, newNanos );
+            MapValue filtered = fields.filter(
+                    ( k, ignore ) -> !k.equals( "microsecond" ) && !k.equals( "nanosecond" ) );
+            return mapFunction.apply( filtered, newTemporal );
         }
         else if ( conflictingMicroSeconds )
         {
-            AnyValue micros = Values.intValue( truncated.get( ChronoField.MICRO_OF_SECOND ) );
-            AnyValue nanos = fields.remove( "nanosecond" );
-            int newNanos = validNano( null,  micros, nanos );
-            truncated = (TEMP) truncated.with( ChronoField.NANO_OF_SECOND, newNanos );
+            AnyValue micros = Values.intValue( temporal.get( ChronoField.MICRO_OF_SECOND ) );
+            AnyValue nanos = fields.get( "nanosecond" );
+            int newNanos = validNano( null, micros, nanos );
+            TEMP newTemporal = (TEMP) temporal.with( ChronoField.NANO_OF_SECOND, newNanos );
+            MapValue filtered = fields.filter(
+                    ( k, ignore ) -> !k.equals( "nanosecond" ) );
+
+            return mapFunction.apply( filtered, newTemporal );
         }
-        return truncated;
+        else
+        {
+            return mapFunction.apply( fields, temporal );
+        }
     }
 
     static <TEMP extends Temporal> TEMP assertValidArgument( Supplier<TEMP> func )

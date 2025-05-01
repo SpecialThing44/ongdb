@@ -63,14 +63,7 @@ import org.neo4j.values.storable.PointValue;
 import org.neo4j.values.storable.TextValue;
 import org.neo4j.values.storable.Value;
 import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.ListValue;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.PathValue;
-import org.neo4j.values.virtual.VirtualNodeValue;
-import org.neo4j.values.virtual.VirtualRelationshipValue;
-import org.neo4j.values.virtual.VirtualValues;
+import org.neo4j.values.virtual.*;
 
 import static org.neo4j.values.virtual.VirtualValues.map;
 
@@ -252,33 +245,31 @@ public final class ValueUtils
 
     public static MapValue asMapValue( Map<String,Object> map )
     {
-        HashMap<String,AnyValue> newMap = new HashMap<>( map.size() );
+        MapValueBuilder builder = new MapValueBuilder( map.size() );
         for ( Map.Entry<String,Object> entry : map.entrySet() )
         {
-            newMap.put( entry.getKey(), ValueUtils.of( entry.getValue() ) );
+            builder.add( entry.getKey(), ValueUtils.of( entry.getValue() ) );
         }
-
-        return map( newMap );
+        return builder.build();
     }
 
     public static MapValue asParameterMapValue( Map<String,Object> map )
     {
-        HashMap<String,AnyValue> newMap = new HashMap<>( map.size() );
+        MapValueBuilder builder = new MapValueBuilder( map.size() );
         for ( Map.Entry<String,Object> entry : map.entrySet() )
         {
             try
             {
-                newMap.put( entry.getKey(), ValueUtils.of( entry.getValue() ) );
+                builder.add( entry.getKey(), ValueUtils.of( entry.getValue() ) );
             }
             catch ( IllegalArgumentException e )
             {
-                newMap.put( entry.getKey(), VirtualValues.error( e ) );
+                builder.add( entry.getKey(), VirtualValues.error( e ) );
             }
         }
 
-        return map( newMap );
+        return builder.build();
     }
-
     public static NodeValue fromNodeProxy( Node node )
     {
         return new NodeProxyWrappingNodeValue( node );
@@ -409,4 +400,3 @@ public final class ValueUtils
     }
 
 }
-

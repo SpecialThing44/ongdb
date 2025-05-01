@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,27 +19,24 @@
  */
 package org.neo4j.values.storable;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.neo4j.values.storable.StringsLibrary.STRINGS;
 import static org.neo4j.values.storable.Values.stringValue;
 import static org.neo4j.values.storable.Values.utf8Value;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
 
-public class UTF8StringValueTest
+class UTF8StringValueTest
 {
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Test
-    public void shouldHandleDifferentTypesOfStrings()
+    void shouldHandleDifferentTypesOfStrings()
     {
         for ( String string : STRINGS )
         {
@@ -71,7 +49,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldTrimDifferentTypesOfStrings()
+    void shouldTrimDifferentTypesOfStrings()
     {
         for ( String string : STRINGS )
         {
@@ -83,7 +61,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldLTrimDifferentTypesOfStrings()
+    void shouldLTrimDifferentTypesOfStrings()
     {
         for ( String string : STRINGS )
         {
@@ -95,7 +73,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void trimShouldBeSameAsLtrimAndRtrim()
+    void trimShouldBeSameAsLtrimAndRtrim()
     {
         for ( String string : STRINGS )
         {
@@ -105,7 +83,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldSubstring()
+    void shouldSubstring()
     {
         String string = "ü";
         TextValue utf8 = utf8Value( string.getBytes( UTF_8 ) );
@@ -113,7 +91,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldRTrimDifferentTypesOfStrings()
+    void shouldRTrimDifferentTypesOfStrings()
     {
         for ( String string : STRINGS )
         {
@@ -125,26 +103,35 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldCompareTo()
+    void shouldCompareTo()
     {
         for ( String string1 : STRINGS )
         {
             for ( String string2 : STRINGS )
             {
-
-                int x = stringValue( string1 ).compareTo( utf8Value( string2.getBytes( UTF_8 ) ) );
-                int y = utf8Value( string1.getBytes( UTF_8 ) ).compareTo( stringValue( string2 ) );
-                int z = utf8Value( string1.getBytes( UTF_8 ) )
-                         .compareTo( utf8Value( string2.getBytes( UTF_8 ) ) );
-
-                assertThat( Math.signum( x ), equalTo( Math.signum( y ) ) );
-                assertThat( Math.signum( x ), equalTo( Math.signum( z ) ) );
+                assertCompareTo( string1, string2 );
             }
         }
     }
 
+    static void assertCompareTo( String string1, String string2 )
+    {
+        TextValue textValue1 = stringValue( string1 );
+        TextValue textValue2 = stringValue( string2 );
+        TextValue utf8Value1 = utf8Value( string1.getBytes( UTF_8 ) );
+        TextValue utf8Value2 = utf8Value( string2.getBytes( UTF_8 ) );
+        int a = textValue1.compareTo( textValue2 );
+        int x = textValue1.compareTo( utf8Value2 );
+        int y = utf8Value1.compareTo( textValue2 );
+        int z = utf8Value1.compareTo( utf8Value2 );
+
+        assertThat( Math.signum( a ), equalTo( Math.signum( x ) ) );
+        assertThat( Math.signum( a ), equalTo( Math.signum( y ) ) );
+        assertThat( Math.signum( a ), equalTo( Math.signum( z ) ) );
+    }
+
     @Test
-    public void shouldReverse()
+    void shouldReverse()
     {
         for ( String string : STRINGS )
         {
@@ -156,7 +143,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldHandleOffset()
+    void shouldHandleOffset()
     {
         // Given
         byte[] bytes = "abcdefg".getBytes( UTF_8 );
@@ -171,7 +158,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldHandleAdditionWithOffset()
+    void shouldHandleAdditionWithOffset()
     {
         // Given
         byte[] bytes = "abcdefg".getBytes( UTF_8 );
@@ -181,14 +168,14 @@ public class UTF8StringValueTest
         UTF8StringValue b = (UTF8StringValue) utf8Value( bytes, 3, 3 );
 
         // Then
-        assertSame( a.plus( a ), stringValue( "bcbc" ) );
-        assertSame( a.plus( b ), stringValue( "bcdef" ) );
-        assertSame( b.plus( a ), stringValue( "defbc" ) );
-        assertSame( b.plus( b ), stringValue( "defdef" ) );
+       assertSame( a.plus( a ),  stringValue( "bcbc" ) );
+       assertSame( a.plus( b ), stringValue( "bcdef" ) );
+       assertSame( b.plus( a ), stringValue( "defbc" ) );
+       assertSame( b.plus( b ), stringValue( "defdef" ) );
     }
 
     @Test
-    public void shouldHandleAdditionWithOffsetAndNonAscii()
+    void shouldHandleAdditionWithOffsetAndNonAscii()
     {
         // Given, two characters that require three bytes each
         byte[] bytes = "ⲹ楡".getBytes( UTF_8 );
@@ -217,7 +204,7 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldHandleTooLargeStartPointInSubstring()
+    void shouldHandleTooLargeStartPointInSubstring()
     {
         // Given
         TextValue value = utf8Value( "hello".getBytes( UTF_8 ) );
@@ -226,11 +213,11 @@ public class UTF8StringValueTest
         TextValue substring = value.substring( 8, 5 );
 
         // Then
-        assertThat( substring, equalTo( StringValue.EMTPY ) );
+        assertThat( substring, equalTo( StringValue.EMPTY ) );
     }
 
     @Test
-    public void shouldHandleTooLargeLengthInSubstring()
+    void shouldHandleTooLargeLengthInSubstring()
     {
         // Given
         TextValue value = utf8Value( "hello".getBytes( UTF_8 ) );
@@ -243,28 +230,62 @@ public class UTF8StringValueTest
     }
 
     @Test
-    public void shouldThrowOnNegativeStart()
+    void shouldThrowOnNegativeStart()
     {
         // Given
         TextValue value = utf8Value( "hello".getBytes( UTF_8 ) );
 
-        // Expect
-        exception.expect( IndexOutOfBoundsException.class );
-
-        // When
-        value.substring( -4, 3 );
+        assertThrows( IndexOutOfBoundsException.class, () -> value.substring( -4, 3 ) );
     }
 
     @Test
-    public void shouldThrowOnNegativeLength()
+    void shouldThrowOnNegativeLength()
     {
         // Given
         TextValue value = utf8Value( "hello".getBytes( UTF_8 ) );
 
-        // Expect
-        exception.expect( IndexOutOfBoundsException.class );
+        assertThrows( IndexOutOfBoundsException.class, () -> value.substring( 4, -3 ) );
+    }
 
-        // When
-        value.substring( 4, -3 );
+    @Test
+    void shouldHandleStringPredicatesWithOffset()
+    {
+        // Given
+        byte[] bytes = "abcdefghijklmnoprstuvxyzABCDEFGHIJKLMNOPRSTUVXYZ".getBytes( UTF_8 );
+
+        for ( int offset = 0; offset <= bytes.length; offset++ )
+        {
+            for ( int length = 0; length < bytes.length - offset; length++ )
+            {
+                TextValue value = utf8Value( bytes, offset, length );
+
+                for ( int otherOffset = 0; otherOffset <= bytes.length; otherOffset++ )
+                {
+                    for ( int otherLength = 0; otherLength < bytes.length - otherOffset; otherLength++ )
+                    {
+                        TextValue other = utf8Value( bytes, otherOffset, otherLength );
+                        assertThat( value.startsWith( other ),
+                                equalTo( otherLength == 0 || otherOffset == offset && otherLength <= length ) );
+                        assertThat( value.endsWith( other ),
+                                equalTo( otherLength == 0 ||
+                                         otherOffset >= offset && otherLength == length + offset - otherOffset ) );
+                        assertThat( value.contains( other ),
+                                equalTo( otherLength == 0 ||
+                                         otherOffset >= offset && otherLength <= length + offset - otherOffset ) );
+
+                    }
+                }
+
+            }
+        }
+    }
+
+    @Test
+    void shouldHandleEqualsOnSubstring()
+    {
+        TextValue utf8 = utf8Value( "hello cruel world".getBytes( UTF_8 ) );
+        TextValue substring = utf8.substring( 6, 5 );
+        assertThat( substring, equalTo( utf8Value( "cruel".getBytes( UTF_8 ) ) ) );
+        assertThat( substring, not( equalTo( utf8Value( "jazzy".getBytes( UTF_8 ) ) ) ) );
     }
 }

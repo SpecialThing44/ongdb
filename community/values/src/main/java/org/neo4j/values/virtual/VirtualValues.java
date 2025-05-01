@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,12 +19,9 @@
  */
 package org.neo4j.values.virtual;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.neo4j.helpers.collection.Pair;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.ArrayValue;
 import org.neo4j.values.storable.TextArray;
@@ -56,7 +34,7 @@ import org.neo4j.values.virtual.PathValue.DirectPathValue;
 @SuppressWarnings( "WeakerAccess" )
 public final class VirtualValues
 {
-    public static final MapValue EMPTY_MAP = new MapValue( Collections.emptyMap() );
+    public static final MapValue EMPTY_MAP = MapValue.EMPTY;
     public static final ListValue EMPTY_LIST = new ListValue.ArrayListValue( new AnyValue[0] );
 
     private VirtualValues()
@@ -85,37 +63,6 @@ public final class VirtualValues
         return new ListValue.ArrayValueListValue( arrayValue );
     }
 
-    public static ListValue dropNoValues( ListValue list )
-    {
-        return new ListValue.DropNoValuesListValue( list );
-    }
-
-    public static ListValue slice( ListValue list, int from, int to )
-    {
-        int f = Math.max( from, 0 );
-        int t = Math.min( to, list.size() );
-        if ( f > t )
-        {
-            return EMPTY_LIST;
-        }
-        else
-        {
-            return new ListValue.ListSlice( list, f, t );
-        }
-    }
-
-    public static ListValue drop( ListValue list, int n )
-    {
-        int start = Math.max( 0, Math.min( n, list.size() ) );
-        return new ListValue.ListSlice( list, start, list.size() );
-    }
-
-    public static ListValue take( ListValue list, int n )
-    {
-        int end = Math.max( 0, Math.min( n, list.size() ) );
-        return new ListValue.ListSlice( list, 0, end );
-    }
-
     /*
     TOMBSTONE: TransformedListValue & FilteredListValue
 
@@ -128,30 +75,9 @@ public final class VirtualValues
 
     */
 
-    public static ListValue reverse( ListValue list )
-    {
-        return new ListValue.ReversedList( list );
-    }
-
     public static ListValue concat( ListValue... lists )
     {
         return new ListValue.ConcatList( lists );
-    }
-
-    public static ListValue appendToList( ListValue list, AnyValue value )
-    {
-        AnyValue[] newValues = new AnyValue[list.size() + 1];
-        System.arraycopy( list.asArray(), 0, newValues, 0, list.size() );
-        newValues[list.size()] = value;
-        return VirtualValues.list( newValues );
-    }
-
-    public static ListValue prependToList( ListValue list, AnyValue value )
-    {
-        AnyValue[] newValues = new AnyValue[list.size() + 1];
-        newValues[0] = value;
-        System.arraycopy( list.asArray(), 0, newValues, 1, list.size() );
-        return VirtualValues.list( newValues );
     }
 
     public static MapValue emptyMap()
@@ -167,40 +93,12 @@ public final class VirtualValues
         {
             map.put( keys[i], values[i] );
         }
-        return new MapValue( map );
-    }
-
-    public static MapValue combine( MapValue a, MapValue b )
-    {
-        HashMap<String,AnyValue> map = new HashMap<>( a.size() + b.size() );
-        a.foreach( map::put );
-        b.foreach( map::put );
-        return VirtualValues.map( map );
-    }
-
-    public static MapValue map( Map<String,AnyValue> map )
-    {
-        return new MapValue( map );
+        return new MapValue.MapWrappingMapValue( map );
     }
 
     public static ErrorValue error( Exception e )
     {
         return new ErrorValue( e );
-    }
-
-    @SafeVarargs
-    public static MapValue copy( MapValue map, Pair<String,AnyValue>... moreEntries )
-    {
-        HashMap<String,AnyValue> hashMap = new HashMap<>( map.size() );
-        for ( Map.Entry<String,AnyValue> entry : map.entrySet() )
-        {
-            hashMap.put( entry.getKey(), entry.getValue() );
-        }
-        for ( Pair<String,AnyValue> entry : moreEntries )
-        {
-            hashMap.put( entry.first(), entry.other() );
-        }
-        return new MapValue( hashMap );
     }
 
     public static NodeReference node( long id )
