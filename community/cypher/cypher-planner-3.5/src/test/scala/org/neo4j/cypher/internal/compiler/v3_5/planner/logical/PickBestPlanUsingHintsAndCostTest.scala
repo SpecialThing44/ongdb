@@ -120,5 +120,3 @@ class PickBestPlanUsingHintsAndCostTest extends CypherFunSuite with LogicalPlann
     pickBestPlanUsingHintsAndCost(context)(candidates.reverse).get shouldBe theSameInstanceAs(winner)
   }
 }
-
-

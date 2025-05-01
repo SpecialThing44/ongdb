@@ -50,7 +50,7 @@ import org.neo4j.values.virtual.MapValue;
 public class QuerySnapshot
 {
     private final ExecutingQuery query;
-    private final PlannerInfo plannerInfo;
+    private final CompilerInfo compilerInfo;
     private final long planningTimeMillis;
     private final long elapsedTimeMillis;
     private final long cpuTimeMillis;
@@ -62,12 +62,12 @@ public class QuerySnapshot
     private final long allocatedBytes;
     private final PageCounterValues page;
 
-    QuerySnapshot( ExecutingQuery query, PlannerInfo plannerInfo, PageCounterValues page, long planningTimeMillis,
-            long elapsedTimeMillis, long cpuTimeMillis, long waitTimeMillis, String status,
-            Map<String,Object> resourceInfo, List<ActiveLock> waitingLocks, long activeLockCount, long allocatedBytes )
+    QuerySnapshot(ExecutingQuery query, CompilerInfo compilerInfo, PageCounterValues page, long planningTimeMillis,
+                  long elapsedTimeMillis, long cpuTimeMillis, long waitTimeMillis, String status,
+                  Map<String,Object> resourceInfo, List<ActiveLock> waitingLocks, long activeLockCount, long allocatedBytes )
     {
         this.query = query;
-        this.plannerInfo = plannerInfo;
+        this.compilerInfo = compilerInfo;
         this.page = page;
         this.planningTimeMillis = planningTimeMillis;
         this.elapsedTimeMillis = elapsedTimeMillis;
@@ -117,21 +117,21 @@ public class QuerySnapshot
 
     public String planner()
     {
-        return plannerInfo == null ? null : plannerInfo.planner();
+        return compilerInfo == null ? null : compilerInfo.planner();
     }
 
     public String runtime()
     {
-        return plannerInfo == null ? null : plannerInfo.runtime();
+        return compilerInfo == null ? null : compilerInfo.runtime();
     }
 
     public List<Map<String,String>> indexes()
     {
-        if ( plannerInfo == null )
+        if ( compilerInfo == null )
         {
             return Collections.emptyList();
         }
-        return plannerInfo.indexes().stream()
+        return compilerInfo.indexes().stream()
                 .map( IndexUsage::asMap )
                 .collect( Collectors.toList() );
     }

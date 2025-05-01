@@ -29,5 +29,3 @@ case class unsolvedPreds(solveds: Solveds) extends ((Selections, LogicalPlan) =>
     s.scalarPredicatesGiven(l.availableSymbols)
     .filterNot(predicate => solveds.get(l.id).exists(_.queryGraph.selections.contains(predicate)))
 }
-
-

@@ -59,5 +59,3 @@ trait TokenType  {
 
   def getOrCreateIdForName(name: String, queryContext: QueryContext): Int
 }
-
-

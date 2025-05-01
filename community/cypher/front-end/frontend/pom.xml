@@ -1,16 +1,28 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>org.neo4j</groupId>
-    <artifactId>neo4j-front-end-parent-3.5</artifactId>
-    <version>3.5.35-SNAPSHOT</version>
+     <groupId>org.graphfoundation.ongdb</groupId>
+    <artifactId>ongdb-front-end-parent-3.5</artifactId>
+    <version>1.0.6-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>neo4j-front-end-3.5</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+  <artifactId>ongdb-front-end-3.5</artifactId>
   <packaging>jar</packaging>
-  <version>3.5.35-SNAPSHOT</version>
+  <version>1.0.6-SNAPSHOT</version>
   <name>openCypher Front End</name>
 
   <description>
@@ -28,11 +40,11 @@
 
   <url>http://components.neo4j.org/${project.artifactId}/${project.version}</url>
 
-  <scm>
-    <connection>scm:git:git://github.com/neo4j/neo4j.git</connection>
-    <developerConnection>scm:git:git@github.com:neo4j/neo4j.git</developerConnection>
-    <url>https://github.com/neo4j/neo4j</url>
-  </scm>
+    <scm>
+        <connection>scm:git:git://github.com/graphfoundation/ongdb.git</connection>
+        <developerConnection>scm:git:git@github.com:graphfoundation/ongdb.git</developerConnection>
+        <url>https://github.com/graphfoundation/ongdb</url>
+    </scm>
 
   <properties>
     <moduleName>org.neo4j.cypher.internal.frontend.v3_5</moduleName>
@@ -52,66 +64,66 @@
     <!-- neo4j -->
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-util-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-util-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-expressions-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-expressions-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-rewriting-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-rewriting-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-rewriting-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-rewriting-3.5</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-parser-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-parser-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <!-- neo4j testing -->
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-util-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-util-3.5</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-expressions-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-expressions-3.5</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-ast-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-ast-3.5</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-parser-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-parser-3.5</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>

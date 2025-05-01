@@ -87,4 +87,3 @@ trait PhysicalCompilationContext {
   def tokenContext: TokenContext
   def periodicCommit: Option[Long]
 }
-

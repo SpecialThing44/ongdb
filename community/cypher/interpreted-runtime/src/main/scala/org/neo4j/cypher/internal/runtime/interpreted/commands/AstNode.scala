@@ -76,4 +76,3 @@ trait AstNode[T] {
     visitChildren(f)
   }
 }
-

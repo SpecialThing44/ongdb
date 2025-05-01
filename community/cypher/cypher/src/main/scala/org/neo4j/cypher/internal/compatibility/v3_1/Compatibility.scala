@@ -47,7 +47,7 @@ import org.neo4j.cypher.internal.compatibility.v3_1.helpers._
 import org.neo4j.cypher.internal.compiler.v3_1
 import org.neo4j.cypher.internal.compiler.v3_1.executionplan.{ExecutionPlan => ExecutionPlan_v3_1}
 import org.neo4j.cypher.internal.compiler.v3_1.tracing.rewriters.RewriterStepSequencer
-import org.neo4j.cypher.internal.compiler.v3_1.{CompilationPhaseTracer, InfoLogger, ExplainMode => ExplainModev3_1, NormalMode => NormalModev3_1, ProfileMode => ProfileModev3_1, _}
+import org.neo4j.cypher.internal.compiler.v3_1.{InfoLogger, ProfileMode => ProfileModev3_1, ExplainMode => ExplainModev3_1, NormalMode => NormalModev3_1, _}
 import org.neo4j.cypher.internal.compiler.v3_4.{CacheCheckResult, FineToReuse, NeedsReplan}
 import org.neo4j.cypher.internal.javacompat.ExecutionResult
 import org.neo4j.cypher.internal.runtime.interpreted.{LastCommittedTxIdProvider, TransactionalContextWrapper => TransactionalContextWrapperV3_4}
@@ -56,7 +56,7 @@ import org.neo4j.cypher.internal.spi.v3_1.{TransactionalContextWrapper => Transa
 import org.neo4j.cypher.internal.{frontend, _}
 import org.neo4j.graphdb.Result
 import org.neo4j.kernel.GraphDatabaseQueryService
-import org.neo4j.kernel.api.query.{IndexUsage, PlannerInfo}
+import org.neo4j.kernel.api.query.{IndexUsage, CompilerInfo}
 import org.neo4j.kernel.impl.query.QueryExecutionMonitor
 import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
 import org.neo4j.logging.Log
@@ -155,7 +155,7 @@ trait Compatibility {
         FineToReuse
     }
 
-    override val plannerInfo = new PlannerInfo(inner.plannerUsed.name, inner.runtimeUsed.name, emptyList[IndexUsage])
+    override val plannerInfo = new CompilerInfo(inner.plannerUsed.name, inner.runtimeUsed.name, emptyList[IndexUsage])
 
     override def run(transactionalContext: TransactionalContextWrapperV3_4, executionMode: CypherExecutionMode, params: MapValue): Result = {
       var map: mutable.Map[String, Any] = mutable.Map[String, Any]()

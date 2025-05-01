@@ -56,7 +56,7 @@ import org.neo4j.cypher.internal.runtime.interpreted.{LastCommittedTxIdProvider,
 import org.neo4j.cypher.internal.spi.v2_3.{TransactionBoundGraphStatistics, TransactionBoundPlanContext, TransactionBoundQueryContext}
 import org.neo4j.graphdb.{Node, Relationship, Result}
 import org.neo4j.kernel.GraphDatabaseQueryService
-import org.neo4j.kernel.api.query.{IndexUsage, PlannerInfo}
+import org.neo4j.kernel.api.query.{IndexUsage, CompilerInfo}
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI
 import org.neo4j.kernel.impl.query.QueryExecutionMonitor
 import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
@@ -151,7 +151,7 @@ trait Compatibility {
         FineToReuse
     }
 
-    override val plannerInfo = new PlannerInfo(inner.plannerUsed.name, inner.runtimeUsed.name, emptyList[IndexUsage])
+    override val plannerInfo = new CompilerInfo(inner.plannerUsed.name, inner.runtimeUsed.name, emptyList[IndexUsage])
 
     override def run(transactionalContext: TransactionalContextWrapper, executionMode: CypherExecutionMode, params: MapValue): Result = {
       var map: mutable.Map[String, Any] = mutable.Map[String, Any]()

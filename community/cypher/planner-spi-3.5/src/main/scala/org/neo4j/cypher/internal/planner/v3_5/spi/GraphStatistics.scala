@@ -100,4 +100,3 @@ class StatisticsCompletingGraphStatistics(delegate: GraphStatistics)
         super.cardinalityByLabelsAndRelationshipType(fromLabel, relTypeId, toLabel)
     }
 }
-

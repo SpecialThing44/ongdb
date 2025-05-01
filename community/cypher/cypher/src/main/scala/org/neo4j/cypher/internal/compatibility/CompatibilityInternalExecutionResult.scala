@@ -73,4 +73,3 @@ trait CompatibilityInternalExecutionResult extends Iterator[Map[String, AnyRef]]
     }
   }
 }
-

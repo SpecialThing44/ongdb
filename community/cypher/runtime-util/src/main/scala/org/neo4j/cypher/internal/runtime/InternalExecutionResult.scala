@@ -85,4 +85,3 @@ sealed trait CloseReason
 case object Success extends CloseReason
 case object Failure extends CloseReason
 case class Error(t: Throwable) extends CloseReason
-

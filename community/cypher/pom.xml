@@ -48,7 +48,6 @@
                 <module>expression-evaluator</module>
                 <module>cypher</module>
                 <module>cypher-logical-plans-3.5</module>
-                <module>runtime-util</module>
                 <module>interpreted-runtime</module>
             </modules>
         </profile>

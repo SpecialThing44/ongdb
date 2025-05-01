@@ -107,5 +107,3 @@ object TransactionBoundGraphStatistics {
     override def nodesAllCardinality(): Cardinality = atLeastOne(read.countsForNodeWithoutTxState(-1))
   }
 }
-
-

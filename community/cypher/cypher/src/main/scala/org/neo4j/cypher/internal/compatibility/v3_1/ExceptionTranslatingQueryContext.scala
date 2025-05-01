@@ -267,4 +267,3 @@ class ExceptionTranslatingQueryContext(val inner: QueryContext) extends QueryCon
     override def close(success: Boolean) { translateException(super.close(success)) }
   }
 }
-

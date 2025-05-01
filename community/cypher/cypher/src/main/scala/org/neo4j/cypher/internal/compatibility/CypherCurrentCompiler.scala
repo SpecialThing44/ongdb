@@ -229,4 +229,3 @@ case class CypherCurrentCompiler[CONTEXT <: RuntimeContext](planner: CypherPlann
   }
 
 }
-

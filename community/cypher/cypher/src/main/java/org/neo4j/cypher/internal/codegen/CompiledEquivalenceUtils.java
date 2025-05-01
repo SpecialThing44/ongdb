@@ -464,4 +464,3 @@ public final class CompiledEquivalenceUtils
         return a.doubleValue() == b;
     }
 }
-

@@ -49,5 +49,3 @@ class InterpretedProfileInformation extends QueryProfile {
 }
 
 case class PageCacheStats(hits: Long, misses: Long)
-
-

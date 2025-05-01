@@ -42,6 +42,3 @@ final case class SolvableRelationship(relationship: PatternRelationship) extends
 object Solvables {
   def apply(qg: QueryGraph): Set[Solvable] = qg.patternRelationships.map(SolvableRelationship)
 }
-
-
-
