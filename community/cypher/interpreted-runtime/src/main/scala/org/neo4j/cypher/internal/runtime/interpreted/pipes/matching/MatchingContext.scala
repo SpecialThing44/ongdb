@@ -67,3 +67,4 @@ trait MatcherBuilder {
   def startPoint: String
   def getMatches(sourceRow: ExecutionContext, state: QueryState): Traversable[ExecutionContext]
 }
+

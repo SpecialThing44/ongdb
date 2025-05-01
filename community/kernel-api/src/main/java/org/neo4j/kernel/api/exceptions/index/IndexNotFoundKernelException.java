@@ -43,7 +43,7 @@ import org.neo4j.kernel.api.exceptions.Status;
 
 public class IndexNotFoundKernelException extends KernelException
 {
-    public IndexNotFoundKernelException( String msg )
+    public IndexNotFoundKernelException(String msg )
     {
         super( Status.Schema.IndexNotFound, msg );
     }

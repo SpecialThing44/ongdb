@@ -144,3 +144,8 @@ class ComparablePredicateTest extends CypherFunSuite {
   }
 
 }
+
+
+
+
+

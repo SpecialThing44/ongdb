@@ -42,3 +42,4 @@ case class StdevP(anInner: Expression) extends AggregationWithInnerExpression(an
 
   override def children: Seq[AstNode[_]] = Seq(anInner)
 }
+

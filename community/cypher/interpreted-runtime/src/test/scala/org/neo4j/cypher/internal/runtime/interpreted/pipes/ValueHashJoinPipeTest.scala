@@ -191,3 +191,4 @@ class ValueHashJoinPipeTest extends CypherFunSuite {
     pipe
   }
 }
+

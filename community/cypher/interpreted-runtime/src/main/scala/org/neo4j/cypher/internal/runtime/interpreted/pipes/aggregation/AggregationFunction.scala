@@ -39,3 +39,4 @@ abstract class AggregationFunction {
     */
   def result(state: QueryState): AnyValue
 }
+

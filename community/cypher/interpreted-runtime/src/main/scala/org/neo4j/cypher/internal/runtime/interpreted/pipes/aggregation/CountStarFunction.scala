@@ -33,3 +33,4 @@ class CountStarFunction extends AggregationFunction {
 
   override def result(state: QueryState): AnyValue = Values.longValue(count)
 }
+

@@ -1,7 +1,5 @@
 package org.neo4j.cypher.internal.runtime.interpreted.commands.predicates
 
-
-
 /*
  * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]

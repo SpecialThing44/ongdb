@@ -83,3 +83,5 @@ case class ProjectedPath(symbolTableDependencies: Set[String], projector: Projec
 
   override def rewrite(f: Expression => Expression): Expression = f(this)
 }
+
+

@@ -256,3 +256,4 @@ class NodeHashJoinPipeTest extends CypherFunSuite {
     pipe
   }
 }
+

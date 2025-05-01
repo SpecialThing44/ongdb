@@ -152,3 +152,4 @@ object TheCookieManager {
     cookieManager
   }
 }
+

@@ -20,7 +20,6 @@
 package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.lang.Math.min
-
 import org.neo4j.cypher.internal.planner.v3_5.spi.GraphStatistics
 import org.neo4j.cypher.internal.planner.v3_5.spi.IndexDescriptor
 import org.neo4j.cypher.internal.planner.v3_5.spi.StatisticsCompletingGraphStatistics
@@ -32,6 +31,7 @@ import org.neo4j.cypher.internal.v3_5.util.Cardinality
 import org.neo4j.cypher.internal.v3_5.util.LabelId
 import org.neo4j.cypher.internal.v3_5.util.RelTypeId
 import org.neo4j.cypher.internal.v3_5.util.Selectivity
+import org.neo4j.kernel.impl.api.store.DefaultIndexReference
 
 object TransactionBoundGraphStatistics {
   def apply(transactionalContext: TransactionalContext): StatisticsCompletingGraphStatistics =
@@ -44,13 +44,13 @@ object TransactionBoundGraphStatistics {
 
     override def uniqueValueSelectivity(index: IndexDescriptor): Option[Selectivity] =
       try {
-        val indexSize = schemaRead.indexSize(schemaRead.indexReferenceUnchecked(index.label, index.properties.map(_.id):_*))
+        val indexSize = schemaRead.indexSize(DefaultIndexReference.general(index.label, index.properties.map(_.id):_*))
         if (indexSize == 0)
           Some(Selectivity.ZERO)
         else {
           // Probability of any node in the index, to have a property with a given value
           val indexEntrySelectivity = schemaRead.indexUniqueValuesSelectivity(
-            schemaRead.indexReferenceUnchecked(index.label, index.properties.map(_.id):_*))
+            DefaultIndexReference.general(index.label, index.properties.map(_.id):_*))
           if (indexEntrySelectivity == 0.0) {
             Some(Selectivity.ZERO)
           } else {
@@ -74,7 +74,7 @@ object TransactionBoundGraphStatistics {
           Some(Selectivity.ZERO)
         else {
           // Probability of any node with the given label, to have a given property
-          val indexSize = schemaRead.indexSize(schemaRead.indexReferenceUnchecked(index.label, index.properties.map(_.id):_*))
+          val indexSize = schemaRead.indexSize(DefaultIndexReference.general(index.label, index.properties.map(_.id):_*))
           val indexSelectivity = indexSize / labeledNodes
 
           //Even though semantically impossible the index can get into a state where

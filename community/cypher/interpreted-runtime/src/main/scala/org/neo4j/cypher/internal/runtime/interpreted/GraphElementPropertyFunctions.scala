@@ -38,3 +38,5 @@ trait GraphElementPropertyFunctions extends ListSupport {
     case (k, e) => "%s: %s".format(k, e.toString)
   }.mkString("{", ", ", "}")
 }
+
+

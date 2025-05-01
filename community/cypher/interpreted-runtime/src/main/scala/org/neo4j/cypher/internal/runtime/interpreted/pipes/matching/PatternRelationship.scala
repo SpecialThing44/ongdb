@@ -153,3 +153,4 @@ class VariableLengthPatternRelationship(pathName: String,
     filteredPaths.toStream.map(p => VariableLengthGraphRelationship(ValueUtils.fromPath(p)))
   }
 }
+
