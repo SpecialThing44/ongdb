@@ -137,6 +137,19 @@ public class StringIndexProvider extends NativeIndexProvider<StringSchemaKey,Nat
         }
 
         @Override
+        public boolean isFulltextIndex()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean isEventuallyConsistent()
+        {
+            return false;
+        }
+
+
+        @Override
         public IndexLimitation[] limitations()
         {
             return limitations;

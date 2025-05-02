@@ -42,7 +42,11 @@ import org.neo4j.collection.primitive.PrimitiveIntSet;
 import org.neo4j.function.ThrowingFunction;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.kernel.api.exceptions.index.IndexNotFoundKernelException;
+import org.neo4j.kernel.api.schema.constaints.IndexBackedConstraintDescriptor;
+import org.neo4j.storageengine.api.EntityType;
 import org.neo4j.values.storable.Value;
+
+import java.util.Collection;
 
 public class IndexMapReference implements IndexMapSnapshotProvider
 {
@@ -123,6 +127,18 @@ public class IndexMapReference implements IndexMapSnapshotProvider
             long[] changedLabels, long[] unchangedLabels, PrimitiveIntSet properties )
     {
         return indexMap.getRelatedIndexes( changedLabels, unchangedLabels, properties );
+    }
+
+    public Collection<SchemaDescriptor> getRelatedIndexes(long[] changedEntityTokens, long[] unchangedEntityTokens, int[] sortedProperties,
+                                                          boolean propertyListIsComplete, EntityType entityType )
+    {
+        return indexMap.getRelatedIndexes( changedEntityTokens, unchangedEntityTokens, sortedProperties, propertyListIsComplete, entityType );
+    }
+
+    public Collection<IndexBackedConstraintDescriptor> getRelatedConstraints(long[] changedLabels, long[] unchangedLabels, int[] sortedProperties,
+                                                                             boolean propertyListIsComplete, EntityType entityType )
+    {
+        return indexMap.getRelatedConstraints( changedLabels, unchangedLabels, sortedProperties, propertyListIsComplete, entityType );
     }
 
     public IndexUpdaterMap createIndexUpdaterMap( IndexUpdateMode mode )

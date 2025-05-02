@@ -101,6 +101,7 @@ import org.neo4j.kernel.api.txstate.ExplicitIndexTransactionState;
 import org.neo4j.kernel.api.txstate.TransactionState;
 import org.neo4j.kernel.impl.api.KernelTransactionImplementation;
 import org.neo4j.kernel.impl.api.index.IndexProviderMap;
+import org.neo4j.kernel.impl.api.index.IndexingService;
 import org.neo4j.kernel.impl.api.state.ConstraintIndexCreator;
 import org.neo4j.kernel.impl.api.store.DefaultIndexReference;
 import org.neo4j.kernel.impl.constraints.ConstraintSemantics;
@@ -134,12 +135,15 @@ import static org.neo4j.values.storable.Values.NO_VALUE;
  */
 public class Operations implements Write, ExplicitIndexWrite, SchemaWrite
 {
+
+    private static final int[] EMPTY_INT_ARRAY = new int[0];
     private final KernelTransactionImplementation ktx;
     private final AllStoreHolder allStoreHolder;
     private final KernelToken token;
     private final StorageStatement statement;
     private final AutoIndexing autoIndexing;
     private DefaultNodeCursor nodeCursor;
+    private final IndexingService indexingService;
     private final IndexTxStateUpdater updater;
     private DefaultPropertyCursor propertyCursor;
     private DefaultRelationshipScanCursor relationshipCursor;
@@ -158,7 +162,8 @@ public class Operations implements Write, ExplicitIndexWrite, SchemaWrite
             AutoIndexing autoIndexing,
             ConstraintIndexCreator constraintIndexCreator,
             ConstraintSemantics constraintSemantics,
-            IndexProviderMap indexProviderMap )
+            IndexProviderMap indexProviderMap,
+            IndexingService indexingService )
     {
         this.token = token;
         this.autoIndexing = autoIndexing;
@@ -170,6 +175,7 @@ public class Operations implements Write, ExplicitIndexWrite, SchemaWrite
         this.constraintIndexCreator = constraintIndexCreator;
         this.constraintSemantics = constraintSemantics;
         this.indexProviderMap = indexProviderMap;
+        this.indexingService = indexingService;
     }
 
     public void initialize()
@@ -250,6 +256,34 @@ public class Operations implements Write, ExplicitIndexWrite, SchemaWrite
         ktx.txState().nodeDoAddLabel( nodeLabel, node );
         updater.onLabelChange( nodeLabel, existingPropertyKeyIds, nodeCursor, propertyCursor, ADDED_LABEL );
     }
+
+    private int[] loadSortedPropertyKeyList()
+    {
+        nodeCursor.properties( propertyCursor );
+        if ( !propertyCursor.next() )
+        {
+            return EMPTY_INT_ARRAY;
+        }
+
+        int[] propertyKeyIds = new int[4]; // just some arbitrary starting point, it grows on demand
+        int cursor = 0;
+        do
+        {
+            if ( cursor == propertyKeyIds.length )
+            {
+                propertyKeyIds = Arrays.copyOf( propertyKeyIds, cursor * 2 );
+            }
+            propertyKeyIds[cursor++] = propertyCursor.propertyKey();
+        }
+        while ( propertyCursor.next() );
+        if ( cursor != propertyKeyIds.length )
+        {
+            propertyKeyIds = Arrays.copyOf( propertyKeyIds, cursor );
+        }
+        Arrays.sort( propertyKeyIds );
+        return propertyKeyIds;
+    }
+
 
     @Override
     public boolean nodeDelete( long node ) throws AutoIndexingKernelException

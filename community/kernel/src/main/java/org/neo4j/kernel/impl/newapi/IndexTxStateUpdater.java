@@ -40,12 +40,16 @@ package org.neo4j.kernel.impl.newapi;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.collections.api.map.primitive.MutableIntObjectMap;
+import org.eclipse.collections.impl.factory.primitive.IntObjectMaps;
 import org.neo4j.collection.primitive.Primitive;
 import org.neo4j.collection.primitive.PrimitiveIntSet;
 import org.neo4j.internal.kernel.api.NodeCursor;
 import org.neo4j.internal.kernel.api.PropertyCursor;
+import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.impl.api.index.IndexingService;
 import org.neo4j.storageengine.api.StoreReadLayer;
@@ -53,6 +57,7 @@ import org.neo4j.values.storable.Value;
 import org.neo4j.values.storable.ValueTuple;
 
 import static org.neo4j.kernel.api.StatementConstants.NO_SUCH_PROPERTY_KEY;
+import static org.neo4j.storageengine.api.EntityType.NODE;
 import static org.neo4j.values.storable.Values.NO_VALUE;
 
 /**
@@ -121,6 +126,35 @@ public class IndexTxStateUpdater
                     break;
                 default:
                     throw new IllegalStateException( changeType + " is not a supported event" );
+                }
+            }
+        }
+    }
+
+    void onLabelChange( int labelId, int[] existingPropertyKeyIds, NodeCursor node, PropertyCursor propertyCursor, LabelChangeType changeType )
+    {
+        assert noSchemaChangedInTx();
+
+        // Check all indexes of the changed label
+        Collection<SchemaDescriptor> indexes = indexingService.getRelatedIndexes( new long[]{labelId}, existingPropertyKeyIds, NODE );
+        if ( !indexes.isEmpty() )
+        {
+            MutableIntObjectMap<Value> materializedProperties = IntObjectMaps.mutable.empty();
+            for ( SchemaDescriptor index : indexes )
+            {
+                int[] indexPropertyIds = index.schema().getPropertyIds();
+                Value[] values = getValueTuple( node, propertyCursor, NO_SUCH_PROPERTY_KEY, NO_VALUE, indexPropertyIds, materializedProperties );
+                switch ( changeType )
+                {
+                    case ADDED_LABEL:
+                        indexingService.validateBeforeCommit( index.schema(), values );
+                        read.txState().indexDoUpdateEntry( index.schema(), node.nodeReference(), null, ValueTuple.of( values ) );
+                        break;
+                    case REMOVED_LABEL:
+                        read.txState().indexDoUpdateEntry( index.schema(), node.nodeReference(), ValueTuple.of( values ), null );
+                        break;
+                    default:
+                        throw new IllegalStateException( changeType + " is not a supported event" );
                 }
             }
         }
@@ -227,6 +261,49 @@ public class IndexTxStateUpdater
             if ( k >= 0 )
             {
                 values[k] = changedValue;
+            }
+        }
+
+        return values;
+    }
+
+    private Value[] getValueTuple( NodeCursor node, PropertyCursor propertyCursor,
+                                   int changedPropertyKeyId, Value changedValue, int[] indexPropertyIds,
+                                   MutableIntObjectMap<Value> materializedValues )
+    {
+        Value[] values = new Value[indexPropertyIds.length];
+        int missing = 0;
+
+        // First get whatever values we already have on the stack, like the value change that provoked this update in the first place
+        // and already loaded values that we can get from the map of materialized values.
+        for ( int k = 0; k < indexPropertyIds.length; k++ )
+        {
+            values[k] = indexPropertyIds[k] == changedPropertyKeyId ? changedValue : materializedValues.getIfAbsent( indexPropertyIds[k], () -> NO_VALUE );
+            if ( values[k] == NO_VALUE )
+            {
+                missing++;
+            }
+        }
+
+        // If we couldn't get all values that we wanted we need to load from the node. While we're loading values
+        // we'll place those values in the map so that other index updates from this change can just used them.
+        if ( missing > 0 )
+        {
+            node.properties( propertyCursor );
+            while ( missing > 0 && propertyCursor.next() )
+            {
+                int k = ArrayUtils.indexOf( indexPropertyIds, propertyCursor.propertyKey() );
+                if ( k >= 0 && values[k] == NO_VALUE )
+                {
+                    int propertyKeyId = indexPropertyIds[k];
+                    boolean thisIsTheChangedProperty = propertyKeyId == changedPropertyKeyId;
+                    values[k] = thisIsTheChangedProperty ? changedValue : propertyCursor.propertyValue();
+                    if ( !thisIsTheChangedProperty )
+                    {
+                        materializedValues.put( propertyKeyId, values[k] );
+                    }
+                    missing--;
+                }
             }
         }
 

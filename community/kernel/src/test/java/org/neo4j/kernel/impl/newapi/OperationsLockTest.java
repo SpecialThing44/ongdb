@@ -72,6 +72,7 @@ import org.neo4j.kernel.api.txstate.TransactionState;
 import org.neo4j.kernel.impl.api.KernelTransactionImplementation;
 import org.neo4j.kernel.impl.api.SchemaState;
 import org.neo4j.kernel.impl.api.index.IndexProviderMap;
+import org.neo4j.kernel.impl.api.index.IndexingService;
 import org.neo4j.kernel.impl.api.state.ConstraintIndexCreator;
 import org.neo4j.kernel.impl.api.state.TxState;
 import org.neo4j.kernel.impl.api.store.DefaultIndexReference;
@@ -158,7 +159,7 @@ public class OperationsLockTest
         constraintIndexCreator = mock( ConstraintIndexCreator.class );
         operations = new Operations( allStoreHolder, mock( IndexTxStateUpdater.class ),
                 storageStatement, transaction, new KernelToken( storeReadLayer, transaction ), cursors, autoindexing,
-                constraintIndexCreator, mock( ConstraintSemantics.class ), mock( IndexProviderMap.class ) );
+                constraintIndexCreator, mock( ConstraintSemantics.class ), mock( IndexProviderMap.class ), mock (IndexingService.class) );
         operations.initialize();
 
         this.order = inOrder( locks, txState, storeReadLayer );

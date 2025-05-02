@@ -157,7 +157,7 @@ abstract class NativeSchemaIndexReader<KEY extends NativeSchemaKey<KEY>, VALUE e
     }
 
     @Override
-    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, IndexQuery... predicates )
+    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, boolean needsValues, IndexQuery... predicates )
     {
         validateQuery( indexOrder, predicates );
 

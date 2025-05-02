@@ -356,6 +356,20 @@ public interface Read
      */
     void relationshipProperties( long relationshipReference, long reference, PropertyCursor cursor );
 
+    /**
+     * Checks if a node was deleted in the current transaction
+     * @param node the node to check
+     * @return <code>true</code> if the node was deleted otherwise <code>false</code>
+     */
+    boolean nodeDeletedInTransaction( long node );
+
+    /**
+     * Checks if a relationship was deleted in the current transaction
+     * @param relationship the relationship to check
+     * @return <code>true</code> if the relationship was deleted otherwise <code>false</code>
+     */
+    boolean relationshipDeletedInTransaction( long relationship );
+
     void graphProperties( PropertyCursor cursor );
 
     // hints to the page cache about data we will be accessing in the future:

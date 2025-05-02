@@ -38,6 +38,7 @@
  */
 package org.neo4j.internal.kernel.api;
 
+import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.values.storable.ValueCategory;
 
 /**
@@ -57,11 +58,23 @@ public interface CapableIndexReference extends IndexReference, IndexCapability
         {
             return NO_CAPABILITY.orderCapability( valueCategories );
         }
+        
+        
 
         @Override
         public IndexValueCapability valueCapability( ValueCategory... valueCategories )
         {
             return NO_CAPABILITY.valueCapability( valueCategories );
+        }
+
+        @Override
+        public boolean isFulltextIndex() {
+            return false;
+        }
+
+        @Override
+        public boolean isEventuallyConsistent() {
+            return false;
         }
 
         @Override
@@ -74,6 +87,11 @@ public interface CapableIndexReference extends IndexReference, IndexCapability
         public int label()
         {
             return Token.NO_TOKEN;
+        }
+
+        @Override
+        public SchemaDescriptor schema() {
+            return null;
         }
 
         @Override

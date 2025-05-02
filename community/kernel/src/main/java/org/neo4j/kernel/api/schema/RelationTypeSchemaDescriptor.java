@@ -78,6 +78,13 @@ public class RelationTypeSchemaDescriptor implements org.neo4j.internal.kernel.a
     }
 
     @Override
+    public PropertySchemaType propertySchemaType()
+    {
+        return PropertySchemaType.COMPLETE_ALL_TOKENS;
+    }
+
+
+    @Override
     public String userDescription( TokenNameLookup tokenNameLookup )
     {
         return SchemaUtil.niceRelTypeAndProperties( tokenNameLookup, relTypeId, propertyIds );

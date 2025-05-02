@@ -42,17 +42,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.neo4j.helpers.collection.Iterators;
+import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.internal.kernel.api.schema.SchemaUtil;
 
 /**
  * Reference to a specific index. This reference is valid until the schema of the database changes (that is a
  * create/drop of an index or constraint occurs).
  */
-public interface IndexReference
+public interface IndexReference extends IndexCapability
 {
     boolean isUnique();
 
     int label();
+
+    /**
+     * Returns the schema of this index.
+     */
+    SchemaDescriptor schema();
 
     int[] properties();
 

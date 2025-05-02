@@ -140,6 +140,14 @@ public interface SchemaDescriptor extends SchemaDescriptorSupplier
         return lockingIds;
     }
 
+    enum PropertySchemaType
+    {
+        COMPLETE_ALL_TOKENS,
+        PARTIAL_ANY_TOKEN
+    }
+
+    PropertySchemaType propertySchemaType();
+
     /**
      * Type of underlying schema descriptor key.
      * Key is part of schema unit that determines which resources with specified properties are applicable.

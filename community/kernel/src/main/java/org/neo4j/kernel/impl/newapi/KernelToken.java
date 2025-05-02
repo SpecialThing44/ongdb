@@ -91,6 +91,8 @@ public class KernelToken implements Token
         ktx.txState().relationshipTypeDoCreateForName( relationshipTypeName, id );
     }
 
+
+
     @Override
     public void propertyKeyCreateForName( String propertyKeyName, int id ) throws IllegalTokenNameException
     {
@@ -109,6 +111,27 @@ public class KernelToken implements Token
         }
         ktx.assertAllows( AccessMode::allowsTokenCreates, "Token create" );
         return store.propertyKeyGetOrCreateForName( propertyKeyName );
+    }
+
+    @Override
+    public void propertyKeyGetOrCreateForNames( String[] propertyKeys, int[] ids ) throws IllegalTokenNameException
+    {
+        ktx.assertOpen();
+        assertSameLength(propertyKeys, ids);
+        for (int i = 0; i < propertyKeys.length; i++)
+        {
+            String propertyKeyName = checkValidTokenName(propertyKeys[i]);
+            int propertyId = store.propertyKeyGetForName(propertyKeyName);
+            if (propertyId != TokenHolder.NO_ID)
+            {
+                ids[i] = propertyId;
+            }
+            else
+            {
+                ktx.assertAllows(AccessMode::allowsTokenCreates, "Token create");
+                ids[i] = store.propertyKeyGetOrCreateForName(propertyKeyName);
+            }
+        }
     }
 
     @Override
@@ -219,5 +242,13 @@ public class KernelToken implements Token
             throw new IllegalTokenNameException( name );
         }
         return name;
+    }
+
+    private void assertSameLength( String[] names, int[] ids )
+    {
+        if ( names.length != ids.length )
+        {
+            throw new IllegalArgumentException( "Name and id arrays have different length." );
+        }
     }
 }
