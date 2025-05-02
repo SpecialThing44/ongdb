@@ -82,6 +82,11 @@ public class DefaultCapableIndexReference implements CapableIndexReference
     }
 
     @Override
+    public SchemaDescriptor schema() {
+        return null;
+    }
+
+    @Override
     public int[] properties()
     {
         return properties;
@@ -115,6 +120,16 @@ public class DefaultCapableIndexReference implements CapableIndexReference
     public IndexValueCapability valueCapability( ValueCategory... valueCategories )
     {
         return capability.valueCapability( valueCategories );
+    }
+
+    @Override
+    public boolean isFulltextIndex() {
+        return false;
+    }
+
+    @Override
+    public boolean isEventuallyConsistent() {
+        return false;
     }
 
     @Override

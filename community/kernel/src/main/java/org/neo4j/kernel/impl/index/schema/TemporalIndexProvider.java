@@ -202,5 +202,17 @@ public class TemporalIndexProvider extends IndexProvider
         {
             return valueCategories.length == 1 && valueCategories[0] == ValueCategory.TEMPORAL;
         }
+
+        @Override
+        public boolean isFulltextIndex()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean isEventuallyConsistent()
+        {
+            return false;
+        }
     }
 }

@@ -214,5 +214,17 @@ public class SpatialIndexProvider extends IndexProvider
         {
             return IndexValueCapability.NO;
         }
+        
+        @Override
+        public boolean isFulltextIndex()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean isEventuallyConsistent()
+        {
+            return false;
+        }
     }
 }

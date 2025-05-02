@@ -142,6 +142,19 @@ public class NumberIndexProvider extends NativeIndexProvider<NumberSchemaKey,Nat
             return IndexValueCapability.NO;
         }
 
+        @Override
+        public boolean isFulltextIndex()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean isEventuallyConsistent()
+        {
+            return false;
+        }
+
+
         private boolean support( ValueCategory[] valueCategories )
         {
             return valueCategories.length == 1 && valueCategories[0] == ValueCategory.NUMBER;

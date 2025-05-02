@@ -20,7 +20,6 @@
 package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.util.Optional
-
 import org.neo4j.cypher.MissingIndexException
 import org.neo4j.cypher.internal.planner.v3_5.spi.IndexDescriptor.{OrderCapability, ValueCapability}
 import org.neo4j.cypher.internal.planner.v3_5.spi._
@@ -39,6 +38,7 @@ import org.neo4j.cypher.internal.v3_5.util.symbols._
 import org.neo4j.cypher.internal.v3_5.util.{CypherExecutionException, LabelId, PropertyKeyId, symbols => types}
 
 import scala.collection.JavaConverters._
+import scala.collection.immutable
 
 object TransactionBoundPlanContext {
   def apply(tc: TransactionalContextWrapper, logger: InternalNotificationLogger) =
@@ -86,7 +86,7 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
     tc.schemaRead.indexesGetForLabel(labelId).asScala.flatMap(getOnlineIndex).nonEmpty
   }
 
-  override def indexGetForLabelAndProperties(labelName: String, propertyKeys: Seq[String]): Option[IndexDescriptor] = evalOrNone {
+  override def indexGetForLabelAndProperties(labelName: String, propertyKeys: immutable.Seq[String]): Option[IndexDescriptor] = evalOrNone {
     try {
       val descriptor = toLabelSchemaDescriptor(this, labelName, propertyKeys)
       getOnlineIndex(tc.schemaRead.index(descriptor.getLabelId, descriptor.getPropertyIds:_*))
@@ -95,9 +95,10 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
     }
   }
 
-  override def indexExistsForLabelAndProperties(labelName: String, propertyKey: Seq[String]): Boolean = {
+  override def indexExistsForLabelAndProperties(labelName: String, propertyKey: immutable.Seq[String]): Boolean = {
     indexGetForLabelAndProperties(labelName, propertyKey).isDefined
   }
+
 
   private def evalOrNone[T](f: => Option[T]): Option[T] =
     try {
@@ -136,7 +137,7 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
           // Also, ignore eventually consistent indexes. Those are for explicit querying via procesures.
           None
         } else {
-          Some(IndexDescriptor(label, properties, limitations, orderCapability, valueCapability, isUnique))
+          Some(new IndexDescriptor(label, properties.toIndexedSeq, limitations, orderCapability, valueCapability, isUnique))
         }
       case _ => None
     }

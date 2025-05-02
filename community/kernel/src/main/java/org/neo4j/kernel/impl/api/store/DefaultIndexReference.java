@@ -40,10 +40,13 @@ package org.neo4j.kernel.impl.api.store;
 
 import java.util.Arrays;
 
+import org.neo4j.internal.kernel.api.IndexOrder;
 import org.neo4j.internal.kernel.api.IndexReference;
+import org.neo4j.internal.kernel.api.IndexValueCapability;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptorFactory;
+import org.neo4j.values.storable.ValueCategory;
 
 public class DefaultIndexReference implements IndexReference
 {
@@ -68,6 +71,11 @@ public class DefaultIndexReference implements IndexReference
     public int label()
     {
         return label;
+    }
+
+    @Override
+    public SchemaDescriptor schema() {
+        return null;
     }
 
     @Override
@@ -136,4 +144,23 @@ public class DefaultIndexReference implements IndexReference
         return String.format( "Index(%d:%s)", label, Arrays.toString( properties ) );
     }
 
+    @Override
+    public IndexOrder[] orderCapability(ValueCategory... valueCategories) {
+        return new IndexOrder[0];
+    }
+
+    @Override
+    public IndexValueCapability valueCapability(ValueCategory... valueCategories) {
+        return IndexValueCapability.NO;
+    }
+
+    @Override
+    public boolean isFulltextIndex() {
+        return false;
+    }
+
+    @Override
+    public boolean isEventuallyConsistent() {
+        return false;
+    }
 }

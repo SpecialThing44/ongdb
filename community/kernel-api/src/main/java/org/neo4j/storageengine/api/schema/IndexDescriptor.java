@@ -138,4 +138,28 @@ public class IndexDescriptor implements SchemaDescriptorSupplier, IndexReference
         GENERAL,
         UNIQUE
     }
+
+    @Override
+    public IndexOrder[] orderCapability( ValueCategory... valueCategories )
+    {
+        return ORDER_NONE;
+    }
+
+    @Override
+    public IndexValueCapability valueCapability( ValueCategory... valueCategories )
+    {
+        return IndexValueCapability.NO;
+    }
+
+    @Override
+    public boolean isFulltextIndex()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isEventuallyConsistent()
+    {
+        return false;
+    }
 }
