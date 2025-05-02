@@ -59,6 +59,7 @@ import org.neo4j.internal.kernel.api.procs.ProcedureSignature;
 import org.neo4j.internal.kernel.api.procs.QualifiedName;
 import org.neo4j.internal.kernel.api.procs.UserAggregator;
 import org.neo4j.internal.kernel.api.procs.UserFunctionHandle;
+import org.neo4j.internal.kernel.api.schema.IndexProviderDescriptor;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.internal.kernel.api.schema.SchemaUtil;
 import org.neo4j.internal.kernel.api.schema.constraints.ConstraintDescriptor;
@@ -103,6 +104,7 @@ import org.neo4j.register.Register;
 import org.neo4j.storageengine.api.StorageEngine;
 import org.neo4j.storageengine.api.StorageStatement;
 import org.neo4j.storageengine.api.StoreReadLayer;
+import org.neo4j.storageengine.api.schema.IndexDescriptorFactory;
 import org.neo4j.storageengine.api.schema.IndexReader;
 import org.neo4j.storageengine.api.schema.LabelScanReader;
 import org.neo4j.storageengine.api.schema.PopulationProgress;
@@ -410,6 +412,21 @@ public class AllStoreHolder extends Read
 
         return indexDescriptor != null ? indexGetCapability( indexDescriptor ) : CapableIndexReference.NO_INDEX;
     }
+
+    @Override
+    public IndexReference indexReferenceUnchecked( int label, int... properties )
+    {
+        return IndexDescriptorFactory.forSchema( SchemaDescriptorFactory.forLabel( label, properties ),
+                Optional.empty(),
+                IndexProviderDescriptor.UNDECIDED );
+    }
+
+    @Override
+    public IndexReference indexReferenceUnchecked( SchemaDescriptor schema )
+    {
+        return IndexDescriptorFactory.forSchema( schema, Optional.empty(), IndexProviderDescriptor.UNDECIDED );
+    }
+
 
     @Override
     public Iterator<IndexReference> indexesGetForLabel( int labelId )
