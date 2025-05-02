@@ -230,6 +230,15 @@ public class GraphDatabaseSettings implements LoadableConfig
             "unsupported.cypher.runtime",
         optionsIgnoreCase( "INTERPRETED", "COMPILED", "SLOTTED" , "MORSEL", DEFAULT ), DEFAULT );
 
+    @Internal
+    public static final Setting<String> cypher_expression_engine = setting(
+            "unsupported.cypher.expression_engine", optionsIgnoreCase( "INTERPRETED", "COMPILED", "ONLY_WHEN_HOT", DEFAULT ), DEFAULT );
+
+    @Description( "Number of uses before an expression is considered for compilation" )
+    @Internal
+    public static final Setting<Integer> cypher_expression_recompilation_limit =
+            buildSetting( "unsupported.cypher.expression_recompilation_limit", INTEGER, "1" ).constraint( min( 0 ) ).build();
+
     @Description( "Enable tracing of compilation in cypher." )
     @Internal
     public static final Setting<Boolean> cypher_compiler_tracing = setting( "unsupported.cypher.compiler_tracing", BOOLEAN, FALSE );
@@ -359,10 +368,21 @@ public class GraphDatabaseSettings implements LoadableConfig
     @Dynamic
     public static final Setting<Boolean> track_query_allocation = setting( "dbms.track_query_allocation", BOOLEAN, FALSE );
 
+    @Description( "Enable tracing of morsel runtime scheduler." )
+    @Internal
+    public static final Setting<Boolean> enable_morsel_runtime_trace =
+            setting( "unsupported.cypher.enable_morsel_runtime_trace", BOOLEAN, FALSE );
+
     @Description( "The size of the morsels" )
     @Internal
     public static final Setting<Integer> cypher_morsel_size =
             setting( "unsupported.cypher.morsel_size", INTEGER, "10000" );
+
+    @Description( "Duration in milliseconds that parallel runtime waits on a task before trying another task" )
+    @Internal
+    public static final Setting<Integer> cypher_task_wait =
+            setting( "unsupported.cypher.task_wait", INTEGER, "30000" );
+
 
     @Description( "Number of threads to allocate to Cypher worker threads. If set to 0, two workers will be started" +
             " for every physical core in the system." )
