@@ -55,7 +55,7 @@ public abstract class AbstractIndexReader implements IndexReader
     @Override
     public void query(
             IndexProgressor.NodeValueClient client,
-            IndexOrder indexOrder,
+            IndexOrder indexOrder, boolean needsValues,
             IndexQuery... query ) throws IndexNotApplicableKernelException
     {
         if ( indexOrder != IndexOrder.NONE )

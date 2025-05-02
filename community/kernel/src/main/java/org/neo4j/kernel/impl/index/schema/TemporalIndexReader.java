@@ -89,12 +89,12 @@ class TemporalIndexReader extends TemporalIndexCache<TemporalIndexPartReader<?>>
     public PrimitiveLongResourceIterator query( IndexQuery... predicates )
     {
         NodeValueIterator nodeValueIterator = new NodeValueIterator();
-        query( nodeValueIterator, IndexOrder.NONE, predicates );
+        query( nodeValueIterator, IndexOrder.NONE, false, predicates );
         return nodeValueIterator;
     }
 
     @Override
-    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, IndexQuery... predicates )
+    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, boolean needsValues, IndexQuery... predicates )
     {
         if ( predicates.length != 1 )
         {
@@ -108,7 +108,7 @@ class TemporalIndexReader extends TemporalIndexCache<TemporalIndexPartReader<?>>
             cursor.initialize( descriptor, multiProgressor, predicates );
             for ( NativeSchemaIndexReader<?,NativeSchemaValue> reader : this )
             {
-                reader.query( multiProgressor, indexOrder, predicates );
+                reader.query( multiProgressor, indexOrder, needsValues, predicates );
             }
         }
         else
@@ -118,7 +118,7 @@ class TemporalIndexReader extends TemporalIndexCache<TemporalIndexPartReader<?>>
                 NativeSchemaIndexReader<?,NativeSchemaValue> part = uncheckedSelect( predicate.valueGroup() );
                 if ( part != null )
                 {
-                    part.query( cursor, indexOrder, predicates );
+                    part.query( cursor, indexOrder, needsValues, predicates );
                 }
                 else
                 {

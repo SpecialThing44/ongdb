@@ -247,7 +247,7 @@ public class KernelTransactionImplementation implements KernelTransaction, TxSta
                         storageStatement,
                         this, new KernelToken( storeLayer, this ), cursors, autoIndexing, constraintIndexCreator,
                         constraintSemantics,
-                        indexProviderMap );
+                        indexProviderMap, indexingService );
         this.collectionsFactory = collectionsFactorySupplier.create();
     }
 

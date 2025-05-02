@@ -91,12 +91,12 @@ class SpatialIndexReader extends SpatialIndexCache<SpatialIndexPartReader<Native
     public PrimitiveLongResourceIterator query( IndexQuery... predicates )
     {
         NodeValueIterator nodeValueIterator = new NodeValueIterator();
-        query( nodeValueIterator, IndexOrder.NONE, predicates );
+        query( nodeValueIterator, IndexOrder.NONE, false, predicates );
         return nodeValueIterator;
     }
 
     @Override
-    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, IndexQuery... predicates )
+    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, boolean needsValues, IndexQuery... predicates )
     {
         if ( predicates.length != 1 )
         {
@@ -110,7 +110,7 @@ class SpatialIndexReader extends SpatialIndexCache<SpatialIndexPartReader<Native
             cursor.initialize( descriptor, multiProgressor, predicates );
             for ( NativeSchemaIndexReader<SpatialSchemaKey,NativeSchemaValue> reader : this )
             {
-                reader.query( multiProgressor, indexOrder, predicates );
+                reader.query( multiProgressor, indexOrder, needsValues, predicates );
             }
         }
         else
@@ -133,7 +133,7 @@ class SpatialIndexReader extends SpatialIndexCache<SpatialIndexPartReader<Native
                 SpatialIndexPartReader<NativeSchemaValue> part = uncheckedSelect( crs );
                 if ( part != null )
                 {
-                    part.query( cursor, indexOrder, predicates );
+                    part.query( cursor, indexOrder, needsValues, predicates );
                 }
                 else
                 {

@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiConsumer;
 
+import org.neo4j.collection.PrimitiveLongCollections;
 import org.neo4j.collection.primitive.Primitive;
 import org.neo4j.collection.primitive.PrimitiveLongIterator;
 import org.neo4j.collection.primitive.PrimitiveLongObjectMap;
@@ -71,6 +72,7 @@ import org.neo4j.kernel.api.index.IndexEntryUpdate;
 import org.neo4j.kernel.api.index.IndexProvider;
 import org.neo4j.kernel.api.index.IndexProvider.Descriptor;
 import org.neo4j.kernel.api.index.IndexUpdater;
+import org.neo4j.kernel.api.schema.constaints.IndexBackedConstraintDescriptor;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.impl.api.SchemaState;
 import org.neo4j.kernel.impl.api.index.sampling.IndexSamplingController;
@@ -84,6 +86,7 @@ import org.neo4j.logging.LogProvider;
 import org.neo4j.register.Register.DoubleLongRegister;
 import org.neo4j.register.Registers;
 import org.neo4j.scheduler.JobScheduler;
+import org.neo4j.storageengine.api.EntityType;
 import org.neo4j.values.storable.Value;
 
 import static java.lang.String.format;
@@ -710,6 +713,16 @@ public class IndexingService extends LifecycleAdapter implements IndexingUpdateS
     {
         return format( "IndexingService.%s: index %d on %s is %s", tag, indexId,
                 descriptor.schema().userDescription( tokenNameLookup ), state.name() );
+    }
+
+    public Collection<SchemaDescriptor> getRelatedIndexes( long[] labels, int[] propertyKeyIds, EntityType entityType )
+    {
+        return indexMapRef.getRelatedIndexes( labels, PrimitiveLongCollections.EMPTY_LONG_ARRAY, propertyKeyIds, true, entityType );
+    }
+
+    public Collection<IndexBackedConstraintDescriptor> getRelatedUniquenessConstraints(long[] labels, int[] propertyKeyIds, EntityType entityType )
+    {
+        return indexMapRef.getRelatedConstraints( labels, PrimitiveLongCollections.EMPTY_LONG_ARRAY, propertyKeyIds, true, entityType );
     }
 
     private void logIndexStateSummary( String method, Map<InternalIndexState,List<IndexLogRecord>> indexStates )

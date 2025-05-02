@@ -54,6 +54,9 @@ import org.neo4j.collection.primitive.PrimitiveLongCollections;
 import org.neo4j.collection.primitive.PrimitiveLongIterator;
 import org.neo4j.collection.primitive.PrimitiveLongObjectMap;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
+import org.neo4j.internal.kernel.api.schema.SchemaDescriptorSupplier;
+import org.neo4j.kernel.api.schema.constaints.IndexBackedConstraintDescriptor;
+import org.neo4j.storageengine.api.EntityType;
 
 /**
  * Bundles various mappings to IndexProxy. Used by IndexingService via IndexMapReference.
@@ -68,6 +71,11 @@ public final class IndexMap implements Cloneable
     private final Map<SchemaDescriptor,Long> indexIdsByDescriptor;
     private final PrimitiveIntObjectMap<Set<SchemaDescriptor>> descriptorsByLabel;
     private final PrimitiveIntObjectMap<Set<SchemaDescriptor>> descriptorsByProperty;
+    private final SchemaDescriptorLookupSet<SchemaDescriptor> descriptorsByLabelThenProperty;
+    private final SchemaDescriptorLookupSet<SchemaDescriptor> descriptorsByReltypeThenProperty;
+    private final SchemaDescriptorLookupSet<IndexBackedConstraintDescriptor> constraintsByLabelThenProperty;
+    private final SchemaDescriptorLookupSet<IndexBackedConstraintDescriptor> constraintsByRelTypeThenProperty;
+
 
     public IndexMap()
     {
@@ -93,6 +101,10 @@ public final class IndexMap implements Cloneable
         {
             addDescriptorToLookups( schema );
         }
+        this.descriptorsByLabelThenProperty = new SchemaDescriptorLookupSet<>();
+        this.descriptorsByReltypeThenProperty = new SchemaDescriptorLookupSet<>();
+        this.constraintsByLabelThenProperty = new SchemaDescriptorLookupSet<>();
+        this.constraintsByRelTypeThenProperty = new SchemaDescriptorLookupSet<>();
     }
 
     public IndexProxy getIndexProxy( long indexId )
@@ -180,6 +192,106 @@ public final class IndexMap implements Cloneable
         Set<SchemaDescriptor> descriptors = extractIndexesByLabels( changedLabels );
         descriptors.addAll( getDescriptorsByProperties( unchangedLabels, properties ) );
 
+        return descriptors;
+    }
+
+    public Set<SchemaDescriptor> getRelatedIndexes( long[] changedEntityTokens, long[] unchangedEntityTokens, int[] sortedProperties,
+                                                    boolean propertyListIsComplete, EntityType entityType )
+    {
+        return getRelatedDescriptors( selectIndexesByEntityType( entityType ), changedEntityTokens, unchangedEntityTokens, sortedProperties,
+                propertyListIsComplete );
+    }
+
+    /**
+     * Get all uniqueness constraints that would be affected by changes in the input labels and/or properties. The returned
+     * set is guaranteed to contain all affected constraints, but might also contain unaffected constraints as
+     * we cannot provide matching without checking unaffected properties for composite indexes.
+     *
+     * @param changedEntityTokens set of labels that have changed
+     * @param unchangedEntityTokens set of labels that are unchanged
+     * @param sortedProperties sorted list of properties
+     * @param entityType type of indexes to get
+     * @return set of SchemaDescriptors describing the potentially affected indexes
+     */
+    public Set<IndexBackedConstraintDescriptor> getRelatedConstraints(long[] changedEntityTokens, long[] unchangedEntityTokens, int[] sortedProperties,
+                                                                      boolean propertyListIsComplete, EntityType entityType )
+    {
+        return getRelatedDescriptors( selectConstraintsByEntityType( entityType ), changedEntityTokens, unchangedEntityTokens, sortedProperties,
+                propertyListIsComplete );
+    }
+
+    private SchemaDescriptorLookupSet<SchemaDescriptor> selectIndexesByEntityType( EntityType entityType )
+    {
+        switch ( entityType )
+        {
+            case NODE:
+                return descriptorsByLabelThenProperty;
+            case RELATIONSHIP:
+                return descriptorsByReltypeThenProperty;
+            default:
+                throw new IllegalArgumentException( "Unknown entity type " + entityType );
+        }
+    }
+
+
+    private SchemaDescriptorLookupSet<IndexBackedConstraintDescriptor> selectConstraintsByEntityType( EntityType entityType )
+    {
+        switch ( entityType )
+        {
+            case NODE:
+                return constraintsByLabelThenProperty;
+            case RELATIONSHIP:
+                return constraintsByRelTypeThenProperty;
+            default:
+                throw new IllegalArgumentException( "Unknown entity type " + entityType );
+        }
+    }
+
+    /**
+     * @param changedLabels set of labels that have changed
+     * @param unchangedLabels set of labels that are unchanged
+     * @param sortedProperties set of properties
+     * @param propertyListIsComplete whether or not the property list is complete. For CREATE/DELETE the list is complete, but may not be for UPDATEs.
+     * @return set of SchemaDescriptors describing the potentially affected indexes
+     */
+    private <T extends SchemaDescriptorSupplier> Set<T> getRelatedDescriptors(SchemaDescriptorLookupSet<T> set, long[] changedLabels, long[] unchangedLabels,
+                                                                              int[] sortedProperties, boolean propertyListIsComplete )
+    {
+        if ( set.isEmpty() )
+        {
+            return Collections.emptySet();
+        }
+
+        Set<T> descriptors = new HashSet<>();
+        if ( propertyListIsComplete )
+        {
+            set.matchingDescriptorsForCompleteListOfProperties( descriptors, changedLabels, sortedProperties );
+        }
+        else
+        {
+            // At the time of writing this the commit process won't load the complete list of property keys for an entity.
+            // Because of this the matching cannot be as precise as if the complete list was known.
+            // Anyway try to make the best out of it and narrow down the list of potentially related indexes as much as possible.
+            if ( sortedProperties.length == 0 )
+            {
+                // Only labels changed. Since we don't know which properties this entity has let's include all indexes for the changed labels.
+                set.matchingDescriptors( descriptors, changedLabels );
+            }
+            else if ( changedLabels.length == 0 )
+            {
+                // Only properties changed. Since we don't know which other properties this entity has let's include all indexes
+                // for the (unchanged) labels on this entity that has any match on any of the changed properties.
+                set.matchingDescriptorsForPartialListOfProperties( descriptors, unchangedLabels, sortedProperties );
+            }
+            else
+            {
+                // Both labels and properties changed.
+                // All indexes for the changed labels must be included.
+                // Also include all indexes for any of the changed or unchanged labels that has any match on any of the changed properties.
+                set.matchingDescriptors( descriptors, changedLabels );
+                set.matchingDescriptorsForPartialListOfProperties( descriptors, unchangedLabels, sortedProperties );
+            }
+        }
         return descriptors;
     }
 

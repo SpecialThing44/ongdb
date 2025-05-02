@@ -97,12 +97,12 @@ public class SpatialIndexPartReader<VALUE extends NativeSchemaValue> extends Nat
     public PrimitiveLongResourceIterator query( IndexQuery... predicates )
     {
         NodeValueIterator nodeValueIterator = new NodeValueIterator();
-        query( nodeValueIterator, IndexOrder.NONE, predicates );
+        query( nodeValueIterator, IndexOrder.NONE, false, predicates );
         return nodeValueIterator;
     }
 
     @Override
-    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, IndexQuery... predicates )
+    public void query( IndexProgressor.NodeValueClient cursor, IndexOrder indexOrder, boolean needsValues, IndexQuery... predicates )
     {
         validateQuery( indexOrder, predicates );
         IndexQuery predicate = predicates[0];
