@@ -75,6 +75,7 @@ import org.neo4j.kernel.impl.store.TransactionId;
 import org.neo4j.kernel.impl.transaction.TransactionHeaderInformationFactory;
 import org.neo4j.kernel.impl.transaction.TransactionMonitor;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
+import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.kernel.impl.util.MonotonicCounter;
 import org.neo4j.kernel.impl.util.collection.CollectionsFactorySupplier;
 import org.neo4j.kernel.lifecycle.LifecycleAdapter;
@@ -125,6 +126,7 @@ public class KernelTransactions extends LifecycleAdapter implements Supplier<Ker
     private final IndexProviderMap indexProviderMap;
     private final CollectionsFactorySupplier collectionsFactorySupplier;
     private final SchemaState schemaState;
+    private final Dependencies dataSourceDependencies;
 
     /**
      * Used to enumerate all transactions in the system, active and idle ones.
@@ -172,7 +174,7 @@ public class KernelTransactions extends LifecycleAdapter implements Supplier<Ker
             ConstraintSemantics constraintSemantics,
             SchemaState schemaState,
             IndexingService indexingService,
-            IndexProviderMap indexProviderMap )
+            IndexProviderMap indexProviderMap, Dependencies dataSourceDependencies )
     {
         this.statementLocksFactory = statementLocksFactory;
         this.constraintIndexCreator = constraintIndexCreator;
@@ -204,6 +206,7 @@ public class KernelTransactions extends LifecycleAdapter implements Supplier<Ker
         this.collectionsFactorySupplier = collectionsFactorySupplier;
         this.constraintSemantics = constraintSemantics;
         this.schemaState = schemaState;
+        this.dataSourceDependencies = dataSourceDependencies;
     }
 
     public KernelTransaction newInstance( KernelTransaction.Type type, LoginContext loginContext, long timeout )
@@ -398,7 +401,7 @@ public class KernelTransactions extends LifecycleAdapter implements Supplier<Ker
                             cursorsSupplier.get(), autoIndexing,
                             explicitIndexStore, versionContextSupplier, collectionsFactorySupplier, constraintSemantics,
                             schemaState, indexingService,
-                            indexProviderMap );
+                            indexProviderMap, dataSourceDependencies );
             this.transactions.add( tx );
             return tx;
         }

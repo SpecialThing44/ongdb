@@ -54,11 +54,7 @@ import org.neo4j.internal.kernel.api.exceptions.KernelException;
 import org.neo4j.internal.kernel.api.exceptions.ProcedureException;
 import org.neo4j.internal.kernel.api.exceptions.explicitindex.ExplicitIndexNotFoundKernelException;
 import org.neo4j.internal.kernel.api.exceptions.schema.ConstraintValidationException;
-import org.neo4j.internal.kernel.api.procs.ProcedureHandle;
-import org.neo4j.internal.kernel.api.procs.ProcedureSignature;
-import org.neo4j.internal.kernel.api.procs.QualifiedName;
-import org.neo4j.internal.kernel.api.procs.UserAggregator;
-import org.neo4j.internal.kernel.api.procs.UserFunctionHandle;
+import org.neo4j.internal.kernel.api.procs.*;
 import org.neo4j.internal.kernel.api.schema.IndexProviderDescriptor;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.internal.kernel.api.schema.SchemaUtil;
@@ -100,6 +96,8 @@ import org.neo4j.kernel.impl.store.record.PropertyRecord;
 import org.neo4j.kernel.impl.store.record.RecordLoad;
 import org.neo4j.kernel.impl.store.record.RelationshipGroupRecord;
 import org.neo4j.kernel.impl.store.record.RelationshipRecord;
+import org.neo4j.kernel.impl.util.Dependencies;
+import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.register.Register;
 import org.neo4j.storageengine.api.StorageEngine;
 import org.neo4j.storageengine.api.StorageStatement;
@@ -138,6 +136,8 @@ public class AllStoreHolder extends Read
     private final ExplicitIndexStore explicitIndexStore;
     private final Procedures procedures;
     private final SchemaState schemaState;
+    private final Dependencies dataSourceDependencies;
+
 
     public AllStoreHolder( StorageEngine engine,
             StorageStatement statement,
@@ -145,7 +145,8 @@ public class AllStoreHolder extends Read
             DefaultCursors cursors,
             ExplicitIndexStore explicitIndexStore,
             Procedures procedures,
-            SchemaState schemaState )
+            SchemaState schemaState,
+            Dependencies dataSourceDependencies)
     {
         super( cursors, ktx );
         this.storeReadLayer = engine.storeReadLayer();
@@ -157,6 +158,8 @@ public class AllStoreHolder extends Read
         this.explicitIndexStore = explicitIndexStore;
         this.procedures = procedures;
         this.schemaState = schemaState;
+        this.dataSourceDependencies = dataSourceDependencies;
+
     }
 
     @Override
@@ -1019,6 +1022,75 @@ public class AllStoreHolder extends Read
     }
 
     @Override
+    public RawIterator<Object[],ProcedureException> procedureCallRead( QualifiedName name, Object[] arguments, ProcedureCallContext context )
+            throws ProcedureException
+    {
+        AccessMode accessMode = ktx.securityContext().mode();
+        if ( !accessMode.allowsReads() )
+        {
+            throw accessMode.onViolation( format( "Read operations are not allowed for %s.",
+                    ktx.securityContext().description() ) );
+        }
+        return callProcedure( name, arguments, new RestrictedAccessMode( ktx.securityContext().mode(), AccessMode.Static
+                .READ ), context );
+    }
+
+    @Override
+    public RawIterator<Object[],ProcedureException> procedureCallReadOverride( QualifiedName name, Object[] arguments, ProcedureCallContext context )
+            throws ProcedureException
+    {
+        return callProcedure( name, arguments,
+                new OverriddenAccessMode( ktx.securityContext().mode(), AccessMode.Static.READ ), context );
+    }
+
+    @Override
+    public RawIterator<Object[],ProcedureException> procedureCallWrite( QualifiedName name, Object[] arguments, ProcedureCallContext context )
+            throws ProcedureException
+    {
+        AccessMode accessMode = ktx.securityContext().mode();
+        if ( !accessMode.allowsWrites() )
+        {
+            throw accessMode.onViolation( format( "Write operations are not allowed for %s.",
+                    ktx.securityContext().description() ) );
+        }
+        return callProcedure( name, arguments,
+                new RestrictedAccessMode( ktx.securityContext().mode(), AccessMode.Static.TOKEN_WRITE ), context );
+    }
+
+    @Override
+    public RawIterator<Object[],ProcedureException> procedureCallWriteOverride( QualifiedName name, Object[] arguments, ProcedureCallContext context )
+            throws ProcedureException
+    {
+        return callProcedure( name, arguments,
+                new OverriddenAccessMode( ktx.securityContext().mode(), AccessMode.Static.TOKEN_WRITE ), context );
+
+    }
+
+    @Override
+    public RawIterator<Object[],ProcedureException> procedureCallSchema( QualifiedName name, Object[] arguments, ProcedureCallContext context )
+            throws ProcedureException
+    {
+        AccessMode accessMode = ktx.securityContext().mode();
+        if ( !accessMode.allowsSchemaWrites() )
+        {
+            throw accessMode.onViolation( format( "Schema operations are not allowed for %s.",
+                    ktx.securityContext().description() ) );
+        }
+        return callProcedure( name, arguments,
+                new RestrictedAccessMode( ktx.securityContext().mode(), AccessMode.Static.FULL ), context );
+    }
+
+    @Override
+    public RawIterator<Object[],ProcedureException> procedureCallSchemaOverride( QualifiedName name,
+                                                                                 Object[] arguments, ProcedureCallContext context )
+            throws ProcedureException
+    {
+        return callProcedure( name, arguments,
+                new OverriddenAccessMode( ktx.securityContext().mode(), AccessMode.Static.FULL ), context );
+    }
+
+
+    @Override
     public AnyValue functionCall( int id, AnyValue[] arguments ) throws ProcedureException
     {
         if ( !ktx.securityContext().mode().allowsReads() )
@@ -1155,6 +1227,39 @@ public class AllStoreHolder extends Read
                     .callProcedure( populateProcedureContext( procedureSecurityContext ), name, input, statement );
         }
         return createIterator( procedureSecurityContext, procedureCall );
+    }
+
+    private RawIterator<Object[],ProcedureException> callProcedure(
+            QualifiedName name, Object[] input, final AccessMode override, ProcedureCallContext procedureCallContext )
+            throws ProcedureException
+    {
+        ktx.assertOpen();
+
+        final SecurityContext procedureSecurityContext = ktx.securityContext().withMode( override );
+        final RawIterator<Object[],ProcedureException> procedureCall;
+        try ( KernelTransaction.Revertable ignore = ktx.overrideWith( procedureSecurityContext );
+              Statement statement = ktx.acquireStatement() )
+        {
+            procedureCall = procedures
+                    .callProcedure( prepareContext( procedureSecurityContext, procedureCallContext ), name, input, statement );
+        }
+        return createIterator( procedureSecurityContext, procedureCall );
+    }
+
+    private BasicContext prepareContext( SecurityContext securityContext, ProcedureCallContext procedureCallContext )
+    {
+        BasicContext ctx = new BasicContext();
+        ctx.put( Context.KERNEL_TRANSACTION, ktx );
+        ctx.put( Context.DATABASE_API, dataSourceDependencies.resolveDependency( GraphDatabaseAPI.class ) );
+        ctx.put( Context.DEPENDENCY_RESOLVER, dataSourceDependencies );
+        ctx.put( Context.THREAD, Thread.currentThread() );
+        ClockContext clocks = ktx.clocks();
+        ctx.put( Context.SYSTEM_CLOCK, clocks.systemClock() );
+        ctx.put( Context.STATEMENT_CLOCK, clocks.statementClock() );
+        ctx.put( Context.TRANSACTION_CLOCK, clocks.transactionClock() );
+        ctx.put( Context.SECURITY_CONTEXT, securityContext );
+        ctx.put( Context.PROCEDURE_CALL_CONTEXT, procedureCallContext );
+        return ctx;
     }
 
     private RawIterator<Object[],ProcedureException> createIterator( SecurityContext procedureSecurityContext,

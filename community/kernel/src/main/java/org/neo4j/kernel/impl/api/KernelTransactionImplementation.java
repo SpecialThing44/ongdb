@@ -111,6 +111,7 @@ import org.neo4j.kernel.impl.transaction.log.PhysicalTransactionRepresentation;
 import org.neo4j.kernel.impl.transaction.tracing.CommitEvent;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionEvent;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
+import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.kernel.impl.util.collection.CollectionsFactory;
 import org.neo4j.kernel.impl.util.collection.CollectionsFactorySupplier;
 import org.neo4j.resources.CpuClock;
@@ -214,7 +215,7 @@ public class KernelTransactionImplementation implements KernelTransaction, TxSta
             PageCursorTracerSupplier cursorTracerSupplier, StorageEngine storageEngine, AccessCapability accessCapability, DefaultCursors cursors,
             AutoIndexing autoIndexing, ExplicitIndexStore explicitIndexStore, VersionContextSupplier versionContextSupplier,
             CollectionsFactorySupplier collectionsFactorySupplier, ConstraintSemantics constraintSemantics, SchemaState schemaState,
-            IndexingService indexingService, IndexProviderMap indexProviderMap )
+            IndexingService indexingService, IndexProviderMap indexProviderMap, Dependencies dataSourceDependencies )
     {
         this.schemaWriteGuard = schemaWriteGuard;
         this.hooks = hooks;
@@ -239,7 +240,7 @@ public class KernelTransactionImplementation implements KernelTransaction, TxSta
         this.userMetaData = new HashMap<>();
         AllStoreHolder allStoreHolder =
                 new AllStoreHolder( storageEngine, storageStatement, this, cursors, explicitIndexStore,
-                        procedures, schemaState );
+                        procedures, schemaState, dataSourceDependencies );
         this.operations =
                 new Operations(
                         allStoreHolder,

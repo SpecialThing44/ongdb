@@ -83,6 +83,7 @@ import org.neo4j.kernel.impl.locking.Locks;
 import org.neo4j.kernel.impl.locking.ResourceTypes;
 import org.neo4j.kernel.impl.locking.SimpleStatementLocks;
 import org.neo4j.kernel.impl.proc.Procedures;
+import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.storageengine.api.StorageEngine;
 import org.neo4j.storageengine.api.StorageStatement;
 import org.neo4j.storageengine.api.StoreReadLayer;
@@ -155,7 +156,7 @@ public class OperationsLockTest
         when( storeReadLayer.constraintsGetAll() ).thenReturn( Collections.emptyIterator() );
         when( engine.storeReadLayer() ).thenReturn( storeReadLayer );
         allStoreHolder = new AllStoreHolder( engine, storageStatement,  transaction, cursors, mock(
-                ExplicitIndexStore.class ), mock( Procedures.class ), mock( SchemaState.class ) );
+                ExplicitIndexStore.class ), mock( Procedures.class ), mock( SchemaState.class ), mock( Dependencies.class) );
         constraintIndexCreator = mock( ConstraintIndexCreator.class );
         operations = new Operations( allStoreHolder, mock( IndexTxStateUpdater.class ),
                 storageStatement, transaction, new KernelToken( storeReadLayer, transaction ), cursors, autoindexing,
