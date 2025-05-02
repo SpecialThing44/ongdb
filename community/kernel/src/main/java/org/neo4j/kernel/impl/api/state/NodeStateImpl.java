@@ -56,6 +56,7 @@ import org.neo4j.storageengine.api.StorageProperty;
 import org.neo4j.storageengine.api.txstate.NodeState;
 import org.neo4j.storageengine.api.txstate.PropertyContainerState;
 import org.neo4j.storageengine.api.txstate.ReadableDiffSets;
+import org.neo4j.values.storable.Value;
 
 import static java.util.Collections.emptyIterator;
 import static org.neo4j.collection.primitive.Primitive.intSet;
@@ -97,6 +98,12 @@ class NodeStateImpl extends PropertyContainerStateImpl implements NodeState
         @Override
         public void accept( PropertyContainerState.Visitor visitor )
         {
+        }
+
+        @Override
+        public Value propertyValue(int propertyKey )
+        {
+            return null;
         }
 
         @Override
