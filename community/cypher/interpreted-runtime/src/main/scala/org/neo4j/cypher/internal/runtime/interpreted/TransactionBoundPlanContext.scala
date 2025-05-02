@@ -86,7 +86,7 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
     tc.schemaRead.indexesGetForLabel(labelId).asScala.flatMap(getOnlineIndex).nonEmpty
   }
 
-  override def indexGetForLabelAndProperties(labelName: String, propertyKeys: immutable.Seq[String]): Option[IndexDescriptor] = evalOrNone {
+  override def indexGetForLabelAndProperties(labelName: String, propertyKeys: Seq[String]): Option[IndexDescriptor] = evalOrNone {
     try {
       val descriptor = toLabelSchemaDescriptor(this, labelName, propertyKeys)
       getOnlineIndex(tc.schemaRead.index(descriptor.getLabelId, descriptor.getPropertyIds:_*))
@@ -95,7 +95,7 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
     }
   }
 
-  override def indexExistsForLabelAndProperties(labelName: String, propertyKey: immutable.Seq[String]): Boolean = {
+  override def indexExistsForLabelAndProperties(labelName: String, propertyKey: Seq[String]): Boolean = {
     indexGetForLabelAndProperties(labelName, propertyKey).isDefined
   }
 

@@ -44,6 +44,7 @@ import java.util.List;
 import org.neo4j.helpers.collection.Iterators;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.internal.kernel.api.schema.SchemaUtil;
+import org.neo4j.values.storable.ValueCategory;
 
 /**
  * Reference to a specific index. This reference is valid until the schema of the database changes (that is a
@@ -88,4 +89,60 @@ public interface IndexReference extends IndexCapability
                 Iterators.filter( IndexReference::isUnique, materialized.iterator() ) );
 
     }
+
+    IndexReference NO_INDEX = new IndexReference()
+    {
+        @Override
+        public IndexOrder[] orderCapability( ValueCategory... valueCategories )
+        {
+            return NO_CAPABILITY.orderCapability( valueCategories );
+        }
+
+        @Override
+        public IndexValueCapability valueCapability( ValueCategory... valueCategories )
+        {
+            return NO_CAPABILITY.valueCapability( valueCategories );
+        }
+
+        @Override
+        public boolean isFulltextIndex()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean isEventuallyConsistent()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean isUnique()
+        {
+            return false;
+        }
+
+        @Override
+        public int label() {
+            return 0;
+        }
+
+        @Override
+        public int[] properties()
+        {
+            return new int[0];
+        }
+
+        @Override
+        public SchemaDescriptor schema()
+        {
+            return SchemaDescriptor.NO_SCHEMA;
+        }
+
+        @Override
+        public String userDescription( TokenNameLookup tokenNameLookup )
+        {
+            return SchemaDescriptor.NO_SCHEMA.userDescription( tokenNameLookup );
+        }
+    };
 }
