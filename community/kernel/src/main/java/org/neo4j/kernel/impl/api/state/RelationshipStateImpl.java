@@ -43,6 +43,7 @@ import java.util.Iterator;
 import org.neo4j.kernel.impl.api.RelationshipVisitor;
 import org.neo4j.storageengine.api.StorageProperty;
 import org.neo4j.storageengine.api.txstate.RelationshipState;
+import org.neo4j.values.storable.Value;
 
 import static java.util.Collections.emptyIterator;
 
@@ -125,6 +126,12 @@ class RelationshipStateImpl extends PropertyContainerStateImpl implements Relati
         public boolean isPropertyRemoved( int propertyKeyId )
         {
             return false;
+        }
+
+        @Override
+        public Value propertyValue(int propertyKey )
+        {
+            return null;
         }
     };
 

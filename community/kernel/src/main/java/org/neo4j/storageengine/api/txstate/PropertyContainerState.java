@@ -42,6 +42,7 @@ import java.util.Iterator;
 
 import org.neo4j.internal.kernel.api.exceptions.schema.ConstraintValidationException;
 import org.neo4j.storageengine.api.StorageProperty;
+import org.neo4j.values.storable.Value;
 
 import static java.util.Collections.emptyIterator;
 
@@ -79,6 +80,8 @@ public interface PropertyContainerState
     StorageProperty getChangedProperty( int propertyKeyId );
 
     StorageProperty getAddedProperty( int propertyKeyId );
+
+    Value propertyValue(int propertyKey );
 
     boolean isPropertyChangedOrRemoved( int propertyKey );
 
@@ -151,6 +154,12 @@ public interface PropertyContainerState
         public boolean isPropertyRemoved( int propertyKeyId )
         {
             return false;
+        }
+
+        @Override
+        public Value propertyValue( int propertyKey )
+        {
+            return null;
         }
     }
 }
