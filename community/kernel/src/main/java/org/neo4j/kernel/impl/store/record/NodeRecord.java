@@ -54,6 +54,7 @@ public class NodeRecord extends PrimitiveRecord
     private boolean isLight;
     private boolean dense;
 
+
     public NodeRecord( long id )
     {
         super( id );
@@ -74,6 +75,11 @@ public class NodeRecord extends PrimitiveRecord
     public NodeRecord( long id, boolean dense, long nextRel, long nextProp )
     {
         this( id, false, dense, nextRel, nextProp, 0 );
+    }
+
+    public long entityReference()
+    {
+        return getId();
     }
 
     @Deprecated

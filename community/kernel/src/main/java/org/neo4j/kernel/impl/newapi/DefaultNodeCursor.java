@@ -38,7 +38,6 @@
  */
 package org.neo4j.kernel.impl.newapi;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import org.neo4j.collection.primitive.Primitive;
@@ -54,8 +53,7 @@ import org.neo4j.kernel.impl.store.NodeLabelsField;
 import org.neo4j.kernel.impl.store.RecordCursor;
 import org.neo4j.kernel.impl.store.record.DynamicRecord;
 import org.neo4j.kernel.impl.store.record.NodeRecord;
-import org.neo4j.storageengine.api.StorageProperty;
-import org.neo4j.storageengine.api.txstate.NodeState;
+import org.neo4j.storageengine.api.txstate.ReadableDiffSets;
 
 import static java.util.Collections.emptySet;
 
@@ -69,6 +67,7 @@ class DefaultNodeCursor extends NodeRecord implements NodeCursor
     private HasChanges hasChanges = HasChanges.MAYBE;
     private Set<Long> addedNodes;
     private PropertyCursor propertyCursor;
+    private NodeRecord storeCursor;
 
     private final DefaultCursors pool;
 
@@ -148,6 +147,47 @@ class DefaultNodeCursor extends NodeRecord implements NodeCursor
         {
             //Nothing in tx state, just read the data.
             return Labels.from( NodeLabelsField.get( this, labelCursor()) );
+        }
+    }
+
+
+    @Override
+    public boolean hasLabel(int label)
+    {
+        if (hasChanges())
+        {
+            TransactionState txState = read.txState();
+            if (txState.nodeIsAddedInThisTx(getId()))
+            {
+                // Check if the label is in the added labels for the node in the transaction state
+                return txState.nodeStateLabelDiffSets(getId()).getAdded().contains(label);
+            }
+            else
+            {
+                // Check both the store and the transaction state for the label
+                long[] longs = NodeLabelsField.get(this, labelCursor());
+                for (long labelToken : longs)
+                {
+                    if ((int) labelToken == label)
+                    {
+                        return true;
+                    }
+                }
+                return txState.augmentLabels(Primitive.intSet(), txState.getNodeState(getId())).contains(label);
+            }
+        }
+        else
+        {
+            // Check only the store for the label
+            long[] longs = NodeLabelsField.get(this, labelCursor());
+            for (long labelToken : longs)
+            {
+                if ((int) labelToken == label)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
