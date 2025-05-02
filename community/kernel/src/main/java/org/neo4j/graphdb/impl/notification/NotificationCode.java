@@ -65,6 +65,18 @@ public enum NotificationCode
         Status.Statement.FeatureDeprecationWarning,
         "Using PLANNER for switching between planners has been deprecated, please use CYPHER planner=[rule,cost] instead"
     ),
+    DEPRECATED_RULE_PLANNER(
+            SeverityLevel.WARNING,
+            Status.Statement.FeatureDeprecationWarning,
+            "The rule planner, which was used to plan this query, is deprecated and will be discontinued soon. " +
+                    "If you did not explicitly choose the rule planner, you should try to change your query so that the " +
+                    "rule planner is not used"
+    ),
+    DEPRECATED_COMPILED_RUNTIME(
+            SeverityLevel.WARNING,
+            Status.Statement.FeatureDeprecationWarning,
+            "The compiled runtime, which was requested to execute this query, is deprecated and will be removed in a future release."
+    ),
     DEPRECATED_PLANNER(
         SeverityLevel.WARNING,
         Status.Statement.FeatureDeprecationWarning,
@@ -150,6 +162,11 @@ public enum NotificationCode
             "The semantics of using colon in the separation of alternative relationship types in conjunction with the " +
             "use of variable binding, inlined property predicates, or variable length will change in a future version."
     ),
+    DEPRECATED_PARAMETER_SYNTAX(
+            SeverityLevel.WARNING,
+            Status.Statement.FeatureDeprecationWarning,
+            "The parameter syntax `{param}` is deprecated, please use `$param` instead"
+    ),
     EAGER_LOAD_CSV(
         SeverityLevel.WARNING,
         Status.Statement.EagerOperatorWarning,
@@ -199,6 +216,11 @@ public enum NotificationCode
             SeverityLevel.WARNING,
             Status.Statement.PlannerUnavailableWarning,
         "CREATE UNIQUE is unsupported for current CYPHER version, the query has been executed by an older CYPHER version"
+    ),
+    CREATE_UNIQUE_DEPRECATED(
+            SeverityLevel.WARNING,
+            Status.Statement.FeatureDeprecationWarning,
+            "CREATE UNIQUE is deprecated and will be removed in a future version."
     ),
     START_UNAVAILABLE_FALLBACK(
             SeverityLevel.WARNING,
