@@ -39,6 +39,7 @@
 package org.neo4j.kernel.impl.coreapi.schema;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.neo4j.graphdb.ConstraintViolationException;
@@ -98,6 +99,34 @@ public class IndexDefinitionImpl implements IndexDefinition
         }
     }
 
+    private boolean internalIsNodeIndex()
+    {
+        return label != null;
+    }
+
+
+    @Override
+    public boolean isNodeIndex()
+    {
+        assertInUnterminatedTransaction();
+        return internalIsNodeIndex();
+    }
+
+    @Override
+    public boolean isMultiTokenIndex()
+    {
+        assertInUnterminatedTransaction();
+        return false;
+    }
+
+    @Override
+    public Iterable<Label> getLabels()
+    {
+        assertInUnterminatedTransaction();
+        assertIsNodeIndex();
+        return Collections.singletonList(label);
+    }
+
     @Override
     public boolean isConstraintIndex()
     {
@@ -140,5 +169,13 @@ public class IndexDefinitionImpl implements IndexDefinition
     private void assertInUnterminatedTransaction()
     {
         actions.assertInOpenTransaction();
+    }
+
+    private void assertIsNodeIndex()
+    {
+        if ( !isNodeIndex() )
+        {
+            throw new IllegalStateException( "This is not a node index." );
+        }
     }
 }

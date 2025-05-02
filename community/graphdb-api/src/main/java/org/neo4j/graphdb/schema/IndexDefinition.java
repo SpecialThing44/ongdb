@@ -69,4 +69,31 @@ public interface IndexDefinition
      * @return {@code true} if this index is created as a side effect of the creation of a uniqueness constraint.
      */
     boolean isConstraintIndex();
+
+    /**
+     * Return the set of node labels (in no particular order) that this index applies to. This method works for both {@link #isMultiTokenIndex() multi-token}
+     * indexes, and "single-token" indexes.
+     * <p>
+     * Note that this assumes that this is a node index (that {@link #isNodeIndex()} returns {@code true}). If this is not the case, then an
+     * {@link IllegalStateException} is thrown.
+     *
+     * @return the set of {@link Label labels} this index definition is associated with.
+     */
+    Iterable<Label> getLabels();
+
+    /**
+     * @return {@code true} if this index is indexing nodes, otherwise {@code false}.
+     */
+    boolean isNodeIndex();
+
+    /**
+     * A multi-token index is an index that indexes nodes or relationships that have any or all of a given set of labels or relationship types, respectively.
+     * <p>
+     * For instance, a multi-token index could apply to all {@code Movie} and {@code Book} nodes that have a {@code description} property. A node or
+     * relationship do not need to have all of the labels or relationship types for it to be indexed. A node that has any of the given labels, or a relationship
+     * that has any of the given relationship types, will be a candidate for indexing, depending on their properties.
+     *
+     * @return {@code true} if this is a multi-token index.
+     */
+    boolean isMultiTokenIndex();
 }
