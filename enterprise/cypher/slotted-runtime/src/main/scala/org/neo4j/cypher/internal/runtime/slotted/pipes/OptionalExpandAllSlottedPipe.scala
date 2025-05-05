@@ -44,7 +44,7 @@ import org.neo4j.cypher.internal.runtime.slotted.helpers.NullChecker
 import org.neo4j.cypher.internal.runtime.slotted.helpers.SlottedPipeBuilderUtils.makeGetPrimitiveNodeFromSlotFunctionFor
 import org.neo4j.cypher.internal.v3_5.util.InternalException
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
 import org.neo4j.kernel.impl.api.RelationshipVisitor
 import org.neo4j.kernel.impl.api.store.RelationshipIterator
 
@@ -85,14 +85,14 @@ case class OptionalExpandAllSlottedPipe(source: Pipe,
                 otherSide = startNodeId
           }
 
-          val matchIterator = PrimitiveLongHelper.map(relationships, relId => {
+          val matchIterator = PrimitiveLongHelper.map(relationships, {relId: Long => {
             relationships.relationshipVisit(relId, relVisitor)
             val outputRow = SlottedExecutionContext(slots)
             inputRow.copyTo(outputRow)
             outputRow.setLongAt(relOffset, relId)
             outputRow.setLongAt(toOffset, otherSide)
             outputRow
-          }).filter(ctx => predicate.isTrue(ctx, state))
+          }}).filter(ctx => predicate.isTrue(ctx, state))
 
           if (matchIterator.isEmpty)
             Iterator(withNulls(inputRow))

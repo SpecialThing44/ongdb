@@ -52,7 +52,7 @@ case class NodesByLabelScanSlottedPipe(ident: String,
   protected def internalCreateResults(state: QueryState): Iterator[ExecutionContext] = {
     label.getOptId(state.query) match {
       case Some(labelId) =>
-        PrimitiveLongHelper.map(state.query.getNodesByLabelPrimitive(labelId.id), { nodeId =>
+        PrimitiveLongHelper.map(state.query.getNodesByLabelPrimitive(labelId.id), { nodeId: Long =>
           val context = SlottedExecutionContext(slots)
           state.copyArgumentStateTo(context, argumentSize.nLongs, argumentSize.nReferences)
           context.setLongAt(offset, nodeId)

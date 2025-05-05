@@ -34,12 +34,15 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted
 
+import org.neo4j.cypher.internal.runtime.EntityById
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.QueryState
+import org.neo4j.cypher.internal.v3_5.logical.plans.CachedNodeProperty
 import org.neo4j.cypher.internal.v3_5.util.InternalException
 import org.neo4j.cypher.result.QueryResult
 import org.neo4j.values.AnyValue
+import org.neo4j.values.storable.Value
 
 import scala.collection.mutable
 
@@ -135,23 +138,9 @@ case class ArrayResultExecutionContext(resultArray: Array[AnyValue],
 
   override def getLongAt(offset: Int): Long = fail()
 
-  override def longs(): Array[Long] = fail()
-
   override def setRefAt(offset: Int, value: AnyValue): Unit = fail()
 
   override def getRefAt(offset: Int): AnyValue = fail()
-
-  override def refs(): Array[AnyValue] = fail()
-
-  override def set(newEntries: Seq[(String, AnyValue)]): ExecutionContext = fail()
-
-  override def set(key: String, value: AnyValue): ExecutionContext = fail()
-
-  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue): ExecutionContext = fail()
-
-  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue, key3: String, value3: AnyValue): ExecutionContext = fail()
-
-  override def mergeWith(other: ExecutionContext): ExecutionContext = fail()
 
   override def createClone(): ExecutionContext = fail()
 
@@ -170,4 +159,39 @@ case class ArrayResultExecutionContext(resultArray: Array[AnyValue],
   override def +=(kv: (String, AnyValue)): ArrayResultExecutionContext.this.type = fail()
 
   override def -=(key: String): ArrayResultExecutionContext.this.type = fail()
+
+  override def copyCachedFrom(input: ExecutionContext): Unit = fail()
+
+  override def mergeWith(other: ExecutionContext, entityById: EntityById): Unit = fail()
+
+  override def setCachedProperty(key: CachedNodeProperty, value: Value): Unit = fail()
+
+  override def setCachedPropertyAt(offset: Int, value: Value): Unit = fail()
+
+  /**
+   * Returns the cached node property value
+   * or NO_VALUE if the node does not have the property,
+   * or null     if this cached value has been invalidated.
+   */
+  override def getCachedProperty(key: CachedNodeProperty): Value = fail()
+
+  /**
+   * Returns the cached node property value
+   * or NO_VALUE if the node does not have the property,
+   * or null     if this cached value has been invalidated.
+   */
+  override def getCachedPropertyAt(offset: Int): Value = fail()
+
+  /**
+   * Invalidate all cached node properties for the given node id
+   */
+  override def invalidateCachedProperties(node: Long): Unit = fail()
+
+  override def set(newEntries: Seq[(String, AnyValue)]): Unit = fail()
+
+  override def set(key: String, value: AnyValue): Unit = fail()
+
+  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue): Unit = fail()
+
+  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue, key3: String, value3: AnyValue): Unit = fail()
 }

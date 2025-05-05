@@ -49,7 +49,7 @@ import org.neo4j.cypher.internal.runtime.interpreted.TransactionBoundQueryContex
 import org.neo4j.cypher.internal.runtime.interpreted.{TransactionBoundQueryContext, TransactionalContextWrapper}
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, InternalExecutionResult, NormalMode, QueryContext}
-import org.neo4j.cypher.internal.spi.v3_4.codegen.GeneratedQueryStructure
+import org.neo4j.cypher.internal.spi.v3_5.codegen.GeneratedQueryStructure
 import org.neo4j.cypher.internal.v3_5.util.TaskCloser
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer

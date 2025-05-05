@@ -34,8 +34,9 @@
  */
 package org.neo4j.cypher.internal
 
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.BuildCompiledExecutionPlan
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime._
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.{BuildCompiledExecutionPlan, EnterpriseRuntimeContext}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.EnterpriseRuntimeContext
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.phases.CompilationState
 import org.neo4j.cypher.internal.compiler.v3_4.phases.LogicalPlanState
 import org.neo4j.cypher.internal.frontend.v3_4.notification.RuntimeUnsupportedNotification

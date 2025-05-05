@@ -34,8 +34,6 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted.pipes
 
-import java.util.function.BiConsumer
-
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.SlotConfiguration
 import org.neo4j.cypher.internal.runtime.QueryContext
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
@@ -43,6 +41,7 @@ import org.neo4j.cypher.internal.runtime.interpreted.pipes.{LazyLabel, Pipe, Pip
 import org.neo4j.cypher.internal.runtime.interpreted.{ExecutionContext, IsMap, makeValueNeoSafe}
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 import org.neo4j.cypher.internal.v3_5.util.{CypherTypeException, InvalidSemanticsException}
+import org.neo4j.function.ThrowingBiConsumer
 import org.neo4j.graphdb.{Node, Relationship}
 import org.neo4j.values.AnyValue
 import org.neo4j.values.storable.Values
@@ -59,7 +58,7 @@ abstract class BaseCreateNodeSlottedPipe(source: Pipe,
   override protected def internalCreateResults(input: Iterator[ExecutionContext], state: QueryState): Iterator[ExecutionContext] = {
     input.map {
       row =>
-        val nodeId = state.query.createNodeId()
+        val nodeId = state.query.createNodeId(labels.map(label => label.getOrCreateId(state.query).id).toArray)
         setProperties(row, state, nodeId)
         setLabels(row, state, nodeId)
         row.setLongAt(offset, nodeId)
@@ -73,7 +72,7 @@ abstract class BaseCreateNodeSlottedPipe(source: Pipe,
         case _: Node | _: Relationship =>
           throw new CypherTypeException("Parameter provided for node creation is not a Map")
         case IsMap(m) =>
-          m(state.query).foreach(new BiConsumer[String, AnyValue] {
+          m(state.query).foreach(new ThrowingBiConsumer[String, AnyValue, RuntimeException] {
             override def accept(k: String, v: AnyValue): Unit = setProperty(nodeId, k, v, state.query)
           })
         case _ =>

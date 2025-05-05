@@ -21,8 +21,9 @@ package org.neo4j.collection;
 
 import org.eclipse.collections.api.iterator.LongIterator;
 
+import org.neo4j.collection.primitive.PrimitiveLongIterator;
 import org.neo4j.graphdb.Resource;
 
-public interface PrimitiveLongResourceIterator extends LongIterator, Resource
+public interface PrimitiveLongResourceIterator extends PrimitiveLongIterator, LongIterator, Resource
 {
 }

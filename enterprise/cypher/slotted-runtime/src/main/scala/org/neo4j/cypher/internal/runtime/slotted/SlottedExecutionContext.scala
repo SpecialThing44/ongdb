@@ -35,13 +35,15 @@
 package org.neo4j.cypher.internal.runtime.slotted
 
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{LongSlot, RefSlot, SlotConfiguration}
+import org.neo4j.cypher.internal.runtime.EntityById
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.slotted.helpers.NullChecker.entityIsNull
+import org.neo4j.cypher.internal.v3_5.logical.plans.CachedNodeProperty
 import org.neo4j.cypher.internal.v3_5.util.AssertionUtils._
 import org.neo4j.cypher.internal.v3_5.util.InternalException
 import org.neo4j.cypher.internal.v3_5.util.symbols.{CTNode, CTRelationship}
 import org.neo4j.values.AnyValue
-import org.neo4j.values.storable.Values
+import org.neo4j.values.storable.{Value, Values}
 import org.neo4j.values.virtual._
 
 import scala.collection.mutable
@@ -57,9 +59,9 @@ object SlottedExecutionContext {
   */
 case class SlottedExecutionContext(slots: SlotConfiguration) extends ExecutionContext {
 
-  override val longs = new Array[Long](slots.numberOfLongs)
+  val longs = new Array[Long](slots.numberOfLongs)
   //java.util.Arrays.fill(longs, -2L) // When debugging long slot issues you can uncomment this to check for uninitialized long slots (also in getLongAt below)
-  override val refs = new Array[AnyValue](slots.numberOfReferences)
+  val refs = new Array[AnyValue](slots.numberOfReferences)
 
   override def toString(): String = {
     val iter = this.iterator
@@ -154,30 +156,26 @@ case class SlottedExecutionContext(slots: SlotConfiguration) extends ExecutionCo
 
   // The newWith methods are called from Community pipes. We should already have allocated slots for the given keys,
   // so we just set the values in the existing slots instead of creating a new context like in the MapExecutionContext.
-  override def set(newEntries: Seq[(String, AnyValue)]): ExecutionContext = {
+  override def set(newEntries: Seq[(String, AnyValue)]): Unit = {
     newEntries.foreach {
       case (k, v) =>
         setValue(k, v)
     }
-    this
   }
 
-  override def set(key1: String, value1: AnyValue): ExecutionContext = {
+  override def set(key1: String, value1: AnyValue): Unit = {
     setValue(key1, value1)
-    this
   }
 
-  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue): ExecutionContext = {
+  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue): Unit = {
     setValue(key1, value1)
     setValue(key2, value2)
-    this
   }
 
-  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue, key3: String, value3: AnyValue): ExecutionContext = {
+  override def set(key1: String, value1: AnyValue, key2: String, value2: AnyValue, key3: String, value3: AnyValue): Unit = {
     setValue(key1, value1)
     setValue(key2, value2)
     setValue(key3, value3)
-    this
   }
 
   override def copyWith(key1: String, value1: AnyValue): ExecutionContext = {
@@ -220,45 +218,6 @@ case class SlottedExecutionContext(slots: SlotConfiguration) extends ExecutionCo
 
   def getRefAtWithoutCheckingInitialized(offset: Int): AnyValue =
     refs(offset)
-
-  override def mergeWith(other: ExecutionContext): ExecutionContext = other match {
-    case slottedOther: SlottedExecutionContext =>
-      slottedOther.slots.foreachSlot {
-        case (key, otherSlot @ LongSlot(offset, _, CTNode)) =>
-          val thisSlotSetter = slots.maybePrimitiveNodeSetter(key).getOrElse(
-            throw new InternalException(s"Tried to merge primitive node slot $otherSlot from $other but it is missing from $this." +
-              "Looks like something needs to be fixed in slot allocation.")
-          )
-          thisSlotSetter.apply(this, other.getLongAt(offset))
-
-        case (key, otherSlot @ LongSlot(offset, _, CTRelationship)) =>
-          val thisSlotSetter = slots.maybePrimitiveRelationshipSetter(key).getOrElse(
-            throw new InternalException(s"Tried to merge primitive relationship slot $otherSlot from $other but it is missing from $this." +
-              "Looks like something needs to be fixed in slot allocation.")
-          )
-          thisSlotSetter.apply(this, other.getLongAt(offset))
-
-        case (key, otherSlot @ RefSlot(offset, _, _)) if slottedOther.isRefInitialized(offset) =>
-          val thisSlotSetter = slots.maybeSetter(key).getOrElse(
-            throw new InternalException(s"Tried to merge slot $otherSlot from $other but it is missing from $this." +
-              "Looks like something needs to be fixed in slot allocation.")
-          )
-
-          ifAssertionsEnabled {
-            val thisSlot = slots.get(key).get
-            // This should be guaranteed by slot allocation or else we could get incorrect results
-            if (!thisSlot.nullable && otherSlot.nullable)
-              throw new InternalException(s"Tried to merge slot $otherSlot into $thisSlot but its nullability is incompatible")
-          }
-
-          val otherValue = slottedOther.getRefAtWithoutCheckingInitialized(offset)
-          thisSlotSetter.apply(this, otherValue)
-      }
-      this
-
-    case _ =>
-      throw new InternalException("Well well, isn't this a delicate situation?")
-  }
 
   override def createClone(): ExecutionContext = {
     val clone = SlottedExecutionContext(slots)
@@ -313,4 +272,68 @@ case class SlottedExecutionContext(slots: SlotConfiguration) extends ExecutionCo
       case _ =>
         false
     }
+
+  override def copyCachedFrom(input: ExecutionContext): Unit = ???
+
+  override def mergeWith(other: ExecutionContext, entityById: EntityById): Unit = other match {
+    case slottedOther: SlottedExecutionContext =>
+      slottedOther.slots.foreachSlot {
+        case (key, otherSlot @ LongSlot(offset, _, CTNode)) =>
+          val thisSlotSetter = slots.maybePrimitiveNodeSetter(key).getOrElse(
+            throw new InternalException(s"Tried to merge primitive node slot $otherSlot from $other but it is missing from $this." +
+              "Looks like something needs to be fixed in slot allocation.")
+          )
+          thisSlotSetter.apply(this, other.getLongAt(offset))
+
+        case (key, otherSlot @ LongSlot(offset, _, CTRelationship)) =>
+          val thisSlotSetter = slots.maybePrimitiveRelationshipSetter(key).getOrElse(
+            throw new InternalException(s"Tried to merge primitive relationship slot $otherSlot from $other but it is missing from $this." +
+              "Looks like something needs to be fixed in slot allocation.")
+          )
+          thisSlotSetter.apply(this, other.getLongAt(offset))
+
+        case (key, otherSlot @ RefSlot(offset, _, _)) if slottedOther.isRefInitialized(offset) =>
+          val thisSlotSetter = slots.maybeSetter(key).getOrElse(
+            throw new InternalException(s"Tried to merge slot $otherSlot from $other but it is missing from $this." +
+              "Looks like something needs to be fixed in slot allocation.")
+          )
+
+          ifAssertionsEnabled {
+            val thisSlot = slots.get(key).get
+            // This should be guaranteed by slot allocation or else we could get incorrect results
+            if (!thisSlot.nullable && otherSlot.nullable)
+              throw new InternalException(s"Tried to merge slot $otherSlot into $thisSlot but its nullability is incompatible")
+          }
+
+          val otherValue = slottedOther.getRefAtWithoutCheckingInitialized(offset)
+          thisSlotSetter.apply(this, otherValue)
+      }
+      this
+
+    case _ =>
+      throw new InternalException("Well well, isn't this a delicate situation?")
+  }
+
+  override def setCachedProperty(key: CachedNodeProperty, value: Value): Unit = ???
+
+  override def setCachedPropertyAt(offset: Int, value: Value): Unit = ???
+
+  /**
+   * Returns the cached node property value
+   * or NO_VALUE if the node does not have the property,
+   * or null     if this cached value has been invalidated.
+   */
+  override def getCachedProperty(key: CachedNodeProperty): Value = ???
+
+  /**
+   * Returns the cached node property value
+   * or NO_VALUE if the node does not have the property,
+   * or null     if this cached value has been invalidated.
+   */
+  override def getCachedPropertyAt(offset: Int): Value = ???
+
+  /**
+   * Invalidate all cached node properties for the given node id
+   */
+  override def invalidateCachedProperties(node: Long): Unit = ???
 }

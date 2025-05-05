@@ -38,25 +38,32 @@ import org.neo4j.cypher.internal.compatibility.v3_5.runtime.SlotConfiguration
 import org.neo4j.cypher.internal.runtime.QueryContext
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
-import org.neo4j.cypher.internal.runtime.interpreted.pipes._
+import org.neo4j.cypher.internal.runtime.interpreted.pipes.{IndexPipeWithValues, _}
 import org.neo4j.cypher.internal.runtime.slotted.SlottedExecutionContext
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
-import org.neo4j.cypher.internal.v3_4.expressions.{LabelToken, PropertyKeyToken}
-import org.neo4j.cypher.internal.v3_5.logical.plans.QueryExpression
-import org.neo4j.internal.kernel.api.{CapableIndexReference, IndexReference}
+import org.neo4j.cypher.internal.v3_5.expressions.LabelToken
+import org.neo4j.cypher.internal.v3_5.logical.plans.{CachedNodeProperty, IndexOrder, IndexedProperty, QueryExpression}
+import org.neo4j.internal.kernel.api.{CapableIndexReference, IndexReference, NodeValueIndexCursor}
 
 case class NodeIndexSeekSlottedPipe(ident: String,
                                     label: LabelToken,
-                                    propertyKeys: Seq[PropertyKeyToken],
+                                    propertyKeys: Seq[IndexedProperty],
                                     valueExpr: QueryExpression[Expression],
                                     indexMode: IndexSeekMode = IndexSeek,
                                     slots: SlotConfiguration,
-                                    argumentSize: SlotConfiguration.Size)
-                                   (val id: Id = Id.INVALID_ID) extends Pipe with NodeIndexSeeker {
+                                    argumentSize: SlotConfiguration.Size,
+                                    indexOrder: IndexOrder)
+                                   (val id: Id = Id.INVALID_ID) extends Pipe with NodeIndexSeeker with IndexPipeWithValues  {
 
   private val offset = slots.getLongOffsetFor(ident)
 
-  override val propertyIds: Array[Int] = propertyKeys.map(_.nameId.id).toArray
+  override val propertyIds: Array[Int] = propertyKeys.map(_.propertyKeyToken.nameId.id).toArray
+  override val indexPropertyIndices: Array[Int] = propertyKeys.indices.filter(propertyKeys(_).shouldGetValue).toArray
+  override val indexCachedNodeProperties: Array[CachedNodeProperty] =
+    indexPropertyIndices.map(offset => propertyKeys(offset).asCachedNodeProperty(ident))
+  private val needsValues: Boolean = indexPropertyIndices.nonEmpty
+
+
 
   private var reference: IndexReference = CapableIndexReference.NO_INDEX
 
@@ -72,13 +79,12 @@ case class NodeIndexSeekSlottedPipe(ident: String,
   protected def internalCreateResults(state: QueryState): Iterator[ExecutionContext] = {
     val indexReference = reference(state.query)
     val baseContext = state.createOrGetInitialContext(executionContextFactory)
-    val resultNodes = indexSeek(state, indexReference, baseContext)
-    resultNodes.map { node =>
+    val resultNodes = indexSeek(state, indexReference, needsValues, indexOrder, baseContext)
+    resultNodes.map { node: NodeValueIndexCursor =>
       val context = SlottedExecutionContext(slots)
       state.copyArgumentStateTo(context, argumentSize.nLongs, argumentSize.nReferences)
-      context.setLongAt(offset, node.id)
+      context.setLongAt(offset, node.nodeReference())
       context
     }
   }
-
 }

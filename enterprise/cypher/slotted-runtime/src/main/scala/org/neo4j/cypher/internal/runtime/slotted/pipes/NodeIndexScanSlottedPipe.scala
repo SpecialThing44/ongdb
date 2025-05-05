@@ -41,12 +41,13 @@ import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.cypher.internal.runtime.interpreted.pipes._
 import org.neo4j.cypher.internal.runtime.slotted.SlottedExecutionContext
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
-import org.neo4j.cypher.internal.v3_4.expressions.{LabelToken, PropertyKeyToken}
+import org.neo4j.cypher.internal.v3_5.expressions.{LabelToken, PropertyKeyToken}
+import org.neo4j.cypher.internal.v3_5.logical.plans.IndexedProperty
 import org.neo4j.internal.kernel.api.{CapableIndexReference, IndexReference}
 
 case class NodeIndexScanSlottedPipe(ident: String,
                                     label: LabelToken,
-                                    propertyKey: PropertyKeyToken,
+                                    propertyKey: IndexedProperty,
                                     slots: SlotConfiguration,
                                     argumentSize: SlotConfiguration.Size)
                                    (val id: Id = Id.INVALID_ID)
@@ -58,14 +59,14 @@ case class NodeIndexScanSlottedPipe(ident: String,
 
   private def reference(context: QueryContext): IndexReference = {
     if (reference == CapableIndexReference.NO_INDEX) {
-      reference = context.indexReference(label.nameId.id,propertyKey.nameId.id)
+      reference = context.indexReference(label.nameId.id,propertyKey.propertyKeyToken.nameId.id)
     }
     reference
   }
 
   protected def internalCreateResults(state: QueryState): Iterator[ExecutionContext] = {
     val nodes = state.query.indexScanPrimitive(reference(state.query))
-    PrimitiveLongHelper.map(nodes, { node =>
+    PrimitiveLongHelper.map(nodes, { node: Long =>
       val context = SlottedExecutionContext(slots)
       state.copyArgumentStateTo(context, argumentSize.nLongs, argumentSize.nReferences)
       context.setLongAt(offset, node)

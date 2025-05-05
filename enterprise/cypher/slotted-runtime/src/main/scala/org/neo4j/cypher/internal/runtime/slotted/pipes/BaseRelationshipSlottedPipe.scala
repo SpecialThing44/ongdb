@@ -48,6 +48,7 @@ import org.neo4j.graphdb.{Node, Relationship}
 import org.neo4j.values.AnyValue
 import org.neo4j.values.storable.Values
 import org.neo4j.values.virtual.MapValue
+import org.neo4j.function.ThrowingBiConsumer
 
 abstract class BaseRelationshipSlottedPipe(src: Pipe,
                                            RelationshipKey: String,
@@ -93,7 +94,7 @@ abstract class BaseRelationshipSlottedPipe(src: Pipe,
         case IsMap(f) =>
           val propertiesMap: MapValue = f(state.query)
           propertiesMap.foreach {
-            new BiConsumer[String, AnyValue] {
+            new ThrowingBiConsumer[String, AnyValue, RuntimeException] {
               override def accept(k: String, v: AnyValue): Unit = setProperty(relId, k, v, state.query)
             }
           }

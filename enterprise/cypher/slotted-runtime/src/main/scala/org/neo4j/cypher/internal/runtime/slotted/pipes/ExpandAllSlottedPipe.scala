@@ -43,9 +43,10 @@ import org.neo4j.cypher.internal.runtime.slotted.helpers.NullChecker
 import org.neo4j.cypher.internal.runtime.slotted.helpers.SlottedPipeBuilderUtils.makeGetPrimitiveNodeFromSlotFunctionFor
 import org.neo4j.cypher.internal.v3_5.util.InternalException
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
 import org.neo4j.kernel.impl.api.RelationshipVisitor
 import org.neo4j.kernel.impl.api.store.RelationshipIterator
+import org.neo4j.values.virtual.RelationshipValue
 
 case class ExpandAllSlottedPipe(source: Pipe,
                                 fromSlot: Slot,
@@ -83,14 +84,14 @@ case class ExpandAllSlottedPipe(source: Pipe,
                 otherSide = startNodeId
           }
 
-          PrimitiveLongHelper.map(relationships, relId => {
+          PrimitiveLongHelper.map(relationships, {relId: Long => {
             relationships.relationshipVisit(relId, relVisitor)
             val outputRow = SlottedExecutionContext(slots)
             inputRow.copyTo(outputRow)
             outputRow.setLongAt(relOffset, relId)
             outputRow.setLongAt(toOffset, otherSide)
             outputRow
-          })
+          }})
         }
     }
   }
