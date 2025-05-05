@@ -38,7 +38,7 @@ import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions.{AnyValueType, BoolType, CypherCodeGenType, ListReferenceType, LongType, ReferenceType, RepresentationType, ValueType}
 import org.neo4j.cypher.internal.compiler.v3_4.helpers.IsList
 import org.neo4j.cypher.internal.runtime.interpreted.IsMap
-import org.neo4j.cypher.internal.util.v3_4.symbols._
+import org.neo4j.cypher.internal.v3_5.util.symbols._
 
 object LiteralTypeSupport {
   def deriveCypherType(obj: Any): CypherType = obj match {

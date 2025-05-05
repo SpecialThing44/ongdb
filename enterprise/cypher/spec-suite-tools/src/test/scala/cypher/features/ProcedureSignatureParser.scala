@@ -36,8 +36,8 @@ package cypher.features
 
 import cypher.features
 import org.neo4j.cypher.internal.frontend.v3_4.parser.{Base, Expressions, Literals}
-import org.neo4j.cypher.internal.util.v3_4.SyntaxException
-import org.neo4j.cypher.internal.util.v3_4.symbols._
+import org.neo4j.cypher.internal.v3_5.util.SyntaxException
+import org.neo4j.cypher.internal.v3_5.util.symbols._
 import org.parboiled.scala._
 
 /**
@@ -104,8 +104,3 @@ class ProcedureSignatureParser extends Parser with Base with Expressions with Li
     group("FLOAT?" ~ push(CTFloat))
   }
 }
-
-
-
-
-

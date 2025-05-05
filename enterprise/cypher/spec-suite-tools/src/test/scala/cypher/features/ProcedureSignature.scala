@@ -34,7 +34,7 @@
  */
 package cypher.features
 
-import org.neo4j.cypher.internal.util.v3_4.symbols.CypherType
+import org.neo4j.cypher.internal.v3_5.util.symbols.CypherType
 
 case class ProcedureSignature(namespace: Seq[String],
                               name: String,

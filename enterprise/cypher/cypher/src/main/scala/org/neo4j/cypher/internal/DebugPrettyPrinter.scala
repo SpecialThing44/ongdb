@@ -39,8 +39,8 @@ import org.neo4j.cypher.internal.compatibility.v3_4.runtime.PhysicalPlanningAttr
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.SlotConfiguration
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.PipeInfo
 import org.neo4j.cypher.internal.compiler.v3_4.phases.LogicalPlanState
-import org.neo4j.cypher.internal.util.v3_4.attribution.Id
-import org.neo4j.cypher.internal.util.v3_4.{CypherException, InternalException}
+import org.neo4j.cypher.internal.v3_5.util.attribution.Id
+import org.neo4j.cypher.internal.v3_5.util.{CypherException, InternalException}
 import org.neo4j.cypher.internal.v3_4.logical.plans.LogicalPlan
 
 trait DebugPrettyPrinter {

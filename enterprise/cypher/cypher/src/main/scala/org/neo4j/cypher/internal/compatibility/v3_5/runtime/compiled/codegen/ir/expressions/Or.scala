@@ -36,7 +36,7 @@ package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir
 
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.CodeGenContext
 import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.spi.MethodStructure
-import org.neo4j.cypher.internal.util.v3_4.symbols.CTBoolean
+import org.neo4j.cypher.internal.v3_5.util.symbols.CTBoolean
 
 case class Or(lhs: CodeGenExpression, rhs: CodeGenExpression) extends CodeGenExpression {
 
