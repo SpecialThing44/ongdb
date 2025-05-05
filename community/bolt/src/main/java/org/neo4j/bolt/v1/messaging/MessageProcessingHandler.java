@@ -54,6 +54,7 @@ import org.neo4j.kernel.api.exceptions.Status;
 import org.neo4j.logging.Log;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.virtual.MapValue;
+import org.neo4j.values.virtual.MapValueBuilder;
 import org.neo4j.values.virtual.VirtualValues;
 
 class MessageProcessingHandler implements BoltResponseHandler
@@ -61,7 +62,7 @@ class MessageProcessingHandler implements BoltResponseHandler
     // Errors that are expected when the client disconnects mid-operation
     private static final Set<Status> CLIENT_MID_OP_DISCONNECT_ERRORS = new HashSet<>( Arrays.asList(
             Status.Transaction.Terminated, Status.Transaction.LockClientStopped ) );
-    protected final Map<String,AnyValue> metadata = new HashMap<>();
+    protected final MapValueBuilder metadata = new MapValueBuilder();
 
     protected final Log log;
     protected final BoltConnection connection;
@@ -91,7 +92,7 @@ class MessageProcessingHandler implements BoltResponseHandler
     @Override
     public void onMetadata( String key, AnyValue value )
     {
-        metadata.put( key, value );
+        metadata.add( key, value );
     }
 
     @Override
@@ -137,7 +138,7 @@ class MessageProcessingHandler implements BoltResponseHandler
 
     MapValue getMetadata()
     {
-        return VirtualValues.map( metadata );
+        return metadata.build();
     }
 
     private void clearState()

@@ -62,14 +62,12 @@ import org.neo4j.values.storable.CoordinateReferenceSystem;
 import org.neo4j.values.storable.TextArray;
 import org.neo4j.values.storable.TextValue;
 import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.ListValue;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.VirtualValues;
+import org.neo4j.values.virtual.*;
 
 import static org.neo4j.bolt.v1.packstream.PackStream.UNKNOWN_SIZE;
 import static org.neo4j.values.storable.Values.byteArray;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 /**
  * Extended PackStream packer and unpacker classes for working
@@ -561,17 +559,17 @@ public class Neo4jPackV1 implements Neo4jPack
         }
 
         @Override
-        public MapValue unpackMap() throws IOException
+        public MapValue.MapWrappingMapValue unpackMap() throws IOException
         {
             int size = (int) unpackMapHeader();
             if ( size == 0 )
             {
-                return VirtualValues.EMPTY_MAP;
+                return EMPTY_MAP_WRAP;
             }
-            Map<String,AnyValue> map;
+            MapValueBuilder map;
             if ( size == UNKNOWN_SIZE )
             {
-                map = new HashMap<>();
+                map = new MapValueBuilder();
                 boolean more = true;
                 while ( more )
                 {
@@ -580,51 +578,51 @@ public class Neo4jPackV1 implements Neo4jPack
                     AnyValue val;
                     switch ( keyType )
                     {
-                    case END_OF_STREAM:
-                        unpack();
-                        more = false;
-                        break;
-                    case STRING:
-                        key = unpackString();
-                        val = unpack();
-                        if ( map.put( key, val ) != null )
-                        {
-                            throw new BoltIOException( Status.Request.Invalid, "Duplicate map key `" + key + "`." );
-                        }
-                        break;
-                    case NULL:
-                        throw new BoltIOException( Status.Request.Invalid, "Value `null` is not supported as key in maps, must be a non-nullable string." );
-                    default:
-                        throw new BoltIOException( Status.Request.InvalidFormat, "Bad key type: " + keyType );
+                        case END_OF_STREAM:
+                            unpack();
+                            more = false;
+                            break;
+                        case STRING:
+                            key = unpackString();
+                            val = unpack();
+                            if ( map.add( key, val ) != null )
+                            {
+                                throw new BoltIOException( Status.Request.Invalid, "Duplicate map key `" + key + "`." );
+                            }
+                            break;
+                        case NULL:
+                            throw new BoltIOException( Status.Request.Invalid, "Value `null` is not supported as key in maps, must be a non-nullable string." );
+                        default:
+                            throw new BoltIOException( Status.Request.InvalidFormat, "Bad key type: " + keyType );
                     }
                 }
             }
             else
             {
-                map = new HashMap<>( size, 1 );
+                map = new MapValueBuilder( size );
                 for ( int i = 0; i < size; i++ )
                 {
                     PackType keyType = peekNextType();
                     String key;
                     switch ( keyType )
                     {
-                    case NULL:
-                        throw new BoltIOException( Status.Request.Invalid, "Value `null` is not supported as key in maps, must be a non-nullable string." );
-                    case STRING:
-                        key = unpackString();
-                        break;
-                    default:
-                        throw new BoltIOException( Status.Request.InvalidFormat, "Bad key type: " + keyType );
+                        case NULL:
+                            throw new BoltIOException( Status.Request.Invalid, "Value `null` is not supported as key in maps, must be a non-nullable string." );
+                        case STRING:
+                            key = unpackString();
+                            break;
+                        default:
+                            throw new BoltIOException( Status.Request.InvalidFormat, "Bad key type: " + keyType );
                     }
 
                     AnyValue val = unpack();
-                    if ( map.put( key, val ) != null )
+                    if ( map.add( key, val ) != null )
                     {
                         throw new BoltIOException( Status.Request.Invalid, "Duplicate map key `" + key + "`." );
                     }
                 }
             }
-            return VirtualValues.map( map );
+            return map.build();
         }
     }
 }

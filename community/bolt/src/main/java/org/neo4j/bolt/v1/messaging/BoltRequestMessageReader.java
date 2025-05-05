@@ -116,7 +116,7 @@ public class BoltRequestMessageReader
 
     private static Map<String,Object> readAuthToken( Neo4jPack.Unpacker unpacker ) throws IOException
     {
-        MapValue authTokenValue = unpacker.unpackMap();
+        MapValue.MapWrappingMapValue authTokenValue = unpacker.unpackMap();
         AuthTokenValuesWriter writer = new AuthTokenValuesWriter();
         return authTokenValue.entrySet()
                 .stream()

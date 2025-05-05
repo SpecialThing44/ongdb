@@ -72,7 +72,7 @@ public interface Neo4jPack
 
         String unpackString() throws IOException;
 
-        MapValue unpackMap() throws IOException;
+        MapValue.MapWrappingMapValue  unpackMap() throws IOException;
 
         long unpackStructHeader() throws IOException;
 
