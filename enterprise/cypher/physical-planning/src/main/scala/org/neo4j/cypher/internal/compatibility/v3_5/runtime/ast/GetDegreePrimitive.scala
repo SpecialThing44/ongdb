@@ -32,12 +32,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.SlotConfiguration.Size
-import org.neo4j.cypher.internal.util.v3_4.attribution.Attribute
+import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
 
-object PhysicalPlanningAttributes {
-  class SlotConfigurations extends Attribute[SlotConfiguration]
-  class ArgumentSizes extends Attribute[Size]
-}
+case class GetDegreePrimitive(offset: Int, typ: Option[String], direction: SemanticDirection) extends RuntimeExpression

@@ -32,8 +32,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime.ast
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
-case class NodeFromSlot(offset: Int, override val name: String) extends RuntimeVariable(name) {
-  override def asCanonicalStringVal: String = name
-}
+case class IdFromSlot(offset: Int) extends RuntimeExpression

@@ -32,6 +32,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime.ast
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
-case class IdFromSlot(offset: Int) extends RuntimeExpression
+import org.neo4j.cypher.internal.frontend.v3_4.SemanticCheck
+import org.neo4j.cypher.internal.frontend.v3_4.semantics.{SemanticCheckResult, SemanticCheckableExpression}
+import org.neo4j.cypher.internal.util.v3_4.{InputPosition, InternalException}
+import org.neo4j.cypher.internal.v3_4.expressions.{LogicalVariable, Expression => ASTExpression}
+
+abstract class RuntimeVariable(override val name: String) extends LogicalVariable with SemanticCheckableExpression {
+  override def semanticCheck(ctx: ASTExpression.SemanticContext): SemanticCheck = SemanticCheckResult.success
+
+  override def position: InputPosition = InputPosition.NONE
+
+  override def copyId = fail()
+
+  override def renameId(newName: String) = fail()
+
+  override def bumpId = fail()
+
+  private def fail(): Nothing = throw new InternalException("Tried using a RuntimeVariable as Variable")
+}

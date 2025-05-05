@@ -32,6 +32,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime.ast
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
-case class IsPrimitiveNull(offset: Int) extends RuntimeExpression
+import org.neo4j.cypher.internal.util.v3_4.InputPosition
+import org.neo4j.cypher.internal.frontend.v3_4.semantics.{SemanticCheckResult, SemanticCheckableExpression}
+import org.neo4j.cypher.internal.frontend.v3_4.SemanticCheck
+import org.neo4j.cypher.internal.v3_4.expressions.{Expression => ASTExpression}
+
+trait RuntimeExpression extends ASTExpression with SemanticCheckableExpression {
+  override def semanticCheck(ctx: ASTExpression.SemanticContext): SemanticCheck = SemanticCheckResult.success
+
+  override def position: InputPosition = InputPosition.NONE
+}

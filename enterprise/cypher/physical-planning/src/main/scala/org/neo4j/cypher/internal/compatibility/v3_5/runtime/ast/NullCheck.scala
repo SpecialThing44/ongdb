@@ -32,36 +32,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime.ast
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
-import org.neo4j.cypher.internal.frontend.v3_4.SemanticCheck
-import org.neo4j.cypher.internal.frontend.v3_4.semantics.{SemanticCheckResult, SemanticCheckableExpression}
-import org.neo4j.cypher.internal.util.v3_4.AssertionUtils.ifAssertionsEnabled
-import org.neo4j.cypher.internal.util.v3_4.{InputPosition, InternalException, Rewritable}
-import org.neo4j.cypher.internal.v3_4.expressions.{Expression, LogicalProperty, PropertyKeyName}
+import org.neo4j.cypher.internal.v3_4.expressions.{Expression, LogicalProperty, LogicalVariable}
 
-abstract class RuntimeProperty(val prop: LogicalProperty) extends LogicalProperty with SemanticCheckableExpression{
-  override def semanticCheck(ctx: Expression.SemanticContext): SemanticCheck = SemanticCheckResult.success
+case class NullCheck(offset: Int, inner: Expression) extends RuntimeExpression
 
-  override def position: InputPosition = InputPosition.NONE
+// This needs to be used to be able to rewrite an expression declared as a LogicalVariable
+case class NullCheckVariable(offset: Int, inner: LogicalVariable) extends RuntimeVariable(inner.name)
 
-  override def map: Expression = prop.map
+// This needs to be used to be able to rewrite an expression declared as a LogicalProperty
+case class NullCheckProperty(offset: Int, inner: LogicalProperty) extends RuntimeProperty(inner) {
 
-  override def propertyKey: PropertyKeyName = prop.propertyKey
-
+  // We have to override the implementation in RuntimeProperty for correctness. This smells a bit...
   override def dup(children: Seq[AnyRef]): this.type = {
-    val constructor = Rewritable.copyConstructor(this)
-    val args = children.toVector
-
-    ifAssertionsEnabled {
-      val params = constructor.getParameterTypes
-      val ok = params.length == args.length + 1 && classOf[LogicalProperty].isAssignableFrom(params.last)
-      if (!ok)
-        throw new InternalException(s"Unexpected rewrite children $children")
-    }
-
-    val ctorArgs = args :+ prop // Add the original Property expression
-    val duped = constructor.invoke(this, ctorArgs: _*)
-    duped.asInstanceOf[this.type]
+    val newOffset = children.head.asInstanceOf[Int]
+    val newInner = children(1).asInstanceOf[LogicalProperty]
+    // We only ever rewrite this with inner already rewritten, so we should not need to copy
+    if (offset == newOffset && inner == newInner)
+      this
+    else
+      copy(offset = newOffset, inner = newInner).asInstanceOf[this.type]
   }
 }

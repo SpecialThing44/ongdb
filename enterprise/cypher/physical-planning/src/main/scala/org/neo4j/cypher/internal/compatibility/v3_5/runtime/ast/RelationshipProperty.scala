@@ -32,8 +32,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime.ast
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
-case class RelationshipFromSlot(offset: Int, override val name: String) extends RuntimeVariable(name = name) {
+import org.neo4j.cypher.internal.v3_4.expressions.LogicalProperty
+
+case class RelationshipProperty(offset: Int, propToken: Int, name: String)(prop: LogicalProperty) extends RuntimeProperty(prop) {
+  override def asCanonicalStringVal: String = name
+}
+
+case class RelationshipPropertyLate(offset: Int, propKey: String, name: String)(prop: LogicalProperty) extends RuntimeProperty(prop) {
+  override def asCanonicalStringVal: String = name
+}
+
+case class RelationshipPropertyExists(offset: Int, propToken: Int, name: String)(prop: LogicalProperty) extends RuntimeProperty(prop) {
+  override def asCanonicalStringVal: String = name
+}
+
+case class RelationshipPropertyExistsLate(offset: Int, propKey: String, name: String)(prop: LogicalProperty) extends RuntimeProperty(prop) {
   override def asCanonicalStringVal: String = name
 }

@@ -32,24 +32,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime.ast
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
-import org.neo4j.cypher.internal.v3_4.expressions.Property
+import org.neo4j.cypher.internal.frontend.v3_4.SemanticCheck
+import org.neo4j.cypher.internal.frontend.v3_4.semantics.{SemanticCheckResult, SemanticCheckableExpression}
+import org.neo4j.cypher.internal.util.v3_4.AssertionUtils.ifAssertionsEnabled
+import org.neo4j.cypher.internal.util.v3_4.{InputPosition, InternalException, Rewritable}
+import org.neo4j.cypher.internal.v3_4.expressions.{Expression, LogicalProperty, PropertyKeyName}
 
-case class NodeProperty(offset: Int, propToken: Int, name: String)(prop: Property) extends RuntimeProperty(prop) {
-  override def asCanonicalStringVal: String = name
-}
+abstract class RuntimeProperty(val prop: LogicalProperty) extends LogicalProperty with SemanticCheckableExpression{
+  override def semanticCheck(ctx: Expression.SemanticContext): SemanticCheck = SemanticCheckResult.success
 
-// Token did not exist at plan time, so we'll need to look it up at runtime
-case class NodePropertyLate(offset: Int, propKey: String, name: String)(prop: Property) extends RuntimeProperty(prop) {
-  override def asCanonicalStringVal: String = name
-}
+  override def position: InputPosition = InputPosition.NONE
 
-case class NodePropertyExists(offset: Int, propToken: Int, name: String)(prop: Property) extends RuntimeProperty(prop) {
-  override def asCanonicalStringVal: String = name
-}
+  override def map: Expression = prop.map
 
-// Token did not exist at plan time, so we'll need to look it up at runtime
-case class NodePropertyExistsLate(offset: Int, propKey: String, name: String)(prop: Property) extends RuntimeProperty(prop) {
-  override def asCanonicalStringVal: String = name
+  override def propertyKey: PropertyKeyName = prop.propertyKey
+
+  override def dup(children: Seq[AnyRef]): this.type = {
+    val constructor = Rewritable.copyConstructor(this)
+    val args = children.toVector
+
+    ifAssertionsEnabled {
+      val params = constructor.getParameterTypes
+      val ok = params.length == args.length + 1 && classOf[LogicalProperty].isAssignableFrom(params.last)
+      if (!ok)
+        throw new InternalException(s"Unexpected rewrite children $children")
+    }
+
+    val ctorArgs = args :+ prop // Add the original Property expression
+    val duped = constructor.invoke(this, ctorArgs: _*)
+    duped.asInstanceOf[this.type]
+  }
 }
