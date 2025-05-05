@@ -36,10 +36,10 @@ package org.neo4j.cypher.internal.compiled_runtime.v3_4.codegen.ir
 
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.Variable
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions.{CodeGenType, NodeProjection}
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.{AcceptVisitor, ScanAllNodes, WhileLoop}
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.Provider
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.Variable
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions.{CodeGenType, NodeProjection}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.{AcceptVisitor, ScanAllNodes, WhileLoop}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.Provider
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.cypher.internal.planner.v3_4.spi.KernelStatisticProvider
 import org.neo4j.cypher.internal.runtime.interpreted.TransactionalContextWrapper
@@ -50,8 +50,8 @@ import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.cypher.internal.v3_4.codegen.profiling.ProfilingTracer
 import org.neo4j.cypher.internal.v3_4.expressions.SignedDecimalIntegerLiteral
-import org.neo4j.cypher.internal.v3_4.logical.plans
-import org.neo4j.cypher.internal.v3_4.logical.plans._
+import org.neo4j.cypher.internal.v3_5.logical.plans
+import org.neo4j.cypher.internal.v3_5.logical.plans._
 import org.neo4j.internal.kernel.api.CursorFactory
 import org.neo4j.internal.kernel.api.Transaction.Type
 import org.neo4j.internal.kernel.api.helpers.{StubNodeCursor, StubRead}

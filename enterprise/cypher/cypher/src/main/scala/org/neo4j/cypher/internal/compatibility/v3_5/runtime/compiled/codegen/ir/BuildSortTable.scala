@@ -34,9 +34,9 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen._
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions.CodeGenExpression
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.spi._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions.CodeGenExpression
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi._
 
 case class BuildSortTable(opName: String, tableName: String, columnVariables: Map[String, Variable],
                           sortItems: Iterable[SortItem], estimateCardinality: Double)

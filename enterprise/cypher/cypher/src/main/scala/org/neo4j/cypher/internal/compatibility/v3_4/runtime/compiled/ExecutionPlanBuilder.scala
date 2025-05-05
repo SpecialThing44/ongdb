@@ -34,9 +34,9 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.ExecutionPlanBuilder.DescriptionProvider
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.{PeriodicCommitInfo, PlanFingerprint, Provider}
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.CompiledRuntimeName
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.ExecutionPlanBuilder.DescriptionProvider
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{PeriodicCommitInfo, PlanFingerprint, Provider}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.CompiledRuntimeName
 import org.neo4j.cypher.internal.frontend.v3_4.PlannerName
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, InternalExecutionResult, ProfileMode, QueryContext}
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
@@ -45,7 +45,7 @@ import org.neo4j.cypher.internal.spi.v3_4
 import org.neo4j.cypher.internal.v3_5.util.TaskCloser
 import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
 import org.neo4j.cypher.internal.v3_4.codegen.profiling.ProfilingTracer
-import org.neo4j.cypher.internal.v3_4.logical.plans.IndexUsage
+import org.neo4j.cypher.internal.v3_5.logical.plans.IndexUsage
 import org.neo4j.values.virtual.MapValue
 
 object ExecutionPlanBuilder {

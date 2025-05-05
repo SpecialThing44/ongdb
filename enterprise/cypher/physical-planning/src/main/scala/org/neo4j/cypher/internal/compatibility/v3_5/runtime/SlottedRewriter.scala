@@ -34,18 +34,19 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_5.runtime
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.PhysicalPlanningAttributes.SlotConfigurations
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.ast._
-import org.neo4j.cypher.internal.compiler.v3_4.planner.CantCompileQueryException
-import org.neo4j.cypher.internal.planner.v3_4.spi.TokenContext
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.PhysicalPlanningAttributes.SlotConfigurations
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast._
+import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
+import org.neo4j.cypher.internal.planner.v3_5.spi.TokenContext
 import org.neo4j.cypher.internal.v3_5.util.AssertionUtils.ifAssertionsEnabled
 import org.neo4j.cypher.internal.v3_5.util.Foldable._
 import org.neo4j.cypher.internal.v3_5.util.attribution.SameId
 import org.neo4j.cypher.internal.v3_5.util.symbols._
 import org.neo4j.cypher.internal.v3_5.util.{InternalException, Rewriter, topDown}
-import org.neo4j.cypher.internal.v3_4.expressions.{FunctionInvocation, _}
-import org.neo4j.cypher.internal.v3_4.logical.plans.{LogicalPlan, NestedPlanExpression, Projection, VarExpand, _}
-import org.neo4j.cypher.internal.v3_4.{expressions, functions => frontendFunctions}
+import org.neo4j.cypher.internal.v3_5.expressions.{FunctionInvocation, _}
+import org.neo4j.cypher.internal.v3_5.logical.plans.{LogicalPlan, NestedPlanExpression, Projection, VarExpand, _}
+import org.neo4j.cypher.internal.v3_5.expressions
+import org.neo4j.cypher.internal.v3_5.expressions.{functions => frontendFunctions}
 
 /**
   * This class rewrites logical plans so they use slotted variable access instead of using key-based. It will also
@@ -68,15 +69,15 @@ class SlottedRewriter(tokenContext: TokenContext) {
       Projection means executing expressions and writing the result to a row. Since any expression of Variable-type
       would just write to the row the data that is already in it, we can just skip them
        */
-      case oldPlan@Projection(_, expressions) =>
+      case oldPlan@Projection(_, projectExpressions) =>
         val slotConfiguration = slotConfigurations(oldPlan.id)
         val rewriter = rewriteCreator(slotConfiguration, oldPlan.selfThis, slotConfigurations)
 
-        val newExpressions = expressions collect {
+        val newExpressions = projectExpressions collect {
           case (column, expression) => column -> expression.endoRewrite(rewriter)
         }
 
-        val newPlan = oldPlan.copy(expressions = newExpressions)(SameId(oldPlan.id))
+        val newPlan = oldPlan.copy(projectExpressions = newExpressions)(SameId(oldPlan.id))
 
         newPlan
 
@@ -89,11 +90,11 @@ class SlottedRewriter(tokenContext: TokenContext) {
         val rewriter = rewriteCreator(incomingSlotConfiguration, oldPlan, slotConfigurations)
 
         val newNodePredicate = oldPlan.nodePredicate.endoRewrite(rewriter)
-        val newEdgePredicate = oldPlan.edgePredicate.endoRewrite(rewriter)
+        val newRelationshipPredicate = oldPlan.relationshipPredicate.endoRewrite(rewriter)
 
         val newPlan = oldPlan.copy(
           nodePredicate = newNodePredicate,
-          edgePredicate = newEdgePredicate,
+          relationshipPredicate = newRelationshipPredicate,
           legacyPredicates = Seq.empty // If we use the legacy predicates, we are not on the slotted runtime
         )(SameId(oldPlan.id))
 

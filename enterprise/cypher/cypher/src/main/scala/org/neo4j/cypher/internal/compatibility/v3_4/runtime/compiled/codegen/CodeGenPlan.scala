@@ -34,10 +34,10 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.Instruction
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.spi.JoinTableType
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.Instruction
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.JoinTableType
 import org.neo4j.cypher.internal.planner.v3_4.spi.PlanningAttributes.Cardinalities
-import org.neo4j.cypher.internal.v3_4.logical.plans.LogicalPlan
+import org.neo4j.cypher.internal.v3_5.logical.plans.LogicalPlan
 
 trait CodeGenPlan {
 
@@ -55,4 +55,3 @@ trait LeafCodeGenPlan extends CodeGenPlan {
 }
 
 case class JoinTableMethod(name: String, tableType: JoinTableType)
-

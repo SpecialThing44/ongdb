@@ -90,6 +90,6 @@ public class TransitionalPeriodTransactionMessContainer
         TransactionalContextFactory contextFactory = Neo4jTransactionalContextFactory.create( service, locker );
         ClientConnectionInfo clientConnection = HttpConnectionInfoFactory.create( request );
         InternalTransaction transaction = service.beginTransaction( type, loginContext );
-        return contextFactory.newContext( clientConnection, transaction, query, ValueUtils.asMapValue( queryParameters ) );
+        return contextFactory.newContext( clientConnection, transaction, query, ValueUtils.asParameterMapValue( queryParameters ) );
     }
 }

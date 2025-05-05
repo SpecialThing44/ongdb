@@ -34,11 +34,13 @@
  */
 package org.neo4j.cypher.internal.runtime.slotted
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.PhysicalPlanningAttributes.SlotConfigurations
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.{ClosingQueryResultRecordIterator, ResultIterator}
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.{BaseExecutionResultBuilderFactory, ExecutionResultBuilder, PipeInfo}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.PhysicalPlanningAttributes.SlotConfigurations
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{ClosingQueryResultRecordIterator, ResultIterator}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{BaseExecutionResultBuilderFactory, ExecutionResultBuilder, PipeInfo}
+import org.neo4j.cypher.internal.runtime.QueryContext
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
-import org.neo4j.cypher.internal.v3_4.logical.plans.LogicalPlan
+import org.neo4j.cypher.internal.v3_5.logical.plans.LogicalPlan
+import org.neo4j.cypher.internal.v3_5.util.TaskCloser
 import org.neo4j.values.virtual.MapValue
 
 import scala.collection.mutable
@@ -47,10 +49,8 @@ class SlottedExecutionResultBuilderFactory(pipeInfo: PipeInfo,
                                            columns: List[String],
                                            logicalPlan: LogicalPlan,
                                            pipelines: SlotConfigurations)
-  extends BaseExecutionResultBuilderFactory(pipeInfo, columns, logicalPlan) {
+  extends BaseExecutionResultBuilderFactory(pipeInfo.pipe, false, columns, logicalPlan) {
 
-  override def create(): ExecutionResultBuilder =
-    new SlottedExecutionWorkflowBuilder()
 
   class SlottedExecutionWorkflowBuilder() extends BaseExecutionWorkflowBuilder {
     override protected def createQueryState(params: MapValue) = {
@@ -63,5 +63,9 @@ class SlottedExecutionResultBuilderFactory(pipeInfo: PipeInfo,
       val resultIterator = if (isUpdating) closingIterator.toEager else closingIterator
       resultIterator
     }
+
+    override def queryContext: QueryContext = ???
   }
+
+  override def create(queryContext: QueryContext): ExecutionResultBuilder =  new SlottedExecutionWorkflowBuilder()
 }

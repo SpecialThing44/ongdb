@@ -34,9 +34,9 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.aggregation
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions._
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.spi.MethodStructure
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.{CodeGenContext, Variable}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.MethodStructure
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.{CodeGenContext, Variable}
 
 /*
  * Simple count is used when no grouping key is defined such as
@@ -71,5 +71,3 @@ case class SimpleCount(variable: Variable, expression: CodeGenExpression, distin
 
   private def typeName(variable: Variable) = variable.name + "Type"
 }
-
-

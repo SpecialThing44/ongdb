@@ -39,10 +39,10 @@ import java.util
 import org.neo4j.codegen.bytecode.ByteCode
 import org.neo4j.codegen.source.SourceCode
 import org.neo4j.codegen.{CodeGenerationStrategy, CodeGenerator, Expression, MethodDeclaration}
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.CodeGenContext
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions.{CodeGenType, CypherCodeGenType, ReferenceType}
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.spi._
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.{Completable, Provider}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.CodeGenContext
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions.{CodeGenType, CypherCodeGenType, ReferenceType}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{Completable, Provider}
 import org.neo4j.cypher.internal.frontend.v3_4.helpers._
 import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription

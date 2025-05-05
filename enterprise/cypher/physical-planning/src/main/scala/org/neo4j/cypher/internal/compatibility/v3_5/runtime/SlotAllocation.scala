@@ -46,6 +46,7 @@ import org.neo4j.cypher.internal.v3_5.ast.ProcedureResultItem
 import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 
+import java.util.UUID
 import scala.collection.mutable
 
 /**
@@ -423,16 +424,13 @@ object SlotAllocation {
         result.newLong(to, nullable, CTNode)
         result
 
-      case CreateNode(_, name, _, _) =>
-        source.newLong(name, nullable = false, CTNode)
+      case Create(_, nodes, relationships) =>
+        source.newLong(UUID.randomUUID().toString, nullable = false, CTNode)
+        source.newLong(UUID.randomUUID().toString, nullable = false, CTRelationship)
         source
 
       case _:MergeCreateNode =>
         // The variable name should already have been allocated by the NodeLeafPlan
-        source
-
-      case CreateRelationship(_, name, _, _, _, _) =>
-        source.newLong(name, nullable = false, CTRelationship)
         source
 
       case MergeCreateRelationship(_, name, _, _, _, _) =>
@@ -466,7 +464,7 @@ object SlotAllocation {
       case _: SetLabels |
            _: SetNodeProperty |
            _: SetNodePropertiesFromMap |
-           _: SetRelationshipPropery |
+           _: SetRelationshipProperty |
            _: SetRelationshipPropertiesFromMap |
            _: SetProperty |
            _: RemoveLabels =>
@@ -668,8 +666,8 @@ object SlotAllocation {
         // The slot for the iteration variable of foreach needs to be available as an argument on the rhs of the apply
         // so we allocate it on the lhs (even though its value will not be needed after the foreach is done)
         val typeSpec = semanticTable.getActualTypeFor(listExpression)
-        val listOfNodes = typeSpec.exists(_.contains(ListType(CTNode)))
-        val listOfRels = typeSpec.exists(_.contains(ListType(CTRelationship)))
+        val listOfNodes = typeSpec.contains(ListType(CTNode))
+        val listOfRels = typeSpec.contains(ListType(CTRelationship))
 
         (listOfNodes, listOfRels) match {
           case (true, false) => lhs.newLong(variableName, true, CTNode)

@@ -35,8 +35,8 @@
 package org.neo4j.cypher.internal.compiled_runtime.v3_4
 
 import org.neo4j.cypher.internal.compatibility.v3_4.WrappedMonitors
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.BuildCompiledExecutionPlan
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.executionplan.NewRuntimeSuccessRateMonitor
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.BuildCompiledExecutionPlan
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.NewRuntimeSuccessRateMonitor
 import org.neo4j.cypher.internal.compiler.v3_4.NotImplementedPlanContext
 import org.neo4j.cypher.internal.compiler.v3_4.phases.LogicalPlanState
 import org.neo4j.cypher.internal.compiler.v3_4.planner.{CantCompileQueryException, HardcodedGraphStatistics}
@@ -46,7 +46,7 @@ import org.neo4j.cypher.internal.planner.v3_4.spi.{CostBasedPlannerName, GraphSt
 import org.neo4j.cypher.internal.spi.v3_4.codegen.GeneratedQueryStructure
 import org.neo4j.cypher.internal.v3_5.util.attribution.SequentialIdGen
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
-import org.neo4j.cypher.internal.v3_4.logical.plans.{Argument, LogicalPlan, ProduceResult}
+import org.neo4j.cypher.internal.v3_5.logical.plans.{Argument, LogicalPlan, ProduceResult}
 import org.neo4j.kernel.monitoring.Monitors
 
 class BuildCompiledExecutionPlanTest extends CypherFunSuite {

@@ -35,9 +35,9 @@
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen
 
 import org.neo4j.cypher.InternalException
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.JoinData
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.ir.expressions.CodeGenType
-import org.neo4j.cypher.internal.v3_4.logical.plans.LogicalPlan
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.JoinData
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions.CodeGenType
+import org.neo4j.cypher.internal.v3_5.logical.plans.LogicalPlan
 import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 
