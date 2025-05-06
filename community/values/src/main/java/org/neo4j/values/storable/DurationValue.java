@@ -66,9 +66,9 @@ import static org.neo4j.values.utils.TemporalUtil.SECONDS_PER_DAY;
 import static org.neo4j.values.utils.ValueMath.HASH_CONSTANT;
 
 /**
- * We use our own implementation because neither {@link java.time.Duration} nor {@link java.time.Period} fits our needs.
- * {@link java.time.Duration} only works with seconds, assumes 24H days, and is unable to handle larger units than days.
- * {@link java.time.Period} only works with units from days or larger, and does not deal with time.
+ * We use our own implementation because neither {@link Duration} nor {@link Period} fits our needs.
+ * {@link Duration} only works with seconds, assumes 24H days, and is unable to handle larger units than days.
+ * {@link Period} only works with units from days or larger, and does not deal with time.
  */
 public final class DurationValue extends ScalarValue implements TemporalAmount, Comparable<DurationValue>
 {

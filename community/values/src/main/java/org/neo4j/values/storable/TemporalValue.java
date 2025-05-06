@@ -1343,7 +1343,7 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
     }
 
     @SafeVarargs
-    static void assertDefinedInOrder( Pair<org.neo4j.values.AnyValue, String>... values )
+    static void assertDefinedInOrder( Pair<AnyValue, String>... values )
     {
         if ( values[0].first() == null )
         {
@@ -1352,7 +1352,7 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
 
         String firstNotAssigned = null;
 
-        for ( Pair<org.neo4j.values.AnyValue,String> value : values )
+        for ( Pair<AnyValue,String> value : values )
         {
             if ( value.first() == null )
             {
@@ -1369,9 +1369,9 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
     }
 
     @SafeVarargs
-    static void assertAllDefined( Pair<org.neo4j.values.AnyValue, String>... values )
+    static void assertAllDefined( Pair<AnyValue, String>... values )
     {
-        for ( Pair<org.neo4j.values.AnyValue,String> value : values )
+        for ( Pair<AnyValue,String> value : values )
         {
             if ( value.first() == null )
             {
@@ -1380,7 +1380,7 @@ public abstract class TemporalValue<T extends Temporal, V extends TemporalValue<
         }
     }
 
-    static org.neo4j.values.AnyValue oneOf( org.neo4j.values.AnyValue a, org.neo4j.values.AnyValue b, org.neo4j.values.AnyValue c )
+    static AnyValue oneOf( AnyValue a, AnyValue b, AnyValue c )
     {
         return a != null ? a : b != null ? b : c;
     }

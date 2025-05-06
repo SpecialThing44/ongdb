@@ -35,6 +35,8 @@ import org.neo4j.values.virtual.PathValue.DirectPathValue;
 public final class VirtualValues
 {
     public static final MapValue EMPTY_MAP = MapValue.EMPTY;
+    public static final MapValue.MapWrappingMapValue EMPTY_MAP_WRAP = MapValue.MapWrappingMapValue.EMPTY_WRAP;
+
     public static final ListValue EMPTY_LIST = new ListValue.ArrayListValue( new AnyValue[0] );
 
     private VirtualValues()

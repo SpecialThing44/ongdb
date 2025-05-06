@@ -48,7 +48,7 @@ public class MapValueBuilder
         map.clear();
     }
 
-    public MapValue build()
+    public MapValue.MapWrappingMapValue  build()
     {
         return new MapValue.MapWrappingMapValue( map );
     }

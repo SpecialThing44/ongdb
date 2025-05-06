@@ -19,15 +19,7 @@
  */
 package org.neo4j.values.virtual;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.StreamSupport;
 
@@ -76,7 +68,8 @@ public abstract class MapValue extends VirtualValue
         }
     };
 
-    static final class MapWrappingMapValue extends MapValue
+
+    public static final class MapWrappingMapValue extends MapValue
     {
         private final Map<String,AnyValue> map;
 
@@ -100,6 +93,11 @@ public abstract class MapValue extends VirtualValue
             }
         }
 
+        public Set<Map.Entry<String,AnyValue>> entrySet()
+        {
+            return map.entrySet();
+        }
+
         @Override
         public boolean containsKey( String key )
         {
@@ -117,6 +115,7 @@ public abstract class MapValue extends VirtualValue
         {
             return map.size();
         }
+        public static MapValue.MapWrappingMapValue EMPTY_WRAP = new MapValue.MapWrappingMapValue( Collections.emptyMap() );
     }
 
     private static final class FilteringMapValue extends MapValue
@@ -698,4 +697,5 @@ public abstract class MapValue extends VirtualValue
     }
 
     public abstract int size();
+
 }
