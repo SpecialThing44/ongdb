@@ -19,40 +19,38 @@
  */
 package org.neo4j.values.virtual;
 
-import org.neo4j.values.AnyValueWriter;
+import java.util.HashMap;
+import java.util.Map;
 
-import static java.lang.String.format;
+import org.neo4j.values.AnyValue;
 
-public class NodeReference extends VirtualNodeValue
+public class MapValueBuilder
 {
-    private final long id;
+    private final Map<String, AnyValue> map;
 
-    NodeReference( long id )
+    public MapValueBuilder()
     {
-        this.id = id;
+        this.map = new HashMap<>(  );
     }
 
-    @Override
-    public <E extends Exception> void writeTo( AnyValueWriter<E> writer ) throws E
+    public MapValueBuilder( int size )
     {
-        writer.writeNodeReference( id );
+        this.map = new HashMap<>( size );
     }
 
-    @Override
-    public String getTypeName()
+    public AnyValue add( String key, AnyValue value )
     {
-        return "NodeReference";
+        return map.put( key, value );
     }
 
-    @Override
-    public String toString()
+    public void clear()
     {
-        return format( "(%d)", id );
+        map.clear();
     }
 
-    @Override
-    public long id()
+    public MapValue build()
     {
-        return id;
+        return new MapValue.MapWrappingMapValue( map );
     }
+
 }

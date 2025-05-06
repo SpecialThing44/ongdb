@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,15 +19,15 @@
  */
 package org.neo4j.values.virtual;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
 import static org.neo4j.values.virtual.VirtualValueTestUtil.map;
 
-public class MapTest
+class MapTest
 {
     @Test
-    public void shouldBeEqualToItself()
+    void shouldBeEqualToItself()
     {
         assertEqual(
                 map( "1", false, "20", new short[]{4} ),
@@ -58,7 +39,7 @@ public class MapTest
     }
 
     @Test
-    public void shouldCoerce()
+    void shouldCoerce()
     {
         assertEqual(
                 map( "1", 1, "20", 'a' ),
@@ -74,7 +55,7 @@ public class MapTest
     }
 
     @Test
-    public void shouldRecurse()
+    void shouldRecurse()
     {
         assertEqual(
                 map( "1", map( "2", map( "3", "hi" ) ) ),
@@ -82,7 +63,7 @@ public class MapTest
     }
 
     @Test
-    public void shouldRecurseAndCoerce()
+    void shouldRecurseAndCoerce()
     {
         assertEqual(
                 map( "1", map( "2", map( "3", "x" ) ) ),

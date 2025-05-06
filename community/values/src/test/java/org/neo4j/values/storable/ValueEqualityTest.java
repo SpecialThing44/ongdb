@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -174,87 +155,87 @@ public class ValueEqualityTest
         currentTest.checkAssertion();
     }
 
-    public static Test shouldMatch( boolean propertyValue, Object value )
+    private static Test shouldMatch( boolean propertyValue, Object value )
     {
         return new Test( Values.booleanValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( boolean propertyValue, Object value )
+    private static Test shouldNotMatch( boolean propertyValue, Object value )
     {
         return new Test( Values.booleanValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( byte propertyValue, Object value )
+    private static Test shouldMatch( byte propertyValue, Object value )
     {
         return new Test( Values.byteValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( byte propertyValue, Object value )
+    private static Test shouldNotMatch( byte propertyValue, Object value )
     {
         return new Test( Values.byteValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( short propertyValue, Object value )
+    private static Test shouldMatch( short propertyValue, Object value )
     {
         return new Test( Values.shortValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( short propertyValue, Object value )
+    private static Test shouldNotMatch( short propertyValue, Object value )
     {
         return new Test( Values.shortValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( float propertyValue, Object value )
+    private static Test shouldMatch( float propertyValue, Object value )
     {
         return new Test( Values.floatValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( float propertyValue, Object value )
+    private static Test shouldNotMatch( float propertyValue, Object value )
     {
         return new Test( Values.floatValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( long propertyValue, Object value )
+    private static Test shouldMatch( long propertyValue, Object value )
     {
         return new Test( Values.longValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( long propertyValue, Object value )
+    private static Test shouldNotMatch( long propertyValue, Object value )
     {
         return new Test( Values.longValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( double propertyValue, Object value )
+    private static Test shouldMatch( double propertyValue, Object value )
     {
         return new Test( Values.doubleValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( double propertyValue, Object value )
+    private static Test shouldNotMatch( double propertyValue, Object value )
     {
         return new Test( Values.doubleValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( String propertyValue, Object value )
+    private static Test shouldMatch( String propertyValue, Object value )
     {
         return new Test( Values.stringValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( String propertyValue, Object value )
+    private static Test shouldNotMatch( String propertyValue, Object value )
     {
         return new Test( Values.stringValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( char propertyValue, Object value )
+    private static Test shouldMatch( char propertyValue, Object value )
     {
         return new Test( Values.charValue( propertyValue ), value, true );
     }
 
-    public static Test shouldNotMatch( char propertyValue, Object value )
+    private static Test shouldNotMatch( char propertyValue, Object value )
     {
         return new Test( Values.charValue( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( int[] propertyValue, Object value )
+    private static Test shouldMatch( int[] propertyValue, Object value )
     {
         return new Test( Values.intArray( propertyValue ), value, true );
     }
@@ -264,7 +245,7 @@ public class ValueEqualityTest
         return new Test( Values.intArray( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( char[] propertyValue, Object value )
+    private static Test shouldMatch( char[] propertyValue, Object value )
     {
         return new Test( Values.charArray( propertyValue ), value, true );
     }
@@ -274,14 +255,9 @@ public class ValueEqualityTest
         return new Test( Values.charArray( propertyValue ), value, false );
     }
 
-    public static Test shouldMatch( String[] propertyValue, Object value )
+    private static Test shouldMatch( String[] propertyValue, Object value )
     {
         return new Test( Values.stringArray( propertyValue ), value, true );
-    }
-
-    public static Test shouldNotMatch( String[] propertyValue, Object value )
-    {
-        return new Test( Values.stringArray( propertyValue ), value, false );
     }
 
     private static class Test

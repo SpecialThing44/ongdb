@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,11 +19,11 @@
  */
 package org.neo4j.values.virtual;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.neo4j.values.storable.Values.booleanValue;
 import static org.neo4j.values.storable.Values.intValue;
 import static org.neo4j.values.storable.Values.longValue;
@@ -52,10 +33,10 @@ import static org.neo4j.values.virtual.VirtualValues.EMPTY_LIST;
 import static org.neo4j.values.virtual.VirtualValues.concat;
 import static org.neo4j.values.virtual.VirtualValues.list;
 
-public class ConcatListTest
+class ConcatListTest
 {
     @Test
-    public void shouldHandleZeroListConcatenation()
+    void shouldHandleZeroListConcatenation()
     {
         // Given
         ListValue inner = EMPTY_LIST;
@@ -68,7 +49,7 @@ public class ConcatListTest
     }
 
     @Test
-    public void shouldHandleSingleListConcatenation()
+    void shouldHandleSingleListConcatenation()
     {
         // Given
         ListValue inner = list( stringValue( "foo" ), longValue( 42 ), booleanValue( true ) );
@@ -83,7 +64,7 @@ public class ConcatListTest
     }
 
     @Test
-    public void shouldHandleMultipleListConcatenation()
+    void shouldHandleMultipleListConcatenation()
     {
         // Given
         ListValue inner1 = list( stringValue( "foo" ), longValue( 42 ), booleanValue( true ) );

@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,9 +19,8 @@
  */
 package org.neo4j.values.storable;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +28,17 @@ import java.util.List;
 import org.neo4j.values.utils.TemporalParseException;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.neo4j.values.storable.LocalTimeValue.localTime;
 import static org.neo4j.values.storable.LocalTimeValue.parse;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertEqual;
 import static org.neo4j.values.utils.AnyValueTestUtil.assertNotEqual;
 
-public class LocalTimeValueTest
+class LocalTimeValueTest
 {
     @Test
-    public void shouldParseTimeWithOnlyHour()
+    void shouldParseTimeWithOnlyHour()
     {
         assertEquals( localTime( 14, 0, 0, 0 ), parse( "14" ) );
         assertEquals( localTime( 4, 0, 0, 0 ), parse( "4" ) );
@@ -65,7 +46,7 @@ public class LocalTimeValueTest
     }
 
     @Test
-    public void shouldParseTimeWithHourAndMinute()
+    void shouldParseTimeWithHourAndMinute()
     {
         assertEquals( localTime( 14, 5, 0, 0 ), parse( "1405" ) );
         assertEquals( localTime( 14, 5, 0, 0 ), parse( "14:5" ) );
@@ -75,7 +56,7 @@ public class LocalTimeValueTest
     }
 
     @Test
-    public void shouldParseTimeWithHourMinuteAndSecond()
+    void shouldParseTimeWithHourMinuteAndSecond()
     {
         assertEquals( localTime( 14, 5, 17, 0 ), parse( "140517" ) );
         assertEquals( localTime( 14, 5, 17, 0 ), parse( "14:5:17" ) );
@@ -85,7 +66,7 @@ public class LocalTimeValueTest
     }
 
     @Test
-    public void shouldParseTimeWithHourMinuteSecondAndFractions()
+    void shouldParseTimeWithHourMinuteSecondAndFractions()
     {
         assertEquals( localTime( 14, 5, 17, 123000000 ), parse( "140517.123" ) );
         assertEquals( localTime( 14, 5, 17, 1 ), parse( "14:5:17.000000001" ) );
@@ -95,17 +76,16 @@ public class LocalTimeValueTest
     }
 
     @Test
-    @SuppressWarnings( "ThrowableNotThrown" )
-    public void shouldFailToParseTimeOutOfRange()
+    void shouldFailToParseTimeOutOfRange()
     {
-        assertCannotParse( "24" );
-        assertCannotParse( "1760" );
-        assertCannotParse( "173260" );
-        assertCannotParse( "173250.0000000001" );
+        assertThrows( TemporalParseException.class, () -> parse( "24" ) );
+        assertThrows( TemporalParseException.class, () -> parse( "1760" ) );
+        assertThrows( TemporalParseException.class, () -> parse( "173260" ) );
+        assertThrows( TemporalParseException.class, () -> parse( "173250.0000000001" ) );
     }
 
     @Test
-    public void shouldWriteLocalTime()
+    void shouldWriteLocalTime()
     {
         // given
         for ( LocalTimeValue value : new LocalTimeValue[] {
@@ -134,28 +114,14 @@ public class LocalTimeValueTest
     }
 
     @Test
-    public void shouldEqualItself()
+    void shouldEqualItself()
     {
         assertEqual( localTime( 10, 52, 5, 6 ), localTime( 10, 52, 5, 6 ) );
     }
 
     @Test
-    public void shouldNotEqualOther()
+    void shouldNotEqualOther()
     {
         assertNotEqual( localTime( 10, 52, 5, 6 ), localTime( 10, 52, 5, 7 ) );
-    }
-
-    @SuppressWarnings( "UnusedReturnValue" )
-    private TemporalParseException assertCannotParse( String text )
-    {
-        try
-        {
-            parse( text );
-        }
-        catch ( TemporalParseException e )
-        {
-            return e;
-        }
-        throw new AssertionError( text );
     }
 }

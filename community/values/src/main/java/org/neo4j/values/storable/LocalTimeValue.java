@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -48,7 +29,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalUnit;
-import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,7 +39,6 @@ import org.neo4j.values.ValueMapper;
 import org.neo4j.values.utils.InvalidValuesArgumentException;
 import org.neo4j.values.utils.UnsupportedTemporalUnitException;
 import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.VirtualValues;
 
 import static java.lang.Integer.parseInt;
 import static java.util.Objects.requireNonNull;
@@ -82,7 +61,12 @@ public final class LocalTimeValue extends TemporalValue<LocalTime,LocalTimeValue
 
     public static LocalTimeValue localTime( long nanoOfDay )
     {
-        return new LocalTimeValue( assertValidArgument( () -> LocalTime.ofNanoOfDay( nanoOfDay ) ) );
+        return new LocalTimeValue( localTimeRaw( nanoOfDay ) );
+    }
+
+    public static LocalTime localTimeRaw( long nanoOfDay )
+    {
+        return assertValidArgument( () -> LocalTime.ofNanoOfDay( nanoOfDay ) );
     }
 
     public static LocalTimeValue parse( CharSequence text )
@@ -134,14 +118,17 @@ public final class LocalTimeValue extends TemporalValue<LocalTime,LocalTimeValue
         }
         else
         {
-            Map<String,AnyValue> updatedFields = fields.getMapCopy();
-            truncatedLT = updateFieldMapWithConflictingSubseconds( updatedFields, unit, truncatedLT );
-            if ( updatedFields.size() == 0 )
-            {
-                return localTime( truncatedLT );
-            }
-            updatedFields.put( "time", localTime( truncatedLT ) );
-            return build( VirtualValues.map( updatedFields ), defaultZone );
+            return updateFieldMapWithConflictingSubseconds( fields, unit, truncatedLT,
+                    ( mapValue, localTime1 ) -> {
+                        if ( mapValue.size() == 0 )
+                        {
+                            return localTime( localTime1 );
+                        }
+                        else
+                        {
+                            return build( mapValue.updatedWith( "time", localTime( localTime1 ) ), defaultZone );
+                        }
+                    } );
         }
     }
 
@@ -216,15 +203,15 @@ public final class LocalTimeValue extends TemporalValue<LocalTime,LocalTimeValue
     }
 
     @Override
-    LocalDate getDatePart()
-    {
-        throw new UnsupportedTemporalUnitException( String.format( "Cannot get the date of: %s", this ) );
-    }
-
-    @Override
     public String getTypeName()
     {
         return "LocalTime";
+    }
+
+    @Override
+    LocalDate getDatePart()
+    {
+        throw new UnsupportedTemporalUnitException( String.format( "Cannot get the date of: %s", this ) );
     }
 
     @Override
