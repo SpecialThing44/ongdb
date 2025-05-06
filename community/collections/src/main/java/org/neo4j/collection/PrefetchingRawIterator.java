@@ -54,10 +54,10 @@ public abstract class PrefetchingRawIterator<T, EXCEPTION extends Exception> imp
 
     /**
      * Uses {@link #hasNext()} to try to fetch the next item and returns it
-     * if found, otherwise it throws a {@link java.util.NoSuchElementException}.
+     * if found, otherwise it throws a {@link NoSuchElementException}.
      *
      * @return the next item in the iteration, or throws
-     * {@link java.util.NoSuchElementException} if there's no more items to return.
+     * {@link NoSuchElementException} if there's no more items to return.
      */
     @Override
     public T next() throws EXCEPTION

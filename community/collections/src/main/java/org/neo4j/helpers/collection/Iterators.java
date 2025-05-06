@@ -857,7 +857,7 @@ public final class Iterators
 
     private static class EmptyResourceIterator<E> implements ResourceIterator<E>
     {
-        private static final ResourceIterator<Object> EMPTY_RESOURCE_ITERATOR = new Iterators.EmptyResourceIterator<>();
+        private static final ResourceIterator<Object> EMPTY_RESOURCE_ITERATOR = new EmptyResourceIterator<>();
 
         @Override
         public void close()
