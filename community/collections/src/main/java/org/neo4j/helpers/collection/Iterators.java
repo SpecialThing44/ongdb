@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -42,6 +23,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,8 +32,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -494,6 +479,13 @@ public final class Iterators
         return set;
     }
 
+    public static <T> SortedSet<T> asSortedSet( Comparator<T> comparator, T... items )
+    {
+        TreeSet<T> set = new TreeSet<>( comparator );
+        Collections.addAll( set, items );
+        return set;
+    }
+
     public static Iterator<Long> asIterator( final long... array )
     {
         return new PrefetchingIterator<Long>()
@@ -605,6 +597,68 @@ public final class Iterators
     public static <T> Iterator<T> iterator( int maxItems, T ... items )
     {
         return asIterator( maxItems, items );
+    }
+
+    public static <T> Iterator<T> appendTo( Iterator<T> iterator, T... appended )
+    {
+        return new Iterator<T>()
+        {
+            private int index;
+
+            @Override
+            public boolean hasNext()
+            {
+                return iterator.hasNext() || index < appended.length;
+            }
+
+            @Override
+            public T next()
+            {
+                if ( iterator.hasNext() )
+                {
+                    return iterator.next();
+                }
+                else if ( index < appended.length )
+                {
+                    return appended[index++];
+                }
+                else
+                {
+                    throw new NoSuchElementException();
+                }
+            }
+        };
+    }
+
+    public static <T> Iterator<T> prependTo( Iterator<T> iterator, T... prepended )
+    {
+        return new Iterator<T>()
+        {
+            private int index;
+
+            @Override
+            public boolean hasNext()
+            {
+                return index < prepended.length || iterator.hasNext();
+            }
+
+            @Override
+            public T next()
+            {
+                if ( index < prepended.length )
+                {
+                    return prepended[index++];
+                }
+                else if ( iterator.hasNext() )
+                {
+                    return iterator.next();
+                }
+                else
+                {
+                    throw new NoSuchElementException();
+                }
+            }
+        };
     }
 
     @SuppressWarnings( "unchecked" )

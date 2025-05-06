@@ -17,41 +17,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.helpers.collection;
+package org.neo4j.collection.pool;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
-public class ReverseArrayIterator<T> implements Iterator<T>
+public interface Pool<T> extends AutoCloseable
 {
-    private final T[] array;
-    private int index;
+    T acquire();
 
-    public ReverseArrayIterator( T[] array )
-    {
-        this.array = array;
-        this.index = array.length - 1;
-    }
-
-    @Override
-    public boolean hasNext()
-    {
-        return index >= 0;
-    }
-
-    @Override
-    public T next()
-    {
-        if ( !hasNext() )
-        {
-            throw new NoSuchElementException();
-        }
-        return array[index--];
-    }
-
-    @Override
-    public void remove()
-    {
-        throw new UnsupportedOperationException();
-    }
+    void release( T obj );
 }

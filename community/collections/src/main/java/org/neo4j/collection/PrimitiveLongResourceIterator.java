@@ -17,41 +17,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.helpers.collection;
+package org.neo4j.collection;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import org.eclipse.collections.api.iterator.LongIterator;
 
-public class ReverseArrayIterator<T> implements Iterator<T>
+import org.neo4j.graphdb.Resource;
+
+public interface PrimitiveLongResourceIterator extends LongIterator, Resource
 {
-    private final T[] array;
-    private int index;
-
-    public ReverseArrayIterator( T[] array )
-    {
-        this.array = array;
-        this.index = array.length - 1;
-    }
-
-    @Override
-    public boolean hasNext()
-    {
-        return index >= 0;
-    }
-
-    @Override
-    public T next()
-    {
-        if ( !hasNext() )
-        {
-            throw new NoSuchElementException();
-        }
-        return array[index--];
-    }
-
-    @Override
-    public void remove()
-    {
-        throw new UnsupportedOperationException();
-    }
 }

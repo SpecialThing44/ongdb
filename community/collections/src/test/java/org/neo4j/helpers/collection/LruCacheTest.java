@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,49 +19,55 @@
  */
 package org.neo4j.helpers.collection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LruCacheTest
+class LruCacheTest
 {
-    @Test( expected = IllegalArgumentException.class )
-    public void shouldThrowWhenMaxSizeIsNotGreaterThanZero()
+    @Test
+    void shouldThrowWhenMaxSizeIsNotGreaterThanZero()
     {
-        new LruCache<>( "TestCache", 0 );
-    }
-
-    @Test( expected = IllegalArgumentException.class )
-    public void shouldThrowWhenPuttingEntryWithNullKey()
-    {
-        new LruCache<>( "TestCache", 70 ).put( null, new Object() );
-    }
-
-    @Test( expected = IllegalArgumentException.class )
-    public void shouldThrowWhenPuttingEntryWithNullValue()
-    {
-        new LruCache<>( "TestCache", 70 ).put( new Object(), null );
-    }
-
-    @Test( expected = IllegalArgumentException.class )
-    public void shouldThrowWhenGettingWithANullKey()
-    {
-        new LruCache<>( "TestCache", 70 ).get( null );
-    }
-
-    @Test( expected = IllegalArgumentException.class )
-    public void shouldThrowWhenRemovingWithANullKey()
-    {
-        new LruCache<>( "TestCache", 70 ).remove( null );
+        assertThrows( IllegalArgumentException.class, () -> new LruCache<>( "TestCache", 0 ) );
     }
 
     @Test
-    public void shouldWork()
+    void shouldThrowWhenPuttingEntryWithNullKey()
+    {
+        assertThrows( IllegalArgumentException.class, () ->
+                new LruCache<>( "TestCache", 70 ).put( null, new Object() ) );
+    }
+
+    @Test
+    void shouldThrowWhenPuttingEntryWithNullValue()
+    {
+        assertThrows( IllegalArgumentException.class, () ->
+                new LruCache<>( "TestCache", 70 ).put( new Object(), null ) );
+    }
+
+    @Test
+    void shouldThrowWhenGettingWithANullKey()
+    {
+        assertThrows( IllegalArgumentException.class, () ->
+                new LruCache<>( "TestCache", 70 ).get( null ) );
+    }
+
+    @Test
+    void shouldThrowWhenRemovingWithANullKey()
+    {
+        assertThrows( IllegalArgumentException.class, () ->
+                new LruCache<>( "TestCache", 70 ).remove( null ) );
+    }
+
+    @Test
+    void shouldWork()
     {
         LruCache<Integer, String> cache = new LruCache<>( "TestCache", 3 );
 
@@ -113,9 +100,9 @@ public class LruCacheTest
         int size = cache.size();
 
         assertEquals( 3, size );
-        assertEquals( null, cache.get( key1 ) );
+        assertNull( cache.get( key1 ) );
         assertEquals( s2, cache.get( key2 ) );
-        assertEquals( null, cache.get( key3 ) );
+        assertNull( cache.get( key3 ) );
         assertEquals( s4, cache.get( key4 ) );
         assertEquals( s5, cache.get( key5 ) );
 
@@ -125,7 +112,7 @@ public class LruCacheTest
     }
 
     @Test
-    public void shouldResizeTheCache()
+    void shouldResizeTheCache()
     {
         final Set<String> cleaned = new HashSet<>();
         LruCache<Integer, String> cache = new LruCache<Integer, String>( "TestCache", 3 )
@@ -188,7 +175,7 @@ public class LruCacheTest
     }
 
     @Test
-    public void shouldClear()
+    void shouldClear()
     {
         final Set<String> cleaned = new HashSet<>();
         LruCache<Integer, String> cache = new LruCache<Integer, String>( "TestCache", 3 )
@@ -239,7 +226,7 @@ public class LruCacheTest
         assertEquals( set( s1, s2, s3, s4, s5 ), cleaned );
     }
 
-    public static <E> Set<E> set( E... elems )
+    private static <E> Set<E> set( E... elems )
     {
         return new HashSet<>( Arrays.asList( elems ) );
     }
