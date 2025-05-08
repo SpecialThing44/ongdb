@@ -562,6 +562,10 @@ class SlottedPipeBuilder(fallback: PipeBuilder,
 
         new SlottedPipeBuilder(fallback, expressionConverters, monitors, physicalPlan, readOnly, expressionToExpression)
       }
+
+      override def apply(recurse: LogicalPlan => Pipe, readOnly: Boolean,
+                expressionConverters: ExpressionConverters)
+               (implicit context: PipeExecutionBuilderContext, tokenContext: TokenContext): PipeBuilder = ???
     }
 
     def projectSlotExpression(slot: Slot): Expression = slot match {

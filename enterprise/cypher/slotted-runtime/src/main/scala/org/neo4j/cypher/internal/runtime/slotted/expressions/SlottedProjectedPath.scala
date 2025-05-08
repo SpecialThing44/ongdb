@@ -35,6 +35,7 @@
 package org.neo4j.cypher.internal.runtime.slotted.expressions
 
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
+import org.neo4j.cypher.internal.runtime.interpreted.commands.AstNode
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.{Expression, PathValueBuilder}
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.QueryState
 
@@ -107,5 +108,7 @@ case class SlottedProjectedPath(symbolTableDependencies: Set[String], projector:
   def arguments = Seq.empty
 
   def rewrite(f: (Expression) => Expression): Expression = f(this)
-}
 
+  override def children: Seq[AstNode[_]] = Seq.empty
+
+}
