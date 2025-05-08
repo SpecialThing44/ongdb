@@ -206,19 +206,19 @@
 
         <dependency>
             <groupId>org.graphfoundation.ongdb</groupId>
-            <artifactId>ongdb-geequel-planner-3.4</artifactId>
+            <artifactId>ongdb-geequel-planner-3.5</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <!-- ongdb-geequel test -->
 
-        <dependency>
-            <groupId>org.graphfoundation.ongdb</groupId>
-            <artifactId>ongdb-geequel-planner-3.4</artifactId>
-            <version>${project.version}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.graphfoundation.ongdb</groupId>-->
+<!--            <artifactId>ongdb-geequel-planner-3.5</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--            <type>test-jar</type>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.graphfoundation.ongdb</groupId>
@@ -230,7 +230,7 @@
 
         <dependency>
             <groupId>org.graphfoundation.ongdb</groupId>
-            <artifactId>ongdb-geequel-util-3.4</artifactId>
+            <artifactId>ongdb-geequel-runtime-util</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
             <scope>test</scope>

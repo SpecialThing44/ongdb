@@ -120,7 +120,7 @@
 
         <dependency>
             <groupId>org.graphfoundation.ongdb</groupId>
-            <artifactId>ongdb-geequel-planner-3.4</artifactId>
+            <artifactId>ongdb-geequel-planner-3.5</artifactId>
             <version>${project.version}</version>
         </dependency>
 
