@@ -74,6 +74,11 @@ public class IndexDescriptor implements SchemaDescriptorSupplier, IndexReference
         return type;
     }
 
+    public IndexProviderDescriptor providerDescriptor()
+    {
+        return providerDescriptor;
+    }
+
     @Override
     public SchemaDescriptor schema()
     {
@@ -161,5 +166,13 @@ public class IndexDescriptor implements SchemaDescriptorSupplier, IndexReference
     public boolean isEventuallyConsistent()
     {
         return false;
+    }
+
+    void assertValidId( long id, String idName )
+    {
+        if ( id < 0 )
+        {
+            throw new IllegalArgumentException( "A " + getClass().getSimpleName() + " " + idName + " must be positive, got " + id );
+        }
     }
 }
