@@ -20,8 +20,8 @@
 package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.net.URL
-
 import org.eclipse.collections.api.iterator.LongIterator
+import org.neo4j.collection.primitive.PrimitiveLongIterator
 import org.neo4j.cypher.internal.planner.v3_5.spi.{IndexDescriptor, KernelStatisticProvider}
 import org.neo4j.cypher.internal.runtime._
 import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
@@ -44,6 +44,7 @@ abstract class DelegatingQueryContext(val inner: QueryContext) extends QueryCont
 
   protected def singleDbHit[A](value: A): A = value
   protected def manyDbHits[A](value: Iterator[A]): Iterator[A] = value
+  protected def manyDbHits[A](value: PrimitiveLongIterator): PrimitiveLongIterator = value
 
   protected def manyDbHits[A](value: LongIterator): LongIterator = value
   protected def manyDbHits[A](value: RelationshipIterator): RelationshipIterator = value
@@ -131,6 +132,8 @@ abstract class DelegatingQueryContext(val inner: QueryContext) extends QueryCont
                                            needsValues: Boolean,
                                            indexOrder: IndexOrder): NodeValueIndexCursor =
     manyDbHits(inner.indexScan(index, needsValues, indexOrder))
+
+  override def indexScanPrimitive(index: IndexReference): PrimitiveLongIterator = manyDbHits(inner.indexScanPrimitive(index))
 
   override def indexSeekByContains[RESULT <: AnyRef](index: IndexReference,
                                                      needsValues: Boolean,

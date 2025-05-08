@@ -66,7 +66,7 @@ class ExecutionEngine(val queryService: GraphDatabaseQueryService,
   // Log on stale query discard from query cache
   private val log = logProvider.getLog( getClass )
   kernelMonitors.addMonitorListener( new StringCacheMonitor {
-    override def cacheDiscard(ignored: Pair[String, ParameterTypeMap], query: String, secondsSinceReplan: Int) {
+    override def cacheDiscard(ignored: Pair[String, ParameterTypeMap], query: String, secondsSinceReplan: Int): Unit = {
       log.info(s"Discarded stale query from the query cache after $secondsSinceReplan seconds: $query")
     }
   })
@@ -208,7 +208,7 @@ class ExecutionEngine(val queryService: GraphDatabaseQueryService,
   // HELPERS
 
   @throws(classOf[ParameterNotFoundException])
-  private def checkParameters(queryParams: Seq[String], givenParams: MapValue, extractedParams: MapValue) {
+  private def checkParameters(queryParams: Seq[String], givenParams: MapValue, extractedParams: MapValue): Unit = {
     exceptionHandler.runSafely {
       val missingKeys = queryParams.filter(key => !(givenParams.containsKey(key) || extractedParams.containsKey(key))).distinct
       if (missingKeys.nonEmpty) {

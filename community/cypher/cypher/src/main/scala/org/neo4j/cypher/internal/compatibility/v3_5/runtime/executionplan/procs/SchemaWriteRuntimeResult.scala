@@ -49,5 +49,3 @@ case class SchemaWriteRuntimeResult(ctx: QueryContext) extends RuntimeResult {
 
   override def queryProfile(): QueryProfile = QueryProfile.NONE
 }
-
-

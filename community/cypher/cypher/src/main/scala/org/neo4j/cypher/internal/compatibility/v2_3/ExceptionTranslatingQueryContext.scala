@@ -204,4 +204,3 @@ class ExceptionTranslatingQueryContext(inner: QueryContext) extends DelegatingQu
     case e : KernelConstraintViolationException => throw new ConstraintValidationException(e.getMessage, e)
   }
 }
-

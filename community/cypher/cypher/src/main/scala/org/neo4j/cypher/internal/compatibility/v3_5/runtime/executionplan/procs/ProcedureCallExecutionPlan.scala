@@ -110,4 +110,3 @@ case class ProcedureCallExecutionPlan(signature: ProcedureSignature,
 
   override def notifications: Set[InternalNotification] = Set.empty
 }
-

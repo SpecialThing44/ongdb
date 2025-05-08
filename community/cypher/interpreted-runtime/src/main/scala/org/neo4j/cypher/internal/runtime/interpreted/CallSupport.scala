@@ -57,9 +57,9 @@ object CallSupport {
                             allowed: Array[String], context: ProcedureCallContext): Iterator[Array[AnyRef]] = {
     val call: KernelProcedureCall =
       if (shouldElevate(transactionalContext, allowed))
-        transactionalContext.kernelTransaction.procedures().procedureCallReadOverride(id, _, context)
+        transactionalContext.kernelTransaction.procedures().procedureCallReadOverride(id, _)
       else
-        transactionalContext.kernelTransaction.procedures().procedureCallRead(id, _, context)
+        transactionalContext.kernelTransaction.procedures().procedureCallRead(id, _)
 
     callProcedure(args, call)
   }
@@ -68,9 +68,9 @@ object CallSupport {
                              allowed: Array[String], context: ProcedureCallContext): Iterator[Array[AnyRef]] = {
     val call: KernelProcedureCall =
       if (shouldElevate(transactionalContext, allowed))
-        transactionalContext.kernelTransaction().procedures().procedureCallWriteOverride(id, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallWriteOverride(id, _)
       else
-        transactionalContext.kernelTransaction().procedures().procedureCallWrite(id, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallWrite(id, _)
     callProcedure(args, call)
   }
 
@@ -78,9 +78,9 @@ object CallSupport {
                                allowed: Array[String], context: ProcedureCallContext): Iterator[Array[AnyRef]] = {
     val call: KernelProcedureCall =
       if (shouldElevate(transactionalContext, allowed))
-        transactionalContext.kernelTransaction().procedures().procedureCallSchemaOverride(id, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallSchemaOverride(id, _)
       else
-        transactionalContext.kernelTransaction().procedures().procedureCallSchema(id, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallSchema(id, _)
     callProcedure(args, call)
   }
 
@@ -88,20 +88,17 @@ object CallSupport {
     callProcedure(args,
                   transactionalContext.dbmsOperations.procedureCallDbms(id,
                                                                         _,
-                                                                        transactionalContext.graph
-                                                                          .getDependencyResolver,
                                                                         transactionalContext.securityContext,
-                                                                        transactionalContext.resourceTracker,
-                                                                        context))
+                                                                        transactionalContext.resourceTracker))
 
   def callReadOnlyProcedure(transactionalContext: TransactionalContext, name: QualifiedName, args: Seq[Any],
                             allowed: Array[String], context: ProcedureCallContext): Iterator[Array[AnyRef]] = {
     val kn = new KernelQualifiedName(name.namespace.asJava, name.name)
     val call: KernelProcedureCall =
       if (shouldElevate(transactionalContext, allowed))
-        transactionalContext.kernelTransaction().procedures().procedureCallReadOverride(kn, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallReadOverride(kn, _)
       else
-        transactionalContext.kernelTransaction().procedures().procedureCallRead(kn, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallRead(kn, _)
 
     callProcedure(args, call)
   }
@@ -111,9 +108,9 @@ object CallSupport {
     val kn = new KernelQualifiedName(name.namespace.asJava, name.name)
     val call: KernelProcedureCall =
       if (shouldElevate(transactionalContext, allowed))
-        transactionalContext.kernelTransaction().procedures().procedureCallWriteOverride(kn, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallWriteOverride(kn, _)
       else
-        transactionalContext.kernelTransaction().procedures().procedureCallWrite(kn, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallWrite(kn, _)
     callProcedure(args, call)
   }
 
@@ -122,9 +119,9 @@ object CallSupport {
     val kn = new KernelQualifiedName(name.namespace.asJava, name.name)
     val call: KernelProcedureCall =
       if (shouldElevate(transactionalContext: TransactionalContext, allowed))
-        transactionalContext.kernelTransaction().procedures().procedureCallSchemaOverride(kn, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallSchemaOverride(kn, _)
       else
-        transactionalContext.kernelTransaction().procedures().procedureCallSchema(kn, _, context)
+        transactionalContext.kernelTransaction().procedures().procedureCallSchema(kn, _)
     callProcedure(args, call)
   }
 
@@ -134,11 +131,8 @@ object CallSupport {
     callProcedure(args,
                   transactionalContext.dbmsOperations.procedureCallDbms(kn,
                                                                         _,
-                                                                        transactionalContext.graph
-                                                                          .getDependencyResolver,
                                                                         transactionalContext.securityContext,
-                                                                        transactionalContext.resourceTracker,
-                                                                        context))
+                                                                        transactionalContext.resourceTracker))
   }
 
   def aggregateFunction(transactionalContext: TransactionalContext, id: Int, allowed: Array[String]): UserDefinedAggregator = {

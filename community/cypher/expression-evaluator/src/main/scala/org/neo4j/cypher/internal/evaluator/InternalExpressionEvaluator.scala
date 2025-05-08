@@ -36,5 +36,3 @@ trait InternalExpressionEvaluator {
   @throws(classOf[EvaluationException])
   def evaluate(expression: String): AnyValue
 }
-
-

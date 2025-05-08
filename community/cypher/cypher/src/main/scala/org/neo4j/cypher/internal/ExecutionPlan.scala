@@ -42,7 +42,7 @@ import org.neo4j.cypher.CypherExecutionMode
 import org.neo4j.cypher.internal.compiler.v3_4.CacheCheckResult
 import org.neo4j.cypher.internal.runtime.interpreted.{LastCommittedTxIdProvider, TransactionalContextWrapper}
 import org.neo4j.graphdb.Result
-import org.neo4j.kernel.api.query.PlannerInfo
+import org.neo4j.kernel.api.query.CompilerInfo
 import org.neo4j.values.virtual.MapValue
 
 trait ExecutionPlan {
@@ -54,5 +54,5 @@ trait ExecutionPlan {
   def isStale(lastCommittedTxId: LastCommittedTxIdProvider, ctx: TransactionalContextWrapper): CacheCheckResult
 
   // This is to force eager calculation
-  val plannerInfo: PlannerInfo
+  val plannerInfo: CompilerInfo
 }

@@ -20,8 +20,8 @@
 package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.net.URL
-
 import org.eclipse.collections.api.iterator.LongIterator
+import org.neo4j.collection.PrimitiveLongResourceIterator
 import org.neo4j.cypher.internal.planner.v3_5.spi.{IdempotentResult, IndexDescriptor}
 import org.neo4j.cypher.internal.runtime._
 import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
@@ -262,6 +262,8 @@ abstract class BaseQueryContext extends QueryContext {
   override def indexScan[RESULT <: AnyRef](index: IndexReference,
                                            needsValues: Boolean,
                                            indexOrder: IndexOrder): NodeValueIndexCursor = notSupported()
+
+  override def indexScanPrimitive(index: IndexReference): PrimitiveLongResourceIterator = notSupported()
 
   override def lockingUniqueIndexSeek[RESULT](index: IndexReference,
                                               queries: Seq[IndexQuery.ExactPredicate]): NodeValueIndexCursor = notSupported()

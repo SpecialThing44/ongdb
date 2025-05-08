@@ -77,5 +77,3 @@ object LogicalPlanState {
                      maybeSemanticTable = state.maybeSemanticTable,
                      accumulatedConditions = state.accumulatedConditions)
 }
-
-

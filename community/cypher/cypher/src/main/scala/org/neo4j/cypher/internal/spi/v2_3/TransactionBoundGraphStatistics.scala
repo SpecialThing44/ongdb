@@ -75,5 +75,3 @@ object TransactionBoundGraphStatistics {
       Cardinality(read.countsForRelationshipWithoutTxState(fromLabel, relTypeId, toLabel))
   }
 }
-
-

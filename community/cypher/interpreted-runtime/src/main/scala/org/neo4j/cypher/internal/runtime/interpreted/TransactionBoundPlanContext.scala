@@ -20,7 +20,6 @@
 package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.util.Optional
-
 import org.neo4j.cypher.MissingIndexException
 import org.neo4j.cypher.internal.planner.v3_5.spi.IndexDescriptor.{OrderCapability, ValueCapability}
 import org.neo4j.cypher.internal.planner.v3_5.spi._
@@ -39,6 +38,7 @@ import org.neo4j.cypher.internal.v3_5.util.symbols._
 import org.neo4j.cypher.internal.v3_5.util.{CypherExecutionException, LabelId, PropertyKeyId, symbols => types}
 
 import scala.collection.JavaConverters._
+import scala.collection.immutable
 
 object TransactionBoundPlanContext {
   def apply(tc: TransactionalContextWrapper, logger: InternalNotificationLogger) =
@@ -99,6 +99,7 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
     indexGetForLabelAndProperties(labelName, propertyKey).isDefined
   }
 
+
   private def evalOrNone[T](f: => Option[T]): Option[T] =
     try {
       f
@@ -136,7 +137,7 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
           // Also, ignore eventually consistent indexes. Those are for explicit querying via procesures.
           None
         } else {
-          Some(IndexDescriptor(label, properties, limitations, orderCapability, valueCapability, isUnique))
+          Some(new IndexDescriptor(label, properties.toIndexedSeq, limitations, orderCapability, valueCapability, isUnique))
         }
       case _ => None
     }

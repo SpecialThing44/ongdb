@@ -73,5 +73,3 @@ class RuntimeJavaValueConverter(skip: Any => Boolean) {
     override def fields(): Array[AnyValue] = _fields
   }
 }
-
-

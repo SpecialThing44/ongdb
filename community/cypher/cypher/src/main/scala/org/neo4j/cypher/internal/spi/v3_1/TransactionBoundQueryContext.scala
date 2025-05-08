@@ -22,7 +22,6 @@ package org.neo4j.cypher.internal.spi.v3_1
 import java.net.URL
 import java.nio.charset.StandardCharsets.UTF_8
 import java.util.function.Predicate
-
 import org.eclipse.collections.api.iterator.LongIterator
 import org.neo4j.collection.RawIterator
 import org.neo4j.cypher.InternalException
@@ -57,7 +56,7 @@ import org.neo4j.kernel.api._
 import org.neo4j.kernel.api.dbms.DbmsOperations
 import org.neo4j.kernel.api.exceptions.schema.{AlreadyConstrainedException, AlreadyIndexedException}
 import org.neo4j.kernel.api.schema.SchemaDescriptorFactory
-import org.neo4j.kernel.api.schema.constraints.ConstraintDescriptorFactory
+import org.neo4j.kernel.api.schema.constaints.ConstraintDescriptorFactory
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI
 import org.neo4j.kernel.impl.util.ValueUtils
 import org.neo4j.values.AnyValue
@@ -358,10 +357,10 @@ final class TransactionBoundQueryContext(txContext: TransactionalContextWrapper,
   }
 
   override def indexScanByContains(index: IndexDescriptor, value: String) =
-    seek(txContext.kernelTransaction.schemaRead().indexReferenceUnchecked(index.labelId, index.propertyId), IndexQuery.stringContains(index.propertyId, utf8Value(value.getBytes(UTF_8))))
+    seek(txContext.kernelTransaction.schemaRead().indexReferenceUnchecked(index.labelId, index.propertyId), IndexQuery.stringContains(index.propertyId, utf8Value(value.getBytes(UTF_8)).stringValue()))
 
   override def indexScanByEndsWith(index: IndexDescriptor, value: String) =
-    seek(txContext.kernelTransaction.schemaRead().indexReferenceUnchecked(index.labelId, index.propertyId), IndexQuery.stringSuffix(index.propertyId, utf8Value(value.getBytes(UTF_8))))
+    seek(txContext.kernelTransaction.schemaRead().indexReferenceUnchecked(index.labelId, index.propertyId), IndexQuery.stringSuffix(index.propertyId, utf8Value(value.getBytes(UTF_8)).stringValue()))
 
   override def lockingUniqueIndexSeek(index: IndexDescriptor, value: Any): Option[Node] = {
     indexSearchMonitor.lockingUniqueIndexSeek(index, value)

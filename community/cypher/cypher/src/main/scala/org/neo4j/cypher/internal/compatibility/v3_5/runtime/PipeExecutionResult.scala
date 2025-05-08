@@ -29,7 +29,7 @@ import org.neo4j.cypher.result.{QueryProfile, RuntimeResult}
 import org.neo4j.graphdb.ResourceIterator
 import org.neo4j.values.AnyValue
 
-class PipeExecutionResult(val result: IteratorBasedResult,
+class PipeExecutionResult(val result: ResultIterator,
                           val fieldNames: Array[String],
                           val state: QueryState,
                           override val queryProfile: QueryProfile)
@@ -46,7 +46,7 @@ class PipeExecutionResult(val result: IteratorBasedResult,
   def asIterator: ResourceIterator[java.util.Map[String, AnyRef]] = {
     resultRequested = true
     new WrappingResourceIterator[util.Map[String, AnyRef]] {
-      private val inner = result.mapIterator
+      private val inner = result
       def hasNext: Boolean = inner.hasNext
       def next(): util.Map[String, AnyRef] = {
         val scalaRow: collection.Map[String, AnyValue] = inner.next()
@@ -73,11 +73,11 @@ class PipeExecutionResult(val result: IteratorBasedResult,
     if (maybeRecordIterator.isDefined)
       javaValues.feedQueryResultRecordIteratorToVisitable(maybeRecordIterator.get).accept(visitor)
     else
-      javaValues.feedIteratorToVisitable(result.mapIterator.map(r => fieldNames.map(r))).accept(visitor)
+      javaValues.feedIteratorToVisitable(result.map(r => fieldNames.map(r))).accept(visitor)
   }
 
   override def consumptionState: RuntimeResult.ConsumptionState =
     if (!resultRequested) ConsumptionState.NOT_STARTED
-    else if (result.mapIterator.hasNext) ConsumptionState.HAS_MORE
+    else if (result.hasNext) ConsumptionState.HAS_MORE
     else ConsumptionState.EXHAUSTED
 }

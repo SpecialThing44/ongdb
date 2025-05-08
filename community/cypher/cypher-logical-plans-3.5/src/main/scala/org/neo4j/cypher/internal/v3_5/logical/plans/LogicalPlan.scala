@@ -46,11 +46,16 @@ abstract class LogicalPlan(idGen: IdGen)
   with Strictness
   with Rewritable {
 
+
+
   self =>
 
   def lhs: Option[LogicalPlan]
   def rhs: Option[LogicalPlan]
   def availableSymbols: Set[String]
+
+  def selfThis: this.type = this;
+
 
   /**
     * Node properties that will be cached in the execution context.

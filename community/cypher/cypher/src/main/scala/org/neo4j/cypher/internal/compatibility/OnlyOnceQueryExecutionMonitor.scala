@@ -25,6 +25,10 @@ import org.neo4j.kernel.impl.query.QueryExecutionMonitor
 case class OnlyOnceQueryExecutionMonitor(monitor: QueryExecutionMonitor) extends QueryExecutionMonitor {
   private var closed = false
 
+  override def startQueryExecution(query: ExecutingQuery): Unit =
+    monitor.startQueryExecution(query)
+
+
   override def endFailure(query: ExecutingQuery, failure: Throwable = null): Unit =
     if (!closed) {
       closed = true
@@ -36,6 +40,7 @@ case class OnlyOnceQueryExecutionMonitor(monitor: QueryExecutionMonitor) extends
       closed = true
       monitor.endFailure(query, reason)
     }
+
 
   override def endSuccess(query: ExecutingQuery): Unit =
     if (!closed) {

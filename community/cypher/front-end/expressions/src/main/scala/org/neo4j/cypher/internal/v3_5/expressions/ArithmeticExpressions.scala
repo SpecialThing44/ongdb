@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 package org.neo4j.cypher.internal.v3_5.expressions
-
 import org.neo4j.cypher.internal.v3_5.util.InputPosition
 import org.neo4j.cypher.internal.v3_5.util.symbols._
 

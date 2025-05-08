@@ -22,7 +22,6 @@ package org.neo4j.cypher.internal.spi.v2_3
 import java.net.URL
 import java.nio.charset.StandardCharsets
 import java.util.function.Predicate
-
 import org.eclipse.collections.api.iterator.LongIterator
 import org.neo4j.cypher.InternalException
 import org.neo4j.cypher.internal.compiler.v2_3.MinMaxOrdering.{BY_NUMBER, BY_STRING, BY_VALUE}
@@ -51,7 +50,7 @@ import org.neo4j.internal.kernel.api.helpers.RelationshipSelections.{allCursor, 
 import org.neo4j.kernel.GraphDatabaseQueryService
 import org.neo4j.kernel.api.exceptions.schema.{AlreadyConstrainedException, AlreadyIndexedException}
 import org.neo4j.kernel.api.schema.SchemaDescriptorFactory
-import org.neo4j.kernel.api.schema.constraints.ConstraintDescriptorFactory
+import org.neo4j.kernel.api.schema.constaints.ConstraintDescriptorFactory
 import org.neo4j.kernel.api.{SilentTokenNameLookup, StatementConstants}
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI
 import org.neo4j.values.storable.Values

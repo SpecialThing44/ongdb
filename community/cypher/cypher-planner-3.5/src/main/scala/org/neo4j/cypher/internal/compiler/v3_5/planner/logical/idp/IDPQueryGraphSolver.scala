@@ -118,4 +118,3 @@ case class IDPQueryGraphSolver(singleComponentSolver: SingleComponentPlannerTrai
     resultingPlans.head.plan
   }
 }
-

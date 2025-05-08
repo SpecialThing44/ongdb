@@ -105,5 +105,3 @@ trait MetricsFactory {
     Metrics(newCostModel(config), cardinality, queryGraphCardinalityModel)
   }
 }
-
-

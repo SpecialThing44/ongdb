@@ -344,4 +344,3 @@ object QueryTagger extends QueryTagger[String] {
     def ++(rhs: QueryTagger[T]): QueryTagger[T] = (input: T) => lhs(input) `union` rhs(input)
   }
 }
-

@@ -263,6 +263,9 @@ class ExceptionTranslatingQueryContext(val inner: QueryContext) extends QueryCon
                                            indexOrder: IndexOrder): NodeValueIndexCursor =
     translateException(inner.indexScan(index, needsValues, indexOrder))
 
+  override def indexScanPrimitive(index: IndexReference) =
+    translateException(inner.indexScanPrimitive(index))
+
   override def nodeIsDense(node: Long) =
     translateException(inner.nodeIsDense(node))
 
@@ -343,4 +346,3 @@ class ExceptionTranslatingQueryContext(val inner: QueryContext) extends QueryCon
   override def indexReference(label: Int, properties: Int*): IndexReference =
     translateException(inner.indexReference(label, properties:_*))
 }
-

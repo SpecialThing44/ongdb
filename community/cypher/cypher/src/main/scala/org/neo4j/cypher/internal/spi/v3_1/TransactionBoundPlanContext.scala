@@ -20,7 +20,6 @@
 package org.neo4j.cypher.internal.spi.v3_1
 
 import java.util.Optional
-
 import org.neo4j.cypher.MissingIndexException
 import org.neo4j.cypher.internal.compiler.v3_1.InternalNotificationLogger
 import org.neo4j.cypher.internal.compiler.v3_1.pipes.EntityProducer
@@ -35,7 +34,7 @@ import org.neo4j.internal.kernel.api.procs.Neo4jTypes.AnyType
 import org.neo4j.internal.kernel.api.procs.{DefaultParameterValue, Neo4jTypes}
 import org.neo4j.internal.kernel.api.{IndexReference, InternalIndexState, procs}
 import org.neo4j.kernel.api.schema.SchemaDescriptorFactory
-import org.neo4j.kernel.api.schema.constraints.ConstraintDescriptor
+import org.neo4j.kernel.api.schema.constaints.ConstraintDescriptor
 import org.neo4j.procedure.Mode
 
 import scala.collection.JavaConverters._

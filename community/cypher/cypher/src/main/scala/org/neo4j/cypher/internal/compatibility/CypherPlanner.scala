@@ -58,4 +58,3 @@ case class LogicalPlanResult(logicalPlanState: LogicalPlanState,
                              reusability: ReusabilityState,
                              plannerContext: PlannerContext,
                              notifications: Set[InternalNotification])
-

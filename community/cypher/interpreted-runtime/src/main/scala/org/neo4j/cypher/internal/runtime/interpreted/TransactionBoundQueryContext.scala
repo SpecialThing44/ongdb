@@ -21,10 +21,10 @@ package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.net.URL
 import java.util.function.Predicate
-
 import org.eclipse.collections.api.iterator.LongIterator
 import org.neo4j.collection.PrimitiveLongResourceIterator
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
+import org.neo4j.internal.kernel.api.IndexOrder.NONE
 import org.neo4j.cypher.internal.planner.v3_5.spi.{IdempotentResult, IndexDescriptor}
 import org.neo4j.cypher.internal.runtime.interpreted.TransactionBoundQueryContext.IndexSearchMonitor
 import org.neo4j.cypher.internal.runtime.interpreted.commands.convert.DirectionConverter.toGraphDb
@@ -49,15 +49,16 @@ import org.neo4j.io.IOUtils
 import org.neo4j.kernel.GraphDatabaseQueryService
 import org.neo4j.kernel.api.exceptions.schema.{AlreadyConstrainedException, AlreadyIndexedException}
 import org.neo4j.kernel.api.schema.SchemaDescriptorFactory
-import org.neo4j.kernel.api.schema.constraints.ConstraintDescriptorFactory
+import org.neo4j.kernel.api.schema.constaints.ConstraintDescriptorFactory
 import org.neo4j.kernel.api.{SilentTokenNameLookup, StatementConstants}
-import org.neo4j.kernel.impl.api.store.RelationshipIterator
+import org.neo4j.kernel.guard.TerminationGuard
+import org.neo4j.kernel.impl.api.RelationshipVisitor
+import org.neo4j.kernel.impl.api.store.{DefaultIndexReference, RelationshipIterator}
 import org.neo4j.kernel.impl.core.{EmbeddedProxySPI, ThreadToStatementContextBridge}
 import org.neo4j.kernel.impl.coreapi.PropertyContainerLocker
 import org.neo4j.kernel.impl.query.Neo4jTransactionalContext
 import org.neo4j.kernel.impl.util.ValueUtils.{fromNodeProxy, fromRelationshipProxy}
 import org.neo4j.kernel.impl.util.{DefaultValueMapper, ValueUtils}
-import org.neo4j.storageengine.api.RelationshipVisitor
 import org.neo4j.values.storable.{TextValue, Value, Values, _}
 import org.neo4j.values.virtual._
 import org.neo4j.values.{AnyValue, ValueMapper}
@@ -68,7 +69,7 @@ import scala.collection.mutable.ArrayBuffer
 
 sealed class TransactionBoundQueryContext(val transactionalContext: TransactionalContextWrapper,
                                           val resources: ResourceManager = new ResourceManager)
-                                        (implicit indexSearchMonitor: IndexSearchMonitor)
+                                         (implicit indexSearchMonitor: IndexSearchMonitor)
   extends TransactionBoundTokenContext(transactionalContext.kernelTransaction) with QueryContext with
     IndexDescriptorCompatibility {
   override val nodeOps: NodeOperations = new NodeOperations
@@ -89,11 +90,12 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
       get
     val locker = new PropertyContainerLocker
     val query = transactionalContext.tc.executingQuery()
+    val guard = new TerminationGuard
 
     val context = transactionalContext.tc.asInstanceOf[Neo4jTransactionalContext]
     val newTx = transactionalContext.graph.beginTransaction(context.transactionType, context.securityContext)
-    val neo4jTransactionalContext = context.copyFrom(context.graph, statementProvider, locker, newTx,
-      statementProvider.get(), query)
+    val neo4jTransactionalContext = context.copyFrom(context.graph, guard, statementProvider, locker, newTx, statementProvider.get(), query)
+
     new TransactionBoundQueryContext(TransactionalContextWrapper(neo4jTransactionalContext))
   }
 
@@ -169,16 +171,13 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
   }
 
   override def isLabelSetOnNode(label: Int, node: Long): Boolean = {
-    if (label == StatementConstants.NO_SUCH_LABEL) false
-    else {
-      val cursor = allocateNodeCursor()
-      try {
-        reads().singleNode(node, cursor)
-        if (!cursor.next()) false
-        else cursor.hasLabel(label)
-      } finally {
-        cursor.close()
-      }
+    val cursor = allocateNodeCursor()
+    try {
+      reads().singleNode(node, cursor)
+      if (!cursor.next()) false
+      else cursor.labels().contains(label)
+    } finally {
+      cursor.close()
     }
   }
 
@@ -210,9 +209,9 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
           override protected def fetchNext(): RelationshipValue =
             if (selectionCursor.next())
               fromRelationshipProxy(entityAccessor.newRelationshipProxy(selectionCursor.relationshipReference(),
-                                                                        selectionCursor.sourceNodeReference(),
-                                                                        selectionCursor.`type`(),
-                                                                        selectionCursor.targetNodeReference()))
+                selectionCursor.sourceNodeReference(),
+                selectionCursor.`type`(),
+                selectionCursor.targetNodeReference()))
             else null
         }
       }
@@ -330,17 +329,28 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
     nodeCursor
   }
 
+  override def indexScanPrimitive(index: IndexReference): PrimitiveLongResourceIterator = {
+    val nodeCursor = allocateAndTraceNodeValueIndexCursor()
+    reads().nodeIndexScan(index, nodeCursor, NONE, false)
+    new PrimitiveCursorIterator {
+      override protected def fetchNext(): Long =
+        if (nodeCursor.next()) nodeCursor.nodeReference() else -1L
+
+      override protected def close(): Unit = nodeCursor.close()
+    }
+  }
+
   override def indexSeekByContains[RESULT <: AnyRef](index: IndexReference,
                                                      needsValues: Boolean,
                                                      indexOrder: IndexOrder,
                                                      value: TextValue): NodeValueIndexCursor =
-    seek(index, needsValues, indexOrder, IndexQuery.stringContains(index.properties()(0), value))
+    seek(index, needsValues, indexOrder, IndexQuery.stringContains(index.properties()(0), value.stringValue()))
 
   override def indexSeekByEndsWith[RESULT <: AnyRef](index: IndexReference,
                                                      needsValues: Boolean,
                                                      indexOrder: IndexOrder,
                                                      value: TextValue): NodeValueIndexCursor =
-    seek(index, needsValues, indexOrder, IndexQuery.stringSuffix(index.properties()(0), value))
+    seek(index, needsValues, indexOrder, IndexQuery.stringSuffix(index.properties()(0), value.stringValue()))
 
   override def lockingUniqueIndexSeek[RESULT](indexReference: IndexReference,
                                               queries: Seq[IndexQuery.ExactPredicate]): NodeValueIndexCursor = {
@@ -349,7 +359,7 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
     if (queries.exists(q => q.value() == Values.NO_VALUE))
       NodeValueHit.EMPTY
     else {
-      val index = transactionalContext.kernelTransaction.schemaRead().indexReferenceUnchecked(indexReference.schema())
+      val index = DefaultIndexReference.general(indexReference.label(), indexReference.properties(): _*)
       val resultNodeId = reads().lockingNodeUniqueIndexSeek(index, queries: _*)
       if (StatementConstants.NO_SUCH_NODE == resultNodeId) {
         NodeValueHit.EMPTY
@@ -435,7 +445,7 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
       if (!cursor.next()) 0
       else Nodes.countOutgoing(cursor, transactionalContext.cursors)
     } finally {
-     cursor.close()
+      cursor.close()
     }
   }
 
@@ -766,8 +776,8 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
         override protected def fetchNext(): RelationshipValue = {
           if (relCursor.next())
             fromRelationshipProxy(entityAccessor.newRelationshipProxy(relCursor.relationshipReference(),
-                                                                      relCursor.sourceNodeReference(), relCursor.`type`(),
-                                                                      relCursor.targetNodeReference()))
+              relCursor.sourceNodeReference(), relCursor.`type`(),
+              relCursor.targetNodeReference()))
           else null
         }
 
@@ -977,7 +987,7 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
     CallSupport.callReadWriteProcedure(transactionalContext.tc, id, args, allowed, context)
 
   override def callSchemaWriteProcedure(id: Int, args: Seq[Any], allowed: Array[String], context: ProcedureCallContext): Iterator[Array[AnyRef]] =
-  CallSupport.callSchemaWriteProcedure(transactionalContext.tc, id, args, allowed, context)
+    CallSupport.callSchemaWriteProcedure(transactionalContext.tc, id, args, allowed, context)
 
   override def callDbmsProcedure(id: Int, args: Seq[Any], allowed: Array[String], context: ProcedureCallContext) : Iterator[Array[AnyRef]] =
     CallSupport.callDbmsProcedure(transactionalContext.tc, id, args, allowed, context)

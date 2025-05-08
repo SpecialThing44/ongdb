@@ -119,4 +119,3 @@ class IDPSolver[Solvable, Result, Context](generator: IDPSolverStep[Solvable, Re
     table.plans.map { case (k, v) => registry.explode(k) -> v}
   }
 }
-

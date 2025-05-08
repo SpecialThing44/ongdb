@@ -1,10 +1,10 @@
 /*
- * Copyright (c) "Neo4j"
- * Neo4j Sweden AB [http://neo4j.com]
+ * Copyright (c) 2018-2020 "Graph Foundation,"
+ * Graph Foundation, Inc. [https://graphfoundation.org]
  *
- * This file is part of Neo4j.
+ * This file is part of ONgDB.
  *
- * Neo4j is free software: you can redistribute it and/or modify
+ * ONgDB is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -27,13 +27,13 @@ import org.neo4j.graphdb.DependencyResolver;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.helpers.Service;
 import org.neo4j.kernel.configuration.Config;
+import org.neo4j.kernel.impl.logging.LogService;
 import org.neo4j.kernel.impl.query.QueryEngineProvider;
 import org.neo4j.kernel.impl.query.QueryExecutionEngine;
 import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.LogProvider;
-import org.neo4j.logging.internal.LogService;
 
 @Service.Implementation( QueryEngineProvider.class )
 public class CommunityCypherEngineProvider extends QueryEngineProvider

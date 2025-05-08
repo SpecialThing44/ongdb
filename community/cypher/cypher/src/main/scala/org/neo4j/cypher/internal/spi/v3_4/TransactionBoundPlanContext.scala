@@ -20,7 +20,6 @@
 package org.neo4j.cypher.internal.spi.v3_4
 
 import java.util.Optional
-
 import org.neo4j.cypher.MissingIndexException
 import org.neo4j.cypher.internal.frontend.v3_4.phases.InternalNotificationLogger
 import org.neo4j.cypher.internal.planner.v3_4.spi._

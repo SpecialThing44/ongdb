@@ -19,7 +19,7 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan
 
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{ResultIterator, _}
 import org.neo4j.cypher.internal.runtime._
 import org.neo4j.cypher.internal.runtime.interpreted.pipes._
 import org.neo4j.cypher.internal.runtime.interpreted.{CSVResources, ExecutionContext}
@@ -27,7 +27,7 @@ import org.neo4j.cypher.internal.v3_5.logical.plans.LogicalPlan
 import org.neo4j.cypher.result.{QueryProfile, RuntimeResult}
 import org.neo4j.values.virtual.MapValue
 import org.neo4j.cypher.internal.v3_5.frontend.phases.InternalNotificationLogger
-import org.neo4j.cypher.internal.v3_5.util.CypherException
+import org.neo4j.cypher.internal.v3_5.util.{CypherException, TaskCloser}
 
 import scala.collection.mutable
 
@@ -39,6 +39,8 @@ abstract class BaseExecutionResultBuilderFactory(pipe: Pipe,
     protected var externalResource: ExternalCSVResource = new CSVResources(queryContext.resources)
     protected var pipeDecorator: PipeDecorator = NullPipeDecorator
     protected var exceptionDecorator: CypherException => CypherException = identity
+    protected val taskCloser = new TaskCloser
+
 
     protected def createQueryState(params: MapValue): QueryState
 
@@ -67,7 +69,7 @@ abstract class BaseExecutionResultBuilderFactory(pipe: Pipe,
       }
     }
 
-    protected def buildResultIterator(results: Iterator[ExecutionContext], readOnly: Boolean): IteratorBasedResult
+    protected def buildResultIterator(results: Iterator[ExecutionContext], readOnly: Boolean): ResultIterator
   }
 }
 
@@ -91,8 +93,9 @@ case class InterpretedExecutionResultBuilderFactory(pipe: Pipe,
                      lenientCreateRelationship = lenientCreateRelationship)
     }
 
-    override def buildResultIterator(results: Iterator[ExecutionContext], readOnly: Boolean): IteratorBasedResult = {
-      IteratorBasedResult(results)
-    }
+    override def buildResultIterator(results: Iterator[ExecutionContext], readOnly: Boolean): ResultIterator = {
+      val closingIterator = new ClosingIterator(results, taskCloser, exceptionDecorator)
+      val resultIterator = if (!readOnly) closingIterator.toEager else closingIterator
+      resultIterator    }
   }
 }

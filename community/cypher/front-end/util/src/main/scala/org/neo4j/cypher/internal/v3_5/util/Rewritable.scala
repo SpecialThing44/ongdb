@@ -83,7 +83,7 @@ object Rewritable {
           case a: Rewritable =>
             a.dup(children)
           case p: Product =>
-              copyConstructor(p).invoke(p, children: _*)
+              copyConstructor(p).invoke(p, children.toArray: _*)
           case _: IndexedSeq[_] =>
             children.toIndexedSeq
           case _: Seq[_] =>
@@ -108,7 +108,7 @@ object Rewritable {
       if (children.iterator eqElements product.children)
         product
       else
-        copyConstructor(product).invoke(product, children: _*).asInstanceOf[Product]
+        copyConstructor(product).invoke(product, children.toArray: _*).asInstanceOf[Product]
   }
 
   implicit class RewritableAny[T <: AnyRef](val that: T) extends AnyVal {

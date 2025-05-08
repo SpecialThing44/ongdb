@@ -52,6 +52,7 @@ class ExpressionConverters(converters: ExpressionConverter*) {
     throw new InternalException(s"Unknown expression type during transformation (${expression.getClass})")
   }
 
+
     def toCommandProjection(id: Id, projections: Map[String, ast.Expression]): CommandProjection = {
       converters foreach { c: ExpressionConverter =>
         c.toCommandProjection(id, projections, this) match {

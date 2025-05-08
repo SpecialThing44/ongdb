@@ -35,5 +35,3 @@ case class CoerceToPredicate(inner: Expression) extends Expression with Semantic
 
  override def position: InputPosition = InputPosition.NONE
 }
-
-

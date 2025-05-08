@@ -20,7 +20,10 @@
 package org.neo4j.cypher.internal.v3_5.logical.plans
 
 import org.neo4j.cypher.internal.v3_5.expressions.{Ands, Expression}
+import org.neo4j.cypher.internal.v3_5.util.{InputPosition, Rewritable}
 import org.neo4j.cypher.internal.v3_5.util.attribution.IdGen
+
+import scala.collection.immutable
 
 /**
   * For each source row, produce it if all predicates are true.
@@ -28,6 +31,7 @@ import org.neo4j.cypher.internal.v3_5.util.attribution.IdGen
 case class Selection(predicate: Ands,
                      source: LogicalPlan
                     )(implicit idGen: IdGen) extends LogicalPlan(idGen) with LazyLogicalPlan {
+  self =>
   assert(predicate.exprs.nonEmpty, "A selection plan should never be created without predicates")
 
   val lhs = Some(source)
@@ -36,6 +40,13 @@ case class Selection(predicate: Ands,
   def numPredicates: Int = predicate.exprs.size
 
   val availableSymbols: Set[String] = source.availableSymbols
+
+  override def dup(children: Seq[AnyRef]): this.type = { 
+    val constructor = Rewritable.copyConstructor(this)
+    val ctorArgs = children.toVector
+    val duped = constructor.invoke(this, ctorArgs: _*)
+    duped.asInstanceOf[self.type]
+  }
 }
 
 object Selection {
