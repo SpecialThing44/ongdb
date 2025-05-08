@@ -79,6 +79,7 @@ public interface IndexReader extends Resource
     void query(
             IndexProgressor.NodeValueClient client,
             IndexOrder indexOrder,
+            boolean needsValues,
             IndexQuery... query ) throws IndexNotApplicableKernelException;
 
     /**
@@ -125,7 +126,7 @@ public interface IndexReader extends Resource
         }
 
         @Override
-        public void query( IndexProgressor.NodeValueClient client, IndexOrder indexOrder, IndexQuery... query )
+        public void query( IndexProgressor.NodeValueClient client, IndexOrder indexOrder, boolean needsValues, IndexQuery... query )
         {
             // do nothing
         }
@@ -169,7 +170,7 @@ public interface IndexReader extends Resource
         }
 
         @Override
-        public void query( IndexProgressor.NodeValueClient client, IndexOrder indexOrder, IndexQuery... query ) throws IndexNotApplicableKernelException
+        public void query( IndexProgressor.NodeValueClient client, IndexOrder indexOrder, boolean needsValues, IndexQuery... query ) throws IndexNotApplicableKernelException
         {
         }
 

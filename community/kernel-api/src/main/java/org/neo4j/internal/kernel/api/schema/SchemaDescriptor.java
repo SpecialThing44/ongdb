@@ -114,6 +114,8 @@ public interface SchemaDescriptor extends SchemaDescriptorSupplier
         }
         return propertyIds[0];
     }
+    int[] getEntityTokenIds();
+
 
     /**
      * Id of underlying schema descriptor key.
@@ -121,6 +123,22 @@ public interface SchemaDescriptor extends SchemaDescriptorSupplier
      * @return id of underlying key
      */
     int keyId();
+
+    static long[] schemaTokenLockingIds( SchemaDescriptor schema )
+    {
+        // TODO make getEntityTokenIds produce a long array directly, and avoid this extra copying.
+        return schemaTokenLockingIds( schema.getEntityTokenIds() );
+    }
+
+    static long[] schemaTokenLockingIds( int[] tokenIds )
+    {
+        long[] lockingIds = new long[tokenIds.length];
+        for ( int i = 0; i < lockingIds.length; i++ )
+        {
+            lockingIds[i] = tokenIds[i];
+        }
+        return lockingIds;
+    }
 
     /**
      * Type of underlying schema descriptor key.

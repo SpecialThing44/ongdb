@@ -72,6 +72,12 @@ public class RelationTypeSchemaDescriptor implements org.neo4j.internal.kernel.a
     }
 
     @Override
+    public int[] getEntityTokenIds()
+    {
+        return new int[]{relTypeId};
+    }
+
+    @Override
     public String userDescription( TokenNameLookup tokenNameLookup )
     {
         return SchemaUtil.niceRelTypeAndProperties( tokenNameLookup, relTypeId, propertyIds );

@@ -56,6 +56,19 @@ public interface Write
     long nodeCreate();
 
     /**
+     * Create a node, and assign it the given array of labels.
+     * <p>
+     * This method differs from a {@link #nodeCreate()} and {@link #nodeAddLabel(long, int)} sequence, in that we will
+     * avoid taking the "unlabelled node lock" of the {@code nodeCreate}, and we will avoid taking the exclusive node
+     * lock in the {@code nodeAddLabel} method.
+     *
+     * @param labels The labels to assign to the newly created node.
+     * @return The internal id of the created node.
+     */
+    long nodeCreateWithLabels( int[] labels ) throws ConstraintValidationException;
+
+
+    /**
      * Delete a node.
      * @param node the internal id of the node to delete
      * @return returns true if it deleted a node or false if no node was found for this id
