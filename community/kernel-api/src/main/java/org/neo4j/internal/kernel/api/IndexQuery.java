@@ -174,6 +174,18 @@ public abstract class IndexQuery
     }
 
     /**
+     * Searches the index string values starting with {@code prefix}.
+     *
+     * @param propertyKeyId the property ID to match.
+     * @param prefix the string prefix to search for.
+     * @return an {@link IndexQuery} instance to be used for querying an index.
+     */
+    public static StringPrefixPredicate stringPrefix( int propertyKeyId, TextValue prefix )
+    {
+        return new StringPrefixPredicate( propertyKeyId, prefix.stringValue() );
+    }
+
+    /**
      * Searches the index for string values containing the exact search string.
      *
      * @param propertyKeyId the property ID to match.
