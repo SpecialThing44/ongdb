@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -45,7 +26,7 @@ import org.mockito.stubbing.Answer
 import org.neo4j.cypher.internal.runtime.interpreted.ValueComparisonHelper.beEquivalentTo
 import org.neo4j.cypher.internal.runtime.interpreted.{ExecutionContext, QueryStateHelper}
 import org.neo4j.cypher.internal.runtime.ImplicitValueConversion._
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.cypher.internal.runtime.QueryContext
 import org.neo4j.graphdb.{Node, Relationship}
 import org.neo4j.kernel.impl.util.ValueUtils.{asListOfEdges, fromNodeProxy}
@@ -236,6 +217,36 @@ class ProjectEndpointsPipeTest extends CypherFunSuite {
     result should beEquivalentTo(List(
       Map("r" -> rel2, "a" -> node3, "b" -> node4),
       Map("r" -> rel2, "a" -> node4, "b" -> node3)
+    ))
+  }
+
+  test("projected endpoints of simple null relationship") {
+    // given
+    val left = newMockedPipe("r", row("r" -> Seq(null)))
+
+    // when
+    val result =
+      ProjectEndpointsPipe(left, "r", "a", startInScope = false, "b", endInScope = false, None, directed = false, simpleLength = true)().
+        createResults(queryState).toList
+
+    // then
+    result should beEquivalentTo(List(
+      Map("r" -> null)
+    ))
+  }
+
+  test("projected endpoints of simple null relationship with type") {
+    // given
+    val left = newMockedPipe("r", row("r" -> Seq(null)))
+
+    // when
+    val result =
+      ProjectEndpointsPipe(left, "r", "a", startInScope = false, "b", endInScope = false, Some(new LazyTypes(Array("B"))), directed = false, simpleLength = true)().
+        createResults(queryState).toList
+
+    // then
+    result should beEquivalentTo(List(
+      Map("r" -> null)
     ))
   }
 
@@ -437,6 +448,36 @@ class ProjectEndpointsPipeTest extends CypherFunSuite {
 
     // then
     result should be('isEmpty)
+  }
+
+  test("projected endpoints of var length null relationship") {
+    // given
+    val left = newMockedPipe("r", row("r" -> Seq(null)))
+
+    // when
+    val result =
+      ProjectEndpointsPipe(left, "r", "a", startInScope = false, "b", endInScope = false, None, directed = false, simpleLength = false)().
+        createResults(queryState).toList
+
+    // then
+    result should beEquivalentTo(List(
+      Map("r" -> null)
+    ))
+  }
+
+  test("projected endpoints of var length null relationship with type") {
+    // given
+    val left = newMockedPipe("r", row("r" -> Seq(null)))
+
+    // when
+    val result =
+      ProjectEndpointsPipe(left, "r", "a", startInScope = false, "b", endInScope = false, Some(new LazyTypes(Array("B"))), directed = false, simpleLength = false)().
+        createResults(queryState).toList
+
+    // then
+    result should beEquivalentTo(List(
+      Map("r" -> null)
+    ))
   }
 
   private def row(values: (String, AnyValue)*) = ExecutionContext.from(values: _*)

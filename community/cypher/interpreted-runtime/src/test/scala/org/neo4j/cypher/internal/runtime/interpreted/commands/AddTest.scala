@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -40,11 +21,11 @@ package org.neo4j.cypher.internal.runtime.interpreted.commands
 
 import java.nio.charset.StandardCharsets
 
-import org.neo4j.cypher.internal.runtime.interpreted.{ExecutionContext, QueryStateHelper}
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.{Add, Literal, ParameterExpression}
-import org.neo4j.cypher.internal.util.v3_4.CypherTypeException
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
+import org.neo4j.cypher.internal.v3_5.util.CypherTypeException
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.values.AnyValue
+import org.neo4j.cypher.internal.runtime.interpreted.{ExecutionContext, QueryStateHelper}
 import org.neo4j.values.storable.Values.{longValue, stringValue, utf8Value}
 import org.neo4j.values.storable.{UTF8StringValue, Values}
 import org.neo4j.values.virtual.VirtualValues
@@ -83,17 +64,15 @@ class AddTest extends CypherFunSuite {
   }
 
   test("numberPlusBool") {
-    val expr = Add(Literal("1"), Literal(true))
+    val expr = Add(Literal(1), Literal(true))
     intercept[CypherTypeException](expr(m, s))
   }
 
   test("UTF8 value addition") {
-    import scala.collection.JavaConverters._
     // Given
     val hello = "hello".getBytes(StandardCharsets.UTF_8)
     val world = "world".getBytes(StandardCharsets.UTF_8)
-    val params: Map[String, AnyValue] = Map("p1" -> utf8Value(hello), "p2" -> utf8Value(world))
-    val state = QueryStateHelper.emptyWith(params = VirtualValues.map(params.asJava))
+    val state = QueryStateHelper.emptyWith(params = VirtualValues.map(Array("p1", "p2"), Array( utf8Value(hello), utf8Value(world))))
 
     // When
     val result = Add(ParameterExpression("p1"), ParameterExpression("p2"))(m,state)

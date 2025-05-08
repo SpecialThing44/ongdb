@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -42,7 +23,6 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -55,8 +35,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.neo4j.cypher.internal.util.v3_4.CypherTypeException;
-import org.neo4j.cypher.internal.util.v3_4.IncomparableValuesException;
+import org.neo4j.cypher.internal.v3_5.util.CypherTypeException;
+import org.neo4j.cypher.internal.v3_5.util.IncomparableValuesException;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.Relationship;
@@ -74,6 +54,7 @@ import org.neo4j.values.storable.TemporalValue;
 import org.neo4j.values.storable.Values;
 import org.neo4j.values.virtual.ListValue;
 import org.neo4j.values.virtual.MapValue;
+import org.neo4j.values.virtual.MapValueBuilder;
 import org.neo4j.values.virtual.NodeValue;
 import org.neo4j.values.virtual.RelationshipValue;
 import org.neo4j.values.virtual.VirtualNodeValue;
@@ -156,8 +137,8 @@ public abstract class CompiledConversionUtils
         }
         else if ( value instanceof IntStream )
         {
-            IntStream stream = (IntStream) value;
-            return stream.boxed().collect( Collectors.toSet() );
+            //IntStream is used only for storing booleans
+            return ((IntStream) value).mapToObj( i -> i == 0 ? Boolean.FALSE : Boolean.TRUE ).collect( Collectors.toSet() );
         }
         else if ( value instanceof DoubleStream )
         {
@@ -317,12 +298,12 @@ public abstract class CompiledConversionUtils
         else if ( anyValue instanceof Map )
         {
             Map<String,?> incoming = (Map<String,?>) anyValue;
-            HashMap<String,AnyValue> outgoing = new HashMap<>( incoming.size() );
+            MapValueBuilder builder = new MapValueBuilder( incoming.size() );
             for ( Map.Entry<String,?> entry : incoming.entrySet() )
             {
-                outgoing.put( entry.getKey(), materializeAnyResult( proxySpi, entry.getValue() ) );
+                builder.add( entry.getKey(), materializeAnyResult( proxySpi, entry.getValue() ) );
             }
-            return VirtualValues.map( outgoing );
+            return builder.build();
         }
         else if ( anyValue instanceof PrimitiveNodeStream )
         {

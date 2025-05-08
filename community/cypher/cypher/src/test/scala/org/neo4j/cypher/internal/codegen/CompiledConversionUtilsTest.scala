@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -41,11 +22,9 @@ package org.neo4j.cypher.internal.codegen
 import java.util
 import java.util.stream.{DoubleStream, IntStream, LongStream}
 
-import org.mockito.Mockito.when
-import org.neo4j.cypher.internal.util.v3_4.CypherTypeException
 import org.neo4j.cypher.internal.codegen.CompiledConversionUtils.makeValueNeoSafe
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
-import org.neo4j.graphdb.{Node, Relationship}
+import org.neo4j.cypher.internal.v3_5.util.CypherTypeException
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.kernel.impl.util.ValueUtils
 import org.neo4j.values.storable._
 
@@ -97,7 +76,7 @@ class CompiledConversionUtilsTest extends CypherFunSuite {
     import scala.collection.JavaConverters._
     CompiledConversionUtils.toSet(null) should equal(Set.empty.asJava)
     CompiledConversionUtils.toSet(List(1, 1, 2, 3).asJava) should equal(Set(1, 2, 3).asJava)
-    CompiledConversionUtils.toSet(IntStream.of(1, 2, 3, 1)) should equal(Set(1, 2, 3).asJava)
+    CompiledConversionUtils.toSet(IntStream.of(1, 0, 0, 1)) should equal(Set(true, false).asJava)
     CompiledConversionUtils.toSet(LongStream.of(1L, 2L, 3L, 1L)) should equal(Set(1L, 2L, 3L).asJava)
     CompiledConversionUtils.toSet(DoubleStream.of(1.1, 2.2, 3.3, 1.1)) should equal(Set(1.1, 2.2, 3.3).asJava)
     CompiledConversionUtils.toSet(Array(1, 1, 3, 2)) should equal(Set(1, 2, 3).asJava)

@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -39,11 +20,13 @@
 package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.util
-import java.util.Map
 
+import org.neo4j.cypher.InternalException
 import org.neo4j.cypher.internal.runtime.{Operations, QueryContext}
+import org.neo4j.function.ThrowingBiConsumer
 import org.neo4j.values.AnyValue
-import org.neo4j.values.virtual.{MapValue, VirtualRelationshipValue, VirtualNodeValue, VirtualValues}
+import org.neo4j.values.storable.Values
+import org.neo4j.values.virtual.{MapValue, VirtualNodeValue, VirtualRelationshipValue}
 
 import scala.collection.immutable
 
@@ -62,15 +45,15 @@ trait MapSupport {
 
   def castToMap: PartialFunction[AnyValue, QueryContext => MapValue] = {
     case x: MapValue => _ => x
-    case x: VirtualNodeValue => ctx => VirtualValues.map(new LazyMap(ctx, ctx.nodeOps, x.id()))
-    case x: VirtualRelationshipValue => ctx => VirtualValues.map(new LazyMap(ctx, ctx.relationshipOps, x.id()))
+    case x: VirtualNodeValue => ctx => new LazyMap(ctx, ctx.nodeOps, x.id())
+    case x: VirtualRelationshipValue => ctx => new LazyMap(ctx, ctx.relationshipOps, x.id())
   }
 }
 
 class LazyMap[T](ctx: QueryContext, ops: Operations[T], id: Long)
-  extends java.util.Map[String, AnyValue] {
+  extends MapValue {
 
-  import scala.collection.JavaConverters._
+ import scala.collection.JavaConverters._
 
   private lazy val allProps: util.Map[String, AnyValue] = ops.propertyKeyIds(id)
     .map(propertyId => {
@@ -79,41 +62,33 @@ class LazyMap[T](ctx: QueryContext, ops: Operations[T], id: Long)
     }
     ).toMap.asJava
 
-  override def values(): util.Collection[AnyValue] = allProps.values()
-
-  override def containsValue(value: scala.Any): Boolean = allProps.containsValue(value)
-
-  override def remove(key: scala.Any): AnyValue = throw new UnsupportedOperationException()
-
-  override def put(key: String,
-                   value: AnyValue): AnyValue = throw new UnsupportedOperationException()
-
-  override def putAll(m: util.Map[_ <: String, _ <: AnyValue]): Unit = throw new UnsupportedOperationException()
-
-  override def get(key: scala.Any): AnyValue =
-    ctx.getOptPropertyKeyId(key.asInstanceOf[String]) match {
-      case Some(keyId) =>
-        ops.getProperty(id, keyId)
-      case None =>
-        null
-    }
-
   override def keySet(): util.Set[String] = allProps.keySet()
 
-  override def entrySet(): util.Set[util.Map.Entry[String, AnyValue]] = allProps.entrySet()
+  override def foreach[E <: Exception](f: ThrowingBiConsumer[String, AnyValue, E]): Unit = {
+    val it = allProps.entrySet().iterator()
+    while(it.hasNext) {
+      val entry = it.next()
+      f.accept(entry.getKey, entry.getValue)
+    }
+  }
 
-  override def containsKey(key: Any): Boolean = ctx.getOptPropertyKeyId(key.asInstanceOf[String])
-    .exists(ops.hasProperty(id, _))
+  override def containsKey(key: String): Boolean = ctx.getOptPropertyKeyId(key).exists(ops.hasProperty(id, _))
 
-  override def clear(): Unit = throw new UnsupportedOperationException
+  override def get(key: String): AnyValue =
+      ctx.getOptPropertyKeyId(key) match {
+        case Some(keyId) =>
+          ops.getProperty(id, keyId)
+        case None =>
+          Values.NO_VALUE
+      }
 
-  override lazy val isEmpty: Boolean = ops.propertyKeyIds(id).isEmpty
+  override def size(): Int = allProps.size()
 
-  override lazy val size: Int = ops.propertyKeyIds(id).size
+  //we need a way forcefully load lazy values
+  def load(): MapValue =
+    if (allProps != null) this
+    else throw new InternalException("properties must be loadable at this instant")
 
-  override def hashCode(): Int = allProps.hashCode()
-
-  override def equals(obj: scala.Any): Boolean = allProps.equals(obj)
 }
 
 object MapSupport {

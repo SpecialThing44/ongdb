@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,9 +19,7 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
-import java.util.Map;
-
-import org.neo4j.cypher.internal.CompatibilityFactory;
+import org.neo4j.cypher.internal.CompilerFactory;
 import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContext;
@@ -63,9 +42,9 @@ public class SnapshotExecutionEngine extends ExecutionEngine
     private final int maxQueryExecutionAttempts;
 
     SnapshotExecutionEngine( GraphDatabaseQueryService queryService, Config config, LogProvider logProvider,
-            CompatibilityFactory compatibilityFactory )
+                             CompilerFactory compilerFactory )
     {
-        super( queryService, logProvider, compatibilityFactory );
+        super( queryService, logProvider, compilerFactory );
         this.maxQueryExecutionAttempts = config.get( GraphDatabaseSettings.snapshot_query_retries );
     }
 
@@ -77,14 +56,7 @@ public class SnapshotExecutionEngine extends ExecutionEngine
     }
 
     @Override
-    public Result executeQuery( String query, Map<String,Object> parameters, TransactionalContext context )
-            throws QueryExecutionKernelException
-    {
-        return executeWithRetries( query, parameters, context, super::executeQuery );
-    }
-
-    @Override
-    public Result profileQuery( String query, Map<String,Object> parameters, TransactionalContext context )
+    public Result profileQuery( String query, MapValue parameters, TransactionalContext context )
             throws QueryExecutionKernelException
     {
         return executeWithRetries( query, parameters, context, super::profileQuery );

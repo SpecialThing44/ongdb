@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,11 +19,12 @@
  */
 package org.neo4j.cypher.internal.runtime.interpreted.pipes.aggregation
 
-import org.neo4j.cypher.internal.util.v3_4.CypherTypeException
+import org.neo4j.cypher.internal.v3_5.util.CypherTypeException
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.values.storable.Values._
-import org.neo4j.values.storable.{DoubleValue, LongValue, Values}
+import org.neo4j.values.storable.{DoubleValue, DurationValue, LongValue, Values}
+import org.neo4j.values.utils.InvalidValuesArgumentException
 
 class SumFunctionTest extends CypherFunSuite with AggregateTest {
   def createAggregator(inner: Expression) = new SumFunction(inner)
@@ -52,6 +34,36 @@ class SumFunctionTest extends CypherFunSuite with AggregateTest {
 
     result should equal(longValue(1))
     result shouldBe a [LongValue]
+  }
+
+  test("singleValueReturnsThatDuration") {
+    val durationValue = DurationValue.duration(0, 0, 0, 1)
+    val result = aggregateOn(durationValue)
+
+    result should equal(durationValue)
+  }
+
+  test("twoValuesReturnsDuration") {
+    val durationValue = DurationValue.duration(0, 0, 0, 1)
+    val durationValue2 = DurationValue.duration(0, 0, 1, 1)
+    val result = aggregateOn(durationValue, durationValue2)
+
+    result should equal(DurationValue.duration(0,0,1,2))
+  }
+
+  test("cantMixDurationAndNumber") {
+    val durationValue = DurationValue.duration(0, 0, 0, 1)
+    val numberValue = longValue(1)
+    a[CypherTypeException] shouldBe thrownBy{
+      aggregateOn(durationValue, numberValue)
+    }
+  }
+
+  test("catches duration overflows") {
+    val durationValue = DurationValue.duration(0, 0, Long.MaxValue, 0)
+    an[InvalidValuesArgumentException] shouldBe thrownBy{
+      aggregateOn(durationValue, durationValue)
+    }
   }
 
   test("singleValueOfDecimalReturnsDecimal") {

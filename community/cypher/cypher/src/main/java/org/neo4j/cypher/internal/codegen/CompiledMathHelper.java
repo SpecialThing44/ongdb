@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,12 +19,13 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
+import org.neo4j.cypher.internal.v3_5.util.ArithmeticException;
+import org.neo4j.cypher.internal.v3_5.util.CypherTypeException;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neo4j.cypher.internal.util.v3_4.ArithmeticException;
-import org.neo4j.cypher.internal.util.v3_4.CypherTypeException;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.ArrayValue;
@@ -97,11 +79,11 @@ public final class CompiledMathHelper
             }
             else if ( rhs instanceof AnyValue )
             {
-                return VirtualValues.appendToList( (ListValue) lhs, (AnyValue) rhs );
+                return ((ListValue) lhs).append( (AnyValue) rhs );
             }
             else
             {
-                return VirtualValues.appendToList( (ListValue) lhs, ValueUtils.of( rhs ) );
+                return ((ListValue) lhs).append( ValueUtils.of( rhs ) );
             }
         }
         else if ( rhs instanceof ListValue )
@@ -112,11 +94,11 @@ public final class CompiledMathHelper
             }
             else if ( lhs instanceof AnyValue )
             {
-                return VirtualValues.prependToList( (ListValue) rhs, (AnyValue) lhs );
+                return ( (ListValue) rhs).prepend( (AnyValue) lhs );
             }
             else
             {
-                return VirtualValues.prependToList( (ListValue) rhs, ValueUtils.of( lhs ) );
+                return ((ListValue) rhs).prepend( ValueUtils.of( lhs ) );
             }
         }
         else if ( lhs instanceof List<?> && rhs instanceof List<?> )
@@ -540,6 +522,35 @@ public final class CompiledMathHelper
         AnyValue rhsValue = rhs instanceof AnyValue ? (AnyValue) rhs : Values.of( rhs );
 
         throw new CypherTypeException( String.format( "Cannot calculate modulus of `%s` and `%s`", lhsValue.getTypeName(), rhsValue.getTypeName() ), null );
+    }
+
+    public static Object pow( Object lhs, Object rhs )
+    {
+        if ( lhs == null || rhs == null || lhs == Values.NO_VALUE || rhs == Values.NO_VALUE )
+        {
+            return null;
+        }
+
+        // Handle NumberValues
+        if ( lhs instanceof NumberValue )
+        {
+            lhs = ((NumberValue) lhs).asObject();
+        }
+        if ( rhs instanceof NumberValue )
+        {
+            rhs = ((NumberValue) rhs).asObject();
+        }
+
+        // now we have Numbers
+        if ( lhs instanceof Number && rhs instanceof Number )
+        {
+            return Math.pow( ((Number) lhs).doubleValue(), ((Number) rhs).doubleValue() );
+        }
+
+        AnyValue lhsValue = lhs instanceof AnyValue ? (AnyValue) lhs : Values.of( lhs );
+        AnyValue rhsValue = rhs instanceof AnyValue ? (AnyValue) rhs : Values.of( rhs );
+
+        throw new CypherTypeException( String.format( "Cannot raise `%s` to the power of `%s`", lhsValue.getTypeName(), rhsValue.getTypeName() ), null );
     }
 
     public static int transformToInt( Object value )

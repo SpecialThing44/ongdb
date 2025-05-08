@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -69,9 +50,11 @@ abstract class InList(collectionExpression: Expression, id: String, predicate: P
       val seq = makeTraversable(list)
       val innerContext = m.createClone()
 
-      seqMethod(seq)(item =>
+      seqMethod(seq) { item =>
         // Since we can override an existing id here we use a method that guarantees that we do not overwrite an existing variable
-        predicate.isMatch(innerContext.set(id, item), state))
+        innerContext.set(id, item)
+        predicate.isMatch(innerContext, state)
+      }
     }
   }
 
@@ -176,17 +159,21 @@ case class SingleInList(collection: Expression, symbolName: String, inner: Predi
 
   private def single(collectionValue: ListValue)(predicate: (AnyValue => Option[Boolean])): Option[Boolean] = {
     var matched = false
+    var atLeastOneNull = false
     val iterator = collectionValue.iterator()
     while(iterator.hasNext) {
       predicate(iterator.next()) match {
         case Some(true) if matched => return Some(false)
         case Some(true)            => matched = true
-        case None                  => return None
+        case None                  => atLeastOneNull = true
         case _                     =>
       }
     }
 
-    Some(matched)
+    if (atLeastOneNull)
+      None
+    else
+      Some(matched)
   }
 
   def seqMethod(value: ListValue): CollectionPredicate = single(value)

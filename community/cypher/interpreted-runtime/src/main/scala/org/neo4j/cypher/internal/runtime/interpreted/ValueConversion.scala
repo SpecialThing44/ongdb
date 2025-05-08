@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -41,8 +22,8 @@ package org.neo4j.cypher.internal.runtime.interpreted
 import java.time._
 import java.time.temporal.TemporalAmount
 
-import org.neo4j.cypher.internal.util.v3_4.Eagerly
-import org.neo4j.cypher.internal.util.v3_4.symbols._
+import org.neo4j.cypher.internal.v3_5.util.Eagerly
+import org.neo4j.cypher.internal.v3_5.util.symbols._
 import org.neo4j.graphdb.spatial.{Geometry, Point}
 import org.neo4j.graphdb.{Node, Path, Relationship}
 import org.neo4j.kernel.impl.util.ValueUtils
@@ -50,9 +31,7 @@ import org.neo4j.values.AnyValue
 import org.neo4j.values.storable.Values.byteArray
 import org.neo4j.values.storable._
 import org.neo4j.values.virtual.VirtualValues.fromArray
-import org.neo4j.values.virtual.{MapValue, VirtualValues}
-
-import scala.collection.JavaConverters._
+import org.neo4j.values.virtual.{MapValue, MapValueBuilder, VirtualValues}
 
 object ValueConversion {
   def getValueConverter(cType: CypherType): Any => AnyValue = {
@@ -84,7 +63,14 @@ object ValueConversion {
     (v) => if (v == null) Values.NO_VALUE else converter(v)
   }
 
-  def asValues(params: Map[String, Any]): MapValue = VirtualValues.map(Eagerly.immutableMapValues(params, asValue).asJava)
+  def asValues(params: Map[String, Any]): MapValue = {
+    val builder = new MapValueBuilder(params.size)
+    params.foreach {
+      case (key,value) => builder.add(key, asValue(value))
+    }
+    builder.build()
+  }
+
   def asValue(value: Any): AnyValue = value match {
     case null => Values.NO_VALUE
     case s: String => Values.stringValue(s)
@@ -104,7 +90,12 @@ object ValueConversion {
     case x: OffsetTime => TimeValue.time(x)
     case x: LocalTime => LocalTimeValue.localTime(x)
     case x: TemporalAmount => Values.durationValue(x)
-    case m: Map[_, _] => VirtualValues.map(Eagerly.immutableMapValues(m.asInstanceOf[Map[String, Any]], asValue).asJava)
+    case m: Map[_, _] =>
+      val builder = new MapValueBuilder
+      m.foreach {
+        case (k,v) => builder.add(k.asInstanceOf[String], asValue(v))
+      }
+      builder.build()
     case m: java.util.Map[_, _] => ValueUtils.asMapValue(m.asInstanceOf[java.util.Map[String, AnyRef]])
     case a: TraversableOnce[_] => VirtualValues.list(a.map(asValue).toArray:_*)
     case c: java.util.Collection[_] => ValueUtils.asListValue(c)

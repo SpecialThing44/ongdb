@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,13 +19,13 @@
  */
 package org.neo4j.cypher.internal.runtime.interpreted.pipes
 
-import org.neo4j.collection.primitive.{Primitive, PrimitiveLongObjectMap}
+import org.eclipse.collections.impl.map.mutable.primitive.LongObjectHashMap
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
-import org.neo4j.cypher.internal.util.v3_4.InternalException
-import org.neo4j.cypher.internal.util.v3_4.attribution.Id
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.util.InternalException
+import org.neo4j.cypher.internal.v3_5.util.attribution.Id
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
 import org.neo4j.values.storable.{Value, Values}
-import org.neo4j.values.virtual.{RelationshipValue, NodeReference, NodeValue}
+import org.neo4j.values.virtual.{NodeReference, NodeValue, RelationshipValue}
 
 /**
   * This implementation of pruning-var-expand is no longer used in production, but is used to testing purposes.
@@ -107,7 +88,7 @@ case class LegacyPruningVarLengthExpandPipe(source: Pipe,
                       val pathLength: Int,
                       val state: QueryState,
                       row: ExecutionContext,
-                      expandMap: PrimitiveLongObjectMap[FullExpandDepths]
+                      expandMap: LongObjectHashMap[FullExpandDepths]
                      ) extends State with Expandable with CheckPath {
 
     private var rels: Iterator[RelationshipValue] = _
@@ -202,7 +183,7 @@ case class LegacyPruningVarLengthExpandPipe(source: Pipe,
                    val pathLength: Int,
                    val state: QueryState,
                    row: ExecutionContext,
-                   expandMap: PrimitiveLongObjectMap[FullExpandDepths],
+                   expandMap: LongObjectHashMap[FullExpandDepths],
                    updateMinFullExpandDepth: Int => Unit) extends State with Expandable with CheckPath {
 
     import FullExpandDepths.UNINITIALIZED
@@ -286,7 +267,7 @@ case class LegacyPruningVarLengthExpandPipe(source: Pipe,
           pathLength = 0,
           state = state,
           row = row,
-          expandMap = Primitive.longObjectMap[FullExpandDepths]())
+          expandMap = new LongObjectHashMap[FullExpandDepths]())
         nextState.next()
       }
 

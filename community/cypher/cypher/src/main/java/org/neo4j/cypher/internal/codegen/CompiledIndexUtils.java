@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,10 +19,10 @@
  */
 package org.neo4j.cypher.internal.codegen;
 
-import org.neo4j.internal.kernel.api.CapableIndexReference;
 import org.neo4j.internal.kernel.api.CursorFactory;
 import org.neo4j.internal.kernel.api.IndexOrder;
 import org.neo4j.internal.kernel.api.IndexQuery;
+import org.neo4j.internal.kernel.api.IndexReference;
 import org.neo4j.internal.kernel.api.NodeValueIndexCursor;
 import org.neo4j.internal.kernel.api.Read;
 import org.neo4j.internal.kernel.api.exceptions.KernelException;
@@ -72,7 +53,7 @@ public final class CompiledIndexUtils
      * @param value The value to seek for
      * @return A cursor positioned at the data found in index.
      */
-    public static NodeValueIndexCursor indexSeek( Read read, CursorFactory cursors, CapableIndexReference index, Object value )
+    public static NodeValueIndexCursor indexSeek( Read read, CursorFactory cursors, IndexReference index, Object value )
             throws KernelException
     {
         assert index.properties().length == 1;
@@ -84,7 +65,7 @@ public final class CompiledIndexUtils
         {
             NodeValueIndexCursor cursor = cursors.allocateNodeValueIndexCursor();
             IndexQuery.ExactPredicate query = exact( index.properties()[0], makeValueNeoSafe( value ) );
-            read.nodeIndexSeek( index, cursor, IndexOrder.NONE, query );
+            read.nodeIndexSeek( index, cursor, IndexOrder.NONE, false, query );
             return cursor;
         }
     }

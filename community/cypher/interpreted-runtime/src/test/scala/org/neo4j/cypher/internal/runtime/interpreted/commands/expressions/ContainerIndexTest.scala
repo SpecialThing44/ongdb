@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -39,17 +20,14 @@
 package org.neo4j.cypher.internal.runtime.interpreted.commands.expressions
 
 import org.mockito.Mockito._
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.stubbing.Answer
+import org.neo4j.cypher.internal.runtime.QueryContext
 import org.neo4j.cypher.internal.runtime.interpreted.{ExecutionContext, QueryStateHelper}
-import org.neo4j.cypher.internal.runtime.{Operations, QueryContext}
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.CypherFunSuite
-import org.neo4j.cypher.internal.util.v3_4.{CypherTypeException, InvalidArgumentException}
 import org.neo4j.graphdb.{Node, Relationship}
 import org.neo4j.values.AnyValue
+import org.neo4j.values.storable.Values
 import org.neo4j.values.storable.Values.longValue
-import org.neo4j.values.storable.{Value, Values}
-import org.neo4j.values.virtual.{RelationshipValue, NodeValue}
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
+import org.neo4j.cypher.internal.v3_5.util.{CypherTypeException, InvalidArgumentException}
 
 import scala.collection.JavaConverters._
 
@@ -105,17 +83,12 @@ class ContainerIndexTest extends CypherFunSuite {
     val node = mock[Node]
     when(node.getId).thenReturn(0)
     implicit val expression = Literal(node)
-    when(qtx.getOptPropertyKeyId("v")).thenReturn(Some(0))
-    when(qtx.getOptPropertyKeyId("c")).thenReturn(Some(1))
-    val nodeOps = mock[Operations[NodeValue]]
-    when(nodeOps.getProperty(0, 0)).thenAnswer(new Answer[Value] {
-      override def answer(invocation: InvocationOnMock): Value = Values.longValue(1)
-    })
-    when(nodeOps.getProperty(0, 1)).thenAnswer(new Answer[Value] {
-      override def answer(invocation: InvocationOnMock): Value = Values.NO_VALUE
-    })
-    when(qtx.nodeOps).thenReturn(nodeOps)
 
+    when(qtx.propertyKey("v")).thenReturn(42)
+    when(qtx.propertyKey("c")).thenReturn(43)
+
+    when(qtx.nodeProperty(0, 42)).thenReturn(longValue(1))
+    when(qtx.nodeProperty(0, 43)).thenReturn(Values.NO_VALUE)
     idx("v") should equal(longValue(1))
     idx("c") should equal(expectedNull)
   }
@@ -124,17 +97,11 @@ class ContainerIndexTest extends CypherFunSuite {
     val rel = mock[Relationship]
     when(rel.getId).thenReturn(0)
     implicit val expression = Literal(rel)
-    when(qtx.getOptPropertyKeyId("v")).thenReturn(Some(0))
-    when(qtx.getOptPropertyKeyId("c")).thenReturn(Some(1))
-    val relOps = mock[Operations[RelationshipValue]]
-    when(relOps.getProperty(0, 0)).thenAnswer(new Answer[Value] {
-      override def answer(invocation: InvocationOnMock): Value = Values.longValue(1)
-    })
-    when(relOps.getProperty(0, 1)).thenAnswer(new Answer[Value] {
-      override def answer(invocation: InvocationOnMock): Value = Values.NO_VALUE
-    })
-    when(qtx.relationshipOps).thenReturn(relOps)
 
+    when(qtx.propertyKey("v")).thenReturn(42)
+    when(qtx.propertyKey("c")).thenReturn(43)
+    when(qtx.relationshipProperty(0, 42)).thenReturn(longValue(1))
+    when(qtx.relationshipProperty(0, 43)).thenReturn(Values.NO_VALUE)
     idx("v") should equal(longValue(1))
     idx("c") should equal(expectedNull)
   }
