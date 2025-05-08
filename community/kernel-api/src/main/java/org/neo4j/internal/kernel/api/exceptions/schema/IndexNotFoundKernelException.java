@@ -36,24 +36,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.kernel.api.query;
+package org.neo4j.kernel.api.exceptions.index;
 
-import org.junit.Test;
+import org.neo4j.internal.kernel.api.exceptions.KernelException;
+import org.neo4j.kernel.api.exceptions.Status;
 
-import static java.util.Collections.emptyList;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-public class PlannerInfoTest
+public class IndexNotFoundKernelException extends KernelException
 {
-    @Test
-    public void plannerInfoShouldBeInSmallCase()
+    public IndexNotFoundKernelException( String msg )
     {
-        // given
-        PlannerInfo plannerInfo = new PlannerInfo( "PLANNER", "RUNTIME", emptyList() );
-
-        // then
-        assertThat( plannerInfo.planner(), is( "planner" ) );
-        assertThat( plannerInfo.runtime(), is( "runtime" ) );
+        super( Status.Schema.IndexNotFound, msg );
     }
 }

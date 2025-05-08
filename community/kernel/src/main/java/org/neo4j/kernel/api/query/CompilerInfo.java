@@ -36,15 +36,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.kernel.api.exceptions.index;
+package org.neo4j.kernel.api.query;
 
-import org.neo4j.internal.kernel.api.exceptions.KernelException;
-import org.neo4j.kernel.api.exceptions.Status;
+import java.util.List;
 
-public class IndexNotFoundKernelException extends KernelException
+import javax.annotation.Nonnull;
+
+public class CompilerInfo
 {
-    public IndexNotFoundKernelException(String msg )
+    private final String planner;
+    private final String runtime;
+    private final List<IndexUsage> indexes;
+
+    public CompilerInfo( @Nonnull String planner, @Nonnull String runtime, @Nonnull List<IndexUsage> indexes )
     {
-        super( Status.Schema.IndexNotFound, msg );
+        this.planner = planner;
+        this.runtime = runtime;
+        this.indexes = indexes;
+    }
+
+    public String planner()
+    {
+        return planner.toLowerCase();
+    }
+
+    public String runtime()
+    {
+        return runtime.toLowerCase();
+    }
+
+    public List<IndexUsage> indexes()
+    {
+        return indexes;
     }
 }

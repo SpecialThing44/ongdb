@@ -45,7 +45,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.function.LongSupplier;
+import java.util.function.Supplier;
 
+import org.neo4j.graphdb.ExecutionPlanDescription;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorCounters;
 import org.neo4j.kernel.impl.locking.ActiveLock;
 import org.neo4j.kernel.impl.locking.LockTracer;
@@ -78,6 +80,7 @@ public class ExecutingQuery
     private final long startTimestampMillis;
     /** Uses write barrier of {@link #status}. */
     private long planningDoneNanos;
+    private Supplier<ExecutionPlanDescription> planDescriptionSupplier;
     private final long threadExecutingTheQueryId;
     @SuppressWarnings( {"unused", "FieldCanBeLocal"} )
     private final String threadExecutingTheQueryName;
@@ -90,7 +93,7 @@ public class ExecutingQuery
     private final long heapAllocatedBytesWhenQueryStarted;
     private final Map<String,Object> transactionAnnotationData;
     /** Uses write barrier of {@link #status}. */
-    private PlannerInfo plannerInfo;
+    private CompilerInfo compilerInfo;
     private volatile ExecutingQueryStatus status = SimpleState.planning();
     /** Updated through {@link #WAIT_TIME} */
     @SuppressWarnings( "unused" )
@@ -135,9 +138,18 @@ public class ExecutingQuery
 
     // update state
 
-    public void planningCompleted( PlannerInfo plannerInfo )
+    public void compilationCompleted( CompilerInfo compilerInfo, Supplier<ExecutionPlanDescription> planDescriptionSupplier )
     {
-        this.plannerInfo = plannerInfo;
+        this.compilerInfo = compilerInfo;
+        this.planningDoneNanos = clock.nanos();
+        this.planDescriptionSupplier = planDescriptionSupplier;
+        this.status = SimpleState.running(); // write barrier - must be last
+    }
+
+
+    public void planningCompleted( CompilerInfo compilerInfo)
+    {
+        this.compilerInfo = compilerInfo;
         this.planningDoneNanos = clock.nanos();
         this.status = SimpleState.running(); // write barrier - must be last
     }
@@ -180,7 +192,7 @@ public class ExecutingQuery
         // guarded by barrier - unused if status is planning, stable otherwise
         long planningDoneNanos = this.planningDoneNanos;
         // guarded by barrier - like planningDoneNanos
-        PlannerInfo planner = status.isPlanning() ? null : this.plannerInfo;
+        CompilerInfo planner = status.isPlanning() ? null : this.compilerInfo;
         List<ActiveLock> waitingOnLocks = status.isWaitingOnLocks() ? status.waitingOnLocks() : Collections.emptyList();
         // activeLockCount is not atomic to capture, so we capture it after the most sensitive part.
         long totalActiveLocks = this.activeLockCount.getAsLong();
@@ -261,6 +273,11 @@ public class ExecutingQuery
     public String queryText()
     {
         return queryText;
+    }
+
+    public Supplier<ExecutionPlanDescription> planDescriptionSupplier()
+    {
+        return planDescriptionSupplier;
     }
 
     public MapValue queryParameters()

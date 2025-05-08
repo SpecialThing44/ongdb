@@ -38,35 +38,22 @@
  */
 package org.neo4j.kernel.api.query;
 
-import java.util.List;
+import org.junit.Test;
 
-import javax.annotation.Nonnull;
+import static java.util.Collections.emptyList;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
-public class PlannerInfo
+public class CompilerInfoTest
 {
-    private final String planner;
-    private final String runtime;
-    private final List<IndexUsage> indexes;
-
-    public PlannerInfo( @Nonnull String planner, @Nonnull String runtime, @Nonnull List<IndexUsage> indexes )
+    @Test
+    public void plannerInfoShouldBeInSmallCase()
     {
-        this.planner = planner;
-        this.runtime = runtime;
-        this.indexes = indexes;
-    }
+        // given
+        CompilerInfo compilerInfo = new CompilerInfo( "PLANNER", "RUNTIME", emptyList() );
 
-    public String planner()
-    {
-        return planner.toLowerCase();
-    }
-
-    public String runtime()
-    {
-        return runtime.toLowerCase();
-    }
-
-    public List<IndexUsage> indexes()
-    {
-        return indexes;
+        // then
+        assertThat( compilerInfo.planner(), is( "planner" ) );
+        assertThat( compilerInfo.runtime(), is( "runtime" ) );
     }
 }
