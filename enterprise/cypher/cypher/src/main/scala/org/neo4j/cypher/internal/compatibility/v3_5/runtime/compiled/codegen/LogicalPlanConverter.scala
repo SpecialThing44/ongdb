@@ -34,12 +34,13 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.compiled.codegen.{ir, spi}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.{ir, spi}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.SortItem
-import org.neo4j.cypher.internal.compiler.v3_4.planner.CantCompileQueryException
-import org.neo4j.cypher.internal.planner.v3_4.spi.PlanningAttributes.Cardinalities
-import org.neo4j.cypher.internal.v3_4.expressions.{Expression, FunctionInvocation}
-import org.neo4j.cypher.internal.v3_4.{expressions => ast, functions => ast_functions}
+import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
+import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.Cardinalities
+import org.neo4j.cypher.internal.v3_5.expressions.{Expression, FunctionInvocation}
+import org.neo4j.cypher.internal.v3_5.{expressions => ast}
+import org.neo4j.cypher.internal.v3_5.expressions.{functions => ast_functions}
 import org.neo4j.cypher.internal.v3_5.logical.plans
 import org.neo4j.cypher.internal.v3_5.logical.plans.ColumnOrder
 import org.neo4j.cypher.internal.v3_5.util.Eagerly.immutableMapValues
