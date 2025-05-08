@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>org.neo4j</groupId>
+     <groupId>org.graphfoundation.ongdb</groupId>
     <artifactId>cypher-parent</artifactId>
-    <version>3.5.35-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>neo4j-cypher-planner-spi-3.5</artifactId>
+  <artifactId>ongdb-geequel-planner-spi-3.5</artifactId>
   <packaging>jar</packaging>
-  <version>3.5.35-SNAPSHOT</version>
-  <name>Neo4j - Cypher Planner SPI</name>
+  <version>1.0.6-SNAPSHOT</version>
+  <name>Ongdb - Geequel Planner SPI</name>
 
   <description>Cypher planner SPI</description>
   <url>http://components.neo4j.org/${project.artifactId}/${project.version}</url>
 
   <scm>
-    <connection>scm:git:git://github.com/neo4j/neo4j.git</connection>
-    <developerConnection>scm:git:git@github.com:neo4j/neo4j.git</developerConnection>
-    <url>https://github.com/neo4j/neo4j</url>
+    <connection>scm:git:git://github.com/graphfoundation/ongdb.git</connection>
+    <developerConnection>scm:git:git@github.com:graphfoundation/ongdb.git</developerConnection>
+    <url>https://github.com/graphfoundation/ongdb</url>
   </scm>
 
   <properties>
@@ -63,14 +63,14 @@
     <!-- neo4j -->
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-util-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-util-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-cypher-logical-plans-3.5</artifactId>
+      <groupId>org.graphfoundation.ongdb</groupId>
+      <artifactId>ongdb-geequel-logical-plans-3.5</artifactId>
       <version>${project.version}</version>
     </dependency>
 
