@@ -36,13 +36,13 @@ package org.neo4j.cypher.internal.runtime.vectorized
 
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.PhysicalPlanningAttributes.SlotConfigurations
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.RefSlot
-import org.neo4j.cypher.internal.compiler.v3_4.planner.CantCompileQueryException
-import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
+import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
 import org.neo4j.cypher.internal.runtime.interpreted.commands.convert.ExpressionConverters
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{LazyLabel, LazyTypes}
 import org.neo4j.cypher.internal.runtime.slotted.SlottedPipeBuilder.translateColumnOrder
 import org.neo4j.cypher.internal.runtime.vectorized.expressions.AggregationExpressionOperator
 import org.neo4j.cypher.internal.runtime.vectorized.operators._
+import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.util.InternalException
 import org.neo4j.cypher.internal.v3_5.logical.plans
 import org.neo4j.cypher.internal.v3_5.logical.plans._
@@ -72,19 +72,19 @@ class PipelineBuilder(slotConfigurations: SlotConfigurations, converters: Expres
           slots.getLongOffsetFor(column),
           LazyLabel(label)(SemanticTable()))
 
-      case plans.NodeIndexSeek(column, label, propertyKeys, SingleQueryExpression(valueExpr),  _) if propertyKeys.size == 1 =>
+      case plans.NodeIndexSeek(column, label, propertyKeys, SingleQueryExpression(valueExpr),  _, indexOrder) if propertyKeys.size == 1 =>
         new NodeIndexSeekOperator(
           slots.numberOfLongs,
           slots.numberOfReferences,
           slots.getLongOffsetFor(column),
-          label, propertyKeys.head, converters.toCommandExpression(valueExpr))
+          label, propertyKeys.head.propertyKeyToken, converters.toCommandExpression(plan.id, valueExpr))
 
-      case plans.NodeUniqueIndexSeek(column, label, propertyKeys, SingleQueryExpression(valueExpr),  _) if propertyKeys.size == 1 =>
+      case plans.NodeUniqueIndexSeek(column, label, propertyKeys, SingleQueryExpression(valueExpr),  _, indexOrder) if propertyKeys.size == 1 =>
         new NodeIndexSeekOperator(
           slots.numberOfLongs,
           slots.numberOfReferences,
           slots.getLongOffsetFor(column),
-          label, propertyKeys.head, converters.toCommandExpression(valueExpr))
+          label, propertyKeys.head.propertyKeyToken, converters.toCommandExpression(plan.id, valueExpr))
 
       case plans.Argument(_) =>
         new ArgumentOperator
@@ -104,7 +104,7 @@ class PipelineBuilder(slotConfigurations: SlotConfigurations, converters: Expres
           new ProduceResultOperator(slots, columns.toArray)
 
         case plans.Selection(predicates, _) =>
-          val predicate = predicates.map(converters.toCommandPredicate).reduce(_ andWith _)
+          val predicate = predicates.exprs.map(expr=> converters.toCommandPredicate(plan.id, expr)).reduce(_ andWith _)
           new FilterOperator(slots, predicate)
 
         case plans.Expand(lhs, fromName, dir, types, to, relName, ExpandAll) =>
@@ -117,7 +117,7 @@ class PipelineBuilder(slotConfigurations: SlotConfigurations, converters: Expres
 
         case plans.Projection(_, expressions) =>
           val projectionOps = expressions.map {
-            case (key, e) => slots(key) -> converters.toCommandExpression(e)
+            case (key, e) => slots(key) -> converters.toCommandExpression(plan.id, e)
           }
           new ProjectOperator(projectionOps, slots)
 
@@ -135,7 +135,7 @@ class PipelineBuilder(slotConfigurations: SlotConfigurations, converters: Expres
               //source slot
               source.slots.newReference(key, currentSlot.nullable, currentSlot.typ)
               AggregationOffsets(source.slots.getReferenceOffsetFor(key), currentSlot.offset,
-                                 converters.toCommandExpression(expression).asInstanceOf[AggregationExpressionOperator])
+                                 converters.toCommandExpression(plan.id, expression).asInstanceOf[AggregationExpressionOperator])
           }.toArray
 
           //add mapper to source
@@ -149,7 +149,7 @@ class PipelineBuilder(slotConfigurations: SlotConfigurations, converters: Expres
               //we need to make room for storing grouping value in source slot
               if (currentSlot.isLongSlot) source.slots.newLong(key, currentSlot.nullable, currentSlot.typ)
               else source.slots.newReference(key, currentSlot.nullable, currentSlot.typ)
-              GroupingOffsets(source.slots(key), currentSlot, converters.toCommandExpression(expression))
+              GroupingOffsets(source.slots(key), currentSlot, converters.toCommandExpression(plan.id, expression))
           }.toArray
 
           val aggregations = aggregationExpression.map {
@@ -159,7 +159,7 @@ class PipelineBuilder(slotConfigurations: SlotConfigurations, converters: Expres
               //source slot
               source.slots.newReference(key, currentSlot.nullable, currentSlot.typ)
               AggregationOffsets(source.slots.getReferenceOffsetFor(key), currentSlot.offset,
-                                 converters.toCommandExpression(expression).asInstanceOf[AggregationExpressionOperator])
+                                 converters.toCommandExpression(plan.id, expression).asInstanceOf[AggregationExpressionOperator])
           }.toArray
 
           //add mapper to source
@@ -172,7 +172,7 @@ class PipelineBuilder(slotConfigurations: SlotConfigurations, converters: Expres
             case _ =>
               throw new InternalException("Weird slot found for UNWIND")
           }
-          val runtimeExpression = converters.toCommandExpression(collection)
+          val runtimeExpression = converters.toCommandExpression(plan.id, collection)
           new UnwindOperator(runtimeExpression, offset, slotConfigurations(src.id), slots)
 
         case p => throw new CantCompileQueryException(s"$p not supported in morsel runtime")

@@ -38,7 +38,7 @@ import org.neo4j.cypher.internal.runtime.QueryContext
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{QueryState => OldQueryState}
 import org.neo4j.cypher.internal.runtime.vectorized._
-import org.neo4j.cypher.internal.v3_4.expressions.{LabelToken, PropertyKeyToken}
+import org.neo4j.cypher.internal.v3_5.expressions.{LabelToken, PropertyKeyToken}
 import org.neo4j.internal.kernel.api._
 
 class NodeIndexSeekOperator(longsPerRow: Int, refsPerRow: Int, offset: Int,
@@ -68,7 +68,7 @@ class NodeIndexSeekOperator(longsPerRow: Int, refsPerRow: Int, offset: Int,
     message match {
       case StartLeafLoop(is) =>
         nodeCursor = context.transactionalContext.cursors.allocateNodeValueIndexCursor()
-        read.nodeIndexSeek(reference(context), nodeCursor, IndexOrder.NONE,
+        read.nodeIndexSeek(reference(context), nodeCursor, IndexOrder.NONE, false, 
                            IndexQuery.exact(propertyKey.nameId.id, valueExpr(currentRow, queryState) ))
         iterationState = is
       case ContinueLoopWith(ContinueWithSource(it, is, _)) =>
