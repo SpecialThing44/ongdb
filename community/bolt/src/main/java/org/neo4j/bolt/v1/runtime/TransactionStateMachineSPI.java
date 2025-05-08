@@ -142,7 +142,7 @@ class TransactionStateMachineSPI implements TransactionStateMachine.SPI
 
     @Override
     public BoltResultHandle executeQuery( BoltQuerySource querySource,
-            LoginContext loginContext, String statement, MapValue params )
+            LoginContext loginContext, String statement, MapValue.MapWrappingMapValue params )
     {
         InternalTransaction internalTransaction = queryService.beginTransaction( implicit, loginContext );
         ClientConnectionInfo sourceDetails = new BoltConnectionInfo( querySource.principalName,

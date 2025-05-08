@@ -54,7 +54,7 @@ public interface BoltRequestMessageHandler
 
     void onReset();
 
-    void onRun( String statement, MapValue params );
+    void onRun( String statement, MapValue.MapWrappingMapValue params );
 
     void onDiscardAll();
 

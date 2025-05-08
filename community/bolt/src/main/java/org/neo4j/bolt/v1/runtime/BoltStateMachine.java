@@ -230,7 +230,7 @@ public class BoltStateMachine implements AutoCloseable, ManagedBoltStateMachine
      * {@link #pullAll(BoltResponseHandler) pulled} or {@link #discardAll(BoltResponseHandler)
      * discarded}.
      */
-    public void run( String statement, MapValue params, BoltResponseHandler handler )
+    public void run( String statement, MapValue.MapWrappingMapValue params, BoltResponseHandler handler )
             throws BoltConnectionFatality
     {
         long start = clock.millis();
@@ -466,7 +466,7 @@ public class BoltStateMachine implements AutoCloseable, ManagedBoltStateMachine
                 {
                     @Override
                     public State run( BoltStateMachine machine, String statement,
-                            MapValue params ) throws BoltConnectionFatality
+                            MapValue.MapWrappingMapValue params ) throws BoltConnectionFatality
                     {
                         try
                         {
@@ -588,7 +588,7 @@ public class BoltStateMachine implements AutoCloseable, ManagedBoltStateMachine
 
                     @Override
                     public State run( BoltStateMachine machine, String statement,
-                            MapValue params )
+                            MapValue.MapWrappingMapValue params )
                     {
                         machine.ctx.markIgnored();
                         return FAILED;
@@ -642,7 +642,7 @@ public class BoltStateMachine implements AutoCloseable, ManagedBoltStateMachine
                     }
 
                     @Override
-                    public State run( BoltStateMachine machine, String statement, MapValue params )
+                    public State run( BoltStateMachine machine, String statement, MapValue.MapWrappingMapValue params )
                     {
                         machine.ctx.markIgnored();
                         return INTERRUPTED;
@@ -694,7 +694,7 @@ public class BoltStateMachine implements AutoCloseable, ManagedBoltStateMachine
             throw new BoltProtocolBreachFatality( msg );
         }
 
-        public State run( BoltStateMachine machine, String statement, MapValue params ) throws
+        public State run( BoltStateMachine machine, String statement, MapValue.MapWrappingMapValue params ) throws
                 BoltConnectionFatality
         {
             String msg = "RUN cannot be handled by a session in the " + name() + " state.";
@@ -939,7 +939,7 @@ public class BoltStateMachine implements AutoCloseable, ManagedBoltStateMachine
     private static class NullStatementProcessor implements StatementProcessor
     {
         @Override
-        public StatementMetadata run( String statement, MapValue params )
+        public StatementMetadata run( String statement, MapValue.MapWrappingMapValue params )
         {
             throw new UnsupportedOperationException( "Unable to run any statements." );
         }

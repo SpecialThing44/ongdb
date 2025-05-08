@@ -253,7 +253,7 @@ public final class ValueUtils
         return builder.build();
     }
 
-    public static MapValue asParameterMapValue( Map<String,Object> map )
+    public static MapValue.MapWrappingMapValue asParameterMapValue( Map<String,Object> map )
     {
         MapValueBuilder builder = new MapValueBuilder( map.size() );
         for ( Map.Entry<String,Object> entry : map.entrySet() )

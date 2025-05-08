@@ -44,6 +44,7 @@ import org.neo4j.kernel.api.query.ExecutingQuery;
 import org.neo4j.kernel.api.query.QuerySnapshot;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.logging.Log;
+import org.neo4j.values.virtual.MapValue;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 

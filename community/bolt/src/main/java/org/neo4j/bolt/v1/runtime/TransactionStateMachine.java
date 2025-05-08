@@ -90,7 +90,7 @@ public class TransactionStateMachine implements StatementProcessor
     }
 
     @Override
-    public StatementMetadata run( String statement, MapValue params ) throws KernelException
+    public StatementMetadata run( String statement, MapValue.MapWrappingMapValue params ) throws KernelException
     {
         before();
         try
@@ -215,7 +215,7 @@ public class TransactionStateMachine implements StatementProcessor
                 {
                     @Override
                     State run( MutableTransactionState ctx, SPI spi, String statement,
-                               MapValue params ) throws KernelException
+                               MapValue.MapWrappingMapValue params ) throws KernelException
 
                     {
                         if ( BEGIN.matcher( statement ).matches() )
@@ -262,7 +262,7 @@ public class TransactionStateMachine implements StatementProcessor
                         }
                     }
 
-                    void execute( MutableTransactionState ctx, SPI spi, String statement, MapValue params, boolean isPeriodicCommit )
+                    void execute( MutableTransactionState ctx, SPI spi, String statement, MapValue.MapWrappingMapValue params, boolean isPeriodicCommit )
                             throws KernelException
                     {
                         // only acquire a new transaction when the statement does not contain periodic commit
@@ -315,7 +315,7 @@ public class TransactionStateMachine implements StatementProcessor
         EXPLICIT_TRANSACTION
                 {
                     @Override
-                    State run( MutableTransactionState ctx, SPI spi, String statement, MapValue params )
+                    State run( MutableTransactionState ctx, SPI spi, String statement, MapValue.MapWrappingMapValue params )
                             throws KernelException
                     {
                         if ( BEGIN.matcher( statement ).matches() )
@@ -363,7 +363,7 @@ public class TransactionStateMachine implements StatementProcessor
                         }
                     }
 
-                    private BoltResultHandle execute( MutableTransactionState ctx, SPI spi, String statement, MapValue params )
+                    private BoltResultHandle execute( MutableTransactionState ctx, SPI spi, String statement, MapValue.MapWrappingMapValue params )
                     {
                         return executeQuery( ctx, spi, statement, params );
                     }
@@ -380,7 +380,7 @@ public class TransactionStateMachine implements StatementProcessor
         abstract State run( MutableTransactionState ctx,
                             SPI spi,
                             String statement,
-                            MapValue params ) throws KernelException;
+                            MapValue.MapWrappingMapValue params ) throws KernelException;
 
         abstract void streamResult( MutableTransactionState ctx,
                                     ThrowingConsumer<BoltResult, Exception> resultConsumer ) throws Exception;
@@ -473,7 +473,7 @@ public class TransactionStateMachine implements StatementProcessor
     }
 
     private static BoltResultHandle executeQuery( MutableTransactionState ctx, SPI spi, String statement,
-                                                  MapValue params )
+                                                  MapValue.MapWrappingMapValue params )
     {
         return spi.executeQuery( ctx.querySource, ctx.loginContext, statement, params );
     }
@@ -546,6 +546,6 @@ public class TransactionStateMachine implements StatementProcessor
         boolean isPeriodicCommit( String query );
 
         BoltResultHandle executeQuery( BoltQuerySource querySource,
-                LoginContext loginContext, String statement, MapValue params );
+                LoginContext loginContext, String statement, MapValue.MapWrappingMapValue params );
     }
 }

@@ -91,7 +91,7 @@ public class OperationsFacade implements QueryRegistryOperations
     public ExecutingQuery startQueryExecution(
         ClientConnectionInfo descriptor,
         String queryText,
-        MapValue queryParameters )
+        MapValue.MapWrappingMapValue queryParameters )
     {
         statement.assertOpen();
         return queryRegistrationOperations().startQueryExecution( statement, descriptor, queryText, queryParameters );

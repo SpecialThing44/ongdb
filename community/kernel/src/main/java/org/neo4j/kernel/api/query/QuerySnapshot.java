@@ -90,7 +90,7 @@ public class QuerySnapshot
         return query.queryText();
     }
 
-    public MapValue queryParameters()
+    public MapValue.MapWrappingMapValue queryParameters()
     {
         return query.queryParameters();
     }

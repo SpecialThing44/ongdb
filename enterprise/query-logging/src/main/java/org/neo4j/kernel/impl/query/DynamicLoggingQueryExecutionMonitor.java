@@ -229,6 +229,12 @@ class DynamicLoggingQueryExecutionMonitor extends LifecycleAdapter implements Qu
     }
 
     @Override
+    public void endFailure(ExecutingQuery query, String reason) {
+        currentLog.failure( query, new Throwable(reason) );
+
+    }
+
+    @Override
     public void endSuccess( ExecutingQuery query )
     {
         currentLog.success( query );

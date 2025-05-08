@@ -77,12 +77,12 @@ class QueryLogFormatter
         result.append( ") - " );
     }
 
-    static void formatMapValue( StringBuilder result, MapValue params )
+    static void formatMapValue( StringBuilder result, MapValue.MapWrappingMapValue params )
     {
         formatMapValue( result, params, Collections.emptySet() );
     }
 
-    static void formatMapValue( StringBuilder result, MapValue params, Collection<String> obfuscate )
+    static void formatMapValue( StringBuilder result, MapValue.MapWrappingMapValue params, Collection<String> obfuscate )
     {
         result.append( '{' );
         if ( params != null )
@@ -152,7 +152,7 @@ class QueryLogFormatter
     {
         if ( value instanceof Map<?,?> )
         {
-            formatMapValue( result, (MapValue) value );
+            formatMapValue( result, (MapValue.MapWrappingMapValue) value );
         }
         else if ( value instanceof String )
         {

@@ -58,7 +58,7 @@ public interface QueryRegistrationOperations
         KernelStatement statement,
         ClientConnectionInfo descriptor,
         String queryText,
-        MapValue queryParameters
+        MapValue.MapWrappingMapValue queryParameters
     );
 
     void registerExecutingQuery( KernelStatement statement, ExecutingQuery executingQuery );

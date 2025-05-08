@@ -84,7 +84,7 @@ public class StackingQueryRegistrationOperations implements QueryRegistrationOpe
         KernelStatement statement,
         ClientConnectionInfo clientConnection,
         String queryText,
-        MapValue queryParameters
+        MapValue.MapWrappingMapValue queryParameters
     )
     {
         long queryId = lastQueryId.incrementAndGet();
@@ -106,4 +106,3 @@ public class StackingQueryRegistrationOperations implements QueryRegistrationOpe
         statement.stopQueryExecution( executingQuery );
     }
 }
-

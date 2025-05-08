@@ -439,7 +439,7 @@ public class GraphDatabaseFacade implements GraphDatabaseAPI, EmbeddedProxySPI
         return execute( transaction, query, ValueUtils.asParameterMapValue( parameters ) );
     }
 
-    public Result execute( InternalTransaction transaction, String query, MapValue parameters )
+    public Result execute( InternalTransaction transaction, String query, MapValue.MapWrappingMapValue parameters )
             throws QueryExecutionException
     {
         TransactionalContext context =

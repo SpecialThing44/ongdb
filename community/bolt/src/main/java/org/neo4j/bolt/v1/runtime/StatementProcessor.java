@@ -46,7 +46,7 @@ import org.neo4j.values.virtual.MapValue;
 
 public interface StatementProcessor
 {
-    StatementMetadata run( String statement, MapValue params ) throws KernelException;
+    StatementMetadata run( String statement, MapValue.MapWrappingMapValue params ) throws KernelException;
 
     void streamResult( ThrowingConsumer<BoltResult, Exception> resultConsumer ) throws Exception;
 

@@ -122,7 +122,7 @@ public class Neo4jTransactionalContextFactory implements TransactionalContextFac
         ClientConnectionInfo clientConnection,
         InternalTransaction tx,
         String queryText,
-        MapValue queryParameters
+        MapValue.MapWrappingMapValue queryParameters
     )
     {
         Statement initialStatement = statementSupplier.get();

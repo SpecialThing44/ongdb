@@ -75,7 +75,7 @@ public class ExecutingQuery
     private final String username;
     private final ClientConnectionInfo clientConnection;
     private final String queryText;
-    private final MapValue queryParameters;
+    private final MapValue.MapWrappingMapValue queryParameters;
     private final long startTimeNanos;
     private final long startTimestampMillis;
     /** Uses write barrier of {@link #status}. */
@@ -104,7 +104,7 @@ public class ExecutingQuery
             ClientConnectionInfo clientConnection,
             String username,
             String queryText,
-            MapValue queryParameters,
+            MapValue.MapWrappingMapValue queryParameters,
             Map<String,Object> transactionAnnotationData,
             LongSupplier activeLockCount,
             PageCursorCounters pageCursorCounters,
@@ -280,7 +280,7 @@ public class ExecutingQuery
         return planDescriptionSupplier;
     }
 
-    public MapValue queryParameters()
+    public MapValue.MapWrappingMapValue queryParameters()
     {
         return queryParameters;
     }

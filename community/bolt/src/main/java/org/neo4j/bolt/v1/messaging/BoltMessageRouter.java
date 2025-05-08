@@ -106,7 +106,7 @@ public class BoltMessageRouter implements BoltRequestMessageHandler
     }
 
     @Override
-    public void onRun( String statement, MapValue params )
+    public void onRun( String statement, MapValue.MapWrappingMapValue params )
     {
         messageLogger.logRun();
         connection.enqueue( session -> session.run( statement, params, runHandler ) );

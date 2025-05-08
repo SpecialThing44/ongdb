@@ -47,6 +47,6 @@ public interface TransactionalContextFactory
     TransactionalContext newContext( ClientConnectionInfo descriptor,
                   InternalTransaction tx,
                   String queryText,
-                  MapValue queryParameters
+                  MapValue.MapWrappingMapValue queryParameters
     );
 }

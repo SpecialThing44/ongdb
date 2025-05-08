@@ -78,7 +78,7 @@ public interface QueryRegistryOperations
      * Registers a query, and creates the ExecutingQuery object for it.
      */
     ExecutingQuery startQueryExecution(
-        ClientConnectionInfo descriptor, String queryText, MapValue queryParameters
+        ClientConnectionInfo descriptor, String queryText, MapValue.MapWrappingMapValue queryParameters
     );
 
     /**

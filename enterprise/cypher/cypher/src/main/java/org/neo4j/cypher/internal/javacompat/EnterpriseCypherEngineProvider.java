@@ -34,8 +34,10 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
-import org.neo4j.cypher.internal.CommunityCompatibilityFactory;
-import org.neo4j.cypher.internal.EnterpriseCompatibilityFactory;
+import org.neo4j.cypher.internal.CommunityCompilerFactory;
+import org.neo4j.cypher.internal.CypherConfiguration;
+import org.neo4j.cypher.internal.compatibility.CypherRuntimeConfiguration;
+import org.neo4j.cypher.internal.compiler.v3_5.CypherPlannerConfiguration;
 import org.neo4j.graphdb.DependencyResolver;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.helpers.Service;
@@ -73,32 +75,32 @@ public class EnterpriseCypherEngineProvider extends QueryEngineProvider
         Monitors monitors = resolver.resolveDependency( Monitors.class );
         Config config = resolver.resolveDependency( Config.class );
         LogProvider logProvider = logService.getInternalLogProvider();
-        CommunityCompatibilityFactory inner =
-                new CommunityCompatibilityFactory( queryService, monitors, logProvider );
+        CypherConfiguration cypherConfig = CypherConfiguration.fromConfig( config );
 
-        EnterpriseCompatibilityFactory compatibilityFactory =
-                new EnterpriseCompatibilityFactory( inner, queryService, monitors, logProvider );
-        deps.satisfyDependency( compatibilityFactory );
-        return createEngine( queryService, config, logProvider, compatibilityFactory );
+        CypherRuntimeConfiguration runtimeConfig = cypherConfig.toCypherRuntimeConfiguration();
+        CypherPlannerConfiguration plannerConfig = cypherConfig.toCypherPlannerConfiguration( config );
+        CommunityCompilerFactory compilerFactory =
+                new CommunityCompilerFactory( queryService, monitors, logProvider, plannerConfig, runtimeConfig );
+        return createEngine( queryService, config, logProvider, compilerFactory );
     }
 
     private QueryExecutionEngine createEngine( GraphDatabaseCypherService queryService, Config config,
-            LogProvider logProvider, EnterpriseCompatibilityFactory compatibilityFactory )
+            LogProvider logProvider, CommunityCompilerFactory compilerFactory )
     {
         return config.get( GraphDatabaseSettings.snapshot_query ) ?
-               snapshotEngine( queryService, config, logProvider, compatibilityFactory ) :
-               standardEngine( queryService, logProvider, compatibilityFactory );
+               snapshotEngine( queryService, config, logProvider, compilerFactory ) :
+               standardEngine( queryService, logProvider, compilerFactory );
     }
 
     private SnapshotExecutionEngine snapshotEngine( GraphDatabaseCypherService queryService, Config config,
-            LogProvider logProvider, EnterpriseCompatibilityFactory compatibilityFactory )
+            LogProvider logProvider, CommunityCompilerFactory compilerFactory )
     {
-        return new SnapshotExecutionEngine( queryService, config, logProvider, compatibilityFactory );
+        return new SnapshotExecutionEngine( queryService, config, logProvider, compilerFactory );
     }
 
     private ExecutionEngine standardEngine( GraphDatabaseCypherService queryService, LogProvider logProvider,
-            EnterpriseCompatibilityFactory compatibilityFactory )
+                                            CommunityCompilerFactory compilerFactory )
     {
-        return new ExecutionEngine( queryService, logProvider, compatibilityFactory );
+        return new ExecutionEngine( queryService, logProvider, compilerFactory );
     }
 }

@@ -93,7 +93,7 @@ public class BoltRequestMessageReader
                 break;
             case RUN:
                 String statement = unpacker.unpackString();
-                MapValue params = unpacker.unpackMap();
+                MapValue.MapWrappingMapValue params = unpacker.unpackMap();
                 handler.onRun( statement, params );
                 break;
             case DISCARD_ALL:
