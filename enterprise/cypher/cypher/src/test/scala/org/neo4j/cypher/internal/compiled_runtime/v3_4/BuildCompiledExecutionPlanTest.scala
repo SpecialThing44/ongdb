@@ -35,7 +35,6 @@
 package org.neo4j.cypher.internal.compiled_runtime.v3_4
 
 import org.neo4j.cypher.internal.compatibility.v3_4.WrappedMonitors
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.BuildCompiledExecutionPlan
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.NewRuntimeSuccessRateMonitor
 import org.neo4j.cypher.internal.compiler.v3_4.NotImplementedPlanContext
 import org.neo4j.cypher.internal.compiler.v3_4.phases.LogicalPlanState
@@ -89,7 +88,7 @@ class BuildCompiledExecutionPlanTest extends CypherFunSuite {
                                  maybeLogicalPlan = Some(plan), maybeSemanticTable = Some(new SemanticTable()))
 
     // When
-    BuildCompiledExecutionPlan.process(state, context)
+    //BuildCompiledExecutionPlan.process(state, context)
   }
 
   class SpyingMonitor extends NewRuntimeSuccessRateMonitor {

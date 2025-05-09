@@ -40,7 +40,7 @@ trait InternalExecutionResult extends QueryResult {
   def javaColumnAs[T](column: String): ResourceIterator[T]
   def javaIterator: ResourceIterator[java.util.Map[String, AnyRef]]
 
-  def dumpToString(writer: PrintWriter)
+  def dumpToString(writer: PrintWriter): Unit
   def dumpToString(): String
 
   override def queryStatistics(): QueryStatistics

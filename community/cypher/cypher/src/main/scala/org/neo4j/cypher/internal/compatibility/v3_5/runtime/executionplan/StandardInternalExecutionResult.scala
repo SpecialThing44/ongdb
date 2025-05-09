@@ -268,9 +268,6 @@ class StandardInternalExecutionResult(context: QueryContext,
     results.add(map)
   }
 
-  protected def createInner: util.Iterator[util.Map[String, Any]]
-
-
 }
 
 
@@ -280,11 +277,5 @@ object StandardInternalExecutionResult {
   trait IterateByAccepting {
 
     self: StandardInternalExecutionResult =>
-
-    override def createInner: util.Iterator[util.Map[String, Any]] = {
-      val list = new util.ArrayList[util.Map[String, Any]]()
-      if (isOpen) doInAccept(populateResults(list))
-      list.iterator()
-    }
   }
 }
