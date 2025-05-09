@@ -38,7 +38,6 @@ import java.util
 import java.util.Comparator
 import java.util.function.Consumer
 import java.util.stream.{DoubleStream, IntStream, LongStream}
-
 import org.neo4j.codegen.ExpressionTemplate._
 import org.neo4j.codegen.MethodDeclaration.Builder
 import org.neo4j.codegen.MethodReference._
@@ -51,8 +50,8 @@ import org.neo4j.cypher.internal.javacompat.ResultRowImpl
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, QueryContext, QueryTransactionalContext}
 import Methods.{newNodeProxyById, newRelationshipProxyById}
+import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
 import org.neo4j.cypher.internal.v3_5.util.CypherExecutionException
-import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
 import org.neo4j.graphdb.{Direction, Node, Relationship}
 import org.neo4j.internal.kernel.api._
 import org.neo4j.internal.kernel.api.exceptions.{EntityNotFoundException, KernelException}

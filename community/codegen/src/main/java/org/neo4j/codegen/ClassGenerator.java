@@ -140,25 +140,25 @@ public class ClassGenerator implements AutoCloseable
         return generate( constructor( handle, parameters,/*throws:*/NO_TYPES, modifiers, NO_PARAMETERS ) );
     }
 
-    public CodeBlock generateMethod( Class<?> returnType, String name, Parameter... parameters )
-    {
-        return generateMethod( typeReference( returnType ), name, Modifier.PUBLIC, parameters );
-    }
-
-    public CodeBlock generateMethod( Class<?> returnType, String name, int modifiers, Parameter... parameters )
-    {
-        return generateMethod( typeReference( returnType ), name, modifiers, parameters );
-    }
+//    public CodeBlock generateMethod( Class<?> returnType, String name, Parameter... parameters )
+//    {
+//        return generateMethod( typeReference( returnType ), name, Modifier.PUBLIC, parameters );
+//    }
+//
+//    public CodeBlock generateMethod( Class<?> returnType, String name, int modifiers, Parameter... parameters )
+//    {
+//        return generateMethod( typeReference( returnType ), name, modifiers, parameters );
+//    }
 
     public CodeBlock generateMethod( TypeReference returnType, String name, Parameter... parameters )
     {
         return generate( method( handle, returnType, name, parameters,/*throws:*/NO_TYPES, Modifier.PUBLIC, NO_PARAMETERS ) );
     }
 
-    public CodeBlock generateMethod( TypeReference returnType, String name, int modifiers, Parameter... parameters )
-    {
-        return generate( method( handle, returnType, name, parameters,/*throws:*/NO_TYPES, modifiers, NO_PARAMETERS ) );
-    }
+//    public CodeBlock generateMethod( TypeReference returnType, String name, int modifiers, Parameter... parameters )
+//    {
+//        return generate( method( handle, returnType, name, parameters,/*throws:*/NO_TYPES, modifiers, NO_PARAMETERS ) );
+//    }
 
     public CodeBlock generate( MethodDeclaration.Builder builder )
     {

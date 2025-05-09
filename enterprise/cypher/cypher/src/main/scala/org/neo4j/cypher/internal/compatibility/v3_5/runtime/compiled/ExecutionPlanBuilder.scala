@@ -38,12 +38,12 @@ import org.neo4j.cypher.internal.PlanFingerprint
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.CompiledRuntimeName
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.ExecutionPlanBuilder.DescriptionProvider
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{PeriodicCommitInfo, Provider}
-import org.neo4j.cypher.internal.frontend.v3_4.PlannerName
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, InternalExecutionResult, ProfileMode, QueryContext}
 import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
 import org.neo4j.cypher.internal.v3_5.codegen.profiling.ProfilingTracer
+import org.neo4j.cypher.internal.v3_5.frontend.PlannerName
 import org.neo4j.cypher.internal.v3_5.logical.plans.IndexUsage
 import org.neo4j.cypher.internal.v3_5.util.TaskCloser
 import org.neo4j.values.virtual.MapValue

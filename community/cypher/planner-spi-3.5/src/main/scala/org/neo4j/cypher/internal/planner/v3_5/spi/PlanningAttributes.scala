@@ -28,6 +28,7 @@ object PlanningAttributes {
   class Solveds extends Attribute[PlannerQuery]
   class Cardinalities extends Attribute[Cardinality]
   class ProvidedOrders extends Attribute[ProvidedOrder]
+  class ReadOnlies extends Attribute[Boolean]
 }
 
 case class PlanningAttributes(solveds: Solveds, cardinalities: Cardinalities, providedOrders: ProvidedOrders) {

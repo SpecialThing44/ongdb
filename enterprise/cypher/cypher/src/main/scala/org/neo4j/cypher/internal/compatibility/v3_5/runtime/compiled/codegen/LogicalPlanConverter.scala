@@ -34,15 +34,19 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen
 
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.{ir, spi}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions.ExpressionConverter.createExpression
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.aggregation.AggregationConverter.aggregateExpressionConverter
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.aggregation.Distinct
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions._
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.SortItem
 import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
-import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.Cardinalities
+import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes
 import org.neo4j.cypher.internal.v3_5.expressions.{Expression, FunctionInvocation}
 import org.neo4j.cypher.internal.v3_5.{expressions => ast}
 import org.neo4j.cypher.internal.v3_5.expressions.{functions => ast_functions}
 import org.neo4j.cypher.internal.v3_5.logical.plans
-import org.neo4j.cypher.internal.v3_5.logical.plans.ColumnOrder
+import org.neo4j.cypher.internal.v3_5.logical.plans.{ColumnOrder}
 import org.neo4j.cypher.internal.v3_5.util.Eagerly.immutableMapValues
 import org.neo4j.cypher.internal.v3_5.util.Foldable._
 import org.neo4j.cypher.internal.v3_5.util.{InternalException, One, ZeroOneOrMany, symbols}
@@ -85,12 +89,13 @@ object LogicalPlanConverter {
   }
 
   private def argumentAsCodeGenPlan(argument: plans.Argument) = new CodeGenPlan with LeafCodeGenPlan {
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+
+    override val logicalPlan: plans.LogicalPlan = argument
+
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val (methodHandle, actions) = context.popParent().consume(context, this, cardinalities)
       (methodHandle, actions)
     }
-
-    override val logicalPlan: plans.LogicalPlan = argument
   }
 
   private def hasLimit(p: plans.LogicalPlan) = p.treeExists {
@@ -112,12 +117,12 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.Projection = projection
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       context.pushParent(this)
       asCodeGenPlan(projection.lhs.get).produce(context, cardinalities)
     }
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val projectionOpName = context.registerOperator(projection)
       val columns = immutableMapValues(projection.expressions,
                                        (e: ast.Expression) => ExpressionConverter.createExpression(e)(context))
@@ -147,12 +152,12 @@ object LogicalPlanConverter {
 
     override val logicalPlan = produceResults
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities) = {
       context.pushParent(this)
       asCodeGenPlan(produceResults.lhs.get).produce(context, cardinalities)
     }
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities) = {
       val produceResultOpName = context.registerOperator(produceResults)
       val projections = produceResults.columns.map(c =>
                                                      c -> ExpressionConverter
@@ -165,7 +170,7 @@ object LogicalPlanConverter {
   private def allNodesScanAsCodeGenPlan(allNodesScan: plans.AllNodesScan) = new CodeGenPlan with LeafCodeGenPlan {
     override val logicalPlan: plans.LogicalPlan = allNodesScan
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val variable = Variable(context.namer.newVarName(), CodeGenType.primitiveNode)
       context.addVariable(allNodesScan.idName, variable)
       val (methodHandle, actions :: tl) = context.popParent().consume(context, this, cardinalities)
@@ -177,7 +182,7 @@ object LogicalPlanConverter {
   private def nodeByLabelScanAsCodeGenPlan(nodeByLabelScan: plans.NodeByLabelScan) = new CodeGenPlan with LeafCodeGenPlan {
     override val logicalPlan: plans.LogicalPlan = nodeByLabelScan
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val nodeVar = Variable(context.namer.newVarName(), CodeGenType.primitiveNode)
       val labelVar = context.namer.newVarName()
       context.addVariable(nodeByLabelScan.idName, nodeVar)
@@ -196,7 +201,7 @@ object LogicalPlanConverter {
     new CodeGenPlan with LeafCodeGenPlan {
       override val logicalPlan: plans.LogicalPlan = indexSeek
 
-      override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+      override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
         val nodeVar = Variable(context.namer.newVarName(), CodeGenType.primitiveNode)
         context.addVariable(idName, nodeVar)
 
@@ -234,7 +239,7 @@ object LogicalPlanConverter {
   private def nodeByIdSeekAsCodeGenPlan(seek: plans.NodeByIdSeek) = new CodeGenPlan with LeafCodeGenPlan {
     override val logicalPlan: plans.LogicalPlan = seek
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val nodeVar = Variable(context.namer.newVarName(), CodeGenType.primitiveNode)
       context.addVariable(seek.idName, nodeVar)
       val (methodHandle, actions :: tl) = context.popParent().consume(context, this, cardinalities)
@@ -287,7 +292,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.LogicalPlan = nodeHashJoin
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       context.pushParent(this)
       val (Some(symbol), leftInstructions) = asCodeGenPlan(logicalPlan.lhs.get).produce(context, cardinalities)
       val opName = context.registerOperator(logicalPlan)
@@ -298,7 +303,7 @@ object LogicalPlanConverter {
       (otherSymbol, lhsMethod :: rightInstructions)
     }
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities) = {
       if (child.logicalPlan eq logicalPlan.lhs.get) {
         val joinNodes = nodeHashJoin.nodes.map(n => context.getVariable(n))
         val probeTableName = context.namer.newVarName()
@@ -340,7 +345,7 @@ object LogicalPlanConverter {
 
     override def consume(context: CodeGenContext,
                          child: CodeGenPlan,
-                         cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = expand
+                         cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = expand
       .mode match {
       case plans.ExpandAll => expandAllConsume(context, child, cardinalities)
       case plans.ExpandInto => expandIntoConsume(context, child, cardinalities)
@@ -348,7 +353,7 @@ object LogicalPlanConverter {
 
     private def expandAllConsume(context: CodeGenContext,
                                  child: CodeGenPlan,
-                                 cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+                                 cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val relVar = Variable(context.namer.newVarName(), CodeGenType.primitiveRel)
       val fromNodeVar = context.getVariable(expand.from)
       val toNodeVar = Variable(context.namer.newVarName(), CodeGenType.primitiveNode)
@@ -366,7 +371,7 @@ object LogicalPlanConverter {
 
     private def expandIntoConsume(context: CodeGenContext,
                                   child: CodeGenPlan,
-                                  cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+                                  cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val relVar = Variable(context.namer.newVarName(), CodeGenType.primitiveRel)
       context.addVariable(expand.relName, relVar)
       val fromNodeVar = context.getVariable(expand.from)
@@ -386,12 +391,12 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.LogicalPlan = cartesianProduct
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       context.pushParent(this)
       asCodeGenPlan(cartesianProduct.lhs.get).produce(context, cardinalities)
     }
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       if (child.logicalPlan eq cartesianProduct.lhs.get) {
         context.pushParent(this)
         val (m, actions) = asCodeGenPlan(cartesianProduct.rhs.get).produce(context, cardinalities)
@@ -412,7 +417,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.LogicalPlan = selection
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val opName = context.registerOperator(selection)
       val predicates = selection.predicates.map(
         ExpressionConverter.createPredicate(_)(context)
@@ -432,7 +437,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.LogicalPlan = limit
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val opName = context.registerOperator(limit)
       val count = createExpression(limit.count)(context)
       val counterName = context.namer.newVarName()
@@ -448,7 +453,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.LogicalPlan = skip
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val opName = context.registerOperator(skip)
       val numberToSkip = createExpression(skip.count)(context)
       val counterName = context.namer.newVarName()
@@ -464,7 +469,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.LogicalPlan = aggregation
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       implicit val codeGenContext = context
       val opName = context.registerOperator(aggregation)
       val groupingVariables = aggregation.groupingExpressions.map {
@@ -502,7 +507,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.LogicalPlan = distinct
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       implicit val codeGenContext = context
       val opName = context.registerOperator(distinct)
       val groupingVariables = distinct.groupingExpressions.map {
@@ -532,7 +537,7 @@ object LogicalPlanConverter {
   private def nodeCountFromCountStore(nodeCount: plans.NodeCountFromCountStore) = new CodeGenPlan with LeafCodeGenPlan {
     override val logicalPlan: plans.LogicalPlan = nodeCount
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val variable = Variable(context.namer.newVarName(), CodeGenType.primitiveInt)
       context.addVariable(nodeCount.idName, variable)
 
@@ -551,7 +556,7 @@ object LogicalPlanConverter {
   private def relCountFromCountStore(relCount: plans.RelationshipCountFromCountStore) = new CodeGenPlan with LeafCodeGenPlan {
     override val logicalPlan: plans.LogicalPlan = relCount
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val variable = Variable(context.namer.newVarName(), CodeGenType.primitiveInt)
       context.addVariable(relCount.idName, variable)
 
@@ -574,7 +579,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan: plans.UnwindCollection = unwind
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities) = {
       val collection: CodeGenExpression = ExpressionConverter.createExpression(unwind.expression)(context)
 
       // TODO: Handle range
@@ -614,12 +619,12 @@ object LogicalPlanConverter {
   private def applyAsCodeGenPlan(apply: plans.Apply) = new CodeGenPlan {
     override val logicalPlan: plans.LogicalPlan = apply
 
-    override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       context.pushParent(this)
       asCodeGenPlan(apply.lhs.get).produce(context, cardinalities)
     }
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       if (child.logicalPlan eq apply.lhs.get) {
         context.pushParent(this)
         val (m, actions) = asCodeGenPlan(apply.rhs.get).produce(context, cardinalities)
@@ -640,7 +645,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan = sort
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities) = {
       val opName = context.registerOperator(logicalPlan)
 
       val (variablesToKeep: Map[String, Variable],
@@ -669,7 +674,7 @@ object LogicalPlanConverter {
 
     override val logicalPlan = top
 
-    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: Cardinalities) = {
+    override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities) = {
       val opName = context.registerOperator(logicalPlan)
 
       val (variablesToKeep: Map[String, Variable],
@@ -724,7 +729,7 @@ object LogicalPlanConverter {
 
   trait SingleChildPlan extends CodeGenPlan {
 
-    final override def produce(context: CodeGenContext, cardinalities: Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
+    final override def produce(context: CodeGenContext, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       context.pushParent(this)
       asCodeGenPlan(logicalPlan.lhs.get).produce(context, cardinalities)
     }

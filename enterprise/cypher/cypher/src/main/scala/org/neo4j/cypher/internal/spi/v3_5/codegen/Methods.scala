@@ -35,7 +35,6 @@
 package org.neo4j.cypher.internal.spi.v3_5.codegen
 
 import java.util
-
 import org.neo4j.codegen.MethodReference
 import org.neo4j.collection.primitive.{PrimitiveLongIntMap, PrimitiveLongIterator}
 import org.neo4j.cypher.internal.codegen.CompiledConversionUtils.CompositeKey
@@ -43,7 +42,7 @@ import org.neo4j.cypher.internal.codegen._
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.QueryExecutionEvent
 import org.neo4j.cypher.internal.javacompat.ResultRecord
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
-import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
+import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
 import org.neo4j.cypher.result.QueryResult.{QueryResultVisitor, Record}
 import org.neo4j.graphdb.Direction
 import org.neo4j.helpers.collection.MapUtil

@@ -21,7 +21,6 @@ package org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan
 
 import java.io.PrintWriter
 import java.util
-
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime._
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.helpers.MapBasedRow
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.profiler.PlanDescriptionBuilder
@@ -45,7 +44,7 @@ class StandardInternalExecutionResult(context: QueryContext,
                                       override val queryType: InternalQueryType,
                                       override val executionMode: ExecutionMode,
                                       planDescriptionBuilder: PlanDescriptionBuilder)
-  extends InternalExecutionResult {
+  extends InternalExecutionResult with Completable {
 
   self =>
 
@@ -88,6 +87,10 @@ class StandardInternalExecutionResult(context: QueryContext,
    */
 
   protected def isOpen: Boolean = !isClosed
+
+  override def completed(success: Boolean): Unit = {
+    taskCloser.close(success = success)
+  }
 
   override def isClosed: Boolean = taskCloser.isClosed
 
@@ -148,7 +151,7 @@ class StandardInternalExecutionResult(context: QueryContext,
       map
     }
 
-    def remove(): Unit = throw new UnsupportedOperationException("remove")
+    override def remove(): Unit = throw new UnsupportedOperationException("remove")
 
     def close(): Unit = self.close()
   }
@@ -245,4 +248,43 @@ class StandardInternalExecutionResult(context: QueryContext,
   }
 
   override def notifications: Iterable[Notification] = Set.empty
+
+  protected def doInAccept[T](body: ResultRow => T): Unit = {
+    if (isOpen) {
+      accept(new ResultVisitor[RuntimeException] {
+        override def visit(row: ResultRow): Boolean = {
+          body(row)
+          true
+        }
+      })
+    } else {
+      throw new IllegalStateException("Unable to accept visitors after resources have been closed.")
+    }
+  }
+
+  protected def populateResults(results: util.List[util.Map[String, Any]])(row: ResultRow): Boolean = {
+    val map = new util.HashMap[String, Any]()
+    fieldNames().foreach(c => map.put(c, row.get(c)))
+    results.add(map)
+  }
+
+  protected def createInner: util.Iterator[util.Map[String, Any]]
+
+
+}
+
+
+object StandardInternalExecutionResult {
+
+  // Accept and pull into memory when iterating
+  trait IterateByAccepting {
+
+    self: StandardInternalExecutionResult =>
+
+    override def createInner: util.Iterator[util.Map[String, Any]] = {
+      val list = new util.ArrayList[util.Map[String, Any]]()
+      if (isOpen) doInAccept(populateResults(list))
+      list.iterator()
+    }
+  }
 }

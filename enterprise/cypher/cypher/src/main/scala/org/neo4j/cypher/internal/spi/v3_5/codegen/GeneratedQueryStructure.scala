@@ -36,7 +36,6 @@ package org.neo4j.cypher.internal.spi.v3_5.codegen
 
 import java.lang.reflect.Modifier
 import java.util.stream.{DoubleStream, IntStream, LongStream}
-
 import org.neo4j.codegen.Expression.{constant, invoke, newArray, newInstance}
 import org.neo4j.codegen.MethodReference.{constructorReference, methodReference}
 import org.neo4j.codegen.TypeReference._
@@ -46,7 +45,7 @@ import org.neo4j.codegen.source.{SourceCode, SourceVisitor}
 import org.neo4j.codegen.{CodeGenerator, _}
 import org.neo4j.cypher.internal.codegen.{PrimitiveNodeStream, PrimitiveRelationshipStream}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen._
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions.{AnyValueType, BoolType, CodeGenType, CypherCodeGenType, FloatType, ListReferenceType, LongType}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.{CodeStructure, CodeStructureResult, MethodStructure}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{Completable, Provider}
 import org.neo4j.cypher.internal.frontend.v3_4.helpers.using
@@ -55,8 +54,8 @@ import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, QueryContext}
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 import org.neo4j.cypher.internal.v3_5.util.symbols
-import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
-import org.neo4j.cypher.internal.v3_4.executionplan.{GeneratedQuery, GeneratedQueryExecution}
+import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
+import org.neo4j.cypher.internal.v3_5.executionplan.{GeneratedQuery, GeneratedQueryExecution}
 import org.neo4j.cypher.result.QueryResult.QueryResultVisitor
 import org.neo4j.internal.kernel.api._
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI

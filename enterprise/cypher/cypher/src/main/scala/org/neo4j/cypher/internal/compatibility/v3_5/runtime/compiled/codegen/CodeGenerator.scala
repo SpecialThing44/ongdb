@@ -34,21 +34,23 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen
 
+import org.neo4j.cypher.internal.PlanFingerprint
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.CompiledRuntimeName
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.ExecutionPlanBuilder.DescriptionProvider
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.Instruction
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.{CodeStructure, CodeStructureResult}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.{CompiledExecutionResult, CompiledPlan, RunnablePlan}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.Provider
-import org.neo4j.cypher.internal.compiler.v3_4.planner.CantCompileQueryException
-import org.neo4j.cypher.internal.frontend.v3_4.PlannerName
-import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
-import org.neo4j.cypher.internal.planner.v3_4.spi.PlanningAttributes.{Cardinalities, ReadOnlies}
-import org.neo4j.cypher.internal.planner.v3_4.spi.{InstrumentedGraphStatistics, PlanContext}
+import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
+import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.{Cardinalities, ProvidedOrders, ReadOnlies}
+import org.neo4j.cypher.internal.planner.v3_5.spi.{InstrumentedGraphStatistics, PlanContext}
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments.{Runtime, RuntimeImpl}
 import org.neo4j.cypher.internal.runtime.planDescription.{InternalPlanDescription, LogicalPlan2PlanDescription}
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, InternalExecutionResult, QueryContext}
-import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
-import org.neo4j.cypher.internal.v3_4.executionplan.{GeneratedQuery, GeneratedQueryExecution}
+import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
+import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
+import org.neo4j.cypher.internal.v3_5.executionplan.{GeneratedQuery, GeneratedQueryExecution}
+import org.neo4j.cypher.internal.v3_5.frontend.PlannerName
 import org.neo4j.cypher.internal.v3_5.logical.plans.{LogicalPlan, ProduceResult}
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 import org.neo4j.cypher.internal.v3_5.util.{Eagerly, TaskCloser}
@@ -64,7 +66,7 @@ class CodeGenerator(val structure: CodeStructure[GeneratedQuery], clock: Clock, 
   type PlanDescriptionProvider =
           (InternalPlanDescription) => (Provider[InternalPlanDescription], Option[QueryExecutionTracer])
 
-  def generate(plan: LogicalPlan, planContext: PlanContext, semanticTable: SemanticTable, plannerName: PlannerName, readOnlies: ReadOnlies, cardinalities: Cardinalities): CompiledPlan = {
+  def generate(plan: LogicalPlan, planContext: PlanContext, semanticTable: SemanticTable, plannerName: PlannerName, readOnlies: ReadOnlies, cardinalities: Cardinalities, providedOrders: ProvidedOrders): CompiledPlan = {
     plan match {
       case res: ProduceResult =>
         val query: CodeStructureResult[GeneratedQuery] = try {
@@ -83,7 +85,7 @@ class CodeGenerator(val structure: CodeStructure[GeneratedQuery], clock: Clock, 
 
         val description = new Provider[InternalPlanDescription] {
           override def get(): InternalPlanDescription = {
-            val d = LogicalPlan2PlanDescription(plan, plannerName, readOnlies, cardinalities)
+            val d = LogicalPlan2PlanDescription(plan, plannerName, readOnlies.get(plan.id), cardinalities, providedOrders)
             query.code.foldLeft(d) {
               case (descriptionRoot, code) => descriptionRoot.addArgument(code)
             }.addArgument(Runtime(CompiledRuntimeName.toTextOutput))

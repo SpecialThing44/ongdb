@@ -39,10 +39,10 @@ import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{Provi
 import org.neo4j.cypher.internal.runtime._
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments.{Runtime, RuntimeImpl}
-import org.neo4j.cypher.internal.v3_4.executionplan.GeneratedQueryExecution
+import org.neo4j.cypher.internal.v3_5.executionplan.GeneratedQueryExecution
 import org.neo4j.cypher.internal.v3_5.util.{ProfilerStatisticsNotReadyException, TaskCloser}
 import org.neo4j.cypher.result.QueryResult.QueryResultVisitor
-import org.neo4j.graphdb.Notification
+import org.neo4j.graphdb.{Notification, Result}
 
 /**
   * Main class for compiled execution results, implements everything in InternalExecutionResult
