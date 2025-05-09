@@ -249,6 +249,10 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.neo4j</groupId>
+                    <artifactId>neo4j-graphdb-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.neo4j</groupId>
                     <artifactId>neo4j-graph-algo</artifactId>
                 </exclusion>
                 <exclusion>

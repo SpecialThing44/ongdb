@@ -53,20 +53,20 @@ class CompiledExecutionResult(taskCloser: TaskCloser,
                               compiledCode: GeneratedQueryExecution,
                               description: Provider[InternalPlanDescription],
                               notifications: Iterable[Notification] = Iterable.empty)
-  extends StandardInternalExecutionResult(context, CompiledRuntimeName, Some(taskCloser))
+  extends StandardInternalExecutionResult(context, CompiledRuntimeName, null, taskCloser, null, null, null)
     with StandardInternalExecutionResult.IterateByAccepting {
 
   compiledCode.setCompletable(this)
 
   // *** Delegate to compiled code
-  def executionMode: ExecutionMode = compiledCode.executionMode()
+  override val executionMode: ExecutionMode = compiledCode.executionMode()
 
   override def fieldNames(): Array[String] = compiledCode.fieldNames()
 
   override def accept[EX <: Exception](visitor: QueryResultVisitor[EX]): Unit =
     compiledCode.accept(visitor)
 
-  override def executionPlanDescription(): InternalPlanDescription = {
+  override lazy val executionPlanDescription: InternalPlanDescription = {
     if (!taskCloser.isClosed && executionMode == ProfileMode) {
       completed(success = false)
       throw new ProfilerStatisticsNotReadyException
@@ -80,8 +80,8 @@ class CompiledExecutionResult(taskCloser: TaskCloser,
   override def queryStatistics() = QueryStatistics()
 
   //TODO delegate to compiled code once writes are being implemented
-  override def queryType: InternalQueryType = READ_ONLY
+  override val queryType: InternalQueryType = READ_ONLY
 
-  override def withNotifications(notification: Notification*): InternalExecutionResult =
+   def withNotifications(notification: Notification*): InternalExecutionResult =
     new CompiledExecutionResult(taskCloser, context, compiledCode, description, notification)
 }
