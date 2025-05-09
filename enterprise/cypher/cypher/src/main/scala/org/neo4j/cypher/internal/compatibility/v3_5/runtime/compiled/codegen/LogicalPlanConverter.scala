@@ -124,9 +124,9 @@ object LogicalPlanConverter {
 
     override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val projectionOpName = context.registerOperator(projection)
-      val columns = immutableMapValues(projection.expressions,
+      val columns = immutableMapValues(projection.projectExpressions,
                                        (e: ast.Expression) => ExpressionConverter.createExpression(e)(context))
-      context.retainProjectedVariables(projection.expressions.keySet)
+      context.retainProjectedVariables(projection.projectExpressions.keySet)
       val vars = columns.collect {
         case (name, expr) if !context.hasVariable(name) =>
           val variable = Variable(context.namer.newVarName(), expr.codeGenType(context), expr.nullable(context))
@@ -273,7 +273,7 @@ object LogicalPlanConverter {
   private def nodeIndexSeekAsCodeGenPlan(indexSeek: plans.NodeIndexSeek) = {
     def indexSeekFun(opName: String, descriptorVar: String, expression: CodeGenExpression,
                      nodeVar: Variable, actions: Instruction) =
-      WhileLoop(nodeVar, IndexSeek(opName, indexSeek.label.name, indexSeek.propertyKeys.map(_.name),
+      WhileLoop(nodeVar, IndexSeek(opName, indexSeek.label.name, indexSeek.properties.map(_.propertyKeyToken.name),
                                    descriptorVar, expression), actions)
 
     sharedIndexSeekAsCodeGenPlan(indexSeekFun)(indexSeek.idName, indexSeek.valueExpr, indexSeek)
@@ -282,7 +282,7 @@ object LogicalPlanConverter {
   private def nodeUniqueIndexSeekAsCodeGen(indexSeek: plans.NodeUniqueIndexSeek) = {
     def indexSeekFun(opName: String, descriptorVar: String, expression: CodeGenExpression,
                      nodeVar: Variable, actions: Instruction) =
-      WhileLoop(nodeVar, IndexSeek(opName, indexSeek.label.name, indexSeek.propertyKeys.map(_.name),
+      WhileLoop(nodeVar, IndexSeek(opName, indexSeek.label.name, indexSeek.properties.map(_.propertyKeyToken.name),
                                    descriptorVar, expression), actions)
 
     sharedIndexSeekAsCodeGenPlan(indexSeekFun)(indexSeek.idName, indexSeek.valueExpr, indexSeek)
@@ -419,9 +419,9 @@ object LogicalPlanConverter {
 
     override def consume(context: CodeGenContext, child: CodeGenPlan, cardinalities: PlanningAttributes.Cardinalities): (Option[JoinTableMethod], List[Instruction]) = {
       val opName = context.registerOperator(selection)
-      val predicates = selection.predicates.map(
+      val predicates = selection.predicate.exprs.map(
         ExpressionConverter.createPredicate(_)(context)
-      )
+      ).toSeq
 
       val (methodHandle, innerBlock :: tl) = context.popParent().consume(context, this, cardinalities)
 
