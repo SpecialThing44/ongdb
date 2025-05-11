@@ -44,7 +44,7 @@ import java.util.function.IntPredicate;
 import org.neo4j.cursor.Cursor;
 import org.neo4j.io.pagecache.PageCursor;
 import org.neo4j.kernel.api.AssertOpen;
-import org.neo4j.kernel.api.exceptions.index.IndexNotFoundKernelException;
+import org.neo4j.internal.kernel.api.exceptions.schema.IndexNotFoundKernelException;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.impl.locking.Lock;
 import org.neo4j.kernel.impl.store.InvalidRecordException;

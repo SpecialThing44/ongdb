@@ -41,7 +41,7 @@ package org.neo4j.kernel.impl.api.index;
 import org.neo4j.collection.primitive.PrimitiveIntSet;
 import org.neo4j.function.ThrowingFunction;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
-import org.neo4j.kernel.api.exceptions.index.IndexNotFoundKernelException;
+import org.neo4j.internal.kernel.api.exceptions.schema.IndexNotFoundKernelException;
 import org.neo4j.kernel.api.schema.constaints.IndexBackedConstraintDescriptor;
 import org.neo4j.storageengine.api.EntityType;
 import org.neo4j.values.storable.Value;

@@ -41,7 +41,7 @@ package org.neo4j.kernel.impl.api.index.sampling;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.neo4j.kernel.api.exceptions.index.IndexNotFoundKernelException;
+import org.neo4j.internal.kernel.api.exceptions.schema.IndexNotFoundKernelException;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptorFactory;
 import org.neo4j.kernel.impl.api.index.IndexProxy;

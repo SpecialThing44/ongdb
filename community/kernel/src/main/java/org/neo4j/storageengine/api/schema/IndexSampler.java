@@ -40,7 +40,7 @@ package org.neo4j.storageengine.api.schema;
 
 import java.io.Closeable;
 
-import org.neo4j.kernel.api.exceptions.index.IndexNotFoundKernelException;
+import org.neo4j.internal.kernel.api.exceptions.schema.IndexNotFoundKernelException;
 
 /**
  * Component able to sample schema index.
