@@ -93,7 +93,7 @@ public class IndexDescriptor implements SchemaDescriptorSupplier, IndexReference
 
     @Override
     public int label() {
-        return 0;
+        return schema.keyId();
     }
 
     @Override
