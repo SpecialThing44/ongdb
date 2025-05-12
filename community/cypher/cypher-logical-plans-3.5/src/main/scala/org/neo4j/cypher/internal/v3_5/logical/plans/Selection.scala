@@ -41,12 +41,13 @@ case class Selection(predicate: Ands,
 
   val availableSymbols: Set[String] = source.availableSymbols
 
-  override def dup(children: Seq[AnyRef]): this.type = { 
-    val constructor = Rewritable.copyConstructor(this)
-    val ctorArgs = children.toVector
-    val duped = constructor.invoke(this, ctorArgs: _*)
-    duped.asInstanceOf[self.type]
-  }
+//  override def dup(children: Seq[AnyRef]): this.type = {
+//    println("SelectionDUP")
+//    val constructor = Rewritable.copyConstructor(this)
+//    val ctorArgs = children.toVector
+//    val duped = constructor.invoke(this, ctorArgs: _*)
+//    duped.asInstanceOf[self.type]
+//  }
 }
 
 object Selection {
