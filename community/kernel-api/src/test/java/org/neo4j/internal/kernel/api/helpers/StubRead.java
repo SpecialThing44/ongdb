@@ -51,11 +51,12 @@ import org.neo4j.internal.kernel.api.RelationshipScanCursor;
 import org.neo4j.internal.kernel.api.RelationshipTraversalCursor;
 import org.neo4j.internal.kernel.api.Scan;
 import org.neo4j.internal.kernel.api.exceptions.KernelException;
+import org.neo4j.values.storable.Value;
 
 public class StubRead implements Read
 {
     @Override
-    public void nodeIndexSeek( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder,
+    public void nodeIndexSeek( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder, boolean needsValues,
             IndexQuery... query )
     {
         throw new UnsupportedOperationException();
@@ -75,7 +76,7 @@ public class StubRead implements Read
     }
 
     @Override
-    public void nodeIndexScan( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder )
+    public void nodeIndexScan( IndexReference index, NodeValueIndexCursor cursor, IndexOrder indexOrder, boolean needsValues )
     {
         throw new UnsupportedOperationException();
     }
@@ -126,6 +127,11 @@ public class StubRead implements Read
     public boolean nodeExists( long id )
     {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Value nodePropertyChangeInTransactionOrNull(long node, int propertyKeyId) {
+        return null;
     }
 
     @Override
@@ -222,6 +228,16 @@ public class StubRead implements Read
     public void relationshipProperties( long relationshipReference, long reference, PropertyCursor cursor )
     {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean nodeDeletedInTransaction(long node) {
+        return false;
+    }
+
+    @Override
+    public boolean relationshipDeletedInTransaction(long relationship) {
+        return false;
     }
 
     @Override

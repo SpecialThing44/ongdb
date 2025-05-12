@@ -83,7 +83,7 @@ public abstract class NodeIndexTransactionStateTestBase<G extends KernelAPIWrite
             CapableIndexReference index = tx.schemaRead().index( label, prop );
             try ( NodeValueIndexCursor nodes = tx.cursors().allocateNodeValueIndexCursor() )
             {
-                tx.dataRead().nodeIndexSeek( index, nodes, IndexOrder.NONE, IndexQuery.stringSuffix( prop, "suff" ) );
+                tx.dataRead().nodeIndexSeek( index, nodes, IndexOrder.NONE, false, IndexQuery.stringSuffix( prop, "suff" ) );
                 PrimitiveLongSet found = Primitive.longSet();
                 while ( nodes.next() )
                 {
@@ -119,7 +119,7 @@ public abstract class NodeIndexTransactionStateTestBase<G extends KernelAPIWrite
             CapableIndexReference index = tx.schemaRead().index( label, prop );
             try ( NodeValueIndexCursor nodes = tx.cursors().allocateNodeValueIndexCursor() )
             {
-                tx.dataRead().nodeIndexSeek( index, nodes, IndexOrder.NONE, IndexQuery.stringContains( prop, "me" ) );
+                tx.dataRead().nodeIndexSeek( index, nodes, IndexOrder.NONE, false, IndexQuery.stringContains( prop, "me" ) );
                 PrimitiveLongSet found = Primitive.longSet();
                 while ( nodes.next() )
                 {

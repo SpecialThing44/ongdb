@@ -114,6 +114,11 @@ public class StubNodeCursor implements NodeCursor
     }
 
     @Override
+    public boolean hasLabel(int label) {
+        return offset >= 0 && offset < nodes.size() && nodes.get(offset).labelSet().contains(label);
+    }
+
+    @Override
     public boolean hasProperties()
     {
         return (offset >= 0 && offset < nodes.size()) && !nodes.get( offset ).properties.isEmpty();
