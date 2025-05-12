@@ -718,7 +718,7 @@ public abstract class NativeSchemaIndexAccessorTest<KEY extends NativeSchemaKey<
         IndexQuery.ExactPredicate filter = IndexQuery.exact( 0, valueOf( updates[1]) );
         IndexQuery rangeQuery = layoutUtil.rangeQuery( valueOf( updates[0] ), true, valueOf( updates[2] ), true );
         IndexProgressor.NodeValueClient filterClient = filterClient( iter, filter );
-        reader.query( filterClient, IndexOrder.NONE, rangeQuery );
+        reader.query( filterClient, IndexOrder.NONE, false, rangeQuery );
 
         // then
         assertTrue( iter.hasNext() );
@@ -783,7 +783,7 @@ public abstract class NativeSchemaIndexAccessorTest<KEY extends NativeSchemaKey<
     private PrimitiveLongIterator query( IndexReader reader, IndexQuery query ) throws IndexNotApplicableKernelException
     {
         NodeValueIterator client = new NodeValueIterator();
-        reader.query( client, IndexOrder.NONE, query );
+        reader.query( client, IndexOrder.NONE, false, query );
         return client;
     }
 

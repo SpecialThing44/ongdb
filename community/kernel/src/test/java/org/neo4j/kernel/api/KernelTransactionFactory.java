@@ -67,6 +67,7 @@ import org.neo4j.kernel.impl.newapi.DefaultCursors;
 import org.neo4j.kernel.impl.proc.Procedures;
 import org.neo4j.kernel.impl.transaction.TransactionHeaderInformationFactory;
 import org.neo4j.kernel.impl.transaction.TransactionMonitor;
+import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.resources.CpuClock;
 import org.neo4j.resources.HeapAllocation;
 import org.neo4j.storageengine.api.StorageEngine;
@@ -127,7 +128,7 @@ public class KernelTransactionFactory
                 PageCursorTracerSupplier.NULL,
                 storageEngine, new CanWrite(), new DefaultCursors(), AutoIndexing.UNSUPPORTED,
                 mock( ExplicitIndexStore.class ), EmptyVersionContextSupplier.EMPTY, ON_HEAP, new StandardConstraintSemantics(),
-                mock( SchemaState.class), mock( IndexingService.class ), mock( IndexProviderMap.class ) );
+                mock( SchemaState.class), mock( IndexingService.class ), mock( IndexProviderMap.class ), mock(Dependencies.class) );
 
         StatementLocks statementLocks = new SimpleStatementLocks( new NoOpClient() );
 

@@ -71,6 +71,7 @@ import org.neo4j.kernel.impl.proc.Procedures;
 import org.neo4j.kernel.impl.transaction.TransactionHeaderInformationFactory;
 import org.neo4j.kernel.impl.transaction.TransactionMonitor;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
+import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.resources.CpuClock;
 import org.neo4j.resources.HeapAllocation;
 import org.neo4j.storageengine.api.StorageEngine;
@@ -371,7 +372,7 @@ public class KernelTransactionTerminationTest
                     mock( StorageEngine.class, RETURNS_MOCKS ), new CanWrite(),
                     mock( DefaultCursors.class ), AutoIndexing.UNSUPPORTED, mock( ExplicitIndexStore.class ),
                     EmptyVersionContextSupplier.EMPTY, ON_HEAP, new StandardConstraintSemantics(), mock( SchemaState.class),
-                    mock( IndexingService.class ), mock( IndexProviderMap.class ) );
+                    mock( IndexingService.class ), mock( IndexProviderMap.class ), mock(Dependencies.class) );
 
             this.monitor = monitor;
         }

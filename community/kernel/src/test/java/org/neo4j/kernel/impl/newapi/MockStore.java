@@ -57,11 +57,7 @@ import org.neo4j.internal.kernel.api.exceptions.KernelException;
 import org.neo4j.internal.kernel.api.exceptions.ProcedureException;
 import org.neo4j.internal.kernel.api.exceptions.explicitindex.ExplicitIndexNotFoundKernelException;
 import org.neo4j.internal.kernel.api.exceptions.schema.SchemaKernelException;
-import org.neo4j.internal.kernel.api.procs.ProcedureHandle;
-import org.neo4j.internal.kernel.api.procs.ProcedureSignature;
-import org.neo4j.internal.kernel.api.procs.QualifiedName;
-import org.neo4j.internal.kernel.api.procs.UserAggregator;
-import org.neo4j.internal.kernel.api.procs.UserFunctionHandle;
+import org.neo4j.internal.kernel.api.procs.*;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.internal.kernel.api.schema.constraints.ConstraintDescriptor;
 import org.neo4j.io.pagecache.PageCursor;
@@ -235,6 +231,11 @@ public class MockStore extends Read implements TestRule
     }
 
     @Override
+    public Value nodePropertyChangeInTransactionOrNull(long node, int propertyKeyId) {
+        return null;
+    }
+
+    @Override
     public long countsForNode( int labelId )
     {
         throw new UnsupportedOperationException();
@@ -275,6 +276,16 @@ public class MockStore extends Read implements TestRule
     public boolean relationshipExists( long reference )
     {
         throw new UnsupportedOperationException( "not implemented" );
+    }
+
+    @Override
+    public boolean nodeDeletedInTransaction(long node) {
+        return false;
+    }
+
+    @Override
+    public boolean relationshipDeletedInTransaction(long relationship) {
+        return false;
     }
 
     @Override
@@ -371,6 +382,36 @@ public class MockStore extends Read implements TestRule
             throws ProcedureException
     {
         throw new UnsupportedOperationException( "not implemented" );
+    }
+
+    @Override
+    public RawIterator<Object[], ProcedureException> procedureCallRead(QualifiedName name, Object[] arguments, ProcedureCallContext context) throws ProcedureException {
+        return null;
+    }
+
+    @Override
+    public RawIterator<Object[], ProcedureException> procedureCallReadOverride(QualifiedName name, Object[] arguments, ProcedureCallContext context) throws ProcedureException {
+        return null;
+    }
+
+    @Override
+    public RawIterator<Object[], ProcedureException> procedureCallWrite(QualifiedName name, Object[] arguments, ProcedureCallContext context) throws ProcedureException {
+        return null;
+    }
+
+    @Override
+    public RawIterator<Object[], ProcedureException> procedureCallWriteOverride(QualifiedName name, Object[] arguments, ProcedureCallContext context) throws ProcedureException {
+        return null;
+    }
+
+    @Override
+    public RawIterator<Object[], ProcedureException> procedureCallSchema(QualifiedName name, Object[] arguments, ProcedureCallContext context) throws ProcedureException {
+        return null;
+    }
+
+    @Override
+    public RawIterator<Object[], ProcedureException> procedureCallSchemaOverride(QualifiedName name, Object[] arguments, ProcedureCallContext context) throws ProcedureException {
+        return null;
     }
 
     @Override
@@ -653,6 +694,16 @@ public class MockStore extends Read implements TestRule
     public CapableIndexReference index( int label, int... properties )
     {
         throw new UnsupportedOperationException( "not implemented" );
+    }
+
+    @Override
+    public IndexReference indexReferenceUnchecked(int label, int... properties) {
+        return null;
+    }
+
+    @Override
+    public IndexReference indexReferenceUnchecked(SchemaDescriptor schema) {
+        return null;
     }
 
     @Override

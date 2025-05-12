@@ -54,7 +54,7 @@ import org.neo4j.time.Clocks;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class ExecutingQueryListTest
 {
@@ -138,7 +138,7 @@ public class ExecutingQueryListTest
     private ExecutingQuery createExecutingQuery( int queryId, String query )
     {
         return new ExecutingQuery( queryId, ClientConnectionInfo.EMBEDDED_CONNECTION, "me", query,
-                EMPTY_MAP, Collections.emptyMap(), () -> 0, PageCursorTracer.NULL,
+                EMPTY_MAP_WRAP, Collections.emptyMap(), () -> 0, PageCursorTracer.NULL,
                 Thread.currentThread().getId(), Thread.currentThread().getName(),
                 Clocks.nanoClock(), CpuClock.CPU_CLOCK, HeapAllocation.HEAP_ALLOCATION );
     }

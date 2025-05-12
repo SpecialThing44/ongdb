@@ -79,6 +79,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class Neo4jTransactionalContextTest
 {
@@ -144,7 +145,7 @@ public class Neo4jTransactionalContextTest
         QueryRegistryOperations secondQueryRegistry = mock( QueryRegistryOperations.class );
 
         when( executingQuery.queryText() ).thenReturn( "X" );
-        when( executingQuery.queryParameters() ).thenReturn( EMPTY_MAP );
+        when( executingQuery.queryParameters() ).thenReturn( EMPTY_MAP_WRAP );
         when( initialStatement.queryRegistration() ).thenReturn( initialQueryRegistry );
         when( queryService.beginTransaction( transactionType, securityContext ) ).thenReturn( secondTransaction );
         KernelTransaction t = mockTransaction();
@@ -232,7 +233,7 @@ public class Neo4jTransactionalContextTest
         QueryRegistryOperations secondQueryRegistry = mock( QueryRegistryOperations.class );
 
         when( executingQuery.queryText() ).thenReturn( "X" );
-        when( executingQuery.queryParameters() ).thenReturn( EMPTY_MAP );
+        when( executingQuery.queryParameters() ).thenReturn( EMPTY_MAP_WRAP );
         Mockito.doThrow( RuntimeException.class ).when( initialTransaction ).close();
         when( initialStatement.queryRegistration() ).thenReturn( initialQueryRegistry );
         when( queryService.beginTransaction( transactionType, securityContext ) ).thenReturn( secondTransaction );

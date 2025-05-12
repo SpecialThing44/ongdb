@@ -73,6 +73,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
 import static org.junit.Assert.assertTrue;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class ExecutingQueryTest
 {
@@ -254,7 +255,7 @@ public class ExecutingQueryTest
                 ClientConnectionInfo.EMBEDDED_CONNECTION,
                 "ongdb",
                 "hello world",
-                EMPTY_MAP,
+                EMPTY_MAP_WRAP,
                 Collections.emptyMap(),
                 () -> lockCount, PageCursorTracer.NULL,
                 Thread.currentThread().getId(),
@@ -299,7 +300,7 @@ public class ExecutingQueryTest
                 ClientConnectionInfo.EMBEDDED_CONNECTION,
                 "ongdb",
                 "hello world",
-                EMPTY_MAP,
+                EMPTY_MAP_WRAP,
                 Collections.emptyMap(),
                 () -> lockCount,
                 PageCursorTracer.NULL,
@@ -426,7 +427,7 @@ public class ExecutingQueryTest
             FakeClock clock, FakeCpuClock cpuClock, FakeHeapAllocation heapAllocation )
     {
         return new ExecutingQuery( queryId, ClientConnectionInfo.EMBEDDED_CONNECTION, "ongdb", hello_world,
-                EMPTY_MAP, Collections.emptyMap(), () -> lockCount, page, Thread.currentThread().getId(),
+                EMPTY_MAP_WRAP, Collections.emptyMap(), () -> lockCount, page, Thread.currentThread().getId(),
                 Thread.currentThread().getName(), clock, cpuClock, heapAllocation );
     }
 

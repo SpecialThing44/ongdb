@@ -92,7 +92,7 @@ public abstract class NumberSchemaIndexAccessorTest extends NativeSchemaIndexAcc
             }
 
             SimpleNodeValueClient client = new SimpleNodeValueClient();
-            reader.query( client, supportedOrder, supportedQuery );
+            reader.query( client, supportedOrder, false, supportedQuery );
             int i = 0;
             while ( client.next() )
             {
@@ -121,7 +121,7 @@ public abstract class NumberSchemaIndexAccessorTest extends NativeSchemaIndexAcc
                 CoreMatchers.containsString( unsupportedQuery.toString() ) ) );
 
         // when
-        reader.query( new SimpleNodeValueClient(), unsupportedOrder, unsupportedQuery );
+        reader.query( new SimpleNodeValueClient(), unsupportedOrder, false, unsupportedQuery );
     }
 
     // </READER ordering>
