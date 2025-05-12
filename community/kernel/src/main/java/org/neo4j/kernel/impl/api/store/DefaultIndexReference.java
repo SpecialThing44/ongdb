@@ -53,12 +53,22 @@ public class DefaultIndexReference implements IndexReference
     private final boolean unique;
     private final int label;
     private final int[] properties;
+    private final SchemaDescriptor schema;
 
     private DefaultIndexReference( boolean unique, int label, int[] properties )
     {
         this.unique = unique;
         this.label = label;
         this.properties = properties;
+        this.schema = null;
+    }
+
+    private DefaultIndexReference( boolean unique, int label, int[] properties, SchemaDescriptor schema )
+    {
+        this.unique = unique;
+        this.label = label;
+        this.properties = properties;
+        this.schema = schema;
     }
 
     @Override
@@ -75,7 +85,7 @@ public class DefaultIndexReference implements IndexReference
 
     @Override
     public SchemaDescriptor schema() {
-        return null;
+        return schema;
     }
 
     @Override
@@ -98,7 +108,7 @@ public class DefaultIndexReference implements IndexReference
     {
         boolean unique = descriptor.type() == SchemaIndexDescriptor.Type.UNIQUE;
         SchemaDescriptor schema = descriptor.schema();
-        return new DefaultIndexReference( unique, schema.keyId(), schema.getPropertyIds() );
+        return new DefaultIndexReference( unique, schema.keyId(), schema.getPropertyIds(), descriptor.schema() );
     }
 
     public static SchemaIndexDescriptor toDescriptor( IndexReference reference )
