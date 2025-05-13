@@ -303,7 +303,7 @@ public class CodeGenerationTest
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
             FieldReference foo = simple.staticField( int.class, "FOO", constant( 42 ) );
-            try ( CodeBlock get = simple.generateMethod( int.class, "get" ) )
+            try ( CodeBlock get = simple.generateMethod( typeReference(int.class), "get" ) )
             {
                 get.returns( Expression.getStatic( foo ) );
             }
@@ -325,7 +325,7 @@ public class CodeGenerationTest
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
             FieldReference foo = simple.staticField( String.class, "FOO", constant( "42" ) );
-            try ( CodeBlock get = simple.generateMethod( String.class, "get" ) )
+            try ( CodeBlock get = simple.generateMethod( typeReference(String.class), "get" ) )
             {
                 get.returns( Expression.getStatic( foo ) );
             }
@@ -412,7 +412,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock create = simple.generateMethod( SomeBean.class, "createBean",
+            try ( CodeBlock create = simple.generateMethod( typeReference(SomeBean.class), "createBean",
                     param( String.class, "foo" ), param( String.class, "bar" ) ) )
             {
                 create.assign( SomeBean.class, "bean",
@@ -444,7 +444,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock create = simple.generateMethod( SomeBean.class, "createBean",
+            try ( CodeBlock create = simple.generateMethod( typeReference(SomeBean.class), "createBean",
                     param( String.class, "foo" ), param( String.class, "bar" ) ) )
             {
                 LocalVariable localVariable = create.declare( typeReference( SomeBean.class ), "bean" );
@@ -477,7 +477,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                     param( TypeReference.parameterizedType( Iterator.class, Runnable.class ), "targets" ) ) )
             {
                 try ( CodeBlock loop = callEach.whileLoop( invoke( callEach.load( "targets" ),
@@ -516,7 +516,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "check",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "check",
                     param( boolean.class, "a" ), param( boolean.class, "b" ), param( Runnable.class, "runner" ) ) )
             {
                 try ( CodeBlock loop = callEach.whileLoop( and( callEach.load( "a" ), callEach.load( "b" ) ) ) )
@@ -559,7 +559,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                     param( TypeReference.parameterizedType( Iterator.class, Runnable.class ), "targets" ) ) )
             {
                 try ( CodeBlock loop = callEach.whileLoop( invoke( callEach.load( "targets" ),
@@ -603,7 +603,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                                                               param( TypeReference.parameterizedType( Iterator.class, Runnable.class ), "targets" ),
                                                               param( TypeReference.parameterizedType( Iterator.class, Boolean.class ), "skipTargets" ) ) )
             {
@@ -657,7 +657,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                                                               param( TypeReference.parameterizedType( Iterator.class, Runnable.class ), "targetTargets" ),
                                                               param( TypeReference.parameterizedType( Iterator.class, Boolean.class ), "skipTargets" ) ) )
             {
@@ -733,7 +733,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                                                               param( TypeReference.parameterizedType( Iterator.class, Runnable.class ), "targetTargets" ),
                                                               param( TypeReference.parameterizedType( Iterator.class, Boolean.class ), "skipOuters" ),
                                                               param( TypeReference.parameterizedType( Iterator.class, Boolean.class ), "skipInners" ) ) )
@@ -824,7 +824,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                     param( TypeReference.parameterizedType( Iterable.class, Runnable.class ), "targets" ) ) )
             {
                 try ( CodeBlock loop = callEach
@@ -861,7 +861,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( boolean.class, "test" ), param( Runnable.class, "runner" ) ) )
             {
                 try ( CodeBlock doStuff = conditional.ifStatement( conditional.load( "test" ) ) )
@@ -894,7 +894,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( Object.class, "lhs" ), param( Object.class, "rhs" ), param( Runnable.class, "runner" ) ) )
             {
                 try ( CodeBlock doStuff = conditional.ifStatement( equal( conditional.load( "lhs" ), conditional.load( "rhs" ) ) ) )
@@ -929,7 +929,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( Object.class, "lhs" ), param( Object.class, "rhs" ), param( Runnable.class, "runner" ) ) )
             {
                 try ( CodeBlock doStuff = conditional.ifStatement( not( equal( conditional.load( "lhs" ), conditional.load( "rhs" ) ) ) ) )
@@ -964,7 +964,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( boolean.class, "test" ), param( Runnable.class, "runner" ) ) )
             {
                 try ( CodeBlock doStuff = conditional.ifStatement( not( conditional.load( "test" ) ) ) )
@@ -997,7 +997,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( Object.class, "test" ), param( Runnable.class, "runner" ) ) )
             {
                 try ( CodeBlock doStuff = conditional.ifStatement( isNull(conditional.load( "test" ) ) ) )
@@ -1030,7 +1030,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( Object.class, "test" ), param( Runnable.class, "runner" ) ) )
             {
                 try ( CodeBlock doStuff = conditional.ifStatement( notNull( conditional.load( "test" ) ) ) )
@@ -1063,7 +1063,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                     param( TypeReference.parameterizedType( Iterator.class, Runnable.class ), "targets" ),
                     param( boolean.class, "test" ),
                     param( Runnable.class, "runner" ) ) )
@@ -1119,7 +1119,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock callEach = simple.generateMethod( void.class, "callEach",
+            try ( CodeBlock callEach = simple.generateMethod( typeReference(void.class), "callEach",
                     param( TypeReference.parameterizedType( Iterator.class, Runnable.class ), "targets" ),
                     param( boolean.class, "test" ),
                     param( Runnable.class, "runner" ) ) )
@@ -1168,7 +1168,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( boolean.class, "test1" ), param( boolean.class, "test2" ),
                     param( Runnable.class, "runner" ) ) )
             {
@@ -1210,7 +1210,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( boolean.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(boolean.class), "conditional",
                     param( boolean.class, "test1" ), param( boolean.class, "test2" ) ) )
             {
                 conditional.returns( or( conditional.load( "test1" ), conditional.load( "test2" ) ) );
@@ -1237,7 +1237,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( void.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(void.class), "conditional",
                     param( boolean.class, "test1" ), param( boolean.class, "test2" ),
                     param( Runnable.class, "runner" ) ) )
             {
@@ -1279,7 +1279,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( boolean.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(boolean.class), "conditional",
                     param( boolean.class, "test1" ), param( boolean.class, "test2" ) ) )
             {
                 conditional.returns( and( conditional.load( "test1" ), conditional.load( "test2" ) ) );
@@ -1306,7 +1306,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( boolean.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(boolean.class), "conditional",
                     param( boolean.class, "test1" ),
                     param( boolean.class, "test2" ),
                     param( boolean.class, "test3" ) ) )
@@ -1342,7 +1342,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( boolean.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(boolean.class), "conditional",
                     param( boolean.class, "test1" ),
                     param( boolean.class, "test2" ),
                     param( boolean.class, "test3" ) ) )
@@ -1378,7 +1378,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( boolean.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(boolean.class), "conditional",
                     param( boolean.class, "test1" ),
                     param( boolean.class, "test2" ),
                     param( boolean.class, "test3" ) ) )
@@ -1414,7 +1414,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( boolean.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(boolean.class), "conditional",
                     param( boolean.class, "test1" ),
                     param( boolean.class, "test2" ),
                     param( boolean.class, "test3" ) ) )
@@ -1450,7 +1450,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock conditional = simple.generateMethod( boolean.class, "conditional",
+            try ( CodeBlock conditional = simple.generateMethod( typeReference(boolean.class), "conditional",
                     param( boolean.class, "test" ) ) )
             {
                 conditional.returns( not( conditional.load( "test" ) ) );
@@ -1475,7 +1475,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock ternaryBlock = simple.generateMethod( String.class, "ternary",
+            try ( CodeBlock ternaryBlock = simple.generateMethod( typeReference(String.class), "ternary",
                     param( boolean.class, "test" ), param( TernaryChecker.class, "check" ) ) )
             {
                 ternaryBlock.returns(
@@ -1512,7 +1512,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock ternaryBlock = simple.generateMethod( String.class, "ternary",
+            try ( CodeBlock ternaryBlock = simple.generateMethod( typeReference(String.class), "ternary",
                     param( Object.class, "test" ), param( TernaryChecker.class, "check" ) ) )
             {
                 ternaryBlock.returns(
@@ -1549,7 +1549,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock ternaryBlock = simple.generateMethod( String.class, "ternary",
+            try ( CodeBlock ternaryBlock = simple.generateMethod( typeReference(String.class), "ternary",
                     param( Object.class, "test" ), param( TernaryChecker.class, "check" ) ) )
             {
                 ternaryBlock.returns(
@@ -1756,7 +1756,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock block = simple.generateMethod( clazz, "add",
+            try ( CodeBlock block = simple.generateMethod( typeReference(clazz), "add",
                     param( clazz, "a" ), param( clazz, "b" ) ) )
             {
                 block.returns( add( block.load( "a" ), block.load( "b" ) ) );
@@ -1781,7 +1781,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock block = simple.generateMethod( clazz, "sub",
+            try ( CodeBlock block = simple.generateMethod( typeReference(clazz), "sub",
                     param( clazz, "a" ), param( clazz, "b" ) ) )
             {
                     block.returns( subtract( block.load( "a" ), block.load( "b" ) ) );
@@ -1806,7 +1806,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock block = simple.generateMethod( clazz, "multiply",
+            try ( CodeBlock block = simple.generateMethod( typeReference(clazz), "multiply",
                     param( clazz, "a" ), param( clazz, "b" ) ) )
             {
                 block.returns( multiply( block.load( "a" ), block.load( "b" ) ) );
@@ -1831,7 +1831,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock block = simple.generateMethod( boolean.class, "compare",
+            try ( CodeBlock block = simple.generateMethod( typeReference(boolean.class), "compare",
                     param( clazz, "a" ), param( clazz, "b" ) ) )
             {
                 block.returns( compare.apply( block.load( "a" ), block.load( "b" ) ) );
@@ -1873,7 +1873,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock run = simple.generateMethod( void.class, "run",
+            try ( CodeBlock run = simple.generateMethod( typeReference(void.class), "run",
                     param( Runnable.class, "body" ),
                     param( Runnable.class, "catcher" ) ) )
             {
@@ -1913,7 +1913,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock run = simple.generateMethod( void.class, "run",
+            try ( CodeBlock run = simple.generateMethod( typeReference(void.class), "run",
                     param( Runnable.class, "body" ),
                     param( Runnable.class, "catcher" ),
                     param( boolean.class, "test" ) ) )
@@ -1952,7 +1952,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock run = simple.generateMethod( void.class, "run",
+            try ( CodeBlock run = simple.generateMethod( typeReference(void.class), "run",
                     param( Runnable.class, "body" ),
                     param( Runnable.class, "catcher1" ),
                     param( Runnable.class, "catcher2" ) ) )
@@ -2002,7 +2002,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock thrower = simple.generateMethod( void.class, "thrower" ) )
+            try ( CodeBlock thrower = simple.generateMethod( typeReference(void.class), "thrower" ) )
             {
                 thrower.throwException( invoke( newInstance( RuntimeException.class ),
                         constructorReference( RuntimeException.class, String.class ), constant( "hello world" ) ) );
@@ -2086,7 +2086,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock method = simple.generateMethod( unboxedType, "unbox",
+            try ( CodeBlock method = simple.generateMethod( typeReference(unboxedType), "unbox",
                     param( boxedType, "test" ) ) )
             {
                 method.returns( Expression.unbox( method.load( "test" ) ) );
@@ -2107,7 +2107,7 @@ public class CodeGenerationTest
         ClassHandle handle;
         try ( ClassGenerator simple = generateClass( "SimpleClass" ) )
         {
-            try ( CodeBlock method = simple.generateMethod( Object.class, "box",
+            try ( CodeBlock method = simple.generateMethod( typeReference(Object.class), "box",
                     param( unboxedType, "test" ) ) )
             {
                 method.returns( Expression.box( method.load( "test" ) ) );

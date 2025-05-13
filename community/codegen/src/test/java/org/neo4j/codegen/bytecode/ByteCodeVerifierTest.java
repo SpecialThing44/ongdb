@@ -52,6 +52,7 @@ import static org.junit.Assert.fail;
 import static org.neo4j.codegen.CodeGenerationTest.PACKAGE;
 import static org.neo4j.codegen.CodeGenerator.generateCode;
 import static org.neo4j.codegen.Parameter.param;
+import static org.neo4j.codegen.TypeReference.typeReference;
 import static org.neo4j.codegen.bytecode.ByteCode.BYTECODE;
 import static org.neo4j.codegen.bytecode.ByteCode.VERIFY_GENERATED_BYTECODE;
 
@@ -65,7 +66,7 @@ public class ByteCodeVerifierTest
 
         ClassHandle handle;
         try ( ClassGenerator clazz = generator.generateClass( PACKAGE, "SimpleClass" );
-              CodeBlock code = clazz.generateMethod( Integer.class, "box", param( int.class, "value" ) ) )
+              CodeBlock code = clazz.generateMethod( typeReference(Integer.class), "box", param( int.class, "value" ) ) )
         {
             handle = clazz.handle();
             code.returns( code.load( "value" ) );
