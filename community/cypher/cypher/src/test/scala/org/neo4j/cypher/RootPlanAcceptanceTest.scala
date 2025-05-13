@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -38,49 +19,49 @@
  */
 package org.neo4j.cypher
 
-import org.neo4j.cypher.internal.compatibility.v3_4.runtime.{InterpretedRuntimeName, RuntimeName}
-import org.neo4j.cypher.internal.frontend.v3_4.PlannerName
-import org.neo4j.cypher.internal.planner.v3_4.spi.CostBasedPlannerName
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{InterpretedRuntimeName, RuntimeName}
+import org.neo4j.cypher.internal.planner.v3_5.spi.CostBasedPlannerName
 import org.neo4j.graphdb.ExecutionPlanDescription
+import org.neo4j.cypher.internal.v3_5.frontend.PlannerName
 
 class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
 
-  test("cost should be default planner in 3.4") {
+  test("cost should be default planner in 3.5") {
     given("match (n) return n")
-      .withCypherVersion(CypherVersion.v3_4)
+      .withCypherVersion(CypherVersion.v3_5)
       .shouldHavePlanner(CostBasedPlannerName.default)
   }
 
-  test("3.3 query should have 3.3 version") {
-    given("match (n) return n")
-      .withCypherVersion(CypherVersion.v3_3)
-      .shouldHaveCypherVersion(CypherVersion.v3_3)
-  }
-
-  test("interpreted should be default runtime in 3.4") {
+  test("3.4 query should have 3.4 version") {
     given("match (n) return n")
       .withCypherVersion(CypherVersion.v3_4)
+      .shouldHaveCypherVersion(CypherVersion.v3_4)
+  }
+
+  test("interpreted should be default runtime in 3.5") {
+    given("match (n) return n")
+      .withCypherVersion(CypherVersion.v3_5)
       .shouldHaveRuntime(InterpretedRuntimeName)
   }
 
-  test("should use cost for varlength in 3.4") {
+  test("should use cost for varlength in 3.5") {
     given("match (a)-[r:T1*]->(b) return a,r,b")
-      .withCypherVersion(CypherVersion.v3_4)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
+      .withCypherVersion(CypherVersion.v3_5)
+      .shouldHaveCypherVersion(CypherVersion.v3_5)
       .shouldHavePlanner(CostBasedPlannerName.default)
   }
 
-  test("should use cost for cycles in 3.4") {
+  test("should use cost for cycles in 3.5") {
     given("match (a)-[r]->(a) return a")
-      .withCypherVersion(CypherVersion.v3_4)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
+      .withCypherVersion(CypherVersion.v3_5)
+      .shouldHaveCypherVersion(CypherVersion.v3_5)
       .shouldHavePlanner(CostBasedPlannerName.default)
   }
 
-  test("should handle updates in 3.4") {
+  test("should handle updates in 3.5") {
     given("create() return 1")
-      .withCypherVersion(CypherVersion.v3_4)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
+      .withCypherVersion(CypherVersion.v3_5)
+      .shouldHaveCypherVersion(CypherVersion.v3_5)
       .shouldHavePlanner(CostBasedPlannerName.default)
   }
 
@@ -91,8 +72,8 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
         |RETURN coc, COUNT(*) AS times
         |ORDER BY times DESC
         |LIMIT 10""".stripMargin)
-      .withCypherVersion(CypherVersion.v3_4)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
+      .withCypherVersion(CypherVersion.v3_5)
+      .shouldHaveCypherVersion(CypherVersion.v3_5)
       .shouldHavePlanner(CostBasedPlannerName.default)
   }
 
@@ -101,8 +82,8 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
       """MATCH (s:Location {name:'DeliverySegment-257227'}), (e:Location {name:'DeliverySegment-476821'})
         |MATCH (s)<-[:DELIVERY_ROUTE]-(db1) MATCH (db2)-[:DELIVERY_ROUTE]->(e)
         |MATCH (db1)<-[:CONNECTED_TO]-()-[:CONNECTED_TO]-(db2) RETURN s""".stripMargin)
-      .withCypherVersion(CypherVersion.v3_4)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
+      .withCypherVersion(CypherVersion.v3_5)
+      .shouldHaveCypherVersion(CypherVersion.v3_5)
       .shouldHavePlanner(CostBasedPlannerName.default)
   }
 
@@ -179,10 +160,9 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
           val runtimeString = runtime.map("runtime=" + _.name).getOrElse("")
           s"CYPHER $version $plannerString $runtimeString"
       }
-      val result = eengine.profile(s"$prepend $query", Map.empty[String, Object])
+      val result = executeOfficial(s"$prepend PROFILE $query")
       result.resultAsString()
-      val executionResult = result.getExecutionPlanDescription
-      executionResult
+      result.getExecutionPlanDescription()
     }
   }
 }

@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -42,14 +23,15 @@ import java.util
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.atomic.AtomicBoolean
 
-import org.neo4j.cypher.internal.{CommunityCompatibilityFactory, ExecutionEngine}
+import org.neo4j.cypher.internal.ExecutionEngine
 import org.neo4j.graphdb.{TransactionTerminatedException, TransientTransactionFailureException}
 import org.neo4j.internal.kernel.api.Transaction.Type
 import org.neo4j.internal.kernel.api.security.LoginContext.AUTH_DISABLED
 import org.neo4j.kernel.impl.coreapi.PropertyContainerLocker
-import org.neo4j.kernel.impl.query.clientconnection.ClientConnectionInfo
+import org.neo4j.kernel.impl.query.clientconnection.ClientConnectionInfo.EMBEDDED_CONNECTION
 import org.neo4j.kernel.impl.query.{Neo4jTransactionalContextFactory, TransactionalContext, TransactionalContextFactory}
-import org.neo4j.logging.NullLogProvider
+import org.neo4j.logging.{LogProvider, NullLogProvider}
+import org.neo4j.values.virtual.VirtualValues
 import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP
 
 class KillQueryTest extends ExecutionEngineFunSuite {
@@ -71,9 +53,8 @@ class KillQueryTest extends ExecutionEngineFunSuite {
       createLabeledNode(Map("x" -> x, "name" -> ("apa" + x)), "Label")
     }
 
-    val logProvider = NullLogProvider.getInstance()
-    val compatibilityFactory = new CommunityCompatibilityFactory(graph, kernelMonitors, logProvider)
-    val engine = new ExecutionEngine(graph, logProvider, compatibilityFactory)
+    val logProvider: LogProvider = NullLogProvider.getInstance()
+    val engine = ExecutionEngineHelper.createEngine(graph)
 
     val query = "MATCH (n:Label) WHERE n.x > 12 RETURN n.name"
 
@@ -91,12 +72,6 @@ class KillQueryTest extends ExecutionEngineFunSuite {
     threads.foreach(_.start())
     threads.foreach(_.join())
     exceptionsThrown.foreach(throw _)
-  }
-
-  private val connectionInfo = new ClientConnectionInfo {
-    override def asConnectionDetails(): String = ???
-
-    override def protocol(): String = ???
   }
 
   private def createQueryKiller(continue: AtomicBoolean, tcs: ArrayBlockingQueue[TransactionalContext], exLogger: Throwable => Unit) = {
@@ -127,9 +102,9 @@ class KillQueryTest extends ExecutionEngineFunSuite {
         while (continue.get()) {
           val tx = graph.beginTransaction(Type.`implicit`, AUTH_DISABLED)
           try {
-            val transactionalContext: TransactionalContext = contextFactory.newContext(connectionInfo, tx, query, EMPTY_MAP)
+            val transactionalContext: TransactionalContext = contextFactory.newContext(EMBEDDED_CONNECTION, tx, query, EMPTY_MAP)
             tcs.put(transactionalContext)
-            val result = engine.execute(query, Map.empty[String, AnyRef], transactionalContext)
+            val result = engine.execute(query, VirtualValues.emptyMap(), transactionalContext)
             result.resultAsString()
             tx.success()
           }

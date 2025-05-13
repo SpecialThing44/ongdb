@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -40,7 +21,7 @@ package org.neo4j.cypher
 
 import org.hamcrest.CoreMatchers._
 import org.junit.Assert._
-import org.neo4j.cypher.internal.frontend.v3_4.helpers.StringHelper._
+import org.neo4j.cypher.internal.v3_5.util.helpers.StringHelper._
 
 class ErrorMessagesTest extends ExecutionEngineFunSuite {
 
@@ -51,10 +32,9 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
   }
 
   test("noReturnColumns") {
-    expectSyntaxError(
+    expectError(
       "match (s) where id(s) = 0 return",
-      "Unexpected end of input: expected",
-      32
+      "Unexpected end of input: expected whitespace, GRAPH, DISTINCT, '*' or an expression (line 1, column 33 (offset: 32))"
     )
   }
 
@@ -105,7 +85,7 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
   test("noIndexName") {
     expectSyntaxError(
       "start a = node(name=\"sebastian\") match (a)-[:WORKED_ON]-b return b",
-      "Invalid input 'n': expected whitespace, an unsigned integer, a parameter or '*' (line 1, column 16 (offset: 15))",
+      "Invalid input 'n': expected whitespace, an unsigned integer, a parameter, a parameter (old syntax) or '*' (line 1, column 16 (offset: 15))",
       15
     )
   }
@@ -145,7 +125,10 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
   test("badMatch5") {
     expectSyntaxError(
       "match (p) where id(p) = 2 match p[:likes]->dude return dude.name",
-      "Invalid input '[': expected",
+      "Invalid input '[': expected an identifier character, whitespace, '='," +
+        " node labels, a property map, a relationship pattern, ',', USING, WHERE, FROM GRAPH," +
+        " CONSTRUCT, LOAD CSV, START, MATCH, UNWIND, MERGE, CREATE UNIQUE, CREATE, SET, DELETE," +
+        " REMOVE, FOREACH, WITH, CALL, RETURN, UNION, ';' or end of input (line 1, column 34 (offset: 33))",
       33
     )
   }
@@ -169,7 +152,7 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
   test("relTypeInsteadOfRelIdInStart") {
     expectSyntaxError(
       "start r = relationship(:WORKED_ON) return r",
-      "Invalid input ':': expected whitespace, an unsigned integer, a parameter or '*' (line 1, column 24 (offset: " +
+      "Invalid input ':': expected whitespace, an unsigned integer, a parameter, a parameter (old syntax) or '*' (line 1, column 24 (offset: " +
         "23))",
       23
     )
@@ -178,7 +161,7 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
   test("noNodeIdInStart") {
     expectSyntaxError(
       "start r = node() return r",
-      "Invalid input ')': expected whitespace, an unsigned integer, a parameter or '*' (line 1, column 16 (offset: 15))",
+      "Invalid input ')': expected whitespace, an unsigned integer, a parameter, a parameter (old syntax) or '*' (line 1, column 16 (offset: 15))",
       15
     )
   }
@@ -236,7 +219,7 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
     graph.createConstraint("Person", "id")
     expectError(
       "MATCH (n:Person) USING INDEX n:Person(id) WHERE n.name = 'Andres' RETURN n",
-      "Cannot use index hint in this context. Index hints are only supported for the following predicates in WHERE (either directly or as part of a top-level AND or OR): equality comparison, inequality (range) comparison, STARTS WITH, point distance, IN condition or checking property existence. The comparison cannot be performed between two property values. Note that the label and property comparison must be specified on a non-optional node (line 1, column 18 (offset: 17))"
+      "Cannot use index hint in this context. Index hints are only supported for the following predicates in WHERE (either directly or as part of a top-level AND or OR): equality comparison, inequality (range) comparison, STARTS WITH, IN condition or checking property existence. The comparison cannot be performed between two property values. Note that the label and property comparison must be specified on a non-optional node (line 1, column 18 (offset: 17))"
     )
   }
 
@@ -262,25 +245,14 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
   test("should give proper error message when trying to use Node Key constraint on community") {
     expectError("CREATE CONSTRAINT ON (n:Person) ASSERT (n.firstname) IS NODE KEY",
                 String.format("Unable to create CONSTRAINT ON ( person:Person ) ASSERT exists(person.firstname):%n" +
-                  "Node Key constraint requires ONgDB Enterprise Edition"))
+                  "Node Key constraint requires Neo4j Enterprise Edition"))
   }
 
   test("trying to store mixed type array") {
     expectError("CREATE (a) SET a.value = [datetime(), time()] RETURN a.value",
-      "ONgDB only supports a subset of Geequel types for storage as singleton or array properties. " +
-        "Please refer to section geequel/syntax/values of the manual for more details."
+      "Neo4j only supports a subset of Cypher types for storage as singleton or array properties. " +
+        "Please refer to section cypher/syntax/values of the manual for more details."
     )
-  }
-
-  test("invalid query does not suggest multiple graph keywords because they dont exist") {
-    expectSyntaxErrorWithout(
-      "RETURN 1 AS toUpper('name')",
-      Set("RELOCATE", "GRAPH", "FROM", "PERSIST"),
-      19)
-    expectSyntaxError(
-      "RETURN 1 AS toUpper('name')",
-      "Invalid input '(': expected",
-      19)
   }
 
   private def expectError(query: String, expectedError: String) {
@@ -291,14 +263,6 @@ class ErrorMessagesTest extends ExecutionEngineFunSuite {
   private def expectSyntaxError(query: String, expectedError: String, expectedOffset: Int) {
     val error = intercept[SyntaxException](executeQuery(query))
     assertThat(error.getMessage(), containsString(expectedError))
-    assertThat(error.offset, equalTo(Some(expectedOffset): Option[Int]))
-  }
-
-  private def expectSyntaxErrorWithout(query: String, doesNotContain: Set[String], expectedOffset: Int) {
-    val error = intercept[SyntaxException](executeQuery(query))
-    doesNotContain.foreach { part =>
-      assertThat(error.getMessage(), org.hamcrest.CoreMatchers.not(containsString(part)))
-    }
     assertThat(error.offset, equalTo(Some(expectedOffset): Option[Int]))
   }
 

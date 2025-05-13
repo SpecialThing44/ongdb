@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -44,7 +25,7 @@ import org.junit.Test;
 
 import java.util.Collections;
 
-import org.neo4j.cypher.internal.CompatibilityFactory;
+import org.neo4j.cypher.internal.CompilerFactory;
 import org.neo4j.graphdb.QueryStatistics;
 import org.neo4j.graphdb.Result;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContext;
@@ -71,7 +52,7 @@ public class SnapshotExecutionEngineTest
     @Rule
     public final DatabaseRule database = new ImpermanentDatabaseRule();
 
-    private CompatibilityFactory compatibilityFactory;
+    private CompilerFactory compilerFactory;
     private TestSnapshotExecutionEngine executionEngine;
     private VersionContext versionContext;
     private SnapshotExecutionEngine.ParametrizedQueryExecutor executor;
@@ -83,7 +64,7 @@ public class SnapshotExecutionEngineTest
     {
         GraphDatabaseQueryService cypherService = new GraphDatabaseCypherService( this.database.getGraphDatabaseAPI() );
 
-        compatibilityFactory = mock( CompatibilityFactory.class );
+        compilerFactory = mock( CompilerFactory.class );
         transactionalContext = mock( TransactionalContext.class );
         KernelStatement kernelStatement = mock( KernelStatement.class );
         executor = mock( SnapshotExecutionEngine.ParametrizedQueryExecutor.class );
@@ -140,7 +121,7 @@ public class SnapshotExecutionEngineTest
     {
 
         TestSnapshotExecutionEngine( GraphDatabaseQueryService queryService, Config config, LogProvider logProvider,
-                CompatibilityFactory compatibilityFactory )
+                                     CompilerFactory compatibilityFactory )
         {
             super( queryService, config, logProvider, compatibilityFactory );
         }
@@ -156,6 +137,6 @@ public class SnapshotExecutionEngineTest
     private TestSnapshotExecutionEngine createExecutionEngine( GraphDatabaseQueryService cypherService )
     {
         return new TestSnapshotExecutionEngine( cypherService, config, NullLogProvider.getInstance(),
-                compatibilityFactory );
+                                                compilerFactory );
     }
 }

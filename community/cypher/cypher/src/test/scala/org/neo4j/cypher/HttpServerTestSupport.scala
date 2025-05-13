@@ -19,12 +19,11 @@
  */
 package org.neo4j.cypher
 
+import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
+
 import java.io.IOException
 import java.net.{InetAddress, InetSocketAddress}
 import java.util.concurrent.Executors
-
-import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
-
 import scala.collection.mutable
 
 trait HttpServerTestSupport {
@@ -180,4 +179,3 @@ object HttpServerTestSupport {
     exchange
   }
 }
-

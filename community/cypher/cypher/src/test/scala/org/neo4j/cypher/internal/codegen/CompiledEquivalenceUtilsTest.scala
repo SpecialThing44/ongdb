@@ -1,3 +1,5 @@
+package org.neo4j.cypher.internal.codegen
+
 /*
  * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]

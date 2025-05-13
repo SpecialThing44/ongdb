@@ -20,7 +20,6 @@
 package org.neo4j.cypher.internal.codegen;
 
 import org.junit.Test;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.kernel.api.KernelTransaction;
@@ -32,13 +31,7 @@ import org.neo4j.kernel.impl.core.RelationshipProxy;
 import org.neo4j.kernel.impl.util.ValueUtils;
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.Values;
-import org.neo4j.values.virtual.ListValue;
-import org.neo4j.values.virtual.MapValue;
-import org.neo4j.values.virtual.NodeReference;
-import org.neo4j.values.virtual.NodeValue;
-import org.neo4j.values.virtual.RelationshipReference;
-import org.neo4j.values.virtual.RelationshipValue;
-import org.neo4j.values.virtual.VirtualValues;
+import org.neo4j.values.virtual.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;

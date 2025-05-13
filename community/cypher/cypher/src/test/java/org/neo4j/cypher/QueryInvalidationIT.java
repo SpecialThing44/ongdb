@@ -1,24 +1,5 @@
 /*
- * Copyright (c) 2018-2020 "Graph Foundation,"
- * Graph Foundation, Inc. [https://graphfoundation.org]
- *
- * This file is part of ONgDB.
- *
- * ONgDB is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * Copyright (c) 2002-2020 "Neo4j,"
+ * Copyright (c) "Neo4j"
  * Neo4j Sweden AB [http://neo4j.com]
  *
  * This file is part of Neo4j.
@@ -48,11 +29,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.neo4j.cypher.internal.compatibility.CypherCacheHitMonitor;
-import org.neo4j.cypher.internal.frontend.v3_4.ast.Query;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
+import org.neo4j.helpers.collection.Pair;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.test.rule.DatabaseRule;
@@ -111,7 +92,7 @@ public class QueryInvalidationIT
     public void shouldRePlanAfterDataChangesFromAPopulatedDatabase() throws Exception
     {
         // GIVEN
-        Config config = db.getConfigCopy();
+        Config config = db.getDependencyResolver().resolveDependency( Config.class );
         double divergenceThreshold = config.get( GraphDatabaseSettings.query_statistics_divergence_threshold );
         long replanInterval = config.get( GraphDatabaseSettings.cypher_min_replan_interval ).toMillis();
 
@@ -206,42 +187,50 @@ public class QueryInvalidationIT
         return ThreadLocalRandom.current().nextInt( max );
     }
 
-    private static class TestMonitor implements CypherCacheHitMonitor<Query>
+    private static class TestMonitor implements CypherCacheHitMonitor<Pair<String,scala.collection.immutable.Map<String, Class<?>>>>
     {
         private final AtomicInteger hits = new AtomicInteger();
         private final AtomicInteger misses = new AtomicInteger();
         private final AtomicInteger discards = new AtomicInteger();
+        private final AtomicInteger recompilations = new AtomicInteger();
         private final AtomicLong waitTime = new AtomicLong();
 
         @Override
-        public void cacheHit( Query key )
+        public void cacheHit( Pair<String,scala.collection.immutable.Map<String, Class<?>>> key )
         {
             hits.incrementAndGet();
         }
 
         @Override
-        public void cacheMiss( Query key )
+        public void cacheMiss( Pair<String,scala.collection.immutable.Map<String, Class<?>>> key )
         {
             misses.incrementAndGet();
         }
 
         @Override
-        public void cacheDiscard( Query key, String ignored, int secondsSinceReplan )
+        public void cacheDiscard( Pair<String,scala.collection.immutable.Map<String, Class<?>>> key, String ignored, int secondsSinceReplan )
         {
             discards.incrementAndGet();
             waitTime.addAndGet( secondsSinceReplan );
         }
 
         @Override
+        public void cacheRecompile( Pair<String,scala.collection.immutable.Map<String,Class<?>>> key )
+        {
+            recompilations.incrementAndGet();
+        }
+
+        @Override
         public String toString()
         {
             return "TestMonitor{hits=" + hits + ", misses=" + misses + ", discards=" + discards + ", waitTime=" +
-                   waitTime + "}";
+                   waitTime + ", recompilations=" + recompilations +  "}";
         }
 
         public void reset()
         {
             hits.set( 0 );
+            recompilations.set( 0 );
             misses.set( 0 );
             discards.set( 0 );
             waitTime.set( 0 );

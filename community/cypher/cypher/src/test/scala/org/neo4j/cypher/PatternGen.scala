@@ -19,13 +19,13 @@
  */
 package org.neo4j.cypher
 
-import java.util.concurrent.atomic.AtomicInteger
-
 import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
 import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection.{BOTH, INCOMING, OUTGOING}
 import org.scalacheck.Gen._
 import org.scalacheck.{Gen, Shrink}
 import org.scalatest.prop.PropertyChecks
+
+import java.util.concurrent.atomic.AtomicInteger
 
 trait PatternGen extends PropertyChecks {
   protected def minPatternLength = 2
