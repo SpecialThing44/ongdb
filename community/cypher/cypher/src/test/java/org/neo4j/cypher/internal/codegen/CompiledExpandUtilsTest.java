@@ -33,6 +33,7 @@ import org.neo4j.internal.kernel.api.Transaction;
 import org.neo4j.internal.kernel.api.Write;
 import org.neo4j.internal.kernel.api.exceptions.TransactionFailureException;
 import org.neo4j.internal.kernel.api.security.LoginContext;
+import org.neo4j.kernel.impl.factory.GraphDatabaseFacade;
 import org.neo4j.test.rule.DatabaseRule;
 import org.neo4j.test.rule.EmbeddedDatabaseRule;
 
@@ -53,7 +54,7 @@ public class CompiledExpandUtilsTest
     private Transaction transaction() throws TransactionFailureException
     {
         DependencyResolver resolver = this.db.getDependencyResolver();
-        return resolver.resolveDependency( Kernel.class ).beginTransaction( implicit, LoginContext.AUTH_DISABLED );
+        return resolver.resolveDependency( GraphDatabaseFacade.SPI.class ).beginTransaction( implicit, LoginContext.AUTH_DISABLED, 100 );
     }
 
     @Test

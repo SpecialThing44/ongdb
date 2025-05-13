@@ -49,6 +49,7 @@ import org.neo4j.values.virtual.VirtualValues;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class ExecutionEngineTest
 {
@@ -105,6 +106,6 @@ public class ExecutionEngineTest
     {
         PropertyContainerLocker locker = new PropertyContainerLocker();
         TransactionalContextFactory contextFactory = Neo4jTransactionalContextFactory.create( graph, locker );
-        return contextFactory.newContext( ClientConnectionInfo.EMBEDDED_CONNECTION, tx, query, EMPTY_MAP );
+        return contextFactory.newContext( ClientConnectionInfo.EMBEDDED_CONNECTION, tx, query, EMPTY_MAP_WRAP );
     }
 }

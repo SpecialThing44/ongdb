@@ -30,6 +30,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.LongSupplier;
 
 import org.neo4j.graphdb.DependencyResolver;
@@ -282,6 +283,11 @@ public class EagerResultIT
             return new GraphDatabaseBuilder.DatabaseCreator()
             {
                 @Override
+                public GraphDatabaseService newDatabase(Map<String, String> config) {
+                    return null;
+                }
+
+                @Override
                 public GraphDatabaseService newDatabase( Config config )
                 {
                     return customFacadeFactory.newFacade( storeDir, config,
@@ -300,9 +306,9 @@ public class EagerResultIT
         }
 
         @Override
-        protected PlatformModule createPlatform(File providedStoreDir, Config config, DatabaseInfo databaseInfo, GraphDatabaseFacadeFactory.Dependencies externalDependencies, GraphDatabaseFacade graphDatabaseFacade )
+        protected PlatformModule createPlatform(File providedStoreDir, Config config, GraphDatabaseFacadeFactory.Dependencies externalDependencies, GraphDatabaseFacade graphDatabaseFacade )
         {
-            return new PlatformModule( providedStoreDir, config, databaseInfo, externalDependencies )
+            return new PlatformModule( providedStoreDir, config, databaseInfo, externalDependencies, graphDatabaseFacade )
             {
                 @Override
                 protected VersionContextSupplier createCursorContextSupplier( Config config )

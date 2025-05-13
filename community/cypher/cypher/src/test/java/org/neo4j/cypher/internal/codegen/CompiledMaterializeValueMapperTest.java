@@ -99,6 +99,11 @@ public class CompiledMaterializeValueMapperTest
         {
             throw new IllegalStateException( "Should not be used" );
         }
+
+        @Override
+        public int getRelationshipTypeIdByName(String typeName) {
+            throw new IllegalStateException( "Should not be used" );
+        }
     };
 
     NodeValue nodeProxyValue = ValueUtils.fromNodeProxy( new NodeProxy( spi, 1L ) );
