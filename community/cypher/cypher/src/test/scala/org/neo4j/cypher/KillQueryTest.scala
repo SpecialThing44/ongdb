@@ -32,7 +32,7 @@ import org.neo4j.kernel.impl.query.clientconnection.ClientConnectionInfo.EMBEDDE
 import org.neo4j.kernel.impl.query.{Neo4jTransactionalContextFactory, TransactionalContext, TransactionalContextFactory}
 import org.neo4j.logging.{LogProvider, NullLogProvider}
 import org.neo4j.values.virtual.VirtualValues
-import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP
+import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP
 
 class KillQueryTest extends ExecutionEngineFunSuite {
   /*
@@ -102,7 +102,7 @@ class KillQueryTest extends ExecutionEngineFunSuite {
         while (continue.get()) {
           val tx = graph.beginTransaction(Type.`implicit`, AUTH_DISABLED)
           try {
-            val transactionalContext: TransactionalContext = contextFactory.newContext(EMBEDDED_CONNECTION, tx, query, EMPTY_MAP)
+            val transactionalContext: TransactionalContext = contextFactory.newContext(EMBEDDED_CONNECTION, tx, query, EMPTY_MAP_WRAP)
             tcs.put(transactionalContext)
             val result = engine.execute(query, VirtualValues.emptyMap(), transactionalContext)
             result.resultAsString()

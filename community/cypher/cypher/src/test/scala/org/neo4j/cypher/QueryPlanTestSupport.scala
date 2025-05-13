@@ -19,6 +19,8 @@
  */
 package org.neo4j.cypher
 
+import org.neo4j.cypher.internal.RewindableExecutionResult
+import org.neo4j.cypher.planmatching.{CountInTree, ExactPlan, PlanInTree, PlanMatcher}
 import org.scalatest.matchers.{MatchResult, Matcher}
 
 trait QueryPlanTestSupport {

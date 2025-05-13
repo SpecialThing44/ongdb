@@ -25,7 +25,6 @@ import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.graphdb.DependencyResolver.SelectionStrategy
 import org.neo4j.graphdb._
 import org.neo4j.graphdb.config.Setting
-import org.neo4j.internal.kernel.api.helpers.Indexes
 import org.neo4j.internal.kernel.api.procs.{ProcedureSignature, UserFunctionSignature}
 import org.neo4j.internal.kernel.api.security.LoginContext
 import org.neo4j.kernel.api.InwardKernel
@@ -101,22 +100,22 @@ trait GraphDatabaseTestSupport extends CypherTestSupport with GraphIcing {
     }
   }
 
-  def resampleIndexes(): Unit = {
-    graph.execute("CALL db.resampleOutdatedIndexes")
-    assertWithKernelTx(ktx => Indexes.awaitResampling(ktx.schemaRead(), 300))
-  }
-
-  def assertWithKernelTx(f: KernelTransaction => Unit): Unit = {
-    val kernel = graph.getDependencyResolver.resolveDependency(classOf[Kernel], SelectionStrategy.ONLY)
-    var ktx: KernelTransaction = null
-    try {
-      ktx = kernel.beginTransaction( KernelTransaction.Type.explicit, LoginContext.AUTH_DISABLED )
-      f(ktx)
-    } finally {
-      ktx.success()
-      ktx.close()
-    }
-  }
+//  def resampleIndexes(): Unit = {
+//    graph.execute("CALL db.resampleOutdatedIndexes")
+//    assertWithKernelTx(ktx => Indexes.awaitResampling(ktx.schemaRead(), 300))
+//  }
+//
+//  def assertWithKernelTx(f: KernelTransaction => Unit): Unit = {
+//    val kernel = graph.getDependencyResolver.resolveDependency(classOf[Kernel], SelectionStrategy.ONLY)
+//    var ktx: KernelTransaction = null
+//    try {
+//      ktx = kernel.beginTransaction( KernelTransaction.Type.explicit, LoginContext.AUTH_DISABLED )
+//      f(ktx)
+//    } finally {
+//      ktx.success()
+//      ktx.close()
+//    }
+//  }
 
   def indexNode(n: Node, idxName: String, key: String, value: String) {
     graph.inTx(n.getGraphDatabase.index.forNodes(idxName).add(n, key, value))

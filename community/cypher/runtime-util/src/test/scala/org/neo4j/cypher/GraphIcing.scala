@@ -167,7 +167,7 @@ trait GraphIcing {
       }
     }
 
-    def txCounts = TxCounts(txMonitor.getNumberOfCommittedTransactions, txMonitor.getNumberOfRolledBackTransactions, txMonitor.getNumberOfActiveTransactions)
+    def txCounts: TxCounts = TxCounts(txMonitor.getNumberOfCommittedTransactions, txMonitor.getNumberOfRolledBackTransactions, txMonitor.getNumberOfActiveTransactions)
 
     private def txMonitor: TransactionStats = graph.getDependencyResolver.resolveDependency(classOf[TransactionStats])
 

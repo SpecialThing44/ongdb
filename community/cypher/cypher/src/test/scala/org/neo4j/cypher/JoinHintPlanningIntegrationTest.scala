@@ -19,6 +19,7 @@
  */
 package org.neo4j.cypher
 
+import org.neo4j.cypher.internal.compiler.v3_5.planner.LogicalPlanningTestSupport2
 import org.neo4j.cypher.internal.compiler.v3_5.planner.logical.QueryGraphSolver
 import org.neo4j.cypher.internal.compiler.v3_5.planner.logical.idp._
 import org.neo4j.cypher.internal.ir.v3_5.RegularPlannerQuery

@@ -310,13 +310,13 @@
 
         <!-- ongdb-geequel test -->
 
-<!--        <dependency>-->
-<!--            <groupId>org.graphfoundation.ongdb</groupId>-->
-<!--            <artifactId>ongdb-geequel-planner-3.5</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--            <type>test-jar</type>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.graphfoundation.ongdb</groupId>
+            <artifactId>ongdb-geequel-planner-3.5</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.graphfoundation.ongdb</groupId>
@@ -351,6 +351,22 @@
         <dependency>
             <groupId>org.graphfoundation.ongdb</groupId>
             <artifactId>ongdb-geequel-interpreted-runtime</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.graphfoundation.ongdb</groupId>
+            <artifactId>ongdb-ast-3.5</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.graphfoundation.ongdb</groupId>
+            <artifactId>ongdb-parser-3.5</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
             <scope>test</scope>

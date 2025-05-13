@@ -63,7 +63,7 @@ trait GraphDatabaseTestSupport extends CypherTestSupport with GraphIcing {
 
   def databaseConfig(): Map[Setting[_],String] = Map()
 
-  override protected def initTest() {
+  override protected def initTest(): Unit = {
     super.initTest()
     startGraphDatabase()
   }

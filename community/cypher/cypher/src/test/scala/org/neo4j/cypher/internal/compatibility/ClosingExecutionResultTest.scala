@@ -381,6 +381,7 @@ class ClosingExecutionResultTest extends CypherFunSuite {
     private var nCalls = 0
     private var query: ExecutingQuery = _
     private var reason: CloseReason = _
+    private var monitor: QueryExecutionMonitor = _
 
     override def endFailure(query: ExecutingQuery, failure: Throwable): Unit = {
       this.query = query
@@ -399,6 +400,10 @@ class ClosingExecutionResultTest extends CypherFunSuite {
       this.reason = Success
       nCalls += 1
     }
+
+    override def startQueryExecution(query: ExecutingQuery): Unit =
+      monitor.startQueryExecution(query)
+
 
     def assertSuccess(query: ExecutingQuery): Unit = {
       this.reason should equal(Success)

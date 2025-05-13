@@ -40,7 +40,7 @@ import org.neo4j.kernel.impl.coreapi.{InternalTransaction, PropertyContainerLock
 import org.neo4j.kernel.impl.query.Neo4jTransactionalContextFactory
 import org.neo4j.kernel.impl.query.clientconnection.ClientConnectionInfo
 import org.neo4j.test.TestGraphDatabaseFactory
-import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP
+import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP
 import org.neo4j.cypher.internal.v3_5.expressions.{LabelToken, PropertyKeyToken, SemanticDirection}
 import org.neo4j.cypher.internal.v3_5.frontend.phases.devNullLogger
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
@@ -231,7 +231,7 @@ class ActualCostCalculationTest extends CypherFunSuite {
 
   private def transactionContext(graph: GraphDatabaseQueryService, tx: InternalTransaction) = {
     val contextFactory = Neo4jTransactionalContextFactory.create(graph, new PropertyContainerLocker)
-    contextFactory.newContext(ClientConnectionInfo.EMBEDDED_CONNECTION, tx, "X", EMPTY_MAP)
+    contextFactory.newContext(ClientConnectionInfo.EMBEDDED_CONNECTION, tx, "X", EMPTY_MAP_WRAP)
   }
 
   //executes the provided pipes and returns execution times
@@ -373,4 +373,3 @@ class ActualCostCalculationTest extends CypherFunSuite {
     }
   }
 }
-

@@ -42,21 +42,18 @@ import org.neo4j.graphdb.QueryExecutionType;
 import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.facade.GraphDatabaseDependencies;
-import org.neo4j.graphdb.facade.GraphDatabaseFacadeFactory;
 import org.neo4j.graphdb.factory.GraphDatabaseBuilder;
 import org.neo4j.graphdb.factory.GraphDatabaseFactoryState;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
-import org.neo4j.graphdb.factory.module.PlatformModule;
-import org.neo4j.graphdb.factory.module.edition.CommunityEditionModule;
 import org.neo4j.helpers.collection.Iterables;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContext;
 import org.neo4j.io.pagecache.tracing.cursor.context.VersionContextSupplier;
+import org.neo4j.kernel.GraphDatabaseDependencies;
 import org.neo4j.kernel.configuration.Config;
 import org.neo4j.kernel.configuration.Settings;
 import org.neo4j.kernel.impl.context.TransactionVersionContext;
 import org.neo4j.kernel.impl.context.TransactionVersionContextSupplier;
-import org.neo4j.kernel.impl.factory.DatabaseInfo;
+import org.neo4j.kernel.impl.factory.*;
 import org.neo4j.kernel.impl.transaction.log.TransactionIdStore;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.test.TestGraphDatabaseFactory;
@@ -303,9 +300,9 @@ public class EagerResultIT
         }
 
         @Override
-        protected PlatformModule createPlatform( File storeDir, Config config, Dependencies dependencies )
+        protected PlatformModule createPlatform(File providedStoreDir, Config config, DatabaseInfo databaseInfo, GraphDatabaseFacadeFactory.Dependencies externalDependencies, GraphDatabaseFacade graphDatabaseFacade )
         {
-            return new PlatformModule( storeDir, config, databaseInfo, dependencies )
+            return new PlatformModule( providedStoreDir, config, databaseInfo, externalDependencies )
             {
                 @Override
                 protected VersionContextSupplier createCursorContextSupplier( Config config )
