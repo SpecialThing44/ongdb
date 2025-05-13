@@ -36,7 +36,7 @@ import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
 import org.neo4j.values.AnyValue
 import org.neo4j.values.storable.CoordinateReferenceSystem
 import org.neo4j.values.virtual.MapValue
-import org.neo4j.values.virtual.VirtualValues.EMPTY_MAP
+import org.neo4j.values.virtual.VirtualValues.{EMPTY_MAP, EMPTY_MAP_WRAP}
 
 import scala.collection.mutable
 
@@ -61,7 +61,7 @@ object QueryStateHelper {
                     ): QueryState = {
     val searchMonitor = new KernelMonitors().newMonitor(classOf[IndexSearchMonitor])
     val contextFactory = Neo4jTransactionalContextFactory.create(db, locker)
-    val transactionalContext = TransactionalContextWrapper(contextFactory.newContext(ClientConnectionInfo.EMBEDDED_CONNECTION, tx, "X", EMPTY_MAP))
+    val transactionalContext = TransactionalContextWrapper(contextFactory.newContext(ClientConnectionInfo.EMBEDDED_CONNECTION, tx, "X", EMPTY_MAP_WRAP))
     val queryContext = new TransactionBoundQueryContext(transactionalContext)(searchMonitor)
     emptyWith(db = db, query = queryContext, params = params)
   }

@@ -40,7 +40,6 @@ package org.neo4j.cypher
 
 import java.util
 import java.util.concurrent.TimeUnit
-
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.cypher.internal.runtime.{RuntimeJavaValueConverter, isGraphKernelResultValue}
 import org.neo4j.graphdb.Label._
@@ -55,7 +54,7 @@ import org.neo4j.kernel.impl.factory.GraphDatabaseFacade
 import org.neo4j.kernel.impl.query._
 import org.neo4j.kernel.impl.query.clientconnection.ClientConnectionInfo
 import org.neo4j.kernel.impl.transaction.TransactionStats
-import org.neo4j.kernel.impl.util.ValueUtils.asMapValue
+import org.neo4j.kernel.impl.util.ValueUtils.{asMapValue, asParameterMapValue}
 
 import scala.collection.JavaConverters._
 
@@ -133,7 +132,7 @@ trait GraphIcing {
       val javaParams = javaValues.asDeepJavaMap(params).asInstanceOf[util.Map[String, AnyRef]]
       val contextFactory = Neo4jTransactionalContextFactory.create(graphService,
         locker)
-      val transactionalContext = contextFactory.newContext(ClientConnectionInfo.EMBEDDED_CONNECTION, tx, queryText, asMapValue(javaParams))
+      val transactionalContext = contextFactory.newContext(ClientConnectionInfo.EMBEDDED_CONNECTION, tx, queryText, asParameterMapValue(javaParams))
       (tx, transactionalContext)
     }
 

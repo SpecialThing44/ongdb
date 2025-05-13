@@ -38,16 +38,16 @@
  */
 package org.neo4j.cypher.internal.runtime.planDescription
 
-import java.util.Locale
+import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.{Cardinalities, ProvidedOrders}
 
-import org.neo4j.cypher.internal.planner.v3_4.spi.PlanningAttributes.Cardinalities
+import java.util.Locale
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments._
-import org.neo4j.cypher.internal.util.v3_4.attribution.{Id, SequentialIdGen}
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.{CypherFunSuite, WindowsStringSafe}
-import org.neo4j.cypher.internal.util.v3_4.{DummyPosition, LabelId, NonEmptyList, PropertyKeyId}
-import org.neo4j.cypher.internal.v3_4.expressions.{Expression => ASTExpression, LabelName => ASTLabelName, Range => ASTRange, _}
-import org.neo4j.cypher.internal.v3_4.logical.plans
-import org.neo4j.cypher.internal.v3_4.logical.plans._
+import org.neo4j.cypher.internal.v3_5.expressions.{Equals, FunctionInvocation, FunctionName, HasLabels, LabelToken, Not, Property, PropertyKeyName, PropertyKeyToken, SemanticDirection, SignedDecimalIntegerLiteral, Variable, LabelName => AstLabelName}
+import org.neo4j.cypher.internal.v3_5.logical.plans
+import org.neo4j.cypher.internal.v3_5.logical.plans.{ExclusiveBound, Expand, ExpandAll, GetValue, IndexOrder, IndexOrderNone, IndexedProperty, InequalitySeekRangeWrapper, NodeIndexSeek, RangeBetween, RangeGreaterThan, RangeLessThan, RangeQueryExpression}
+import org.neo4j.cypher.internal.v3_5.util.{DummyPosition, LabelId, NonEmptyList, PropertyKeyId}
+import org.neo4j.cypher.internal.v3_5.util.attribution.{Id, SequentialIdGen}
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.{CypherFunSuite, WindowsStringSafe}
 import org.scalatest.BeforeAndAfterAll
 
 class RenderTreeTableTest extends CypherFunSuite with BeforeAndAfterAll {
@@ -347,7 +347,7 @@ class RenderTreeTableTest extends CypherFunSuite with BeforeAndAfterAll {
     val cardinalities = new Cardinalities
     cardinalities.set(expandPlan.id, 1.0)
     cardinalities.set(argument.id, 1.0)
-    val description = LogicalPlan2PlanDescription(true, cardinalities)
+    val description = LogicalPlan2PlanDescription(readOnly = true, cardinalities, new ProvidedOrders)
 
     renderAsTreeTable(description.create(expandPlan)) should equal(
       """+--------------+----------------+-----------+---------------------+
@@ -443,7 +443,7 @@ class RenderTreeTableTest extends CypherFunSuite with BeforeAndAfterAll {
     val arguments = Seq(
       Rows(42),
       DbHits(33),
-      Expression(HasLabels(Variable("x")(pos), Seq(ASTLabelName("Artist")(pos)))(pos)),
+      Expression(HasLabels(Variable("x")(pos), Seq(AstLabelName("Artist")(pos)))(pos)),
       EstimatedRows(1))
 
     val plan = PlanDescriptionImpl(id, "NAME", NoChildren, arguments, Set("n"))
@@ -481,20 +481,20 @@ class RenderTreeTableTest extends CypherFunSuite with BeforeAndAfterAll {
     val seekPlan = NodeIndexSeek(
       "a",
       LabelToken("Person", LabelId(0)),
-      Seq(PropertyKeyToken(PropertyKeyName("age")(pos), PropertyKeyId(0))),
+      Seq(IndexedProperty(PropertyKeyToken(PropertyKeyName("age")(pos), PropertyKeyId(0)), GetValue)),
       rangeQuery,
-      Set.empty)(idGen)
+      Set.empty, IndexOrderNone)(idGen)
     val cardinalities = new Cardinalities
     cardinalities.set(seekPlan.id, 1.0)
     cardinalities.set(argument.id, 1.0)
-    val description = LogicalPlan2PlanDescription(readOnly = true, cardinalities)
+    val description = LogicalPlan2PlanDescription(readOnly = true, cardinalities, new ProvidedOrders)
 
     renderAsTreeTable(description.create(seekPlan)) should equal(
-      """+-----------------------+----------------+-----------+-------------------+
-        || Operator              | Estimated Rows | Variables | Other             |
-        |+-----------------------+----------------+-----------+-------------------+
-        || +NodeIndexSeekByRange |              1 | a         | :Person(age) < 12 |
-        |+-----------------------+----------------+-----------+-------------------+
+      """+-----------------------+----------------+------------------+-------------------+
+        || Operator              | Estimated Rows | Variables        | Other             |
+        |+-----------------------+----------------+------------------+-------------------+
+        || +NodeIndexSeekByRange |              1 | a, cached[a.age] | :Person(age) < 12 |
+        |+-----------------------+----------------+------------------+-------------------+
         |""".stripMargin)
   }
 
@@ -506,20 +506,20 @@ class RenderTreeTableTest extends CypherFunSuite with BeforeAndAfterAll {
     val seekPlan = NodeIndexSeek(
       "a",
       LabelToken("Person", LabelId(0)),
-      Seq(PropertyKeyToken(PropertyKeyName("age")(pos), PropertyKeyId(0))),
+      Seq(IndexedProperty(PropertyKeyToken(PropertyKeyName("age")(pos), PropertyKeyId(0)), GetValue)),
       rangeQuery,
-      Set.empty)(idGen)
+      Set.empty, IndexOrderNone)(idGen)
     val cardinalities = new Cardinalities
     cardinalities.set(seekPlan.id, 1.0)
     cardinalities.set(argument.id, 1.0)
-    val description = LogicalPlan2PlanDescription(readOnly = true, cardinalities)
+    val description = LogicalPlan2PlanDescription(readOnly = true, cardinalities, new ProvidedOrders)
 
     renderAsTreeTable(description.create(seekPlan)) should equal(
-      """+-----------------------+----------------+-----------+-----------------------------------------+
-        || Operator              | Estimated Rows | Variables | Other                                   |
-        |+-----------------------+----------------+-----------+-----------------------------------------+
-        || +NodeIndexSeekByRange |              1 | a         | :Person(age) > 12 AND :Person(age) < 21 |
-        |+-----------------------+----------------+-----------+-----------------------------------------+
+      """+-----------------------+----------------+------------------+-----------------------------------------+
+        || Operator              | Estimated Rows | Variables        | Other                                   |
+        |+-----------------------+----------------+------------------+-----------------------------------------+
+        || +NodeIndexSeekByRange |              1 | a, cached[a.age] | :Person(age) > 12 AND :Person(age) < 21 |
+        |+-----------------------+----------------+------------------+-----------------------------------------+
         |""".stripMargin)
   }
 

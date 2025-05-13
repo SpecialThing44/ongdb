@@ -17,12 +17,13 @@
 package org.neo4j.cypher.internal.v3_5.util
 
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
+import org.neo4j.cypher.internal.v3_5.util.Eagerly._
 
 import scala.collection.{immutable, mutable}
 
 class EagerlyTest extends CypherFunSuite {
   test("maps values of immutable maps to immutable maps") {
-    val result = Eagerly.immutableMapValues(immutable.Map("a" -> 1, "b" ->2), (x: Int) => x * 2)
+    val result = immutableMapValues(immutable.Map("a" -> 1, "b" ->2), (x: Int) => x * 2)
     val expectation = immutable.Map("a" -> 2, "b" -> 4)
 
     result should equal(expectation)
@@ -30,7 +31,7 @@ class EagerlyTest extends CypherFunSuite {
   }
 
   test("maps values of mutable maps to immutable maps") {
-    val result = Eagerly.immutableMapValues(mutable.Map("a" -> 1, "b" ->2), (x: Int) => x * 2)
+    val result = immutableMapValues(mutable.Map("a" -> 1, "b" ->2), (x: Int) => x * 2)
     val expectation = immutable.Map("a" -> 2, "b" -> 4)
 
     result should equal(expectation)
@@ -46,7 +47,7 @@ class EagerlyTest extends CypherFunSuite {
   }
 
   test("maps values of mutable maps to mutable maps") {
-    val result = Eagerly.mutableMapValues(mutable.Map("a" -> 1, "b" ->2), (x: Int) => x * 2)
+    val result = mutableMapValues(mutable.Map("a" -> 1, "b" ->2), (x: Int) => x * 2)
     val expectation = mutable.Map("a" -> 2, "b" -> 4)
 
     result should equal(expectation)
@@ -54,13 +55,13 @@ class EagerlyTest extends CypherFunSuite {
   }
 
   test("replaces keys on empty map") {
-    val result = Eagerly.immutableReplaceKeys[Any, Any](Map.empty)("a" -> 1)
+    val result = immutableReplaceKeys[Any, Any](Map.empty)("a" -> 1)
 
     result should be(empty)
   }
 
   test("replaces keys on non-empty map") {
-    val result = Eagerly.immutableReplaceKeys(Map("a" -> 10))("a" -> "a", "a" -> "b")
+    val result = immutableReplaceKeys(Map("a" -> 10))("a" -> "a", "a" -> "b")
 
     result should equal(Map("a" -> 10, "b" -> 10))
   }

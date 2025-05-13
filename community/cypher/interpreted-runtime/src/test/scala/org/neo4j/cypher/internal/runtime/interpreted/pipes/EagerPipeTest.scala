@@ -27,6 +27,7 @@ class EagerPipeTest extends CypherFunSuite {
 
   private val queryContext = new QueryContext with QueryContextAdaptation {
     override val transactionalContext: QueryTransactionalContext = mock[QueryTransactionalContext]
+
   }
   private val queryState = QueryStateHelper.emptyWith(query = queryContext)
 

@@ -44,13 +44,13 @@ object TransactionBoundGraphStatistics {
 
     override def uniqueValueSelectivity(index: IndexDescriptor): Option[Selectivity] =
       try {
-        val indexSize = schemaRead.indexSize(DefaultIndexReference.general(index.label, index.properties.map(_.id):_*))
+        val indexSize = schemaRead.indexSize(schemaRead.indexReferenceUnchecked(index.label, index.properties.map(_.id):_*))
         if (indexSize == 0)
           Some(Selectivity.ZERO)
         else {
           // Probability of any node in the index, to have a property with a given value
           val indexEntrySelectivity = schemaRead.indexUniqueValuesSelectivity(
-            DefaultIndexReference.general(index.label, index.properties.map(_.id):_*))
+            schemaRead.indexReferenceUnchecked(index.label, index.properties.map(_.id):_*))
           if (indexEntrySelectivity == 0.0) {
             Some(Selectivity.ZERO)
           } else {
@@ -74,7 +74,7 @@ object TransactionBoundGraphStatistics {
           Some(Selectivity.ZERO)
         else {
           // Probability of any node with the given label, to have a given property
-          val indexSize = schemaRead.indexSize(DefaultIndexReference.general(index.label, index.properties.map(_.id):_*))
+          val indexSize = schemaRead.indexSize(schemaRead.indexReferenceUnchecked(index.label, index.properties.map(_.id):_*))
           val indexSelectivity = indexSize / labeledNodes
 
           //Even though semantically impossible the index can get into a state where

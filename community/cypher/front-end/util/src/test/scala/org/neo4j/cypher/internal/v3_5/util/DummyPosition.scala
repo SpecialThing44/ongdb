@@ -16,6 +16,7 @@
  */
 package org.neo4j.cypher.internal.v3_5.util
 
+
 object DummyPosition {
-  def apply(offset: Int) = new InputPosition(offset, 1, offset)
+  def apply(offset: Int): InputPosition = InputPosition(offset, 1, offset)
 }

@@ -20,8 +20,8 @@
 package org.neo4j.cypher.internal.runtime.interpreted
 
 import java.net.URL
-
 import org.eclipse.collections.api.iterator.LongIterator
+import org.neo4j.collection.primitive.PrimitiveLongIterator
 import org.neo4j.cypher.internal.planner.v3_5.spi.{IdempotentResult, IndexDescriptor}
 import org.neo4j.cypher.internal.runtime._
 import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
@@ -105,6 +105,9 @@ trait QueryContextAdaptation {
                                  needsValues: Boolean,
                                  indexOrder: IndexOrder,
                                  values: Seq[IndexQuery]): NodeValueIndexCursor = ???
+
+  override def indexScanPrimitive(index: IndexReference): PrimitiveLongIterator = ???
+
 
   override def getRelationshipsForIds(node: Long, dir: SemanticDirection, types: Option[Array[Int]]): scala.Iterator[RelationshipValue] = ???
 

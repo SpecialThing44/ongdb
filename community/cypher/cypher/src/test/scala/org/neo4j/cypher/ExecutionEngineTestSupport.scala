@@ -39,14 +39,13 @@
 package org.neo4j.cypher
 
 import java.util.concurrent.TimeUnit
-
 import org.hamcrest.CoreMatchers._
 import org.junit.Assert._
 import org.neo4j.cypher.ExecutionEngineHelper.createEngine
-import org.neo4j.cypher.internal.util.v3_4.test_helpers.{CypherFunSuite, CypherTestSupport}
 import org.neo4j.cypher.internal._
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.cypher.internal.runtime.{InternalExecutionResult, RuntimeScalaValueConverter}
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.{CypherFunSuite, CypherTestSupport}
 import org.neo4j.graphdb.{GraphDatabaseService, Result}
 import org.neo4j.kernel.GraphDatabaseQueryService
 import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}

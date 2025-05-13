@@ -65,9 +65,9 @@ case class DbStructureLogicalPlanningConfiguration(cypherCompilerConfig: CypherP
     }
   }
 
-  private def indexSet(indices: util.Iterator[Pair[Array[String], Array[String]]]): Map[IndexDef, IndexType] =
+  private def indexSet(indices: util.Iterator[Pair[String, Array[String]]]): Map[IndexDef, IndexType] =
     //We use a zero index here as to not bleed multi-token descriptors into cypher.
-    indices.asScala.map { pair => IndexDef(pair.first().head, pair.other().toSeq) -> new IndexType }.toMap
+    indices.asScala.map { pair => IndexDef(pair.first(), pair.other().toSeq) -> new IndexType }.toMap
 
   private def resolveTokens[T](iterator: util.Iterator[Pair[Integer, String]])(f: Int => T): mutable.Map[String, T] = {
     val builder = mutable.Map.newBuilder[String, T]
