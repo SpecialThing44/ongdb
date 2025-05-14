@@ -586,7 +586,7 @@ public class BoltStateMachineTest
     @Test
     public void shouldInvokeResponseHandlerOnNextRunMessageOnMarkFailedIfNoHandler() throws Exception
     {
-        testMarkFailedOnNextMessage( ( machine, handler ) -> machine.run( "RETURN 1", ValueUtils.asMapValue( Collections.emptyMap() ), handler ) );
+        testMarkFailedOnNextMessage( ( machine, handler ) -> machine.run( "RETURN 1", ValueUtils.asParameterMapValue( Collections.emptyMap() ), handler ) );
     }
 
     @Test
@@ -642,7 +642,7 @@ public class BoltStateMachineTest
     public void shouldInvokeResponseHandlerOnNextRunMessageOnMarkFailedIfAlreadyFailedAndNoHandler() throws Exception
     {
         testMarkFailedShouldYieldIgnoredIfAlreadyFailed(
-                ( machine, handler ) -> machine.run( "RETURN 1", ValueUtils.asMapValue( Collections.emptyMap() ), handler ) );
+                ( machine, handler ) -> machine.run( "RETURN 1", ValueUtils.asParameterMapValue( Collections.emptyMap() ), handler ) );
     }
 
     @Test

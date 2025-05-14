@@ -169,7 +169,7 @@ public class BoltThrottleMaxDurationIT
             for ( int i = 0; i < numberOfRunDiscardPairs; i++ )
             {
                 client.send( util.chunk(
-                        run( "RETURN $data as data", ValueUtils.asMapValue( singletonMap( "data", largeString ) ) ),
+                        run( "RETURN $data as data", ValueUtils.asParameterMapValue( singletonMap( "data", largeString ) ) ),
                         pullAll()
                 ) );
             }

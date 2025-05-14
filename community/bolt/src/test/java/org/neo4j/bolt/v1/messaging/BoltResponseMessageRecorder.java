@@ -52,7 +52,7 @@ public class BoltResponseMessageRecorder extends MessageRecorder<ResponseMessage
     @Override
     public void onSuccess( MapValue metadata )
     {
-        messages.add( new SuccessMessage( metadata ) );
+        messages.add( new SuccessMessage((MapValue.MapWrappingMapValue) metadata) );
     }
 
     @Override

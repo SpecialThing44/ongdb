@@ -171,7 +171,7 @@ public class FragmentedMessageDeliveryTest
         // Then the session should've received the specified messages, and the protocol should be in a nice clean state
         try
         {
-            verify( machine ).run( eq( "Mjölnir" ), any(MapValue.class), any( BoltResponseHandler.class ) );
+            verify( machine ).run( eq( "Mjölnir" ), any(MapValue.MapWrappingMapValue.class), any( BoltResponseHandler.class ) );
         }
         catch ( AssertionError e )
         {

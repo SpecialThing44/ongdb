@@ -93,7 +93,7 @@ public class MessageMatchers
     {
     }
 
-    private static Map<String,Object> toRawMap( MapValue mapValue )
+    private static Map<String,Object> toRawMap( MapValue.MapWrappingMapValue mapValue )
     {
         Deserializer deserializer = new Deserializer();
         HashMap<String,Object> map = new HashMap<>( mapValue.size() );

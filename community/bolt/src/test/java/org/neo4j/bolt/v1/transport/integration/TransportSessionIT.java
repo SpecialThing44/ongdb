@@ -398,7 +398,7 @@ public class TransportSessionIT extends AbstractBoltTransportsTest
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
                         init( "TestClient/1.1", emptyMap() ),
-                        run( "RETURN {p}", ValueUtils.asMapValue( params ) ),
+                        run( "RETURN {p}", ValueUtils.asParameterMapValue( params ) ),
                         pullAll() ) );
 
         // Then

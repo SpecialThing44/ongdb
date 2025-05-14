@@ -44,12 +44,12 @@ import org.neo4j.values.virtual.VirtualValues;
 
 public class RunMessage implements RequestMessage
 {
-    private static final MapValue EMPTY_PARAMETERS = VirtualValues.EMPTY_MAP;
+    private static final MapValue.MapWrappingMapValue EMPTY_PARAMETERS = VirtualValues.EMPTY_MAP_WRAP;
 
     /**
      * Factory method for obtaining RUN messages.
      */
-    public static RunMessage run( String statement, MapValue parameters )
+    public static RunMessage run( String statement, MapValue.MapWrappingMapValue parameters )
     {
         return new RunMessage( statement, parameters );
     }
@@ -64,9 +64,9 @@ public class RunMessage implements RequestMessage
     }
 
     private final String statement;
-    private final MapValue params;
+    private final MapValue.MapWrappingMapValue params;
 
-    private RunMessage( String statement, MapValue params )
+    private RunMessage( String statement, MapValue.MapWrappingMapValue params )
     {
         this.statement = statement;
         this.params = params;

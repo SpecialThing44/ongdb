@@ -100,7 +100,7 @@ public class BoltRequestMessageTest
     public void shouldHandleParameterizedStatements() throws Throwable
     {
         // Given
-        MapValue parameters = ValueUtils.asMapValue( map( "n", 12L ) );
+        MapValue.MapWrappingMapValue parameters = ValueUtils.asParameterMapValue( map( "n", 12L ) );
 
         // When
         RunMessage msg = serializeAndDeserialize( run( "asd", parameters ) );

@@ -43,9 +43,9 @@ import org.neo4j.values.virtual.MapValue;
 
 public class SuccessMessage implements ResponseMessage
 {
-    private final MapValue metadata;
+    private final MapValue.MapWrappingMapValue metadata;
 
-    public SuccessMessage( MapValue metadata )
+    public SuccessMessage( MapValue.MapWrappingMapValue metadata )
     {
         this.metadata = metadata;
     }
@@ -88,7 +88,7 @@ public class SuccessMessage implements ResponseMessage
                '}';
     }
 
-    public MapValue meta()
+    public MapValue.MapWrappingMapValue meta()
     {
         return metadata;
     }

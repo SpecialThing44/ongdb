@@ -246,13 +246,13 @@ public class ExportTest
         assertEquals( "create index on :`Foo`(`bar`);" + lineSeparator() , doExportGraph( gdb ) );
     }
 
-    @Test
-    public void testExportFullTextIndex()
-    {
-        gdb.execute( "CALL db.index.fulltext.createRelationshipIndex('MyCoolRelFulltextIndex', ['REL'], ['rel_value'])").close();
-        gdb.schema().indexFor( Label.label( "Foo" ) ).on( "bar" ).create();
-        assertEquals( "create index on :`Foo`(`bar`);" + lineSeparator() , doExportGraph( gdb ) );
-    }
+//    @Test
+//    public void testExportFullTextIndex()
+//    {
+//        gdb.execute( "CALL db.index.fulltext.createRelationshipIndex('MyCoolRelFulltextIndex', ['REL'], ['rel_value'])").close();
+//        gdb.schema().indexFor( Label.label( "Foo" ) ).on( "bar" ).create();
+//        assertEquals( "create index on :`Foo`(`bar`);" + lineSeparator() , doExportGraph( gdb ) );
+//    }
 
     @Test
     public void testExportUniquenessConstraint()

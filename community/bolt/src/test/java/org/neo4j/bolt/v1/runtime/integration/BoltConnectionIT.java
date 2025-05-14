@@ -82,7 +82,7 @@ import static org.neo4j.values.storable.Values.stringValue;
 @SuppressWarnings( "unchecked" )
 public class BoltConnectionIT
 {
-    private static final MapValue EMPTY_PARAMS = VirtualValues.EMPTY_MAP;
+    private static final MapValue.MapWrappingMapValue EMPTY_PARAMS = VirtualValues.EMPTY_MAP_WRAP;
     private static final String USER_AGENT = "BoltConnectionIT/0.0";
     private static final BoltChannel boltChannel = mock( BoltChannel.class );
     @Rule
@@ -124,7 +124,7 @@ public class BoltConnectionIT
 
         // when
         BoltResponseRecorder recorder = new BoltResponseRecorder();
-        verifyKillsConnection( () -> machine.run( "RETURN 1", map(), recorder ) );
+        verifyKillsConnection( () -> machine.run( "RETURN 1", map_wrap(), recorder ) );
 
         // then
         assertThat( recorder.nextResponse(), failedWithStatus( Status.Request.Invalid ) );
@@ -480,7 +480,7 @@ public class BoltConnectionIT
         // Given
         BoltStateMachine machine = env.newMachine( boltChannel );
         machine.init( USER_AGENT, emptyMap(), null );
-        MapValue params = map( "csvFileUrl", createLocalIrisData( machine ) );
+        MapValue.MapWrappingMapValue params = map_wrap( "csvFileUrl", createLocalIrisData( machine ) );
         long txIdBeforeQuery = env.lastClosedTxId();
         long batch = 40;
 
@@ -526,7 +526,7 @@ public class BoltConnectionIT
         // Given
         BoltStateMachine machine = env.newMachine( boltChannel );
         machine.init( USER_AGENT, emptyMap(), null );
-        MapValue params = map( "csvFileUrl", createLocalIrisData( machine ) );
+        MapValue.MapWrappingMapValue params = map_wrap( "csvFileUrl", createLocalIrisData( machine ) );
         runAndPull( machine, "BEGIN" );
 
         // When
@@ -554,7 +554,7 @@ public class BoltConnectionIT
         // Given
         BoltStateMachine machine = env.newMachine( boltChannel );
         machine.init( USER_AGENT, emptyMap(), null );
-        MapValue params = map( "csvFileUrl", createLocalIrisData( machine ) );
+        MapValue.MapWrappingMapValue params = map_wrap( "csvFileUrl", createLocalIrisData( machine ) );
         runAndPull( machine, "BEGIN" );
 
         // When
@@ -597,9 +597,9 @@ public class BoltConnectionIT
         machine.init( USER_AGENT, emptyMap(), null );
 
         runAndPull( machine, "BEGIN" );
-        runAndPull( machine, "X", map(), IGNORED );
+        runAndPull( machine, "X", map_wrap(), IGNORED );
         machine.ackFailure( nullResponseHandler() );
-        runAndPull( machine, "COMMIT", map(), IGNORED );
+        runAndPull( machine, "COMMIT", map_wrap(), IGNORED );
         machine.ackFailure( nullResponseHandler() );
 
         assertFalse( machine.statementProcessor().hasTransaction() );
@@ -627,7 +627,7 @@ public class BoltConnectionIT
         machine.init( USER_AGENT, emptyMap(), null );
 
         runAndPull( machine, "BEGIN" );
-        runAndPull( machine, "X", map(), IGNORED );
+        runAndPull( machine, "X", map_wrap(), IGNORED );
         machine.ackFailure( nullResponseHandler() );
         runAndPull( machine, "ROLLBACK" );
 
@@ -658,7 +658,7 @@ public class BoltConnectionIT
     {
         for ( String className : IRIS_CLASS_NAMES )
         {
-            MapValue params = map( "className", className );
+            MapValue.MapWrappingMapValue params = map_wrap( "className", className );
             runAndPull( machine, "CREATE (c:Class {name: {className}}) RETURN c", params );
         }
 
@@ -670,12 +670,12 @@ public class BoltConnectionIT
         return runAndPull( machine, statement, EMPTY_PARAMS, SUCCESS );
     }
 
-    private Record[] runAndPull( BoltStateMachine machine, String statement, MapValue params ) throws Exception
+    private Record[] runAndPull( BoltStateMachine machine, String statement, MapValue.MapWrappingMapValue params ) throws Exception
     {
         return runAndPull( machine, statement, params, SUCCESS );
     }
 
-    private Record[] runAndPull( BoltStateMachine machine, String statement, MapValue params,
+    private Record[] runAndPull( BoltStateMachine machine, String statement, MapValue.MapWrappingMapValue params,
             BoltResponseMessage expectedResponse ) throws Exception
     {
         BoltResponseRecorder recorder = new BoltResponseRecorder();
@@ -690,6 +690,12 @@ public class BoltConnectionIT
     {
         return ValueUtils.asMapValue( MapUtil.map( keyValues ) );
     }
+
+    private MapValue.MapWrappingMapValue map_wrap( Object... keyValues )
+    {
+        return ValueUtils.asParameterMapValue( MapUtil.map( keyValues ) );
+    }
+
 
     private static String[] IRIS_CLASS_NAMES =
             new String[] {

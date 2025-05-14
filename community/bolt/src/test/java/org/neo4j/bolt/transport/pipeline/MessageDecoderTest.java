@@ -100,6 +100,7 @@ import static org.neo4j.bolt.v1.messaging.message.PullAllMessage.pullAll;
 import static org.neo4j.bolt.v1.messaging.message.ResetMessage.reset;
 import static org.neo4j.bolt.v1.messaging.message.RunMessage.run;
 import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.serialize;
+import static org.neo4j.kernel.impl.util.ValueUtils.asParameterMapValue;
 import static org.neo4j.values.storable.Values.durationValue;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
 
@@ -178,7 +179,7 @@ public class MessageDecoderTest
         channel = new EmbeddedChannel( newDecoder( handler ) );
 
         String statement = "RETURN 1";
-        MapValue parameters = ValueUtils.asMapValue( MapUtil.map( "param1", 1, "param2", "2", "param3", true, "param4", 5.0 ) );
+        MapValue.MapWrappingMapValue parameters = asParameterMapValue( MapUtil.map( "param1", 1, "param2", "2", "param3", true, "param4", 5.0 ) );
 
         channel.writeInbound( Unpooled.wrappedBuffer( serialize( packerUnderTest, run( statement, parameters ) ) ) );
         channel.finishAndReleaseAll();
@@ -424,7 +425,7 @@ public class MessageDecoderTest
             throws IOException
     {
         String statement = "RETURN $x";
-        MapValue parameters = VirtualValues.map( Collections.singletonMap( "x", parameterValue ) );
+        MapValue.MapWrappingMapValue parameters = VirtualValues.map(  new String[]{"x"}, new AnyValue[]{parameterValue } );
 
         BoltRequestMessageHandler handler = mock( BoltRequestMessageHandler.class );
         channel = new EmbeddedChannel( newDecoder( handler ) );

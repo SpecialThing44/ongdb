@@ -137,7 +137,7 @@ public class BoltChannelAutoReadLimiterIT
         for ( int i = 0; i < numberOfRunDiscardPairs; i++ )
         {
             connection.send( util.chunk(
-                    run( "CALL boltissue.sleep( $data )", ValueUtils.asMapValue( singletonMap( "data", largeString ) ) ),
+                    run( "CALL boltissue.sleep( $data )", ValueUtils.asParameterMapValue( singletonMap( "data", largeString ) ) ),
                     discardAll()
             ) );
         }

@@ -300,7 +300,7 @@ public class ConstraintIndexCreator
         SchemaIndexDescriptor indexDescriptor = createConstraintIndex( schema, providerDescriptor );
         IndexProxy indexProxy = indexingService.getIndexProxy( indexDescriptor.schema() );
         return new DefaultCapableIndexReference( indexDescriptor.type() == Type.UNIQUE, indexProxy.getIndexCapability(),
-                indexProxy.getProviderDescriptor(), indexDescriptor.schema().keyId(),
+                indexProxy.getProviderDescriptor(), indexDescriptor.schema().keyId(), indexDescriptor.schema(),
                 indexDescriptor.schema().getPropertyIds() );
     }
 

@@ -81,7 +81,7 @@ import static org.neo4j.bolt.testing.BoltMatchers.succeededWithMetadata;
 import static org.neo4j.bolt.testing.BoltMatchers.succeededWithRecord;
 import static org.neo4j.bolt.testing.BoltMatchers.wasIgnored;
 import static org.neo4j.bolt.testing.NullResponseHandler.nullResponseHandler;
-import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 
 public class TransactionIT
@@ -103,13 +103,13 @@ public class TransactionIT
         machine.init( USER_AGENT, emptyMap(), null );
 
         // When
-        machine.run( "BEGIN", EMPTY_MAP, recorder );
+        machine.run( "BEGIN", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( nullResponseHandler() );
 
-        machine.run( "CREATE (n:InTx)", EMPTY_MAP, recorder );
+        machine.run( "CREATE (n:InTx)", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( nullResponseHandler() );
 
-        machine.run( "COMMIT", EMPTY_MAP, recorder );
+        machine.run( "COMMIT", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( nullResponseHandler() );
 
         // Then
@@ -127,13 +127,13 @@ public class TransactionIT
         machine.init( USER_AGENT, emptyMap(), null );
 
         // When
-        machine.run( "BEGIN", EMPTY_MAP, recorder );
+        machine.run( "BEGIN", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( nullResponseHandler() );
 
-        machine.run( "CREATE (n:InTx)", EMPTY_MAP, recorder );
+        machine.run( "CREATE (n:InTx)", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( nullResponseHandler() );
 
-        machine.run( "ROLLBACK", EMPTY_MAP, recorder );
+        machine.run( "ROLLBACK", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( nullResponseHandler() );
 
         // Then
@@ -152,7 +152,7 @@ public class TransactionIT
         machine.init( USER_AGENT, emptyMap(), null );
 
         // When
-        machine.run( "ROLLBACK", EMPTY_MAP, runRecorder );
+        machine.run( "ROLLBACK", EMPTY_MAP_WRAP, runRecorder );
         machine.pullAll( pullAllRecorder );
 
         // Then
@@ -169,13 +169,13 @@ public class TransactionIT
         machine.init( USER_AGENT, emptyMap(), null );
 
         // When
-        machine.run( "BEGIN", EMPTY_MAP, recorder );
+        machine.run( "BEGIN", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( recorder );
 
-        machine.run( "CREATE (a:Person)", EMPTY_MAP, recorder );
+        machine.run( "CREATE (a:Person)", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( recorder );
 
-        machine.run( "COMMIT", EMPTY_MAP, recorder );
+        machine.run( "COMMIT", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( recorder );
 
         // Then
@@ -196,13 +196,13 @@ public class TransactionIT
         machine.init( USER_AGENT, emptyMap(), null );
 
         // When
-        machine.run( "BEGIN", EMPTY_MAP, recorder );
+        machine.run( "BEGIN", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( recorder );
 
-        machine.run( "CREATE (a:Person)", EMPTY_MAP, recorder );
+        machine.run( "CREATE (a:Person)", EMPTY_MAP_WRAP, recorder );
         machine.discardAll( recorder );
 
-        machine.run( "COMMIT", EMPTY_MAP, recorder );
+        machine.run( "COMMIT", EMPTY_MAP_WRAP, recorder );
         machine.pullAll( recorder );
 
         // Then
@@ -232,7 +232,7 @@ public class TransactionIT
             {
                 machine.init( USER_AGENT, emptyMap(), null );
                 latch.await();
-                machine.run( "MATCH (n:A) SET n.prop = 'two'", EMPTY_MAP, nullResponseHandler() );
+                machine.run( "MATCH (n:A) SET n.prop = 'two'", EMPTY_MAP_WRAP, nullResponseHandler() );
                 machine.pullAll( nullResponseHandler() );
             }
             catch ( BoltConnectionFatality connectionFatality )
@@ -249,11 +249,11 @@ public class TransactionIT
             machine.init( USER_AGENT, emptyMap(), null );
             latch.release();
             final String bookmark = "neo4j:bookmark:v1:tx" + Long.toString( dbVersionAfterWrite );
-            machine.run( "BEGIN", ValueUtils.asMapValue( singletonMap( "bookmark", bookmark ) ), nullResponseHandler() );
+            machine.run( "BEGIN", ValueUtils.asParameterMapValue( singletonMap( "bookmark", bookmark ) ), nullResponseHandler() );
             machine.pullAll( recorder );
-            machine.run( "MATCH (n:A) RETURN n.prop", EMPTY_MAP, nullResponseHandler() );
+            machine.run( "MATCH (n:A) RETURN n.prop", EMPTY_MAP_WRAP, nullResponseHandler() );
             machine.pullAll( recorder );
-            machine.run( "COMMIT", EMPTY_MAP, nullResponseHandler() );
+            machine.run( "COMMIT", EMPTY_MAP_WRAP, nullResponseHandler() );
             machine.pullAll( recorder );
 
             assertThat( recorder.nextResponse(), succeededWithMetadata( "bookmark", BOOKMARK_PATTERN ) );
@@ -299,7 +299,7 @@ public class TransactionIT
                 try
                 {
                     latch.start();
-                    stateMachine.run( query, EMPTY_MAP, nullResponseHandler() );
+                    stateMachine.run( query, EMPTY_MAP_WRAP, nullResponseHandler() );
                     stateMachine.pullAll( nullResponseHandler() );
                 }
                 finally
@@ -345,9 +345,9 @@ public class TransactionIT
         BoltResponseRecorder recorder = new BoltResponseRecorder();
 
         // When
-        machine.run( "RETURN 1", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "RETURN 1", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.pullAll( recorder );
-        machine.run( "", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.pullAll( recorder );
 
         // Then
@@ -364,13 +364,13 @@ public class TransactionIT
         BoltResponseRecorder recorder = new BoltResponseRecorder();
 
         // When
-        machine.run( "BEGIN", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "BEGIN", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.discardAll( nullResponseHandler() );
-        machine.run( "RETURN 1", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "RETURN 1", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.pullAll( recorder );
-        machine.run( "", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.pullAll( recorder );
-        machine.run( "COMMIT", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "COMMIT", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.discardAll( nullResponseHandler() );
 
         // Then
@@ -387,13 +387,13 @@ public class TransactionIT
         BoltResponseRecorder recorder = new BoltResponseRecorder();
 
         // When
-        machine.run( "RETURN 1", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "RETURN 1", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.pullAll( recorder );
-        machine.run( "BEGIN", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "BEGIN", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.discardAll( nullResponseHandler() );
-        machine.run( "", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.pullAll( recorder );
-        machine.run( "COMMIT", EMPTY_MAP, nullResponseHandler() );
+        machine.run( "COMMIT", EMPTY_MAP_WRAP, nullResponseHandler() );
         machine.discardAll( nullResponseHandler() );
 
         // Then
@@ -410,10 +410,10 @@ public class TransactionIT
         BoltResponseRecorder recorder = new BoltResponseRecorder();
 
         // When
-        machine.run( "INVALID QUERY", EMPTY_MAP, recorder );
+        machine.run( "INVALID QUERY", EMPTY_MAP_WRAP, recorder );
         machine.pullAll( recorder );
         machine.ackFailure( recorder );
-        machine.run( "RETURN 2", EMPTY_MAP, recorder );
+        machine.run( "RETURN 2", EMPTY_MAP_WRAP, recorder );
         machine.pullAll( recorder );
 
         // Then
@@ -434,10 +434,10 @@ public class TransactionIT
         BoltResponseRecorder recorder = new BoltResponseRecorder();
 
         // When
-        machine.run( "UNWIND [1, 0] AS x RETURN 1 / x", EMPTY_MAP, recorder );
+        machine.run( "UNWIND [1, 0] AS x RETURN 1 / x", EMPTY_MAP_WRAP, recorder );
         machine.pullAll( recorder );
         machine.ackFailure( recorder );
-        machine.run( "RETURN 2", EMPTY_MAP, recorder );
+        machine.run( "RETURN 2", EMPTY_MAP_WRAP, recorder );
         machine.pullAll( recorder );
 
         // Then

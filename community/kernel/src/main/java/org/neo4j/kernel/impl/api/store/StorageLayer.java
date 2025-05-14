@@ -270,7 +270,7 @@ public class StorageLayer implements StoreReadLayer
         IndexProxy indexProxy = indexService.getIndexProxy( schema );
 
         return new DefaultCapableIndexReference( unique, indexProxy.getIndexCapability(),
-                indexProxy.getProviderDescriptor(), schema.keyId(),
+                indexProxy.getProviderDescriptor(), schema.keyId(), schema,
                 schema.getPropertyIds() );
     }
 

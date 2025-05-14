@@ -63,7 +63,7 @@ import static org.neo4j.bolt.testing.NullResponseHandler.nullResponseHandler;
  */
 public class MachineRoom
 {
-    static final MapValue EMPTY_PARAMS = VirtualValues.EMPTY_MAP;
+    static final MapValue.MapWrappingMapValue EMPTY_PARAMS = VirtualValues.EMPTY_MAP_WRAP;
     static final String USER_AGENT = "BoltStateMachineTest/0.0";
 
     private MachineRoom()

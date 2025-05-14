@@ -72,7 +72,7 @@ public class BoltRequestMessageRecorder extends MessageRecorder<RequestMessage> 
     }
 
     @Override
-    public void onRun( String statement, MapValue params )
+    public void onRun( String statement, MapValue.MapWrappingMapValue params )
     {
         messages.add( run( statement, params ) );
     }

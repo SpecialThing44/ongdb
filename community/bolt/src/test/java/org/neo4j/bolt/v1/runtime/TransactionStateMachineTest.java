@@ -76,7 +76,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.neo4j.bolt.security.auth.AuthenticationResult.AUTH_DISABLED;
-import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class TransactionStateMachineTest
 {
@@ -101,16 +101,16 @@ public class TransactionStateMachineTest
     public void shouldTransitionToExplicitTransactionOnBegin() throws Exception
     {
         assertEquals( TransactionStateMachine.State.AUTO_COMMIT.run(
-                mutableState, stateMachineSPI, "begin", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "begin", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.EXPLICIT_TRANSACTION );
         assertEquals( TransactionStateMachine.State.AUTO_COMMIT.run(
-                mutableState, stateMachineSPI, "BEGIN", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "BEGIN", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.EXPLICIT_TRANSACTION );
         assertEquals( TransactionStateMachine.State.AUTO_COMMIT.run(
-                mutableState, stateMachineSPI, "   begin   ", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "   begin   ", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.EXPLICIT_TRANSACTION );
         assertEquals( TransactionStateMachine.State.AUTO_COMMIT.run(
-                mutableState, stateMachineSPI, "   BeGiN ;   ", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "   BeGiN ;   ", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.EXPLICIT_TRANSACTION );
     }
 
@@ -118,16 +118,16 @@ public class TransactionStateMachineTest
     public void shouldTransitionToAutoCommitOnCommit() throws Exception
     {
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "commit", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "commit", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "COMMIT", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "COMMIT", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "   commit   ", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "   commit   ", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "   CoMmIt ;   ", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "   CoMmIt ;   ", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
     }
 
@@ -135,16 +135,16 @@ public class TransactionStateMachineTest
     public void shouldTransitionToAutoCommitOnRollback() throws Exception
     {
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "rollback", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "rollback", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "ROLLBACK", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "ROLLBACK", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "   rollback   ", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "   rollback   ", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
         assertEquals( TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                mutableState, stateMachineSPI, "   RoLlBaCk ;   ", EMPTY_MAP ),
+                mutableState, stateMachineSPI, "   RoLlBaCk ;   ", EMPTY_MAP_WRAP ),
                 TransactionStateMachine.State.AUTO_COMMIT );
     }
 
@@ -154,7 +154,7 @@ public class TransactionStateMachineTest
         try
         {
             TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                    mutableState, stateMachineSPI, "begin", EMPTY_MAP );
+                    mutableState, stateMachineSPI, "begin", EMPTY_MAP_WRAP );
         }
         catch ( QueryExecutionKernelException ex )
         {
@@ -163,7 +163,7 @@ public class TransactionStateMachineTest
         try
         {
             TransactionStateMachine.State.EXPLICIT_TRANSACTION.run(
-                    mutableState, stateMachineSPI, " BEGIN ", EMPTY_MAP );
+                    mutableState, stateMachineSPI, " BEGIN ", EMPTY_MAP_WRAP );
         }
         catch ( QueryExecutionKernelException ex )
         {
@@ -177,7 +177,7 @@ public class TransactionStateMachineTest
         try
         {
             TransactionStateMachine.State.AUTO_COMMIT.run(
-                    mutableState, stateMachineSPI, "rollback", EMPTY_MAP );
+                    mutableState, stateMachineSPI, "rollback", EMPTY_MAP_WRAP );
         }
         catch ( QueryExecutionKernelException ex )
         {
@@ -186,7 +186,7 @@ public class TransactionStateMachineTest
         try
         {
             TransactionStateMachine.State.AUTO_COMMIT.run(
-                    mutableState, stateMachineSPI, " ROLLBACK ", EMPTY_MAP );
+                    mutableState, stateMachineSPI, " ROLLBACK ", EMPTY_MAP_WRAP );
         }
         catch ( QueryExecutionKernelException ex )
         {
@@ -200,7 +200,7 @@ public class TransactionStateMachineTest
         try
         {
             TransactionStateMachine.State.AUTO_COMMIT.run(
-                    mutableState, stateMachineSPI, "commit", EMPTY_MAP );
+                    mutableState, stateMachineSPI, "commit", EMPTY_MAP_WRAP );
         }
         catch ( QueryExecutionKernelException ex )
         {
@@ -209,7 +209,7 @@ public class TransactionStateMachineTest
         try
         {
             TransactionStateMachine.State.AUTO_COMMIT.run(
-                    mutableState, stateMachineSPI, " COMMIT ", EMPTY_MAP );
+                    mutableState, stateMachineSPI, " COMMIT ", EMPTY_MAP_WRAP );
         }
         catch ( QueryExecutionKernelException ex )
         {
@@ -220,21 +220,21 @@ public class TransactionStateMachineTest
     @Test
     public void shouldNotWaitWhenNoBookmarkSupplied() throws Exception
     {
-        stateMachine.run( "BEGIN", EMPTY_MAP );
+        stateMachine.run( "BEGIN", EMPTY_MAP_WRAP );
         verify( stateMachineSPI, never() ).awaitUpToDate( anyLong() );
     }
 
     @Test
     public void shouldAwaitSingleBookmark() throws Exception
     {
-        stateMachine.run( "BEGIN", map( "bookmark", "neo4j:bookmark:v1:tx15" ) );
+        stateMachine.run( "BEGIN", map_wrap( "bookmark", "neo4j:bookmark:v1:tx15" ) );
         verify( stateMachineSPI ).awaitUpToDate( 15 );
     }
 
     @Test
     public void shouldAwaitMultipleBookmarks() throws Exception
     {
-        MapValue params = map( "bookmarks", asList(
+        MapValue.MapWrappingMapValue params = map_wrap( "bookmarks", asList(
                 "neo4j:bookmark:v1:tx15", "neo4j:bookmark:v1:tx5", "neo4j:bookmark:v1:tx92", "neo4j:bookmark:v1:tx9" )
         );
         stateMachine.run( "BEGIN", params );
@@ -244,7 +244,7 @@ public class TransactionStateMachineTest
     @Test
     public void shouldAwaitMultipleBookmarksWhenBothSingleAndMultipleSupplied() throws Exception
     {
-        MapValue params = map(
+        MapValue.MapWrappingMapValue params = map_wrap(
                 "bookmark", "neo4j:bookmark:v1:tx42",
                 "bookmarks", asList( "neo4j:bookmark:v1:tx47", "neo4j:bookmark:v1:tx67", "neo4j:bookmark:v1:tx45" )
         );
@@ -324,7 +324,7 @@ public class TransactionStateMachineTest
         TransactionStateMachine stateMachine = newTransactionStateMachine( stateMachineSPI );
 
         // start an explicit transaction
-        stateMachine.run( "BEGIN", map() );
+        stateMachine.run( "BEGIN", map_wrap() );
         assertThat( stateMachine.state, is( TransactionStateMachine.State.EXPLICIT_TRANSACTION ) );
         assertNotNull( stateMachine.ctx.currentTransaction );
 
@@ -349,7 +349,7 @@ public class TransactionStateMachineTest
         TransactionStateMachine stateMachine = newTransactionStateMachine( stateMachineSPI );
 
         // start an explicit transaction
-        stateMachine.run( "BEGIN", map() );
+        stateMachine.run( "BEGIN", map_wrap() );
         assertThat( stateMachine.state, is( TransactionStateMachine.State.EXPLICIT_TRANSACTION ) );
         assertNotNull( stateMachine.ctx.currentTransaction );
 
@@ -514,7 +514,7 @@ public class TransactionStateMachineTest
 
         try
         {
-            stateMachine.run( "BEGIN", ValueUtils.asMapValue( Collections.emptyMap() ) );
+            stateMachine.run( "BEGIN", ValueUtils.asParameterMapValue( Collections.emptyMap() ) );
             stateMachine.streamResult( boltResult ->
             {
 
@@ -540,7 +540,7 @@ public class TransactionStateMachineTest
         TransactionStateMachineSPI stateMachineSPI = newTransactionStateMachineSPI( transaction );
         TransactionStateMachine stateMachine = newTransactionStateMachine( stateMachineSPI );
 
-        stateMachine.run( "BEGIN", ValueUtils.asMapValue( Collections.emptyMap() ) );
+        stateMachine.run( "BEGIN", ValueUtils.asParameterMapValue( Collections.emptyMap() ) );
         stateMachine.streamResult( boltResult ->
         {
 
@@ -580,7 +580,7 @@ public class TransactionStateMachineTest
         TransactionStateMachine stateMachine = newTransactionStateMachine( stateMachineSPI );
         stateMachine.setQuerySource( querySource );
 
-        stateMachine.run( PERIODIC_COMMIT_QUERY, EMPTY_MAP );
+        stateMachine.run( PERIODIC_COMMIT_QUERY, EMPTY_MAP_WRAP );
 
         // transaction was created only to stream back result of the periodic commit query
         assertEquals( transaction, stateMachine.ctx.currentTransaction );
@@ -588,7 +588,7 @@ public class TransactionStateMachineTest
         InOrder inOrder = inOrder( stateMachineSPI );
         inOrder.verify( stateMachineSPI ).isPeriodicCommit( PERIODIC_COMMIT_QUERY );
         // periodic commit query was executed without starting an explicit transaction
-        inOrder.verify( stateMachineSPI ).executeQuery( eq( querySource ), any( LoginContext.class ), eq( PERIODIC_COMMIT_QUERY ), eq( EMPTY_MAP ) );
+        inOrder.verify( stateMachineSPI ).executeQuery( eq( querySource ), any( LoginContext.class ), eq( PERIODIC_COMMIT_QUERY ), eq( EMPTY_MAP_WRAP ) );
         // explicit transaction was started only after query execution to stream the result
         inOrder.verify( stateMachineSPI ).beginTransaction( any( LoginContext.class ) );
     }
@@ -631,6 +631,11 @@ public class TransactionStateMachineTest
     private MapValue map( Object... keyValues )
     {
         return ValueUtils.asMapValue( MapUtil.map( keyValues ) );
+    }
+
+    private MapValue.MapWrappingMapValue map_wrap( Object... keyValues )
+    {
+        return ValueUtils.asParameterMapValue( MapUtil.map( keyValues ) );
     }
 
     private static TransactionStateMachineSPI newFailingTransactionStateMachineSPI( Status failureStatus ) throws KernelException

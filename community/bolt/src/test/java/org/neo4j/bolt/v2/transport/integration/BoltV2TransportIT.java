@@ -74,6 +74,7 @@ import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.msgSuccess;
 import static org.neo4j.bolt.v1.runtime.spi.StreamMatchers.eqRecord;
 import static org.neo4j.bolt.v1.transport.integration.TransportTestUtil.eventuallyReceives;
 import static org.neo4j.graphdb.factory.GraphDatabaseSettings.auth_enabled;
+import static org.neo4j.kernel.impl.util.ValueUtils.asParameterMapValue;
 import static org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian;
 import static org.neo4j.values.storable.CoordinateReferenceSystem.WGS84;
 import static org.neo4j.values.storable.DateTimeValue.datetime;
@@ -295,7 +296,7 @@ public class BoltV2TransportIT
         negotiateBoltV2();
 
         connection.send( util.chunk(
-                run( "CREATE (n:Node {value: $value}) RETURN 42", map( singletonMap( "value", value ) ) ),
+                run( "CREATE (n:Node {value: $value}) RETURN 42", asParameterMapValue( singletonMap( "value", value ) ) ),
                 pullAll() ) );
 
         assertThat( connection, util.eventuallyReceives(
@@ -325,7 +326,7 @@ public class BoltV2TransportIT
         negotiateBoltV2();
 
         connection.send( util.chunk(
-                run( "RETURN $value", map( singletonMap( "value", value ) ) ),
+                run( "RETURN $value", asParameterMapValue( singletonMap( "value", value ) ) ),
                 pullAll() ) );
 
         assertThat( connection, util.eventuallyReceives(

@@ -217,9 +217,9 @@ public class ResetFuzzTest
         }
     }
 
-    private MapValue map( Object... keyValues )
+    private MapValue.MapWrappingMapValue map( Object... keyValues )
     {
-        return ValueUtils.asMapValue( MapUtil.map( keyValues ) );
+        return ValueUtils.asParameterMapValue( MapUtil.map( keyValues ) );
     }
 
     @After

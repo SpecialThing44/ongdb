@@ -21,6 +21,7 @@ package org.neo4j.values.virtual;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.neo4j.values.AnyValue;
 import org.neo4j.values.storable.ArrayValue;
@@ -87,7 +88,7 @@ public final class VirtualValues
         return EMPTY_MAP;
     }
 
-    public static MapValue map( String[] keys, AnyValue[] values )
+    public static MapValue.MapWrappingMapValue map( String[] keys, AnyValue[] values )
     {
         assert keys.length == values.length;
         HashMap<String,AnyValue> map = new HashMap<>( keys.length );
@@ -97,6 +98,12 @@ public final class VirtualValues
         }
         return new MapValue.MapWrappingMapValue( map );
     }
+    public static MapValue.MapWrappingMapValue map( Map<String,AnyValue> map )
+    {
+        return new MapValue.MapWrappingMapValue( map );
+    }
+
+
 
     public static ErrorValue error( Exception e )
     {

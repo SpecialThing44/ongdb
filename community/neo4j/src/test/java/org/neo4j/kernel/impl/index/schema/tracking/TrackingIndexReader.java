@@ -80,9 +80,9 @@ public class TrackingIndexReader implements IndexReader
     }
 
     @Override
-    public void query( IndexProgressor.NodeValueClient client, IndexOrder indexOrder, IndexQuery... query ) throws IndexNotApplicableKernelException
-    {
-        delegate.query( client, indexOrder, query );
+    public void query(IndexProgressor.NodeValueClient client, IndexOrder indexOrder, boolean needsValues, IndexQuery... query) throws IndexNotApplicableKernelException {
+        delegate.query( client, indexOrder, false, query );
+
     }
 
     @Override

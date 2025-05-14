@@ -104,6 +104,11 @@ public class DefaultIndexReference implements IndexReference
         return new DefaultIndexReference( false, label, properties );
     }
 
+    public static IndexReference general( int label, SchemaDescriptor schema, int...properties )
+    {
+        return new DefaultIndexReference( false, label, properties, schema );
+    }
+
     public static IndexReference fromDescriptor( SchemaIndexDescriptor descriptor )
     {
         boolean unique = descriptor.type() == SchemaIndexDescriptor.Type.UNIQUE;

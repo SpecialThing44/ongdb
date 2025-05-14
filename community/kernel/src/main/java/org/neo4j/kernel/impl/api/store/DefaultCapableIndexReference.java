@@ -58,6 +58,8 @@ public class DefaultCapableIndexReference implements CapableIndexReference
     private final boolean unique;
     private final IndexProvider.Descriptor providerDescriptor;
     private final IndexCapability capability;
+    private final SchemaDescriptor schema;
+
 
     public DefaultCapableIndexReference( boolean unique, IndexCapability indexCapability,
                 IndexProvider.Descriptor providerDescriptor, int label, int... properties )
@@ -67,6 +69,18 @@ public class DefaultCapableIndexReference implements CapableIndexReference
         this.label = label;
         this.providerDescriptor = providerDescriptor;
         this.properties = properties;
+        this.schema = null;
+    }
+
+    public DefaultCapableIndexReference( boolean unique, IndexCapability indexCapability,
+                                         IndexProvider.Descriptor providerDescriptor, int label,  SchemaDescriptor schema, int... properties )
+    {
+        this.unique = unique;
+        this.capability = indexCapability;
+        this.label = label;
+        this.providerDescriptor = providerDescriptor;
+        this.properties = properties;
+        this.schema = schema;
     }
 
     @Override
@@ -83,7 +97,7 @@ public class DefaultCapableIndexReference implements CapableIndexReference
 
     @Override
     public SchemaDescriptor schema() {
-        return null;
+        return schema;
     }
 
     @Override
@@ -170,6 +184,6 @@ public class DefaultCapableIndexReference implements CapableIndexReference
         boolean unique =  descriptor.type() == SchemaIndexDescriptor.Type.UNIQUE;
         final SchemaDescriptor schema = descriptor.schema();
         return new DefaultCapableIndexReference( unique, IndexCapability.NO_CAPABILITY, IndexProvider.UNDECIDED,
-                schema.keyId(), schema.getPropertyIds() );
+                schema.keyId(), schema, schema.getPropertyIds() );
     }
 }

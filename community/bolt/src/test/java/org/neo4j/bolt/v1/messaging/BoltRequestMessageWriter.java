@@ -111,7 +111,7 @@ public class BoltRequestMessageWriter implements BoltRequestMessageHandler
     }
 
     @Override
-    public void onRun( String statement, MapValue params )
+    public void onRun( String statement, MapValue.MapWrappingMapValue params )
     {
         try
         {

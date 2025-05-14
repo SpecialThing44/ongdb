@@ -67,7 +67,7 @@ import org.neo4j.values.virtual.MapValue;
  * {@link GraphDatabaseFacade} likes.
  * @see org.neo4j.kernel.impl.factory.GraphDatabaseFacade.SPI
  */
-class ClassicCoreSPI implements GraphDatabaseFacade.SPI
+public class ClassicCoreSPI implements GraphDatabaseFacade.SPI
 {
     private final PlatformModule platform;
     private final DataSourceModule dataSource;

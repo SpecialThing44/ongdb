@@ -59,7 +59,7 @@ import static org.junit.Assert.fail;
 
 public class BookmarkTest
 {
-    private MapValue singletonMap( String key, Object value )
+    private MapValue.MapWrappingMapValue singletonMap( String key, Object value )
     {
         return VirtualValues.map( Collections.singletonMap( key, ValueUtils.of( value ) ));
     }
@@ -69,7 +69,7 @@ public class BookmarkTest
     {
         // given
         long txId = 1234;
-        MapValue params = singletonMap( "bookmark", new Bookmark( txId ).toString() );
+        MapValue.MapWrappingMapValue params = singletonMap( "bookmark", new Bookmark( txId ).toString() );
 
         // when
         Bookmark bookmark = Bookmark.fromParamsOrNull( params );

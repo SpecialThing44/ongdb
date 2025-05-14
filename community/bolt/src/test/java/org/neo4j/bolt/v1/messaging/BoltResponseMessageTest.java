@@ -95,7 +95,7 @@ public class BoltResponseMessageTest
     public void shouldHandleCommonMessages() throws Throwable
     {
         assertSerializes( new RecordMessage( record( longValue( 1L ), stringValue( "b" ), longValue( 2L ) ) ) );
-        assertSerializes( new SuccessMessage( VirtualValues.EMPTY_MAP ) );
+        assertSerializes( new SuccessMessage( VirtualValues.EMPTY_MAP_WRAP ) );
         assertSerializes( new FailureMessage( Status.General.UnknownError, "Err" ) );
         assertSerializes( new IgnoredMessage() );
     }

@@ -107,6 +107,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class QueryExecutionLocksIT
 {
@@ -221,7 +222,7 @@ public class QueryExecutionLocksIT
     {
         PropertyContainerLocker locker = new PropertyContainerLocker();
         TransactionalContextFactory contextFactory = Neo4jTransactionalContextFactory.create( graph, locker );
-        return contextFactory.newContext( ClientConnectionInfo.EMBEDDED_CONNECTION, tx, query, EMPTY_MAP );
+        return contextFactory.newContext( ClientConnectionInfo.EMBEDDED_CONNECTION, tx, query, EMPTY_MAP_WRAP );
     }
 
     private static class TransactionalContextWrapper implements TransactionalContext

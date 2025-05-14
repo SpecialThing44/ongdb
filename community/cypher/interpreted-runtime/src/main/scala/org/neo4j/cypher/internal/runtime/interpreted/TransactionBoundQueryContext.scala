@@ -359,7 +359,7 @@ sealed class TransactionBoundQueryContext(val transactionalContext: Transactiona
     if (queries.exists(q => q.value() == Values.NO_VALUE))
       NodeValueHit.EMPTY
     else {
-      val index = DefaultIndexReference.general(indexReference.label(), indexReference.properties(): _*)
+      val index = DefaultIndexReference.general(indexReference.label(), indexReference.schema(),indexReference.properties(): _*)
       val resultNodeId = reads().lockingNodeUniqueIndexSeek(index, queries: _*)
       if (StatementConstants.NO_SUCH_NODE == resultNodeId) {
         NodeValueHit.EMPTY

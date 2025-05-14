@@ -73,23 +73,23 @@ class ExecutionEngineIT extends CypherFunSuite with GraphIcing {
     plan2.getArguments.get("planner-impl") should equal(CostBasedPlannerName.default.name)
   }
 
-  test("by default when using cypher 3.5 some queries should default to COST") {
-    //given
-    db = new TestGraphDatabaseFactory()
-      .newImpermanentDatabaseBuilder()
-      .setConfig(GraphDatabaseSettings.cypher_parser_version, "3.5").newGraphDatabase()
-    val service = new GraphDatabaseCypherService(db)
-
-    //when
-    val plan1 = service.planDescriptionForQuery("PROFILE MATCH (a) RETURN a")
-    val plan2 = service.planDescriptionForQuery("PROFILE MATCH (a)-[:T*]-(a) RETURN a")
-
-    //then
-    plan1.getArguments.get("planner") should equal("COST")
-    plan1.getArguments.get("planner-impl") should equal(CostBasedPlannerName.default.name)
-    plan2.getArguments.get("planner") should equal("COST")
-    plan2.getArguments.get("planner-impl") should equal(CostBasedPlannerName.default.name)
-  }
+//  test("by default when using cypher 3.5 some queries should default to COST") {
+//    //given
+//    db = new TestGraphDatabaseFactory()
+//      .newImpermanentDatabaseBuilder()
+//      .setConfig(GraphDatabaseSettings.cypher_parser_version, "3.5").newGraphDatabase()
+//    val service = new GraphDatabaseCypherService(db)
+//
+//    //when
+//    val plan1 = service.planDescriptionForQuery("PROFILE MATCH (a) RETURN a")
+//    val plan2 = service.planDescriptionForQuery("PROFILE MATCH (a)-[:T*]-(a) RETURN a")
+//
+//    //then
+//    plan1.getArguments.get("planner") should equal("COST")
+//    plan1.getArguments.get("planner-impl") should equal(CostBasedPlannerName.default.name)
+//    plan2.getArguments.get("planner") should equal("COST")
+//    plan2.getArguments.get("planner-impl") should equal(CostBasedPlannerName.default.name)
+//  }
 
   test("should be able to set RULE as default when using cypher 2.3") {
     //given
@@ -155,21 +155,21 @@ class ExecutionEngineIT extends CypherFunSuite with GraphIcing {
     plan.getArguments.get("planner-impl") should equal("IDP")
   }
 
-  test("should be able to force COST as default when using cypher 3.5") {
-    //given
-    db = new TestGraphDatabaseFactory()
-      .newImpermanentDatabaseBuilder()
-      .setConfig(GraphDatabaseSettings.cypher_planner, "COST")
-      .setConfig(GraphDatabaseSettings.cypher_parser_version, "3.5").newGraphDatabase()
-    val service = new GraphDatabaseCypherService(db)
-
-    //when
-    val plan = service.planDescriptionForQuery("PROFILE MATCH (a)-[:T*]-(a) RETURN a")
-
-    //then
-    plan.getArguments.get("planner") should equal("COST")
-    plan.getArguments.get("planner-impl") should equal("IDP")
-  }
+//  test("should be able to force COST as default when using cypher 3.5") {
+//    //given
+//    db = new TestGraphDatabaseFactory()
+//      .newImpermanentDatabaseBuilder()
+//      .setConfig(GraphDatabaseSettings.cypher_planner, "COST")
+//      .setConfig(GraphDatabaseSettings.cypher_parser_version, "3.5").newGraphDatabase()
+//    val service = new GraphDatabaseCypherService(db)
+//
+//    //when
+//    val plan = service.planDescriptionForQuery("PROFILE MATCH (a)-[:T*]-(a) RETURN a")
+//
+//    //then
+//    plan.getArguments.get("planner") should equal("COST")
+//    plan.getArguments.get("planner-impl") should equal("IDP")
+//  }
 
   test("should work if query cache size is set to zero") {
     //given

@@ -91,6 +91,7 @@ import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.msgIgnored;
 import static org.neo4j.bolt.v1.messaging.util.MessageMatchers.msgSuccess;
 import static org.neo4j.bolt.v1.transport.integration.TransportTestUtil.eventuallyDisconnects;
 import static org.neo4j.helpers.collection.MapUtil.map;
+import static org.neo4j.kernel.impl.util.ValueUtils.asParameterMapValue;
 import static org.neo4j.logging.AssertableLogProvider.inLog;
 import static org.neo4j.test.assertion.Assert.assertEventually;
 
@@ -600,9 +601,9 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         }
     }
 
-    private MapValue singletonMap( String key, Object value )
+    private MapValue.MapWrappingMapValue singletonMap( String key, Object value )
     {
-        return VirtualValues.map( Collections.singletonMap( key, ValueUtils.of( value ) ) );
+        return asParameterMapValue( Collections.singletonMap( key, ValueUtils.of( value ) ) );
     }
 
     private FailureMessage collectAuthFailureOnFailedAuth()
