@@ -32,18 +32,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime
 
-import org.neo4j.cypher.internal.compiler.v3_4.planner.LogicalPlanningTestSupport2
-import org.neo4j.cypher.internal.frontend.v3_4.ast.ASTAnnotationMap
-import org.neo4j.cypher.internal.frontend.v3_4.semantics.{ExpressionTypeInfo, SemanticTable}
-import org.neo4j.cypher.internal.ir.v3_4.{PlannerQuery, VarPatternLength}
+import org.neo4j.cypher.internal.compiler.v3_5.planner.LogicalPlanningTestSupport2
+import org.neo4j.cypher.internal.ir.v3_5.{CreateNode, PlannerQuery, VarPatternLength}
+import org.neo4j.cypher.internal.v3_5.ast.ASTAnnotationMap
 import org.neo4j.cypher.internal.v3_5.util.LabelId
 import org.neo4j.cypher.internal.v3_5.util.symbols._
-import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
-import org.neo4j.cypher.internal.v3_4.expressions._
+import org.neo4j.cypher.internal.v3_5.expressions._
+import org.neo4j.cypher.internal.v3_5.ast.semantics.{ExpressionTypeInfo, SemanticTable}
 import org.neo4j.cypher.internal.v3_5.logical.plans.{Ascending, _}
 import org.neo4j.cypher.internal.v3_5.logical.{plans => logicalPlans}
+import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
+
+import scala.reflect.internal.util.NoPosition.pos
 
 //noinspection NameBooleanParameters
 class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2 {
@@ -97,7 +99,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("labelscan with filtering") {
     // given
     val leaf = NodeByLabelScan(x, LABEL, Set.empty)
-    val filter = Selection(Seq(True()(pos)), leaf)
+    val filter = Selection(collection.immutable.Seq(True()(pos)), leaf)
 
     // when
     val allocations = SlotAllocation.allocateSlots(filter, semanticTable).slotConfigurations
@@ -111,7 +113,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("single node with expand") {
     // given
     val allNodesScan = AllNodesScan(x, Set.empty)
-    val expand = Expand(allNodesScan, x, SemanticDirection.INCOMING, Seq.empty, z, r, ExpandAll)
+    val expand = Expand(allNodesScan, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, z, r, ExpandAll)
 
     // when
     val allocations = SlotAllocation.allocateSlots(expand, semanticTable).slotConfigurations
@@ -133,7 +135,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("single node with expand into") {
     // given
     val allNodesScan = AllNodesScan(x, Set.empty)
-    val expand = Expand(allNodesScan, x, SemanticDirection.INCOMING, Seq.empty, x, r, ExpandInto)
+    val expand = Expand(allNodesScan, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, x, r, ExpandInto)
 
     // when
     val allocations = SlotAllocation.allocateSlots(expand, semanticTable).slotConfigurations
@@ -166,7 +168,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("single node with optionalExpand ExpandAll") {
     // given
     val allNodesScan = AllNodesScan(x, Set.empty)
-    val expand = OptionalExpand(allNodesScan, x, SemanticDirection.INCOMING, Seq.empty, z, r, ExpandAll)
+    val expand = OptionalExpand(allNodesScan, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, z, r, ExpandAll)
 
     // when
     val allocations = SlotAllocation.allocateSlots(expand, semanticTable).slotConfigurations
@@ -190,7 +192,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("single node with optionalExpand ExpandInto") {
     // given
     val allNodesScan = AllNodesScan(x, Set.empty)
-    val expand = OptionalExpand(allNodesScan, x, SemanticDirection.INCOMING, Seq.empty, x, r, ExpandInto)
+    val expand = OptionalExpand(allNodesScan, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, x, r, ExpandInto)
 
     // when
     val allocations = SlotAllocation.allocateSlots(expand, semanticTable).slotConfigurations
@@ -215,8 +217,8 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     val varLength = VarPatternLength(1, Some(15))
     val tempNode = "r_NODES"
     val tempEdge = "r_EDGES"
-    val expand = VarExpand(allNodesScan, x, SemanticDirection.INCOMING, SemanticDirection.INCOMING, Seq.empty, z, r,
-      varLength, ExpandAll, tempNode, tempEdge, True()(pos), True()(pos), Seq.empty)
+    val expand = VarExpand(allNodesScan, x, SemanticDirection.INCOMING, SemanticDirection.INCOMING, collection.immutable.Seq.empty, z, r,
+      varLength, ExpandAll, tempNode, tempEdge, True()(pos), True()(pos), collection.immutable.Seq.empty)
 
     // when
     val allocations = SlotAllocation.allocateSlots(expand, semanticTable).slotConfigurations
@@ -242,12 +244,12 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("single node with var length expand into") {
     // given
     val allNodesScan = AllNodesScan(x, Set.empty)
-    val expand = Expand(allNodesScan, x, SemanticDirection.OUTGOING, Seq.empty, y, r, ExpandAll)
+    val expand = Expand(allNodesScan, x, SemanticDirection.OUTGOING, collection.immutable.Seq.empty, y, r, ExpandAll)
     val varLength = VarPatternLength(1, Some(15))
     val tempNode = "r_NODES"
     val tempEdge = "r_EDGES"
-    val varExpand = VarExpand(expand, x, SemanticDirection.INCOMING, SemanticDirection.INCOMING, Seq.empty, y, r2,
-      varLength, ExpandInto, tempNode, tempEdge, True()(pos), True()(pos), Seq.empty)
+    val varExpand = VarExpand(expand, x, SemanticDirection.INCOMING, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, r2,
+      varLength, ExpandInto, tempNode, tempEdge, True()(pos), True()(pos), collection.immutable.Seq.empty)
 
     // when
     val allocations = SlotAllocation.allocateSlots(varExpand, semanticTable).slotConfigurations
@@ -303,7 +305,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     val lhs = NodeByLabelScan(x, LABEL, Set.empty)
     val label = LabelToken("label2", LabelId(0))
     val seekExpression = SingleQueryExpression(literalInt(42))
-    val rhs = NodeIndexSeek(z, label, Seq.empty, seekExpression, Set(x))
+    val rhs = NodeIndexSeek(z, label, collection.immutable.Seq.empty, seekExpression, Set(x), IndexOrderNone)
     val apply = Apply(lhs, rhs)
 
     // when
@@ -435,7 +437,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     def expand(n:Int): LogicalPlan =
       n match {
         case 1 => NodeByLabelScan("n1", LabelName("label2")(pos), Set.empty)
-        case n => Expand(expand(n-1), "n"+(n-1), SemanticDirection.INCOMING, Seq.empty, "n"+n, "r"+(n-1), ExpandAll)
+        case n => Expand(expand(n-1), "n"+(n-1), SemanticDirection.INCOMING, collection.immutable.Seq.empty, "n"+n, "r"+(n-1), ExpandAll)
       }
     val N = 10
 
@@ -486,11 +488,11 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("node hash join II") {
     // given
     val lhs = NodeByLabelScan(x, LabelName("label1")(pos), Set.empty)
-    val lhsE = Expand(lhs, x, SemanticDirection.INCOMING, Seq.empty, y, r, ExpandAll)
+    val lhsE = Expand(lhs, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, r, ExpandAll)
 
     val rhs = NodeByLabelScan(x, LabelName("label2")(pos), Set.empty)
     val r2 = "r2"
-    val rhsE = Expand(rhs, x, SemanticDirection.INCOMING, Seq.empty, z, r2, ExpandAll)
+    val rhsE = Expand(rhs, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, z, r2, ExpandAll)
 
     val hashJoin = NodeHashJoin(Set(x), lhsE, rhsE)
 
@@ -522,10 +524,10 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("node hash join III") {
     // given
     val lhs = NodeByLabelScan(x, LabelName("label1")(pos), Set.empty)
-    val lhsE = Expand(lhs, x, SemanticDirection.INCOMING, Seq.empty, y, r, ExpandAll)
+    val lhsE = Expand(lhs, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, r, ExpandAll)
 
     val rhs = NodeByLabelScan(x, LabelName("label2")(pos), Set.empty)
-    val rhsE = Expand(rhs, x, SemanticDirection.INCOMING, Seq.empty, y, "r2", ExpandAll)
+    val rhsE = Expand(rhs, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, "r2", ExpandAll)
 
     val hashJoin = NodeHashJoin(Set(x, y), lhsE, rhsE)
 
@@ -557,7 +559,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     // given MATCH (x) MATCH (x)<-[r]-(y)
     val lhs = NodeByLabelScan(x, LABEL, Set.empty)
     val arg = Argument(Set(x))
-    val rhs = Expand(arg, x, SemanticDirection.INCOMING, Seq.empty, y, r, ExpandAll)
+    val rhs = Expand(arg, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, r, ExpandAll)
 
     val apply = Apply(lhs, rhs)
 
@@ -586,7 +588,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     // given UNWIND [1,2,3] as x RETURN x
     val leaf = Argument()
     val unwind = UnwindCollection(leaf, "x", listOf(literalInt(1), literalInt(2), literalInt(3)))
-    val produceResult = ProduceResult(unwind, Seq("x"))
+    val produceResult = ProduceResult(unwind, collection.immutable.Seq("x"))
 
     // when
     val allocations = SlotAllocation.allocateSlots(produceResult, semanticTable).slotConfigurations
@@ -609,7 +611,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     val leaf = Argument()
     val unwind = UnwindCollection(leaf, xVarName, listOf(literalInt(1), literalInt(2), literalInt(3)))
     val sort = Sort(unwind, List(Ascending(xVarName)))
-    val produceResult = ProduceResult(sort, Seq("x"))
+    val produceResult = ProduceResult(sort, collection.immutable.Seq("x"))
 
     // when
     val allocations = SlotAllocation.allocateSlots(produceResult, semanticTable).slotConfigurations
@@ -642,7 +644,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
                    ): Unit = {
     val lhs = NodeByLabelScan(x, LABEL, Set.empty)
     val arg = Argument(Set(x))
-    val rhs = Expand(arg, x, SemanticDirection.INCOMING, Seq.empty, y, r, ExpandAll)
+    val rhs = Expand(arg, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, r, ExpandAll)
     val semiApply = semiApplyBuilder(lhs, rhs)
     val allocations = SlotAllocation.allocateSlots(semiApply, semanticTable).slotConfigurations
 
@@ -693,7 +695,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("should allocate aggregation") {
     // Given MATCH (x)-[r:R]->(y) RETURN x, x.prop, count(r.prop)
     val labelScan = NodeByLabelScan(x, LABEL, Set.empty)
-    val expand = Expand(labelScan, x, SemanticDirection.INCOMING, Seq.empty, y, r, ExpandAll)
+    val expand = Expand(labelScan, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, r, ExpandAll)
 
     val grouping = Map(
       "x" -> varFor("x"),
@@ -729,7 +731,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
 
     // RHS
     val labelScan = NodeByLabelScan(x, LABEL, Set.empty)
-    val expand = Expand(labelScan, x, SemanticDirection.INCOMING, Seq.empty, y, r, ExpandAll)
+    val expand = Expand(labelScan, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, y, r, ExpandAll)
     val projectionExpressions = Map(
       "x" -> varFor("x"),
       "prop" -> prop("x", "prop"),
@@ -771,7 +773,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
   test("should handle UNION of one primitive relationship and one node") {
     // given MATCH (y)<-[x]-(z) UNION MATCH (x) (sort of)
     val allNodesScan = AllNodesScan(y, Set.empty)
-    val lhs = Expand(allNodesScan, y, SemanticDirection.INCOMING, Seq.empty, z, x, ExpandAll)
+    val lhs = Expand(allNodesScan, y, SemanticDirection.INCOMING, collection.immutable.Seq.empty, z, x, ExpandAll)
     val rhs = AllNodesScan(x, Set.empty)
     val plan = Union(lhs, rhs)
 
@@ -826,7 +828,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     val label = LabelToken("label2", LabelId(0))
     val argument = Argument()
     val list = literalIntList(1, 2, 3)
-    val rhs = CreateNode(argument, z, Seq.empty, None)
+    val rhs = Create(argument, collection.immutable.Seq(CreateNode(z, collection.immutable.Seq.empty, None)), collection.immutable.Seq.empty)
     val foreach = ForeachApply(lhs, rhs, "i", list)
 
     val semanticTableWithList = SemanticTable(ASTAnnotationMap(list -> ExpressionTypeInfo(ListType(CTInteger), Some(ListType(CTAny)))))
@@ -861,7 +863,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     val label = LabelToken("label2", LabelId(0))
     val argument = Argument()
     val list = literalList(Variable("x")(pos))
-    val rhs = CreateNode(argument, z, Seq.empty, None)
+    val rhs = Create(argument, collection.immutable.Seq.empty, collection.immutable.Seq.empty)
     val foreach = ForeachApply(lhs, rhs, "i", list)
 
     val semanticTableWithList = SemanticTable(ASTAnnotationMap(list -> ExpressionTypeInfo(ListType(CTNode), Some(ListType(CTNode)))))

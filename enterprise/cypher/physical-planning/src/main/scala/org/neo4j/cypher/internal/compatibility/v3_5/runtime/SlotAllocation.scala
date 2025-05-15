@@ -425,8 +425,8 @@ object SlotAllocation {
         result
 
       case Create(_, nodes, relationships) =>
-        source.newLong(UUID.randomUUID().toString, nullable = false, CTNode)
-        source.newLong(UUID.randomUUID().toString, nullable = false, CTRelationship)
+        nodes.map(node => source.newLong(node.idName, nullable = false, CTNode))
+        relationships.map(node => source.newLong(node.idName, nullable = false, CTRelationship))
         source
 
       case _:MergeCreateNode =>

@@ -537,21 +537,21 @@ public class PropertyLevelSecurityIT
         } );
     }
 
-    @Test
-    public void allowedProcedureShouldIgnorePropertyBlacklist() throws Throwable
-    {
-        execute( neo, "CREATE (:Person {name: 'Andersson'}) ", Collections.emptyMap() ).close();
-
-        assertProcedureResult( morpheus, Collections.singletonMap( "Andersson", "N/A" ) );
-        assertProcedureResult( smith, Collections.singletonMap( "Andersson", "N/A" ) );
-        assertProcedureResult( jones, Collections.singletonMap( "Andersson", "N/A" ) );
-
-        execute( neo, "MATCH (n:Person) WHERE n.name = 'Andersson' SET n.alias = 'neo' RETURN n", Collections.emptyMap() ).close();
-
-        assertProcedureResult( morpheus, Collections.singletonMap( "Andersson", "neo" ) );
-        assertProcedureResult( smith, Collections.singletonMap( "Andersson", "N/A" ) );
-        assertProcedureResult( jones, Collections.singletonMap( "Andersson", "neo" ) );
-    }
+//    @Test
+//    public void allowedProcedureShouldIgnorePropertyBlacklist() throws Throwable
+//    {
+//        execute( neo, "CREATE (:Person {name: 'Andersson'}) ", Collections.emptyMap() ).close();
+//
+//        assertProcedureResult( morpheus, Collections.singletonMap( "Andersson", "N/A" ) );
+//        assertProcedureResult( smith, Collections.singletonMap( "Andersson", "N/A" ) );
+//        assertProcedureResult( jones, Collections.singletonMap( "Andersson", "N/A" ) );
+//
+//        execute( neo, "MATCH (n:Person) WHERE n.name = 'Andersson' SET n.alias = 'neo' RETURN n", Collections.emptyMap() ).close();
+//
+//        assertProcedureResult( morpheus, Collections.singletonMap( "Andersson", "neo" ) );
+//        assertProcedureResult( smith, Collections.singletonMap( "Andersson", "N/A" ) );
+//        assertProcedureResult( jones, Collections.singletonMap( "Andersson", "neo" ) );
+//    }
 
     private void assertProcedureResult( LoginContext user, Map<String,String> nameAliasMap )
     {

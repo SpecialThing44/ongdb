@@ -34,11 +34,12 @@
  */
 package org.neo4j.cypher.internal.compatibility.v3_4.runtime
 
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.SlotAllocation
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.SlotConfiguration.Size
-import org.neo4j.cypher.internal.compiler.v3_4.planner.LogicalPlanningTestSupport2
-import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
+import org.neo4j.cypher.internal.compiler.v3_5.planner.LogicalPlanningTestSupport2
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
-import org.neo4j.cypher.internal.v3_4.expressions._
+import org.neo4j.cypher.internal.v3_5.expressions._
+import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.logical.plans._
 
 class SlotAllocationArgumentsTest extends CypherFunSuite with LogicalPlanningTestSupport2 {
@@ -63,7 +64,7 @@ class SlotAllocationArgumentsTest extends CypherFunSuite with LogicalPlanningTes
   test("zero size argument for only leaf operator") {
     // given
     val leaf = AllNodesScan(x, Set.empty)
-    val expand = Expand(leaf, x, SemanticDirection.INCOMING, Seq.empty, z, r, ExpandAll)
+    val expand = Expand(leaf, x, SemanticDirection.INCOMING, collection.immutable.Seq.empty, z, r, ExpandAll)
 
     // when
     val arguments = SlotAllocation.allocateSlots(expand, semanticTable).argumentSizes
@@ -255,7 +256,7 @@ class SlotAllocationArgumentsTest extends CypherFunSuite with LogicalPlanningTes
   private def pipe(source:LogicalPlan, nLongs:Int, nRefs:Int) = {
     var curr = source
     for ( i <- 0 until nLongs ) {
-      curr = CreateNode(curr, "long"+i, Nil, None)
+      curr = Create(curr,collection.immutable.Seq.empty, collection.immutable.Seq.empty)
     }
     for ( i <- 0 until nRefs ) {
       curr = UnwindCollection(curr, "ref"+i, listOf(literalInt(1)))

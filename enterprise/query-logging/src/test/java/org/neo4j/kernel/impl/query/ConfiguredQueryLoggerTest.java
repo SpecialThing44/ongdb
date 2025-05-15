@@ -551,7 +551,7 @@ public class ConfiguredQueryLoggerTest
                 sessionInfo.withUsername( username ),
                 username,
                 queryText,
-                ValueUtils.asMapValue( params ),
+                ValueUtils.asParameterMapValue( params ),
                 metaData,
                 () -> 0,
                 new PageCursorCounters()

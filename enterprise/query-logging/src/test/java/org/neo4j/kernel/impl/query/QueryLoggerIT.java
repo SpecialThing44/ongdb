@@ -407,7 +407,7 @@ public class QueryLoggerIT
         try ( InternalTransaction tx = database
                 .beginTransaction( KernelTransaction.Type.explicit, neo ) )
         {
-            Result res = database.execute( tx, query, VirtualValues.EMPTY_MAP );
+            Result res = database.execute( tx, query, VirtualValues.EMPTY_MAP_WRAP );
             res.close();
             tx.success();
         }

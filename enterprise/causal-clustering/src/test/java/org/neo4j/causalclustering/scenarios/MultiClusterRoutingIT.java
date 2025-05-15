@@ -241,7 +241,7 @@ public class MultiClusterRoutingIT
         Optional<MultiClusterRoutingResult> routingResult = Optional.empty();
         try (
                 InternalTransaction tx = db.beginTransaction( KernelTransaction.Type.explicit, EnterpriseLoginContext.AUTH_DISABLED );
-                Result result = db.execute( tx, "CALL " + procedure.callName(), ValueUtils.asMapValue( params )) )
+                Result result = db.execute( tx, "CALL " + procedure.callName(), ValueUtils.asParameterMapValue( params )) )
         {
             if ( result.hasNext() )
             {

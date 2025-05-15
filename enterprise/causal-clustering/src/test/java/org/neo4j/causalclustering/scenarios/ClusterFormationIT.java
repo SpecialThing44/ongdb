@@ -57,6 +57,7 @@ import org.neo4j.test.causalclustering.ClusterRule;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class ClusterFormationIT
 {
@@ -96,7 +97,7 @@ public class ClusterFormationIT
                     EnterpriseLoginContext.AUTH_DISABLED
             ) )
             {
-                Result result = gdb.execute( tx, "CALL dbms.listQueries()", EMPTY_MAP );
+                Result result = gdb.execute( tx, "CALL dbms.listQueries()", EMPTY_MAP_WRAP );
                 assertTrue( result.hasNext() );
                 result.close();
 

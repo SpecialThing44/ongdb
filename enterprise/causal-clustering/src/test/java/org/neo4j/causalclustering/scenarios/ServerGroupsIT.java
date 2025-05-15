@@ -67,6 +67,7 @@ import static java.util.Collections.emptyMap;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.neo4j.test.assertion.Assert.assertEventually;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class ServerGroupsIT
 {
@@ -209,7 +210,7 @@ public class ServerGroupsIT
         List<List<String>> serverGroups = new ArrayList<>();
         try ( InternalTransaction tx = db.beginTransaction( KernelTransaction.Type.explicit, EnterpriseLoginContext.AUTH_DISABLED ) )
         {
-            try ( Result result = db.execute( tx, "CALL dbms.cluster.overview", EMPTY_MAP ) )
+            try ( Result result = db.execute( tx, "CALL dbms.cluster.overview", EMPTY_MAP_WRAP ) )
             {
                 while ( result.hasNext() )
                 {
