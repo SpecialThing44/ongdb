@@ -94,7 +94,7 @@ import org.neo4j.kernel.api.schema.constaints.NodeKeyConstraintDescriptor;
 import org.neo4j.kernel.api.schema.constaints.RelExistenceConstraintDescriptor;
 import org.neo4j.kernel.api.schema.constaints.UniquenessConstraintDescriptor;
 import org.neo4j.storageengine.api.schema.PopulationProgress;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;

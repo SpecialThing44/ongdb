@@ -78,6 +78,7 @@ import org.neo4j.kernel.impl.query.clientconnection.HttpConnectionInfo;
 import org.neo4j.kernel.impl.transaction.TransactionHeaderInformationFactory;
 import org.neo4j.kernel.impl.transaction.TransactionStats;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
+import org.neo4j.kernel.impl.util.Dependencies;
 import org.neo4j.resources.CpuClock;
 import org.neo4j.resources.HeapAllocation;
 import org.neo4j.storageengine.api.StorageEngine;
@@ -200,7 +201,7 @@ public class TransactionStatusResultTest
 
     private ExecutingQuery createExecutingQuery( long queryId )
     {
-        return new ExecutingQuery( queryId, getTestConnectionInfo(), "testUser", "testQuery", VirtualValues.EMPTY_MAP,
+        return new ExecutingQuery( queryId, getTestConnectionInfo(), "testUser", "testQuery", VirtualValues.EMPTY_MAP_WRAP,
                 Collections.emptyMap(), () -> 1L, PageCursorTracer.NULL,
                 Thread.currentThread().getId(), Thread.currentThread().getName(),
                 new CountingNanoClock(), new CountingCpuClock(), new CountingHeapAllocation() );
@@ -240,7 +241,7 @@ public class TransactionStatusResultTest
                         mock( StorageEngine.class, RETURNS_MOCKS ), new CanWrite(),
                         mock( DefaultCursors.class ), AutoIndexing.UNSUPPORTED, mock( ExplicitIndexStore.class ),
                         EmptyVersionContextSupplier.EMPTY, ON_HEAP, new StandardConstraintSemantics(), mock( SchemaState.class),
-                        mock( IndexingService.class ), mock( IndexProviderMap.class ) )
+                        mock( IndexingService.class ), mock( IndexProviderMap.class ), mock(Dependencies.class) )
             {
                 @Override
                 public Statistics getStatistics()

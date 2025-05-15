@@ -570,7 +570,7 @@ public class PropertyLevelSecurityIT
         Result result;
         try ( InternalTransaction tx = db.beginTransaction( explicit, subject ) )
         {
-            result = db.execute( tx, query, ValueUtils.asMapValue( params ) );
+            result = db.execute( tx, query, ValueUtils.asParameterMapValue( params ) );
             consumer.accept( result );
             tx.success();
             result.close();
@@ -582,7 +582,7 @@ public class PropertyLevelSecurityIT
         Result result;
         try ( InternalTransaction tx = db.beginTransaction( explicit, subject ) )
         {
-            result = db.execute( tx, query, ValueUtils.asMapValue( params ) );
+            result = db.execute( tx, query, ValueUtils.asParameterMapValue( params ) );
             tx.success();
         }
         return result;

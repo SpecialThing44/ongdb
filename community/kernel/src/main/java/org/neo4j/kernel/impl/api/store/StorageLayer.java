@@ -101,7 +101,7 @@ import org.neo4j.storageengine.api.StorageStatement;
 import org.neo4j.storageengine.api.StoreReadLayer;
 import org.neo4j.storageengine.api.Token;
 import org.neo4j.storageengine.api.schema.PopulationProgress;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 
 import static org.neo4j.collection.primitive.Primitive.intSet;
 import static org.neo4j.function.Predicates.ALWAYS_TRUE_INT;

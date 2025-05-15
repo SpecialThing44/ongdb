@@ -45,8 +45,8 @@ import org.neo4j.kernel.api.index.IndexProvider;
 import org.neo4j.kernel.api.schema.constaints.ConstraintDescriptorFactory;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptorFactory;
-import org.neo4j.storageengine.api.schema.SchemaRule;
-import org.neo4j.storageengine.api.schema.SchemaRule.Kind;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule.Kind;
 
 import static org.neo4j.helpers.Numbers.safeCastLongToInt;
 import static org.neo4j.string.UTF8.getDecodedStringFrom;

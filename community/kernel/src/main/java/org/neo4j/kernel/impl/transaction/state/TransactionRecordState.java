@@ -74,7 +74,7 @@ import org.neo4j.storageengine.api.StorageCommand;
 import org.neo4j.storageengine.api.StorageProperty;
 import org.neo4j.storageengine.api.Token;
 import org.neo4j.storageengine.api.lock.ResourceLocker;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 import org.neo4j.values.storable.Value;
 
 import static java.lang.String.format;

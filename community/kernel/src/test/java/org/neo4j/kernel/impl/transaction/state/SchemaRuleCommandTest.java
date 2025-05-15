@@ -76,7 +76,7 @@ import org.neo4j.kernel.impl.transaction.command.NeoStoreBatchTransactionApplier
 import org.neo4j.kernel.impl.transaction.command.PhysicalLogCommandReaderV3_0_2;
 import org.neo4j.kernel.impl.transaction.log.InMemoryClosableChannel;
 import org.neo4j.kernel.impl.transaction.log.PhysicalTransactionRepresentation;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.instanceOf;

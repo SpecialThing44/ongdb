@@ -39,7 +39,7 @@
 package org.neo4j.kernel.impl.store;
 
 import org.neo4j.kernel.api.exceptions.schema.MalformedSchemaRuleException;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 
 public interface SchemaRuleAccess
 {

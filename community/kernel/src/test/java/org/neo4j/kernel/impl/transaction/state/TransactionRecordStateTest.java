@@ -102,7 +102,7 @@ import org.neo4j.kernel.impl.transaction.log.entry.LogEntryWriter;
 import org.neo4j.kernel.impl.transaction.log.entry.VersionAwareLogEntryReader;
 import org.neo4j.kernel.impl.transaction.state.RecordAccess.RecordProxy;
 import org.neo4j.storageengine.api.StorageCommand;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 import org.neo4j.test.rule.NeoStoresRule;
 import org.neo4j.values.storable.Value;
 import org.neo4j.values.storable.Values;

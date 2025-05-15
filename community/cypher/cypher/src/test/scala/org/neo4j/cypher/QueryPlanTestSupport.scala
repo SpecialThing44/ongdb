@@ -22,6 +22,9 @@ package org.neo4j.cypher
 import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.planmatching.{CountInTree, ExactPlan, PlanInTree, PlanMatcher}
 import org.scalatest.matchers.{MatchResult, Matcher}
+import org.neo4j.cypher.internal.runtime.InternalExecutionResult
+import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
+
 
 trait QueryPlanTestSupport {
 
@@ -33,6 +36,19 @@ trait QueryPlanTestSupport {
     def aPlan: PlanMatcher = ExactPlan()
 
     def aPlan(name: String): PlanMatcher = ExactPlan().withName(name)
+  }
+
+  def use(operators: String*): Matcher[RewindableExecutionResult] = new Matcher[RewindableExecutionResult] {
+    override def apply(result: RewindableExecutionResult): MatchResult = useOperators(operators: _*)(result.executionPlanDescription())
+  }
+
+  def useOperators(operators: String*): Matcher[InternalPlanDescription] = new Matcher[InternalPlanDescription] {
+    override def apply(plan: InternalPlanDescription): MatchResult = {
+      MatchResult(
+        matches = operators.forall(plan.find(_).nonEmpty),
+        rawFailureMessage = s"Metadata: ${plan.arguments}\nPlan should use ${operators.mkString(",")}:\n$plan",
+        rawNegatedFailureMessage = s"Plan should not use ${operators.mkString(",")}:\n$plan")
+    }
   }
 
   /**

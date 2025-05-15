@@ -162,7 +162,7 @@ class BoltInteraction implements NeoInteractionLevel<BoltInteraction.BoltSubject
         }
         try
         {
-            subject.client.send( util.chunk( RunMessage.run( call, ValueUtils.asMapValue( params ) ), PullAllMessage.pullAll() ) );
+            subject.client.send( util.chunk( RunMessage.run( call, ValueUtils.asParameterMapValue( params ) ), PullAllMessage.pullAll() ) );
             resultConsumer.accept( collectResults( subject.client ) );
             return "";
         }

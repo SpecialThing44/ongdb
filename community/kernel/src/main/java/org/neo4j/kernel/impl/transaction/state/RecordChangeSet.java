@@ -49,7 +49,7 @@ import org.neo4j.kernel.impl.store.record.RelationshipTypeTokenRecord;
 import org.neo4j.kernel.impl.store.record.SchemaRecord;
 import org.neo4j.kernel.impl.transaction.state.RecordAccess.Loader;
 import org.neo4j.kernel.impl.util.statistics.IntCounter;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 
 public class RecordChangeSet implements RecordAccessSet
 {

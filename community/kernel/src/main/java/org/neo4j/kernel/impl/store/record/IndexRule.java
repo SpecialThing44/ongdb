@@ -42,7 +42,7 @@ import org.neo4j.graphdb.Label;
 import org.neo4j.internal.kernel.api.schema.SchemaDescriptor;
 import org.neo4j.kernel.api.index.IndexProvider;
 import org.neo4j.kernel.api.schema.index.SchemaIndexDescriptor;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 
 import static org.neo4j.internal.kernel.api.schema.SchemaUtil.idTokenNameLookup;
 

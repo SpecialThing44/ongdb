@@ -73,7 +73,7 @@ import org.neo4j.kernel.impl.transaction.state.RecordAccess.RecordProxy;
 import org.neo4j.kernel.impl.transaction.state.RecordChanges.RecordChange;
 import org.neo4j.logging.NullLogProvider;
 import org.neo4j.storageengine.api.StorageCommand;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;

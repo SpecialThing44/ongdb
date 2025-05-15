@@ -130,7 +130,7 @@ import org.neo4j.kernel.impl.transaction.state.storeview.NeoStoreIndexStoreView;
 import org.neo4j.kernel.impl.util.Bits;
 import org.neo4j.kernel.internal.GraphDatabaseAPI;
 import org.neo4j.logging.FormattedLog;
-import org.neo4j.storageengine.api.schema.SchemaRule;
+import org.neo4j.storageengine.api.schema.rule.SchemaRule;
 import org.neo4j.string.UTF8;
 import org.neo4j.test.rule.SuppressOutput;
 import org.neo4j.values.storable.Value;

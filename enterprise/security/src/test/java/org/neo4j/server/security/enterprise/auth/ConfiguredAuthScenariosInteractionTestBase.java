@@ -57,6 +57,7 @@ import static org.neo4j.server.security.enterprise.auth.plugin.api.PredefinedRol
 import static org.neo4j.server.security.enterprise.auth.plugin.api.PredefinedRoles.PUBLISHER;
 import static org.neo4j.server.security.enterprise.auth.plugin.api.PredefinedRoles.READER;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public abstract class ConfiguredAuthScenariosInteractionTestBase<S> extends ProcedureInteractionTestBase<S>
 {
@@ -86,7 +87,7 @@ public abstract class ConfiguredAuthScenariosInteractionTestBase<S> extends Proc
         InternalTransaction transaction = localGraph
                 .beginTransaction( KernelTransaction.Type.explicit, StandardEnterpriseLoginContext.AUTH_DISABLED );
         Result result =
-                localGraph.execute( transaction, "EXPLAIN CALL dbms.security.listUsers", EMPTY_MAP );
+                localGraph.execute( transaction, "EXPLAIN CALL dbms.security.listUsers", EMPTY_MAP_WRAP );
         String description = String.format( "%s (%s)", Status.Procedure.ProcedureWarning.code().description(),
                 "dbms.security.listUsers only applies to native users." );
         assertThat( containsNotification( result, description ), equalTo( true ) );
@@ -104,7 +105,7 @@ public abstract class ConfiguredAuthScenariosInteractionTestBase<S> extends Proc
         InternalTransaction transaction = localGraph
                 .beginTransaction( KernelTransaction.Type.explicit, StandardEnterpriseLoginContext.AUTH_DISABLED );
         Result result =
-                localGraph.execute( transaction, "EXPLAIN CALL dbms.security.listUsers", EMPTY_MAP );
+                localGraph.execute( transaction, "EXPLAIN CALL dbms.security.listUsers", EMPTY_MAP_WRAP );
         String description = String.format( "%s (%s)", Status.Procedure.ProcedureWarning.code().description(),
                 "dbms.security.listUsers only applies to native users." );
         assertThat( containsNotification( result, description ), equalTo( false ) );
