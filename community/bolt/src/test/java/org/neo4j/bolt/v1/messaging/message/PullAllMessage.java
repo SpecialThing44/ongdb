@@ -42,7 +42,7 @@ import org.neo4j.bolt.v1.messaging.BoltRequestMessageHandler;
 
 public class PullAllMessage implements RequestMessage
 {
-    private static final PullAllMessage INSTANCE = new PullAllMessage();
+    public static final PullAllMessage INSTANCE = new PullAllMessage();
 
     public static PullAllMessage pullAll()
     {

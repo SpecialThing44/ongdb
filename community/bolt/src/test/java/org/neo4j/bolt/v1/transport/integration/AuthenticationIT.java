@@ -75,6 +75,7 @@ import org.neo4j.kernel.internal.Version;
 import org.neo4j.logging.AssertableLogProvider;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.neo4j.test.rule.fs.EphemeralFileSystemRule;
+import org.neo4j.values.AnyValue;
 import org.neo4j.values.virtual.MapValue;
 import org.neo4j.values.virtual.VirtualValues;
 
@@ -94,6 +95,8 @@ import static org.neo4j.helpers.collection.MapUtil.map;
 import static org.neo4j.kernel.impl.util.ValueUtils.asParameterMapValue;
 import static org.neo4j.logging.AssertableLogProvider.inLog;
 import static org.neo4j.test.assertion.Assert.assertEventually;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 public class AuthenticationIT extends AbstractBoltTransportsTest
 {
@@ -131,7 +134,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb", "scheme", "basic" ) ) ) );
 
         // Then
@@ -143,7 +146,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
     private void verifyConnectionOpen() throws IOException
     {
-        connection.send( util.chunk( ResetMessage.reset() ) );
+        connection.send( util.chunk( ResetMessage.INSTANCE ) );
         assertThat( connection, util.eventuallyReceives( msgSuccess() ) );
     }
 
@@ -154,7 +157,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "wrong", "scheme", "basic" ) ) ) );
 
         // Then
@@ -163,7 +166,6 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
                 "The client is unauthorized due to authentication failure." ) ) );
 
         assertThat( connection, eventuallyDisconnects() );
-
         assertEventually( ignore -> "Matching log call not found in\n" + logProvider.serialize(),
                 this::authFailureLoggedToUserLog, is( true ), 30, SECONDS );
     }
@@ -182,7 +184,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1", map( "principal", "ongdb",
+                        new InitMessage( "TestClient/1.1", map( "principal", "ongdb",
                                 "credentials", "ongdb", "new_credentials", "secret", "scheme", "basic" ) ) ) );
         // Then
         assertThat( connection, util.eventuallyReceivesSelectedProtocolVersion() );
@@ -193,7 +195,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "secret", "scheme", "basic" ) ) ) );
 
         // Then
@@ -205,7 +207,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "wrong", "scheme", "basic" ) ) ) );
 
         // Then
@@ -223,7 +225,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", singletonList( "ongdb" ), "credentials", "ongdb", "scheme",
                                         "basic" ) ) ) );
 
@@ -231,7 +233,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         assertThat( connection, util.eventuallyReceivesSelectedProtocolVersion() );
         assertThat( connection, util.eventuallyReceives( msgFailure( Status.Security.Unauthorized,
                 "Unsupported authentication token, the value associated with the key `principal` " +
-                "must be a String but was: ArrayList" ) ) );
+                        "must be a String but was: ArrayList" ) ) );
 
         assertThat( connection, eventuallyDisconnects() );
     }
@@ -243,7 +245,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "this-should-have-been-credentials", "ongdb", "scheme",
                                         "basic" ) ) ) );
 
@@ -262,7 +264,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb" ) ) ) );
 
         // Then
@@ -280,7 +282,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb",
                                         "scheme", "unknown" ) ) ) );
 
@@ -357,7 +359,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1", map( "principal", "ongdb",
+                        new InitMessage( "TestClient/1.1", map( "principal", "ongdb",
                                 "credentials", "ongdb", "new_credentials", "secret", "scheme", "basic" ) ) ) );
 
         // Then
@@ -369,7 +371,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb", "scheme", "basic" ) ) ) );
         assertThat( connection, util.eventuallyReceivesSelectedProtocolVersion() );
         assertThat( connection, util.eventuallyReceives( msgFailure( Status.Security.Unauthorized,
@@ -380,7 +382,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "secret", "scheme", "basic" ) ) ) );
         assertThat( connection, util.eventuallyReceivesSelectedProtocolVersion() );
         assertThat( connection, util.eventuallyReceives( msgSuccess() ) );
@@ -393,7 +395,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1", map( "principal", "ongdb",
+                        new InitMessage( "TestClient/1.1", map( "principal", "ongdb",
                                 "credentials", "ongdb", "new_credentials", "secret", "scheme", "basic" ) ) ) );
 
         // Then
@@ -402,8 +404,8 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
         // When
         connection.send( util.chunk(
-                RunMessage.run( "MATCH (n) RETURN n" ),
-                PullAllMessage.pullAll() ) );
+                new RunMessage( "MATCH (n) RETURN n", EMPTY_MAP_WRAP ),
+                PullAllMessage.INSTANCE ) );
 
         // Then
         assertThat( connection, util.eventuallyReceives( msgSuccess(), msgSuccess() ) );
@@ -416,7 +418,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb", "scheme", "basic" ) ) ) );
 
         // Then
@@ -425,8 +427,8 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
         // When
         connection.send( util.chunk(
-                RunMessage.run( "CALL dbms.security.changePassword", singletonMap( "password", "secret" ) ),
-                PullAllMessage.pullAll() ) );
+                new RunMessage( "CALL dbms.security.changePassword", singletonMap( "password", "secret" ) ),
+                PullAllMessage.INSTANCE ) );
 
         // Then
         assertThat( connection, util.eventuallyReceives( msgSuccess() ) );
@@ -436,7 +438,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb", "scheme", "basic" ) ) ) );
         assertThat( connection, util.eventuallyReceivesSelectedProtocolVersion() );
         assertThat( connection, util.eventuallyReceives( msgFailure( Status.Security.Unauthorized,
@@ -447,7 +449,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "secret", "scheme", "basic" ) ) ) );
         assertThat( connection, util.eventuallyReceivesSelectedProtocolVersion() );
         assertThat( connection, util.eventuallyReceives( msgSuccess() ) );
@@ -491,7 +493,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb", "scheme", "basic" ) ) ) );
 
         // Then
@@ -500,8 +502,8 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
         // When
         connection.send( util.chunk(
-                RunMessage.run( "CALL dbms.security.changePassword", singletonMap( "password", "ongdb" ) ),
-                PullAllMessage.pullAll() ) );
+                new RunMessage( "CALL dbms.security.changePassword", singletonMap( "password", "ongdb" ) ),
+                PullAllMessage.INSTANCE ) );
 
         // Then
         assertThat( connection, util.eventuallyReceives( msgFailure( Status.General.InvalidArguments,
@@ -509,9 +511,9 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
         // However you should also be able to recover
         connection.send( util.chunk(
-                AckFailureMessage.ackFailure(),
-                RunMessage.run( "CALL dbms.security.changePassword", singletonMap( "password", "abc" ) ),
-                PullAllMessage.pullAll() ) );
+                AckFailureMessage.INSTANCE,
+                new RunMessage( "CALL dbms.security.changePassword", singletonMap( "password", "abc" ) ),
+                PullAllMessage.INSTANCE ) );
         assertThat( connection, util.eventuallyReceives( msgIgnored(), msgSuccess(), msgSuccess(), msgSuccess() ) );
     }
 
@@ -522,7 +524,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb", "scheme", "basic" ) ) ) );
 
         // Then
@@ -531,8 +533,8 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
         // When
         connection.send( util.chunk(
-                RunMessage.run( "CALL dbms.security.changePassword", singletonMap( "password", "" ) ),
-                PullAllMessage.pullAll() ) );
+                new RunMessage( "CALL dbms.security.changePassword", singletonMap( "password", "" ) ),
+                PullAllMessage.INSTANCE ) );
 
         // Then
         assertThat( connection, util.eventuallyReceives( msgFailure( Status.General.InvalidArguments,
@@ -540,9 +542,9 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
         // However you should also be able to recover
         connection.send( util.chunk(
-                AckFailureMessage.ackFailure(),
-                RunMessage.run( "CALL dbms.security.changePassword", singletonMap( "password", "abc" ) ),
-                PullAllMessage.pullAll() ) );
+                AckFailureMessage.INSTANCE,
+                new RunMessage( "CALL dbms.security.changePassword", singletonMap( "password", "abc" ) ),
+                PullAllMessage.INSTANCE ) );
         assertThat( connection, util.eventuallyReceives( msgIgnored(), msgSuccess(), msgSuccess(), msgSuccess() ) );
     }
 
@@ -553,7 +555,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         connection.connect( address )
                 .send( util.defaultAcceptedVersions() )
                 .send( util.chunk(
-                        InitMessage.init( "TestClient/1.1",
+                        new InitMessage( "TestClient/1.1",
                                 map( "principal", "ongdb", "credentials", "ongdb", "scheme", "basic" ) ) ) );
 
         // Then
@@ -562,8 +564,8 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
         // When
         connection.send( util.chunk(
-                RunMessage.run( "MATCH (n) RETURN n" ),
-                PullAllMessage.pullAll() ) );
+                new RunMessage( "MATCH (n) RETURN n", EMPTY_MAP_WRAP ),
+                PullAllMessage.INSTANCE ) );
 
         // Then
         assertThat( connection, util.eventuallyReceives( msgFailure( Status.Security.CredentialsExpired,
@@ -585,10 +587,10 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
         @Override
         protected boolean matchesSafely( ResponseMessage t )
         {
-            Assert.assertThat( t, instanceOf( FailureMessage.class ) );
+            assertThat( t, instanceOf( FailureMessage.class ) );
             FailureMessage msg = (FailureMessage) t;
             if ( !msg.status().equals( Status.Security.Unauthorized ) ||
-                 !msg.message().contains( "The client is unauthorized due to authentication failure." ) )
+                    !msg.message().contains( "The client is unauthorized due to authentication failure." ) )
             {
                 specialMessage = msg;
             }
@@ -603,7 +605,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
 
     private MapValue.MapWrappingMapValue singletonMap( String key, Object value )
     {
-        return asParameterMapValue( Collections.singletonMap( key, ValueUtils.of( value ) ) );
+        return VirtualValues.map( new String[]{key}, new AnyValue[]{ValueUtils.of( value )}  );
     }
 
     private FailureMessage collectAuthFailureOnFailedAuth()
@@ -616,7 +618,7 @@ public class AuthenticationIT extends AbstractBoltTransportsTest
             connection = newConnection();
 
             connection.connect( address ).send( util.defaultAcceptedVersions() ).send( util.chunk(
-                    InitMessage.init( "TestClient/1.1",
+                    new InitMessage( "TestClient/1.1",
                             map( "principal", "ongdb", "credentials", "WHAT_WAS_THE_PASSWORD_AGAIN", "scheme", "basic" ) ) ) );
 
             assertThat( connection, util.eventuallyReceivesSelectedProtocolVersion() );

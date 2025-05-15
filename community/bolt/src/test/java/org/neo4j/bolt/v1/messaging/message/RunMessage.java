@@ -66,7 +66,7 @@ public class RunMessage implements RequestMessage
     private final String statement;
     private final MapValue.MapWrappingMapValue params;
 
-    private RunMessage( String statement, MapValue.MapWrappingMapValue params )
+    public RunMessage(String statement, MapValue.MapWrappingMapValue params)
     {
         this.statement = statement;
         this.params = params;

@@ -55,7 +55,7 @@ public class InitMessage implements RequestMessage
     private final String userAgent;
     private final Map<String, Object> authToken;
 
-    private InitMessage( String userAgent, Map<String, Object> authToken )
+    public InitMessage(String userAgent, Map<String, Object> authToken)
     {
         this.userAgent = userAgent;
         this.authToken = authToken;

@@ -40,6 +40,7 @@ package org.neo4j.server.rest.transactional;
 
 import java.util.concurrent.TimeUnit;
 
+import org.neo4j.graphdb.NotInTransactionException;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.internal.kernel.api.security.LoginContext;
 import org.neo4j.kernel.api.KernelTransaction;
@@ -114,6 +115,10 @@ class TransitionalTxManagementKernelTransaction
             KernelTransaction kernelTransactionBoundToThisThread = bridge.getKernelTransactionBoundToThisThread( true );
             kernelTransactionBoundToThisThread.success();
             kernelTransactionBoundToThisThread.close();
+        }
+        catch ( NotInTransactionException e )
+        {
+            // if the transaction was already terminated there is nothing more to do
         }
         catch ( TransactionFailureException e )
         {
