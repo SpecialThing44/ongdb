@@ -32,11 +32,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.cypher.internal.compatibility.v3_4.runtime
+package org.neo4j.cypher.internal.compatibility.v3_5.runtime
 
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.SlotAllocation
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.SlotConfiguration.Size
 import org.neo4j.cypher.internal.compiler.v3_5.planner.LogicalPlanningTestSupport2
+import org.neo4j.cypher.internal.ir.v3_5.CreateNode
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.cypher.internal.v3_5.expressions._
 import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
@@ -254,10 +255,12 @@ class SlotAllocationArgumentsTest extends CypherFunSuite with LogicalPlanningTes
   private def applyLeft(lhs:LogicalPlan, rhs:LogicalPlan) = SemiApply(lhs, rhs)
   private def break(source:LogicalPlan) = Eager(source)
   private def pipe(source:LogicalPlan, nLongs:Int, nRefs:Int) = {
-    var curr = source
-    for ( i <- 0 until nLongs ) {
-      curr = Create(curr,collection.immutable.Seq.empty, collection.immutable.Seq.empty)
-    }
+    var curr: LogicalPlan =
+      Create(
+        source,
+        (0 until nLongs).map(i => CreateNode("long"+i, Nil, None)),
+        Nil
+      )
     for ( i <- 0 until nRefs ) {
       curr = UnwindCollection(curr, "ref"+i, listOf(literalInt(1)))
     }

@@ -35,19 +35,21 @@
 package org.neo4j.cypher.internal.compatibility.v3_5.runtime
 
 import org.neo4j.cypher.internal.v3_5.util.InternalException
-import org.neo4j.cypher.internal.v3_5.util.symbols.CypherType
-import org.neo4j.cypher.internal.v3_5.logical.plans.LogicalPlan
+import org.neo4j.cypher.internal.v3_5.util.symbols.{CTAny, CypherType}
+import org.neo4j.cypher.internal.v3_5.logical.plans.{CachedNodeProperty, LogicalPlan}
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
 import org.neo4j.values.AnyValue
 
 import scala.collection.{immutable, mutable}
 
 object SlotConfiguration {
-  def empty = new SlotConfiguration(mutable.Map.empty, 0, 0)
+  def empty = new SlotConfiguration(mutable.Map.empty, mutable.Map.empty, 0, 0)
+
 
   def apply(slots: Map[String, Slot], numberOfLongs: Int, numberOfReferences: Int): SlotConfiguration = {
     val stringToSlot = mutable.Map(slots.toSeq: _*)
-    new SlotConfiguration(stringToSlot, numberOfLongs, numberOfReferences)
+    new SlotConfiguration(stringToSlot, mutable.Map.empty, numberOfLongs, numberOfReferences)
+
   }
 
   def toString(startFrom: LogicalPlan, m: Map[LogicalPlan, SlotConfiguration]): String = {
@@ -133,7 +135,7 @@ object SlotConfiguration {
       result.append("\n")
 
       // Dependencies:
-      result.append("Dependends on: ")
+      result.append("Depends on: ")
       pipeline.dependsOn.foreach(p => result.append("#").append(p.order))
 
       result.append("\n")
@@ -154,7 +156,7 @@ object SlotConfiguration {
 
   case class Size(nLongs: Int, nReferences: Int)
   object Size {
-    val zero = Size(nLongs = 0, nReferences = 0)
+    val zero: Size = Size(nLongs = 0, nReferences = 0)
   }
 }
 
@@ -167,6 +169,7 @@ object SlotConfiguration {
   * @param numberOfReferences the number of ref slots.
   */
 class SlotConfiguration(private val slots: mutable.Map[String, Slot],
+                        private val cachedProperties: mutable.Map[CachedNodeProperty, RefSlot],
                         var numberOfLongs: Int,
                         var numberOfReferences: Int) {
 
@@ -193,7 +196,13 @@ class SlotConfiguration(private val slots: mutable.Map[String, Slot],
     aliases.contains(key)
   }
 
+  def getAliasOf(slot: Slot): String = slotAliases(slot).head
+
   def apply(key: String): Slot = slots.apply(key)
+
+  def nameOfLongSlot(offset: Int): Option[String] = slots.collectFirst {
+    case (name, LongSlot(o, _, _)) if o == offset && !aliases(name) => name
+  }
 
   def get(key: String): Option[Slot] = slots.get(key)
 
@@ -203,7 +212,10 @@ class SlotConfiguration(private val slots: mutable.Map[String, Slot],
   }
 
   def copy(): SlotConfiguration = {
-    val newPipeline = new SlotConfiguration(this.slots.clone(), numberOfLongs, numberOfReferences)
+    val newPipeline = new SlotConfiguration(this.slots.clone(),
+      this.cachedProperties.clone(),
+      numberOfLongs,
+      numberOfReferences)
     newPipeline.aliases ++= aliases
     newPipeline.slotAliases ++= slotAliases
     newPipeline
@@ -277,6 +289,29 @@ class SlotConfiguration(private val slots: mutable.Map[String, Slot],
     this
   }
 
+  def newCachedProperty(key: CachedNodeProperty): SlotConfiguration = {
+    cachedProperties.get(key) match {
+      case Some(existingSlot) =>
+        throw new InternalException(s"Tried overwriting already taken cached node property $key!")
+
+      case None =>
+        cachedProperties.put(key, RefSlot(numberOfReferences, nullable = false, CTAny))
+        numberOfReferences = numberOfReferences + 1
+    }
+    this
+  }
+
+  def newCachedPropertyIfUnseen(key: CachedNodeProperty): SlotConfiguration = {
+    cachedProperties.get(key) match {
+      case Some(existingSlot) => // do nothing
+      case None =>
+        cachedProperties.put(key, RefSlot(numberOfReferences, nullable = false, CTAny))
+        numberOfReferences = numberOfReferences + 1
+    }
+    this
+  }
+
+
   def getReferenceOffsetFor(name: String): Int = slots.get(name) match {
     case Some(s: RefSlot) => s.offset
     case Some(s) => throw new InternalException(s"Uh oh... There was no reference slot for `$name`. It was a $s")
@@ -288,6 +323,8 @@ class SlotConfiguration(private val slots: mutable.Map[String, Slot],
     case Some(s) => throw new InternalException(s"Uh oh... There was no long slot for `$name`. It was a $s")
     case _ => throw new InternalException(s"Uh oh... There was no slot for `$name`")
   }
+
+  def getCachedNodePropertyOffsetFor(key: CachedNodeProperty): Int = cachedProperties(key).offset
 
   def updateAccessorFunctions(key: String, getter: ExecutionContext => AnyValue, setter: (ExecutionContext, AnyValue) => Unit,
                               primitiveNodeSetter: Option[(ExecutionContext, Long) => Unit],
@@ -326,9 +363,39 @@ class SlotConfiguration(private val slots: mutable.Map[String, Slot],
   def foreachSlot[U](f: ((String,Slot)) => U): Unit =
     slots.foreach(f)
 
+  def foreachSlot[U](onVariable: ((String, Slot)) => U,
+                     onCachedNodeProperty: ((CachedNodeProperty, RefSlot)) => Unit
+                    ): Unit = {
+    slots.foreach(onVariable)
+    cachedProperties.foreach(onCachedNodeProperty)
+  }
+
   // NOTE: This will give duplicate slots when we have aliases
-  def foreachSlotOrdered[U](f: ((String, Slot)) => U): Unit =
-    slots.toSeq.sortBy(_._2)(SlotOrdering).foreach(f)
+  def foreachSlotOrdered(onVariable: (String, Slot) => Unit,
+                         onCachedNodeProperty: CachedNodeProperty => Unit
+                        ): Unit = {
+    val (longs, refs) = slots.toSeq.partition(_._2.isLongSlot)
+    for ((variable, slot) <- longs.sortBy(_._2.offset)) onVariable(variable, slot)
+
+    var sortedRefs = refs.sortBy(_._2.offset)
+    var sortedCached = cachedProperties.toSeq.sortBy(_._2.offset)
+    for (i <- 0 until numberOfReferences) {
+      if (sortedRefs.nonEmpty && sortedRefs.head._2.offset == i) {
+        val (variable, slot) = sortedRefs.head
+        onVariable(variable, slot)
+        sortedRefs = sortedRefs.tail
+      } else {
+        onCachedNodeProperty(sortedCached.head._1)
+        sortedCached = sortedCached.tail
+      }
+    }
+  }
+
+  // NOTE: We need to implement caching. Use naming convention of the method above (i.e. foreachSlotXXXX)
+  // We need to now call this method in the SlottedExecutionContext.
+  def foreachSlotCached(onCachedNodeProperty: ((CachedNodeProperty, RefSlot)) => Unit): Unit = {
+    cachedProperties.foreach(onCachedNodeProperty)
+  }
 
   // NOTE: This will give duplicate slots when we have aliases
   def mapSlot[U](f: ((String,Slot)) => U): Iterable[U] = slots.map(f)

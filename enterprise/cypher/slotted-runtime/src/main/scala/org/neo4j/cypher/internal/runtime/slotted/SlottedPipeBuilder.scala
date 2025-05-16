@@ -45,7 +45,7 @@ import org.neo4j.cypher.internal.runtime.interpreted.commands.predicates.{Predic
 import org.neo4j.cypher.internal.runtime.interpreted.commands.{KeyTokenResolver, expressions => commandExpressions}
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{ColumnOrder => _, _}
 import org.neo4j.cypher.internal.runtime.slotted.helpers.SlottedPipeBuilderUtils
-import org.neo4j.cypher.internal.runtime.slotted.pipes._
+import org.neo4j.cypher.internal.runtime.slotted.pipes.{NodeHashJoinSlottedPrimitivePipe, _}
 import org.neo4j.cypher.internal.runtime.slotted.{expressions => slottedExpressions}
 import org.neo4j.cypher.internal.v3_5.util.AssertionUtils._
 import org.neo4j.cypher.internal.v3_5.util.InternalException
@@ -411,22 +411,35 @@ class SlottedPipeBuilder(fallback: PipeBuilder,
         val leftNodes: Array[Int] = joinPlan.nodes.map(k => slots.getLongOffsetFor(k)).toArray
         val rhsSlots = slotConfigs(joinPlan.right.id)
         val rightNodes: Array[Int] = joinPlan.nodes.map(k => rhsSlots.getLongOffsetFor(k)).toArray
-        val copyLongsFromRHS = collection.mutable.ArrayBuffer.newBuilder[(Int, Int)]
-        val copyRefsFromRHS = collection.mutable.ArrayBuffer.newBuilder[(Int, Int)]
+        val copyLongsFromRHS = collection.mutable.ArrayBuffer.newBuilder[(Int,Int)]
+        val copyRefsFromRHS = collection.mutable.ArrayBuffer.newBuilder[(Int,Int)]
+        val copyCachedPropertiesFromRHS = collection.mutable.ArrayBuffer.newBuilder[(Int,Int)]
 
         // Verify the assumption that the argument slots are the same on both sides
         ifAssertionsEnabled(verifyArgumentsAreTheSameOnBothSides(plan, physicalPlan))
 
         // When executing the HashJoin, the LHS will be copied to the first slots in the produced row, and any additional RHS columns that are not
         // part of the join comparison
-        rhsSlots.foreachSlotOrdered {
+        rhsSlots.foreachSlotOrdered({
           case (key, LongSlot(offset, _, _)) if offset >= argumentSize.nLongs =>
             copyLongsFromRHS += ((offset, slots.getLongOffsetFor(key)))
           case (key, RefSlot(offset, _, _)) if offset >= argumentSize.nReferences =>
             copyRefsFromRHS += ((offset, slots.getReferenceOffsetFor(key)))
           case _ => // do nothing, already added by lhs
-        }
-        NodeHashJoinSlottedPipe(leftNodes, rightNodes, lhs, rhs, slots, copyLongsFromRHS.result().toArray, copyRefsFromRHS.result().toArray)(id)
+        }, { cnp =>
+          val offset = rhsSlots.getCachedNodePropertyOffsetFor(cnp)
+          if (offset >= argumentSize.nReferences)
+            copyCachedPropertiesFromRHS += offset -> slots.getCachedNodePropertyOffsetFor(cnp)
+        })
+
+        val longsToCopy = copyLongsFromRHS.result().toArray
+        val refsToCopy = copyRefsFromRHS.result().toArray
+        val cachedPropertiesToCopy = copyCachedPropertiesFromRHS.result().toArray
+
+        if (leftNodes.length == 1)
+          NodeHashJoinSlottedPrimitivePipe(leftNodes(0), rightNodes(0), lhs, rhs, slots, longsToCopy, refsToCopy, cachedPropertiesToCopy)(id)
+        else
+          NodeHashJoinSlottedPipe(leftNodes, rightNodes, lhs, rhs, slots, longsToCopy, refsToCopy, cachedPropertiesToCopy)(id)
 
       case ValueHashJoin(lhsPlan, _, Equals(lhsAstExp, rhsAstExp)) =>
         val argumentSize = physicalPlan.argumentSizes(plan.id)

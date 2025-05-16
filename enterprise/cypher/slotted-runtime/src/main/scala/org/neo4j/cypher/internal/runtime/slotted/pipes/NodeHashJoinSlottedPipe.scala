@@ -49,7 +49,8 @@ case class NodeHashJoinSlottedPipe(leftSide: Array[Int],
                                    right: Pipe,
                                    slots: SlotConfiguration,
                                    longsToCopy: Array[(Int, Int)],
-                                   refsToCopy: Array[(Int, Int)])
+                                   refsToCopy: Array[(Int, Int)],
+                                   cachedPropertiesToCopy: Array[(Int, Int)])
                                   (val id: Id = Id.INVALID_ID)
   extends AbstractHashJoinPipe[HashKey, Array[Int]](left, right, slots) {
 

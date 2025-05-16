@@ -35,6 +35,7 @@
 package org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 
 import org.neo4j.cypher.internal.v3_5.expressions.Property
+import org.neo4j.cypher.internal.v3_5.logical.plans.ASTCachedNodeProperty
 
 case class NodeProperty(offset: Int, propToken: Int, name: String)(prop: Property) extends RuntimeProperty(prop) {
   override def asCanonicalStringVal: String = name
@@ -44,6 +45,17 @@ case class NodeProperty(offset: Int, propToken: Int, name: String)(prop: Propert
 case class NodePropertyLate(offset: Int, propKey: String, name: String)(prop: Property) extends RuntimeProperty(prop) {
   override def asCanonicalStringVal: String = name
 }
+
+case class CachedNodeProperty(offset: Int,
+                              propToken: Int,
+                              cachedPropertyOffset: Int
+                             ) extends RuntimeExpression with ASTCachedNodeProperty
+
+// Token did not exist at plan time, so we'll need to look it up at runtime
+case class CachedNodePropertyLate(offset: Int,
+                                  propKey: String,
+                                  cachedPropertyOffset: Int
+                                 ) extends RuntimeExpression with ASTCachedNodeProperty
 
 case class NodePropertyExists(offset: Int, propToken: Int, name: String)(prop: Property) extends RuntimeProperty(prop) {
   override def asCanonicalStringVal: String = name

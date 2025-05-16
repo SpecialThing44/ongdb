@@ -46,8 +46,8 @@ import org.neo4j.cypher.internal.v3_5.ast.ProcedureResultItem
 import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 
-import java.util.UUID
 import scala.collection.mutable
+import scala.util.Try
 
 /**
   * This object knows how to configure slots for a logical plan tree.
@@ -187,6 +187,16 @@ object SlotAllocation {
     val TRAVERSE_INTO_CHILDREN = Some((s: Accumulator) => s)
     val DO_NOT_TRAVERSE_INTO_CHILDREN = None
 
+
+    p.treeFind[Expression] {
+      case _: PatternExpression =>
+        true
+      case _: PatternComprehension =>
+        true
+    }.foreach { _ =>
+      throw new SlotAllocationFailed(s"Don't know how to handle $p")
+    }
+
     val result = p.treeFold[Accumulator](Accumulator(slots, doNotTraverseExpression = None)) {
       //-----------------------------------------------------
       // Logical plans
@@ -267,6 +277,13 @@ object SlotAllocation {
     */
   private def allocate(lp: LogicalPlan, nullable: Boolean, argument: SlotConfiguration): SlotConfiguration =
     lp match {
+
+      case leaf: IndexLeafPlan =>
+        val result = argument
+        result.newLong(leaf.idName, nullable, CTNode)
+        leaf.cachedNodeProperties.foreach(result.newCachedProperty)
+        result
+
       case leaf: NodeLogicalLeafPlan =>
         val result = argument
         result.newLong(leaf.idName, nullable, CTNode)
@@ -425,8 +442,8 @@ object SlotAllocation {
         result
 
       case Create(_, nodes, relationships) =>
-        nodes.map(node => source.newLong(node.idName, nullable = false, CTNode))
-        relationships.map(node => source.newLong(node.idName, nullable = false, CTRelationship))
+        nodes.foreach(node => source.newLong(node.idName, nullable = false, CTNode))
+        relationships.foreach(node => source.newLong(node.idName, nullable = false, CTRelationship))
         source
 
       case _:MergeCreateNode =>
@@ -564,46 +581,44 @@ object SlotAllocation {
         val result = lhs.copy()
         // For the implementation of the slotted pipe to use array copy
         // it is very important that we add the slots in the same order
-        rhs.foreachSlotOrdered {
-          case (k, slot) =>
-            result.add(k, slot)
-        }
+        rhs.foreachSlotOrdered(result.add, result.newCachedPropertyIfUnseen)
         result
 
       case RightOuterHashJoin(nodes, _, _) =>
         // A new pipeline is not strictly needed here unless we have batching/vectorization
         recordArgument(lp)
         val result = rhs.copy()
-        lhs.foreachSlotOrdered {
-          case (k, slot) if !nodes(k) =>
-            result.add(k, slot.asNullable)
+        // If the column is one of the join columns there is no need to add it again
+        def onVariableSlot(key: String, slot: Slot): Unit =
+          if (!nodes(key))
+            result.add(key, slot.asNullable)
 
-          case _ => // If the column is one of the join columns there is no need to add it again
-        }
+        lhs.foreachSlotOrdered(onVariableSlot, result.newCachedPropertyIfUnseen)
         result
 
       case LeftOuterHashJoin(nodes, _, _) =>
         // A new pipeline is not strictly needed here unless we have batching/vectorization
         recordArgument(lp)
         val result = lhs.copy()
-        rhs.foreachSlotOrdered {
-          case (k, slot) if !nodes(k) =>
-            result.add(k, slot.asNullable)
 
-          case _ => // If the column is one of the join columns there is no need to add it again
-        }
+        // If the column is one of the join columns there is no need to add it again
+        def onVariableSlot(key: String, slot: Slot): Unit =
+          if (!nodes(key))
+            result.add(key, slot.asNullable)
+
+        rhs.foreachSlotOrdered(onVariableSlot, result.newCachedPropertyIfUnseen)
         result
 
       case NodeHashJoin(nodes, _, _) =>
         // A new pipeline is not strictly needed here unless we have batching/vectorization
         recordArgument(lp)
         val result = lhs.copy()
-        rhs.foreachSlotOrdered {
-          case (k, slot) if !nodes(k) =>
-            result.add(k, slot)
+        // If the column is one of the join columns there is no need to add it again
+        def onVariableSlot(key: String, slot: Slot): Unit =
+          if (!nodes(key))
+            result.add(key, slot)
 
-          case _ => // If the column is one of the join columns there is no need to add it again
-        }
+        rhs.foreachSlotOrdered(onVariableSlot, result.newCachedPropertyIfUnseen)
         result
 
       case _: ValueHashJoin =>
@@ -612,10 +627,7 @@ object SlotAllocation {
         val slotConfig: SlotConfiguration = lhs.copy()
         // For the implementation of the slotted pipe to use array copy
         // it is very important that we add the slots in the same order
-        rhs.foreachSlotOrdered {
-          case (k, slot) =>
-            slotConfig.add(k, slot)
-        }
+        rhs.foreachSlotOrdered(slotConfig.add, slotConfig.newCachedPropertyIfUnseen)
         slotConfig
 
       case RollUpApply(_, _, collectionName, _, _) =>
@@ -630,7 +642,7 @@ object SlotAllocation {
         // If both lhs and rhs has a long slot with the same type the result should
         // also use a long slot, otherwise we use a ref slot.
         val result = SlotConfiguration.empty
-        lhs.foreachSlot {
+        lhs.foreachSlot ({
           case (key, lhsSlot: LongSlot) =>
             //find all shared variables and look for other long slots with same type
             rhs.get(key).foreach {
@@ -647,7 +659,7 @@ object SlotAllocation {
                 val newType = if (lhsSlot.typ == rhsSlot.typ) lhsSlot.typ else CTAny
                 result.newReference(key, lhsSlot.nullable || rhsSlot.nullable, newType)
             }
-        }
+        }, ignoreCachedNodeProperties => null)
         result
 
       case _: AssertSameNode =>
@@ -665,9 +677,9 @@ object SlotAllocation {
       case ForeachApply(_, _, variableName, listExpression) =>
         // The slot for the iteration variable of foreach needs to be available as an argument on the rhs of the apply
         // so we allocate it on the lhs (even though its value will not be needed after the foreach is done)
-        val typeSpec = semanticTable.getActualTypeFor(listExpression)
-        val listOfNodes = typeSpec.contains(ListType(CTNode))
-        val listOfRels = typeSpec.contains(ListType(CTRelationship))
+        val maybeTypeSpec = Try(semanticTable.getActualTypeFor(listExpression)).toOption
+        val listOfNodes = maybeTypeSpec.exists(_.contains(ListType(CTNode)))
+        val listOfRels = maybeTypeSpec.exists(_.contains(ListType(CTRelationship)))
 
         (listOfNodes, listOfRels) match {
           case (true, false) => lhs.newLong(variableName, true, CTNode)
@@ -679,6 +691,17 @@ object SlotAllocation {
       case _ =>
         lhs
     }
+
+
+  // TODO: We might get a list expression that has not been properly typed (RollupApply). Instead of failing,
+  // we are forgiving and just act like we know nothing at compile time
+  private def getTypeOf(semanticTable: SemanticTable, listExpression: Expression): TypeSpec = {
+    if (semanticTable.seen(listExpression)) {
+      semanticTable.getActualTypeFor(listExpression)
+    } else {
+      TypeSpec.all
+    }
+  }
 
   private def addGroupingMap(groupingExpressions: Map[String, Expression], incoming: SlotConfiguration, outgoing: SlotConfiguration) = {
     groupingExpressions foreach {

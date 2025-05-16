@@ -863,7 +863,7 @@ class SlotAllocationTest extends CypherFunSuite with LogicalPlanningTestSupport2
     val label = LabelToken("label2", LabelId(0))
     val argument = Argument()
     val list = literalList(Variable("x")(pos))
-    val rhs = Create(argument, collection.immutable.Seq.empty, collection.immutable.Seq.empty)
+    val rhs = Create(argument, collection.immutable.Seq(CreateNode(z, collection.immutable.Seq.empty, None)), collection.immutable.Seq.empty)
     val foreach = ForeachApply(lhs, rhs, "i", list)
 
     val semanticTableWithList = SemanticTable(ASTAnnotationMap(list -> ExpressionTypeInfo(ListType(CTNode), Some(ListType(CTNode)))))

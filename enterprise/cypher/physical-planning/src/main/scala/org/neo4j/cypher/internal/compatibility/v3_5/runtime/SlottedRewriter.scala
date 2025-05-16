@@ -36,6 +36,7 @@ package org.neo4j.cypher.internal.compatibility.v3_5.runtime
 
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.PhysicalPlanningAttributes.SlotConfigurations
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.ast
 import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
 import org.neo4j.cypher.internal.planner.v3_5.spi.TokenContext
 import org.neo4j.cypher.internal.v3_5.util.AssertionUtils.ifAssertionsEnabled
@@ -47,7 +48,7 @@ import org.neo4j.cypher.internal.v3_5.expressions.{FunctionInvocation, _}
 import org.neo4j.cypher.internal.v3_5.logical.plans.{LogicalPlan, NestedPlanExpression, Projection, VarExpand, _}
 import org.neo4j.cypher.internal.v3_5.expressions
 import org.neo4j.cypher.internal.v3_5.expressions.{functions => frontendFunctions}
-
+import org.neo4j.cypher.internal.v3_5.logical.plans
 /**
   * This class rewrites logical plans so they use slotted variable access instead of using key-based. It will also
   * rewrite the slot configurations so that the new plans can be found in there.
@@ -61,6 +62,11 @@ class SlottedRewriter(tokenContext: TokenContext) {
   private def rewriteUsingIncoming(oldPlan: LogicalPlan): Boolean = oldPlan match {
     case _: Aggregation | _: Distinct => true
     case _ => false
+  }
+
+  private def refSlotAndNotAlias(slots: SlotConfiguration, k: String) = {
+    !slots.isAlias(k) &&
+      slots.get(k).forall(_.isInstanceOf[RefSlot])
   }
 
   def apply(in: LogicalPlan, slotConfigurations: SlotConfigurations): LogicalPlan = {
@@ -178,6 +184,18 @@ class SlottedRewriter(tokenContext: TokenContext) {
             prop.copy(map = ReferenceFromSlot(offset, key))(prop.position)
         }
 
+      case prop@plans.CachedNodeProperty(nodeVariableName, PropertyKeyName(propKey)) =>
+        slotConfiguration(nodeVariableName) match {
+          case LongSlot(offset, _, CTNode) =>
+            tokenContext.getOptPropertyKeyId(propKey) match {
+              case Some(propId) => ast.CachedNodeProperty(offset, propId, slotConfiguration.getCachedNodePropertyOffsetFor(prop))
+              case None => ast.CachedNodePropertyLate(offset, propKey, slotConfiguration.getCachedNodePropertyOffsetFor(prop))
+            }
+
+          case slot: Slot =>
+            throw new InternalException(s"We only support cached node properties on known nodes (from index seeks), got slot '$slot'")
+        }
+
       case e@Equals(Variable(k1), Variable(k2)) =>
         primitiveEqualityChecks(slotConfiguration, e, k1, k2, positiveCheck = true)
 
@@ -229,31 +247,45 @@ class SlottedRewriter(tokenContext: TokenContext) {
 
       case existsFunction: FunctionInvocation if existsFunction.function == frontendFunctions.Exists =>
         existsFunction.args.head match {
-          case prop @ Property(Variable(key), PropertyKeyName(propKey)) =>
-            val maybeSpecializedExpression = specializeCheckIfPropertyExists(slotConfiguration, key, propKey, prop)
-            maybeSpecializedExpression.getOrElse(existsFunction)
+          case prop@Property(Variable(key), PropertyKeyName(propKey)) =>
+            val slot = slotConfiguration(key)
+            val maybeSpecializedExpression = specializeCheckIfPropertyExists(slotConfiguration, key, propKey, prop, slot)
+            if (slot.nullable && maybeSpecializedExpression.isDefined && maybeSpecializedExpression.get.isInstanceOf[LogicalProperty]) {
+              NullCheckProperty(slot.offset, maybeSpecializedExpression.get.asInstanceOf[LogicalProperty])
+            }
+            else
+              maybeSpecializedExpression.getOrElse(existsFunction)
 
           case _ => existsFunction // Don't know how to specialize this
         }
 
-      case e @ IsNull(prop @ Property(Variable(key), PropertyKeyName(propKey))) =>
-        val maybeSpecializedExpression = specializeCheckIfPropertyExists(slotConfiguration, key, propKey, prop)
-        if (maybeSpecializedExpression.isDefined)
-          Not(maybeSpecializedExpression.get)(e.position)
+
+      case e@IsNull(prop@Property(Variable(key), PropertyKeyName(propKey))) =>
+        val slot = slotConfiguration(key)
+        val maybeSpecializedExpression = specializeCheckIfPropertyExists(slotConfiguration, key, propKey, prop, slot)
+        if (maybeSpecializedExpression.isDefined) {
+          val propertyExists = maybeSpecializedExpression.get
+          val notPropertyExists = Not(propertyExists)(e.position)
+          if (slot.nullable)
+            Or(IsPrimitiveNull(slot.offset), notPropertyExists)(e.position)
+          else
+            notPropertyExists
+        }
         else
           e
 
-//      case _: ReduceExpression =>
-//        throw new CantCompileQueryException(s"Expressions with reduce are not yet supported in slot allocation")
-//
-//      case _: DesugaredMapProjection =>
-//        throw new CantCompileQueryException(s"Expressions with map projections are not yet supported in slot allocation")
-//
-//      case _: ShortestPathExpression =>
-//        throw new CantCompileQueryException(s"Expressions with shortestPath functions not yet supported in slot allocation")
-//
-//      case _: PatternExpression =>
-//        throw new CantCompileQueryException(s"Pattern expressions not yet supported in the slotted runtime")
+
+      case e@IsNotNull(prop@Property(Variable(key), PropertyKeyName(propKey))) =>
+        val slot = slotConfiguration(key)
+        val maybeSpecializedExpression = specializeCheckIfPropertyExists(slotConfiguration, key, propKey, prop, slot)
+        if (maybeSpecializedExpression.isDefined) {
+          val propertyExists = maybeSpecializedExpression.get
+          if (slot.nullable)
+            And(Not(IsPrimitiveNull(slot.offset))(e.position), propertyExists)(e.position)
+          else
+            propertyExists
+        } else
+          e
     }
     topDown(rewriter = innerRewriter, stopper = stopAtOtherLogicalPlans(thisPlan))
   }
@@ -314,11 +346,12 @@ class SlottedRewriter(tokenContext: TokenContext) {
         predicate))
   }
 
-  private def specializeCheckIfPropertyExists(slotConfiguration: SlotConfiguration, key: String, propKey: String, prop: Property) = {
+  private def specializeCheckIfPropertyExists(slotConfiguration: SlotConfiguration, key: String, propKey: String, prop: Property, slot: Slot) = {
+
     val slot = slotConfiguration(key)
     val maybeToken = tokenContext.getOptPropertyKeyId(propKey)
 
-    val propExpression = (slot, maybeToken) match {
+    (slot, maybeToken) match {
       case (LongSlot(offset, _, typ), Some(token)) if typ == CTNode =>
         Some(NodePropertyExists(offset, token, s"$key.$propKey")(prop))
 
@@ -334,12 +367,6 @@ class SlottedRewriter(tokenContext: TokenContext) {
       case _ =>
         None // Let the normal expression conversion work this out
     }
-
-    if (slot.nullable && propExpression.isDefined && propExpression.get.isInstanceOf[LogicalProperty]) {
-      Some(NullCheckProperty(slot.offset, propExpression.get.asInstanceOf[LogicalProperty]))
-    }
-    else
-      propExpression
   }
 
   private def stopAtOtherLogicalPlans(thisPlan: LogicalPlan): (AnyRef) => Boolean = {
