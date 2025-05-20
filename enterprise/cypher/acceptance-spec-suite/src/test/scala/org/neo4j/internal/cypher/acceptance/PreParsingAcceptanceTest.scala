@@ -96,7 +96,7 @@ class PreParsingAcceptanceTest extends ExecutionEngineFunSuite {
   private def havePlanner(expected: PlannerName): Matcher[InternalExecutionResult] = new Matcher[InternalExecutionResult] {
     override def apply(result: InternalExecutionResult): MatchResult = {
       // exhaust the iterator so we can collect the plan description
-      result.length
+//      result.length
       result.executionPlanDescription() match {
         case planDesc =>
           val actual = planDesc.arguments.collectFirst {

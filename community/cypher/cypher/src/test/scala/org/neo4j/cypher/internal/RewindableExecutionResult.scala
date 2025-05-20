@@ -43,6 +43,8 @@ trait RewindableExecutionResult {
   def size: Long = result.size
   def head(str: String): AnyRef = result.head(str)
 
+  def accept[E <: Exception](visitor: ResultVisitor[E]): Unit
+
   def single: Map[String, AnyRef] =
     if (result.size == 1)
       result.head
@@ -66,7 +68,9 @@ class RewindableExecutionResultImplementation(val columns: Array[String],
                                               val executionMode: ExecutionMode,
                                               protected val planDescription: InternalPlanDescription,
                                               protected val statistics: QueryStatistics,
-                                              val notifications: Iterable[Notification]) extends RewindableExecutionResult
+                                              val notifications: Iterable[Notification]) extends RewindableExecutionResult {
+  override def accept[E <: Exception](visitor: ResultVisitor[E]): Unit = ???
+}
 
 object RewindableExecutionResult {
 

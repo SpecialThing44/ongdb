@@ -660,4 +660,11 @@ public class NotificationAcceptanceTest extends NotificationTestSupport
         assertThat( cachedNotification.getPosition(), equalTo( new InputPosition( 17, 1, 18 ) ) );
         assertThat( nonCachedNotication.getPosition(), equalTo( new InputPosition( 17, 1, 18 ) ) );
     }
+
+    public static class ChangedResults
+    {
+        @Deprecated
+        public final String oldField = "deprecated";
+        public final String newField = "use this";
+    }
 }

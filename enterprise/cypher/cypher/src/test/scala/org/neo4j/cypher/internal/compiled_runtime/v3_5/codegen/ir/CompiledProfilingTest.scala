@@ -41,7 +41,7 @@ import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.{AcceptVisitor, ScanAllNodes, WhileLoop}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.Provider
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
-import org.neo4j.cypher.internal.planner.v3_4.spi.KernelStatisticProvider
+import org.neo4j.cypher.internal.planner.v3_5.spi.KernelStatisticProvider
 import org.neo4j.cypher.internal.runtime.interpreted.TransactionalContextWrapper
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments.{DbHits, Rows}
 import org.neo4j.cypher.internal.runtime.planDescription.{InternalPlanDescription, NoChildren, PlanDescriptionImpl, SingleChild}
@@ -91,7 +91,7 @@ class CompiledProfilingTest extends CypherFunSuite with CodeGenSugar {
 
     val provider = new Provider[InternalPlanDescription] {
       override def get(): InternalPlanDescription =
-        PlanDescriptionImpl(id2, "accept", SingleChild(PlanDescriptionImpl(id1, "scanallnodes", NoChildren, Seq.empty, Set.empty)), Seq.empty, Set.empty)
+        PlanDescriptionImpl(id2, "accept", SingleChild(PlanDescriptionImpl(id1, "scanallnodes", NoChildren, collection.immutable.Seq.empty, Set.empty)), collection.immutable.Seq.empty, Set.empty)
     }
 
     // when

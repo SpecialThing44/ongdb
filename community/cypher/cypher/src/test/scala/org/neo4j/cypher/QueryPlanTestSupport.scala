@@ -60,6 +60,15 @@ trait QueryPlanTestSupport {
     }
   }
 
+  def useOperatorTimes(operator: String, times: Int): Matcher[InternalPlanDescription] = new Matcher[InternalPlanDescription] {
+    override def apply(plan: InternalPlanDescription): MatchResult = {
+      MatchResult(
+        matches = plan.find(operator).size == times,
+        rawFailureMessage = s"Plan should use $operator ${times} times:\n$plan",
+        rawNegatedFailureMessage = s"Plan should not use $operator ${times} times:\n$plan")
+    }
+  }
+
 
   /**
     * Allows the syntax

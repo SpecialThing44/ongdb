@@ -46,7 +46,7 @@ import scala.language.implicitConversions
 trait LogicalPlanConstructionTestSupport extends CypherTestSupport {
   self: AstConstructionTestSupport =>
 
-  implicit val idGen = new SequentialIdGen()
+  implicit val idGen: SequentialIdGen = new SequentialIdGen()
 
   implicit protected def idSymbol(name: Symbol): String = name.name
 

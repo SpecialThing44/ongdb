@@ -34,41 +34,54 @@
  */
 package org.neo4j.cypher.internal.compiled_runtime.v3_5.codegen
 
-import java.time.Clock
+import org.neo4j.cypher.internal.compatibility.{CommunityRuntimeContext, RuntimeContext}
+import org.neo4j.cypher.internal.{CypherConfiguration, PlanFingerprint, PlanFingerprintReference}
 
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.EnterpriseRuntimeContext
+import java.time.Clock
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.CodeStructure
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{PlanFingerprint, PlanFingerprintReference}
 import org.neo4j.cypher.internal.compiler.v3_5.planner.logical.{Metrics, QueryGraphSolver}
-import org.neo4j.cypher.internal.compiler.v3_5.{CypherCompilerConfiguration, NotImplementedPlanContext, UpdateStrategy}
-import org.neo4j.cypher.internal.frontend.v3_5.phases.CompilationPhaseTracer.NO_TRACING
+import org.neo4j.cypher.internal.compiler.v3_5.{CypherPlannerConfiguration, NotImplementedPlanContext, StatsDivergenceCalculator, UpdateStrategy}
 import org.neo4j.cypher.internal.v3_5.frontend.phases.CompilationPhaseTracer.NO_TRACING
 import org.neo4j.cypher.internal.v3_5.frontend.phases.{CompilationPhaseTracer, InternalNotificationLogger, Monitors, devNullLogger}
-import org.neo4j.cypher.internal.planner.v3_5.spi.PlanContext
+import org.neo4j.cypher.internal.planner.v3_5.spi.{PlanContext, TokenContext}
+import org.neo4j.cypher.internal.runtime.interpreted.CSVResources
 import org.neo4j.cypher.internal.runtime.vectorized.dispatcher.SingleThreadedExecutor
 import org.neo4j.cypher.internal.v3_5.util.attribution.{IdGen, SequentialIdGen}
 import org.neo4j.cypher.internal.v3_5.util.{CypherException, InputPosition, InternalException}
 import org.neo4j.cypher.internal.v3_5.executionplan.GeneratedQuery
+import org.neo4j.logging.Log
 import org.scalatest.mock.MockitoSugar
 
 object CompiledRuntimeContextHelper extends MockitoSugar {
-    def create(exceptionCreator: (String, InputPosition) => CypherException = (_, _) => new InternalException("apa"),
-               tracer: CompilationPhaseTracer = NO_TRACING,
-               notificationLogger: InternalNotificationLogger = devNullLogger,
-               planContext: PlanContext = new NotImplementedPlanContext,
-               createFingerprintReference: Option[PlanFingerprint] => PlanFingerprintReference = _ => mock[PlanFingerprintReference],
-               monitors: Monitors = mock[Monitors],
-               metrics: Metrics = mock[Metrics],
-               queryGraphSolver: QueryGraphSolver = mock[QueryGraphSolver],
-               config: CypherCompilerConfiguration = mock[CypherCompilerConfiguration],
-               updateStrategy: UpdateStrategy = mock[UpdateStrategy],
-               debugOptions: Set[String] = Set.empty,
-               clock: Clock = Clock.systemUTC(),
-               logicalPlanIdGen: IdGen = new SequentialIdGen(),
-               codeStructure: CodeStructure[GeneratedQuery] = mock[CodeStructure[GeneratedQuery]]): EnterpriseRuntimeContext = {
-      new EnterpriseRuntimeContext(exceptionCreator, tracer, notificationLogger, planContext,
-                                   monitors, metrics, config, queryGraphSolver, updateStrategy, debugOptions, clock, logicalPlanIdGen, codeStructure,
-                                   new SingleThreadedExecutor())
-    }
+  def create(exceptionCreator: (String, InputPosition) => CypherException = (_, _) => new InternalException("apa"),
+             tracer: CompilationPhaseTracer = NO_TRACING,
+             notificationLogger: InternalNotificationLogger = devNullLogger,
+             planContext: PlanContext = new NotImplementedPlanContext,
+             createFingerprintReference: Option[PlanFingerprint] => PlanFingerprintReference = _ => mock[PlanFingerprintReference],
+             monitors: Monitors = mock[Monitors],
+             metrics: Metrics = mock[Metrics],
+             queryGraphSolver: QueryGraphSolver = mock[QueryGraphSolver],
+             config: CypherConfiguration = mock[CypherConfiguration],
+             updateStrategy: UpdateStrategy = mock[UpdateStrategy],
+             debugOptions: Set[String] = Set.empty,
+             clock: Clock = Clock.systemUTC(),
+             logicalPlanIdGen: IdGen = new SequentialIdGen(),
+             codeStructure: CodeStructure[GeneratedQuery] = mock[CodeStructure[GeneratedQuery]]): RuntimeContext = {
+    val config: CypherPlannerConfiguration =     CypherPlannerConfiguration(
+      1000,
+      StatsDivergenceCalculator.divergenceNoDecayCalculator(1000, 10),
+      useErrorsOverWarnings = false,
+      idpMaxTableSize = 128,
+      idpIterationDuration = 1000,
+      errorIfShortestPathFallbackUsedAtRuntime = false,
+      errorIfShortestPathHasCommonNodesAtRuntime = true,
+      legacyCsvQuoteEscaping = false,
+      csvBufferSize = CSVResources.DEFAULT_BUFFER_SIZE,
+      nonIndexedLabelWarningThreshold = 10000L,
+      planWithMinimumCardinalityEstimates = true,
+      lenientCreateRelationship = false
+    )
+    new CommunityRuntimeContext(mock[TokenContext] ,false, mock[Log], config)
+  }
 
 }

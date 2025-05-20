@@ -66,11 +66,11 @@ case class TransactionalContextWrapper(tc: TransactionalContext) extends QueryTr
 
   override def dbmsOperations: DbmsOperations = tc.dbmsOperations()
 
-  override def commitAndRestartTx() { tc.commitAndRestartTx() }
+  override def commitAndRestartTx(): Unit = { tc.commitAndRestartTx() }
 
   override def isTopLevelTx: Boolean = tc.isTopLevelTx
 
-  override def close(success: Boolean) { tc.close(success) }
+  override def close(success: Boolean): Unit = { tc.close(success) }
 
   def restrictCurrentTransaction(context: SecurityContext): Revertable = tc.restrictCurrentTransaction(context)
 

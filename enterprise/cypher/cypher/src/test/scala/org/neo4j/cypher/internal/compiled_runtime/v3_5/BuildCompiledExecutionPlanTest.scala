@@ -39,7 +39,7 @@ import org.neo4j.cypher.internal.compiler.v3_5.NotImplementedPlanContext
 import org.neo4j.cypher.internal.compiler.v3_5.phases.LogicalPlanState
 import org.neo4j.cypher.internal.compiler.v3_5.planner.{CantCompileQueryException, HardcodedGraphStatistics}
 import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.{Cardinalities, Solveds}
-import org.neo4j.cypher.internal.planner.v3_5.spi.{CostBasedPlannerName, GraphStatistics}
+import org.neo4j.cypher.internal.planner.v3_5.spi.{CostBasedPlannerName, GraphStatistics, InstrumentedGraphStatistics}
 import org.neo4j.cypher.internal.spi.v3_5.codegen.GeneratedQueryStructure
 import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.frontend.phases.InitialState
@@ -81,12 +81,12 @@ class BuildCompiledExecutionPlanTest extends CypherFunSuite {
     val context = codegen.CompiledRuntimeContextHelper.create(
       monitors = monitors,
       planContext = new NotImplementedPlanContext {
-        override def statistics: GraphStatistics = HardcodedGraphStatistics
+        override def statistics: InstrumentedGraphStatistics = HardcodedGraphStatistics.asInstanceOf[InstrumentedGraphStatistics]
       }, codeStructure = GeneratedQueryStructure)
 
     val state = LogicalPlanState(InitialState("apa", None, CostBasedPlannerName.default))
 
-    
+
     // When
     //BuildCompiledExecutionPlan.process(state, context)
   }
