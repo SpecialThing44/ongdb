@@ -67,6 +67,7 @@ import static org.neo4j.consistency.store.StoreAssertions.assertConsistentStore;
 import static org.neo4j.kernel.impl.ha.ClusterManager.allSeesAllAsAvailable;
 import static org.neo4j.kernel.impl.ha.ClusterManager.clusterOfSize;
 import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP;
+import static org.neo4j.values.virtual.VirtualValues.EMPTY_MAP_WRAP;
 
 @RunWith( Enclosed.class )
 public class HAClusterStartupIT
@@ -124,7 +125,7 @@ public class HAClusterStartupIT
                         EnterpriseLoginContext.AUTH_DISABLED
                     ) )
                     {
-                        Result result = gdb.execute( tx, "CALL dbms.listQueries()", EMPTY_MAP );
+                        Result result = gdb.execute( tx, "CALL dbms.listQueries()", EMPTY_MAP_WRAP );
                         assertTrue( result.hasNext() );
                         result.close();
 
