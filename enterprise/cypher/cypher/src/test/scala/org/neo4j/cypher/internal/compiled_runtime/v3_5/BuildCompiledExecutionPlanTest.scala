@@ -35,11 +35,14 @@
 package org.neo4j.cypher.internal.compiled_runtime.v3_5
 
 import org.neo4j.cypher.internal.compatibility.v3_5.WrappedMonitors
-
-import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
+import org.neo4j.cypher.internal.compiler.v3_5.NotImplementedPlanContext
+import org.neo4j.cypher.internal.compiler.v3_5.phases.LogicalPlanState
+import org.neo4j.cypher.internal.compiler.v3_5.planner.{CantCompileQueryException, HardcodedGraphStatistics}
 import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.{Cardinalities, Solveds}
 import org.neo4j.cypher.internal.planner.v3_5.spi.{CostBasedPlannerName, GraphStatistics}
 import org.neo4j.cypher.internal.spi.v3_5.codegen.GeneratedQueryStructure
+import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
+import org.neo4j.cypher.internal.v3_5.frontend.phases.InitialState
 import org.neo4j.cypher.internal.v3_5.util.attribution.SequentialIdGen
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.cypher.internal.v3_5.logical.plans.{Argument, LogicalPlan, ProduceResult}
@@ -56,7 +59,7 @@ class BuildCompiledExecutionPlanTest extends CypherFunSuite {
     monitors.addMonitorListener(monitor)
 
     // When
-    process(monitors, ProduceResult(Argument(), Seq.empty))
+    process(monitors, ProduceResult(Argument(), collection.immutable.Seq.empty))
 
     // Then
     monitor.successfullyPlanned should equal(true)
@@ -81,8 +84,7 @@ class BuildCompiledExecutionPlanTest extends CypherFunSuite {
         override def statistics: GraphStatistics = HardcodedGraphStatistics
       }, codeStructure = GeneratedQueryStructure)
 
-    val state = LogicalPlanState("apa", None, CostBasedPlannerName.default, new Solveds, new Cardinalities,
-                                 maybeLogicalPlan = Some(plan), maybeSemanticTable = Some(new SemanticTable()))
+    val state = LogicalPlanState(InitialState("apa", None, CostBasedPlannerName.default))
 
     
     // When

@@ -37,6 +37,9 @@ trait InternalExecutionResult extends QueryResult {
   def initiate(): Unit
 
   def javaColumns: java.util.List[String] = java.util.Arrays.asList(fieldNames():_*)
+
+  def columns: List[String] = List(fieldNames(): _*)
+
   def javaColumnAs[T](column: String): ResourceIterator[T]
   def javaIterator: ResourceIterator[java.util.Map[String, AnyRef]]
 
