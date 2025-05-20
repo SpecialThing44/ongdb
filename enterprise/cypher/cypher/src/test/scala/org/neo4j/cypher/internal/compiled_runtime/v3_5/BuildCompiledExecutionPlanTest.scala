@@ -84,15 +84,16 @@ class BuildCompiledExecutionPlanTest extends CypherFunSuite {
     val state = LogicalPlanState("apa", None, CostBasedPlannerName.default, new Solveds, new Cardinalities,
                                  maybeLogicalPlan = Some(plan), maybeSemanticTable = Some(new SemanticTable()))
 
+    
     // When
     //BuildCompiledExecutionPlan.process(state, context)
   }
 
-  class SpyingMonitor extends NewRuntimeSuccessRateMonitor {
+  class SpyingMonitor {
     var successfullyPlanned = false
-    override def newPlanSeen(plan: LogicalPlan): Unit = successfullyPlanned = true
+    def newPlanSeen(plan: LogicalPlan): Unit = successfullyPlanned = true
 
     var failedToPlan = false
-    override def unableToHandlePlan(plan: LogicalPlan, origin: CantCompileQueryException): Unit = failedToPlan = true
+    def unableToHandlePlan(plan: LogicalPlan, origin: CantCompileQueryException): Unit = failedToPlan = true
   }
 }
