@@ -37,27 +37,31 @@ package org.neo4j.internal.cypher.acceptance
 import java.time.Clock
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.{verify, _}
+import org.neo4j.cypher.CypherPlannerOption.cost
+import org.neo4j.cypher.CypherRuntimeOption.interpreted
+import org.neo4j.cypher.CypherUpdateStrategy.default
+import org.neo4j.cypher.CypherVersion.v3_5
 import org.neo4j.cypher.GraphDatabaseTestSupport
-import org.neo4j.cypher.internal.compatibility.LatestRuntimeVariablePlannerCompatibility
-import org.neo4j.cypher.internal.compatibility.v3_4.WrappedMonitors
+import org.neo4j.cypher.internal.{CommunityCompilerFactory, Compiler, CypherConfiguration}
+import org.neo4j.cypher.internal.compatibility.{CommunityRuntimeContext, CommunityRuntimeContextCreator}
+import org.neo4j.cypher.internal.compatibility.v3_5.WrappedMonitors
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.helpers.simpleExpressionEvaluator
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{CommunityRuntimeContext, CommunityRuntimeContextCreator}
-import org.neo4j.cypher.internal.compiler.v3_4._
-import org.neo4j.cypher.internal.compiler.v3_4.planner.logical.{CachedMetricsFactory, SimpleMetricsFactory}
-import org.neo4j.cypher.internal.frontend.v3_4.helpers.rewriting.RewriterStepSequencer
-import org.neo4j.cypher.internal.frontend.v3_4.notification.CartesianProductNotification
-import org.neo4j.cypher.internal.frontend.v3_4.phases.{CompilationPhaseTracer, InternalNotificationLogger, devNullLogger}
-import org.neo4j.cypher.internal.planner.v3_4.spi.{IDPPlannerName, PlanContext}
+import org.neo4j.cypher.internal.compiler.v3_5._
+import org.neo4j.cypher.internal.compiler.v3_5.planner.logical.{CachedMetricsFactory, SimpleMetricsFactory}
+import org.neo4j.cypher.internal.planner.v3_5.spi.{IDPPlannerName, PlanContext}
 import org.neo4j.cypher.internal.runtime.interpreted.{CSVResources, TransactionBoundPlanContext, TransactionalContextWrapper}
-import org.neo4j.cypher.internal.v3_5.util.InputPosition
+import org.neo4j.cypher.internal.v3_5.frontend.phases.{CompilationPhaseTracer, InternalNotificationLogger, devNullLogger}
+import org.neo4j.cypher.internal.v3_5.util.{CartesianProductNotification, InputPosition}
 import org.neo4j.cypher.internal.v3_5.util.attribution.SequentialIdGen
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.kernel.api.{KernelTransaction, Statement}
+import org.neo4j.kernel.configuration.Config
 import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge
+import org.neo4j.logging.NullLogProvider
 
 class CartesianProductNotificationAcceptanceTest extends CypherFunSuite with GraphDatabaseTestSupport {
   var logger: InternalNotificationLogger = _
-  var compiler: CypherCompiler[CommunityRuntimeContext] = _
+  var compiler: Compiler = _
 
   override protected def beforeEach(): Unit = {
     super.beforeEach()
@@ -131,7 +135,7 @@ class CartesianProductNotificationAcceptanceTest extends CypherFunSuite with Gra
       }
     }
   }
-  private val configuration = CypherCompilerConfiguration(
+  private val configuration = CypherConfiguration(
     queryCacheSize = 128,
     statsDivergenceCalculator = StatsDivergenceCalculator.divergenceNoDecayCalculator(0.5, 1000),
     useErrorsOverWarnings = false,
@@ -145,18 +149,12 @@ class CartesianProductNotificationAcceptanceTest extends CypherFunSuite with Gra
     planWithMinimumCardinalityEstimates = false,
     lenientCreateRelationship = true
   )
+
   private lazy val monitors = WrappedMonitors(kernelMonitors)
   private val metricsFactory = CachedMetricsFactory(SimpleMetricsFactory)
-  private def createCompiler(): CypherCompiler[CommunityRuntimeContext] = {
-
-    new CypherCompilerFactory().costBasedCompiler(
-      configuration,
-      Clock.systemUTC(),
-      monitors,
-      rewriterSequencer = RewriterStepSequencer.newValidating,
-      plannerName = None,
-      updateStrategy = None,
-      contextCreator = CommunityRuntimeContextCreator
+  private def createCompiler(): Compiler = {
+    new CommunityCompilerFactory(graph, monitors.kernelMonitors, NullLogProvider, plannerConfig = configuration.toCypherPlannerConfiguration(Config), runtimeConfig = configuration.toCypherRuntimeConfiguration).createCompiler(
+      v3_5, cost, interpreted, default
     )
   }
 
