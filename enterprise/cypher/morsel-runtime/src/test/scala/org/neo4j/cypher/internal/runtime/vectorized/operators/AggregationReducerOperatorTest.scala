@@ -37,6 +37,7 @@ package org.neo4j.cypher.internal.runtime.vectorized.operators
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{LongSlot, RefSlot, SlotConfiguration}
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{QueryState => OldQueryState}
 import org.neo4j.cypher.internal.runtime.vectorized.{Iteration, Morsel, QueryState, StartLoopWithEagerData}
+import org.neo4j.cypher.internal.v3_5.logical.plans.CachedNodeProperty
 import org.neo4j.cypher.internal.v3_5.util.symbols.{CTAny, CTNode}
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.values.AnyValue
@@ -52,7 +53,7 @@ class AggregationReducerOperatorTest extends CypherFunSuite {
     // Given
     val groupSlot = RefSlot(0, nullable = false, CTAny)
     val slots = new SlotConfiguration(mutable.Map("aggregate" -> RefSlot(1, nullable = false, CTAny),
-                                                  "group" -> groupSlot), 0, 2)
+                                                  "group" -> groupSlot), mutable.Map[CachedNodeProperty, RefSlot](), 0, 2)
     val aggregation = new AggregationReduceOperator(slots,
                                                     Array(AggregationOffsets(1, 1, DummyEvenNodeIdAggregation(0))),
                                                     Array(GroupingOffsets(groupSlot, groupSlot, new DummyExpression())))
@@ -83,7 +84,7 @@ class AggregationReducerOperatorTest extends CypherFunSuite {
     val groupSlot2 = RefSlot(1, nullable = false, CTAny)
     val slots = new SlotConfiguration(mutable.Map("node" -> LongSlot(0, nullable = false, CTNode),
                                                   "aggregate" -> RefSlot(2, nullable = false, CTAny),
-                                                  "group1" -> groupSlot1, "group2" -> groupSlot2), 1, 3)
+                                                  "group1" -> groupSlot1, "group2" -> groupSlot2), mutable.Map[CachedNodeProperty, RefSlot](), 1, 3)
     val aggregation = new AggregationReduceOperator(slots,
                                                     Array(AggregationOffsets(2, 2, DummyEvenNodeIdAggregation(0))),
                                                     Array(GroupingOffsets(groupSlot1, groupSlot1,
@@ -124,7 +125,7 @@ class AggregationReducerOperatorTest extends CypherFunSuite {
     val groupSlot3 = RefSlot(2, nullable = false, CTAny)
     val slots = new SlotConfiguration(mutable.Map("node" -> LongSlot(0, nullable = false, CTNode),
                                                   "aggregate" -> RefSlot(3, nullable = false, CTAny),
-                                                  "group1" -> groupSlot1, "group2" -> groupSlot2, "group3" -> groupSlot3), 1, 4)
+                                                  "group1" -> groupSlot1, "group2" -> groupSlot2, "group3" -> groupSlot3), mutable.Map[CachedNodeProperty, RefSlot](), 1, 4)
     val aggregation = new AggregationReduceOperator(slots,
                                                     Array(AggregationOffsets(3, 3, DummyEvenNodeIdAggregation(0))),
                                                     Array(GroupingOffsets(groupSlot1, groupSlot1, new DummyExpression()),
@@ -171,7 +172,7 @@ class AggregationReducerOperatorTest extends CypherFunSuite {
     val slots = new SlotConfiguration(mutable.Map("node" -> LongSlot(0, nullable = false, CTNode),
                                                   "aggregate" -> RefSlot(5, nullable = false, CTAny),
                                                   "group1" -> groupSlot1, "group2" -> groupSlot2, "group3" -> groupSlot3,
-                                                  "group4" -> groupSlot4,  "group5" -> groupSlot5), 1, 6)
+                                                  "group4" -> groupSlot4,  "group5" -> groupSlot5), mutable.Map[CachedNodeProperty, RefSlot](), 1, 6)
     val aggregation = new AggregationReduceOperator(slots,
                                                     Array(AggregationOffsets(5, 5, DummyEvenNodeIdAggregation(0))),
                                                     Array(GroupingOffsets(groupSlot1, groupSlot1, new DummyExpression()),

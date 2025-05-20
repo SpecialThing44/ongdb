@@ -37,6 +37,7 @@ package org.neo4j.cypher.internal.runtime.vectorized.operators
 ;
 
 import org.neo4j.cypher.internal.runtime.interpreted.ExecutionContext
+import org.neo4j.cypher.internal.runtime.interpreted.commands.AstNode
 import org.neo4j.cypher.internal.runtime.interpreted.commands.expressions.Expression
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{QueryState => OldQueryState}
 import org.neo4j.cypher.internal.runtime.vectorized.MorselExecutionContext
@@ -44,7 +45,7 @@ import org.neo4j.cypher.internal.runtime.vectorized.expressions.{AggregationExpr
 import org.neo4j.values.AnyValue
 import org.neo4j.values.storable.{LongArray, Values}
 
-import scala.collection.mutable
+import scala.collection.{immutable, mutable}
 
 //Dummy aggregation, for test only
 case class DummyEvenNodeIdAggregation(offset: Int) extends AggregationExpressionOperator {
@@ -58,6 +59,8 @@ case class DummyEvenNodeIdAggregation(offset: Int) extends AggregationExpression
   override def arguments: Seq[Expression] = Seq.empty
 
   override def symbolTableDependencies: Set[String] = Set.empty
+
+  override def children: immutable.Seq[AstNode[_]] = ???
 }
 
 class DummyExpression(values: AnyValue*) extends Expression {
@@ -75,6 +78,8 @@ class DummyExpression(values: AnyValue*) extends Expression {
     current = (current + 1) % values.length
     next
   }
+
+  override def children: immutable.Seq[AstNode[_]] = ???
 }
 
 private class EvenNodeIdMapper(offset: Int) extends AggregationMapper {
@@ -99,4 +104,3 @@ private class EvenNodeIdReducer extends AggregationReducer {
 
   override def result: AnyValue = Values.longArray(evenNodes.toArray.sorted)
 }
-

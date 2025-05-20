@@ -86,18 +86,28 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
     tc.schemaRead.indexesGetForLabel(labelId).asScala.flatMap(getOnlineIndex).nonEmpty
   }
 
-  override def indexGetForLabelAndProperties(labelName: String, propertyKeys: Seq[String]): Option[IndexDescriptor] = evalOrNone {
-    try {
-      val descriptor = toLabelSchemaDescriptor(this, labelName, propertyKeys)
-      getOnlineIndex(tc.schemaRead.index(descriptor.getLabelId, descriptor.getPropertyIds:_*))
-    } catch {
-      case _: KernelException => None
-    }
+//   def indexGetForLabelAndProperties(labelName: String, propertyKeys: Seq[String]): Option[IndexDescriptor] = evalOrNone {
+//    try {
+//      val descriptor = toLabelSchemaDescriptor(this, labelName, propertyKeys)
+//      getOnlineIndex(tc.schemaRead.index(descriptor.getLabelId, descriptor.getPropertyIds:_*))
+//    } catch {
+//      case _: KernelException => None
+//    }
+//  }
+//
+//   def indexExistsForLabelAndProperties(labelName: String, propertyKey: Seq[String]): Boolean = {
+//    indexGetForLabelAndProperties(labelName, propertyKey).isDefined
+//  }
+
+  override def indexGetForLabelAndProperties(labelName: String, propertyKeys: Seq[String]): Option[IndexDescriptor] =     try {
+    val descriptor = toLabelSchemaDescriptor(this, labelName, propertyKeys)
+    getOnlineIndex(tc.schemaRead.index(descriptor.getLabelId, descriptor.getPropertyIds:_*))
+  } catch {
+    case _: KernelException => None
   }
 
-  override def indexExistsForLabelAndProperties(labelName: String, propertyKey: Seq[String]): Boolean = {
-    indexGetForLabelAndProperties(labelName, propertyKey).isDefined
-  }
+  override def indexExistsForLabelAndProperties(labelName: String, propertyKey: Seq[String]): Boolean =     indexGetForLabelAndProperties(labelName, propertyKey).isDefined
+
 
 
   private def evalOrNone[T](f: => Option[T]): Option[T] =
@@ -251,4 +261,6 @@ class TransactionBoundPlanContext(tc: TransactionalContextWrapper, logger: Inter
   }
 
   override def notificationLogger(): InternalNotificationLogger = logger
+
+
 }

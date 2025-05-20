@@ -35,7 +35,6 @@
 package org.neo4j.cypher
 
 import java.util
-
 import org.neo4j.collection.RawIterator
 import org.neo4j.cypher.ExecutionEngineHelper.createEngine
 import org.neo4j.cypher.internal.ExecutionEngine
@@ -43,6 +42,7 @@ import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.graphdb.Result.{ResultRow, ResultVisitor}
 import org.neo4j.graphdb.{GraphDatabaseService, Result}
+import org.neo4j.helpers.collection.MapUtil
 import org.neo4j.internal.kernel.api.exceptions.ProcedureException
 import org.neo4j.internal.kernel.api.procs.{FieldSignature, Neo4jTypes, ProcedureSignature, QualifiedName}
 import org.neo4j.kernel.GraphDatabaseQueryService
@@ -51,6 +51,7 @@ import org.neo4j.kernel.api.proc.Context.KERNEL_TRANSACTION
 import org.neo4j.kernel.api.proc._
 import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge
 import org.neo4j.kernel.impl.proc.Procedures
+import org.neo4j.kernel.impl.util.ValueUtils.asParameterMapValue
 import org.neo4j.procedure.Mode
 import org.neo4j.test.TestGraphDatabaseFactory
 
@@ -491,10 +492,10 @@ class CloseTransactionTest extends CypherFunSuite with GraphIcing {
 
   implicit class RichExecutionEngine(engine: ExecutionEngine) {
     def profile(query: String, params: Map[String, Any]): Result =
-      engine.profile(query, params, engine.queryService.transactionalContext(query = query -> params))
+      engine.profile(query, asParameterMapValue(MapUtil.map(params)), engine.queryService.transactionalContext(query = query -> params))
 
     def execute(query: String, params: Map[String, Any]): Result =
-      engine.execute(query, params, engine.queryService.transactionalContext(query = query -> params))
+      engine.execute(query, asParameterMapValue(MapUtil.map(params)), engine.queryService.transactionalContext(query = query -> params))
   }
 
   class AllNodesProcedure extends CallableProcedure {

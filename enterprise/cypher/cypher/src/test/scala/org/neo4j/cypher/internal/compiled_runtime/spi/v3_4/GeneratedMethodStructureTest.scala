@@ -42,17 +42,17 @@ import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.Cod
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.expressions.{CodeGenType, CypherCodeGenType, ReferenceType}
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi._
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{Completable, Provider}
-import org.neo4j.cypher.internal.frontend.v3_4.helpers._
-import org.neo4j.cypher.internal.frontend.v3_4.semantics.SemanticTable
+import org.neo4j.cypher.internal.v3_5.frontend.helpers._
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, QueryContext}
 import org.neo4j.cypher.internal.spi.v3_5.codegen.GeneratedQueryStructure.typeRef
-import org.neo4j.cypher.internal.spi.v3_4.codegen._
+import org.neo4j.cypher.internal.spi.v3_5.codegen._
 import org.neo4j.cypher.internal.spi.v3_5.codegen.{AuxGenerator, Fields, GeneratedMethodStructure, Methods, Templates}
 import org.neo4j.cypher.internal.v3_5.util.symbols
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
-import org.neo4j.cypher.internal.v3_4.codegen.QueryExecutionTracer
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.internal.kernel.api.helpers.RelationshipSelectionCursor
 import org.neo4j.internal.kernel.api._
 import org.neo4j.kernel.impl.core.EmbeddedProxySPI

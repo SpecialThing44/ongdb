@@ -51,6 +51,16 @@ trait QueryPlanTestSupport {
     }
   }
 
+  def useOperatorWithText(operator: String, otherText: String*): Matcher[InternalPlanDescription] = new Matcher[InternalPlanDescription] {
+    override def apply(plan: InternalPlanDescription): MatchResult = {
+      MatchResult(
+        matches = otherText.forall(o => plan.find(operator).exists(_.toString.contains(o))),
+        rawFailureMessage = s"Plan should use $operator with ${otherText.mkString(",")}:\n$plan",
+        rawNegatedFailureMessage = s"Plan should not use $operator with ${otherText.mkString(",")}:\n$plan")
+    }
+  }
+
+
   /**
     * Allows the syntax
     * ```

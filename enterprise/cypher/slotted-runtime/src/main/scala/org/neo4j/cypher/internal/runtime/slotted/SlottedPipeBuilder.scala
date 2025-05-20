@@ -58,14 +58,14 @@ import org.neo4j.cypher.internal.v3_5.{expressions => frontEndAst}
 import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.frontend.phases.Monitors
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
+import org.neo4j.kernel.monitoring.Monitors
 
 class SlottedPipeBuilder(fallback: PipeBuilder,
                          expressionConverters: ExpressionConverters,
-                         monitors: Monitors,
                          physicalPlan: PhysicalPlan,
                          readOnly: Boolean,
                          rewriteAstExpression: (frontEndAst.Expression) => frontEndAst.Expression)
-                        (implicit context: PipeExecutionBuilderContext, planContext: PlanContext)
+                        (implicit context: PipeExecutionBuilderContext, planContext: TokenContext)
   extends PipeBuilder {
 
   //  private val convertExpressions: (frontEndAst.Expression) => commandExpressions.Expression =
@@ -227,14 +227,28 @@ class SlottedPipeBuilder(fallback: PipeBuilder,
           ).toArray
         )(id = id)
 
-      case MergeCreateNode(_, idName, labels, props) =>
-        MergeCreateNodeSlottedPipe(source, idName, slots, labels.map(LazyLabel.apply), props.map(buildExpression))(id)
+      case MergeCreateNode(_, idName, labels, properties) =>
+        MergeCreateNodeSlottedPipe(
+          source,
+          CreateNodeSlottedCommand(
+            slots.getLongOffsetFor(idName),
+            labels.map(LazyLabel.apply),
+            properties.map(buildExpression)
+          )
+        )(id)
 
-      case MergeCreateRelationship(_, idName, startNode, typ, endNode, props) =>
-        val fromSlot = slots(startNode)
-        val toSlot = slots(endNode)
-        MergeCreateRelationshipSlottedPipe(source, idName, fromSlot, LazyType(typ)(context.semanticTable),
-          toSlot, slots, props.map(buildExpression))(id = id)
+      case MergeCreateRelationship(_, idName, startNode, relType, endNode, properties) =>
+        MergeCreateRelationshipSlottedPipe(
+          source,
+          CreateRelationshipSlottedCommand(
+            slots.getLongOffsetFor(idName),
+            SlottedPipeBuilderUtils.makeGetPrimitiveNodeFromSlotFunctionFor(slots(startNode)),
+            LazyType(relType.name),
+            SlottedPipeBuilderUtils.makeGetPrimitiveNodeFromSlotFunctionFor(slots(endNode)),
+            properties.map(buildExpression),
+            idName, startNode, endNode
+          )
+        )(id)
 
       case EmptyResult(_) =>
         EmptyResultPipe(source)(id)
@@ -363,7 +377,7 @@ class SlottedPipeBuilder(fallback: PipeBuilder,
   }
 
   private def buildPredicate(id: Id, expr: frontEndAst.Expression)
-                            (implicit context: PipeExecutionBuilderContext, planContext: PlanContext): Predicate = {
+                            (implicit context: PipeExecutionBuilderContext, planContext: TokenContext): Predicate = {
     val rewrittenExpr: frontEndAst.Expression = rewriteAstExpression(expr)
 
     expressionConverters.toCommandPredicate(id, rewrittenExpr).rewrite(KeyTokenResolver.resolveExpressions(_, planContext))
@@ -565,20 +579,16 @@ class SlottedPipeBuilder(fallback: PipeBuilder,
 
     case class Factory(physicalPlan: PhysicalPlan)
       extends PipeBuilderFactory {
-      def apply(monitors: Monitors, recurse: LogicalPlan => Pipe, readOnly: Boolean,
-                expressionConverters: ExpressionConverters)
-               (implicit context: PipeExecutionBuilderContext, planContext: PlanContext, semanticTable: SemanticTable, tokenContext: TokenContext): PipeBuilder = {
+      override def apply(recurse: LogicalPlan => Pipe, readOnly: Boolean,
+                         expressionConverters: ExpressionConverters)
+                        (implicit context: PipeExecutionBuilderContext, tokenContext: TokenContext): PipeBuilder = {
 
         val expressionToExpression = recursePipes(recurse) _
 
-        val fallback = InterpretedPipeBuilder( recurse, readOnly, expressionConverters, expressionToExpression, tokenContext)
+        val fallback = InterpretedPipeBuilder(recurse, readOnly, expressionConverters, expressionToExpression, tokenContext)(context.semanticTable)
 
-        new SlottedPipeBuilder(fallback, expressionConverters, monitors, physicalPlan, readOnly, expressionToExpression)
+        new SlottedPipeBuilder(fallback, expressionConverters, physicalPlan, readOnly, expressionToExpression)
       }
-
-      override def apply(recurse: LogicalPlan => Pipe, readOnly: Boolean,
-                expressionConverters: ExpressionConverters)
-               (implicit context: PipeExecutionBuilderContext, tokenContext: TokenContext): PipeBuilder = ???
     }
 
     def projectSlotExpression(slot: Slot): Expression = slot match {

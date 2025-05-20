@@ -37,6 +37,7 @@ package org.neo4j.cypher.internal.runtime.vectorized.operators
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{RefSlot, SlotConfiguration}
 import org.neo4j.cypher.internal.runtime.interpreted.pipes.{QueryState => OldQueryState}
 import org.neo4j.cypher.internal.runtime.vectorized.{Iteration, Morsel, QueryState, StartLoopWithEagerData}
+import org.neo4j.cypher.internal.v3_5.logical.plans.CachedNodeProperty
 import org.neo4j.cypher.internal.v3_5.util.symbols.CTAny
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.CypherFunSuite
 import org.neo4j.values.AnyValue
@@ -49,7 +50,7 @@ class AggregationReducerOperatorNoGroupingTest extends CypherFunSuite {
 
   test("reduce from single morsel") {
     // Given
-    val slots = new SlotConfiguration(mutable.Map("aggregate" -> RefSlot(0, nullable = false, CTAny)), 1, 1)
+    val slots = new SlotConfiguration(mutable.Map("aggregate" -> RefSlot(0, nullable = false, CTAny)), mutable.Map[CachedNodeProperty, RefSlot](), 1, 1)
     val aggregation = new AggregationReduceOperatorNoGrouping(slots,
                                                               Array(AggregationOffsets(0, 0, DummyEvenNodeIdAggregation(0))))
     val refs = new Array[AnyValue](10)
@@ -66,7 +67,7 @@ class AggregationReducerOperatorNoGroupingTest extends CypherFunSuite {
 
   test("reduce values from multiple morsels") {
     // Given
-    val slots = new SlotConfiguration(mutable.Map("aggregate" -> RefSlot(0, nullable = false, CTAny)), 1, 1)
+    val slots = new SlotConfiguration(mutable.Map("aggregate" -> RefSlot(0, nullable = false, CTAny)), mutable.Map[CachedNodeProperty, RefSlot](), 1, 1)
     val aggregation = new AggregationReduceOperatorNoGrouping(slots,
 
                                                               Array(AggregationOffsets(0, 0, DummyEvenNodeIdAggregation(0))))
