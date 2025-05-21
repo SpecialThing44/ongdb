@@ -35,7 +35,8 @@
 package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.internal.RewindableExecutionResult
-import org.neo4j.cypher.{ExecutionEngineFunSuite}
+import org.neo4j.cypher.ExecutionEngineFunSuite
+import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 
 class ShortestPathRelationshipUniquenessAcceptanceTest extends ExecutionEngineFunSuite{
 
@@ -98,5 +99,5 @@ class ShortestPathRelationshipUniquenessAcceptanceTest extends ExecutionEngineFu
   }
 
   def executeUsingCostPlannerOnly(query: String) =
-    RewindableExecutionResult(eengine.execute(s"CYPHER planner=COST $query", Map.empty[String, Any]))
+    RewindableExecutionResult(eengine.execute(s"CYPHER planner=COST $query", asMapValue( Map.empty[String, Any]), null))
 }

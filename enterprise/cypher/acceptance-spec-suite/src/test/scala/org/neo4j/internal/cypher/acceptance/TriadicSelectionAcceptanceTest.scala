@@ -35,6 +35,7 @@
 package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.ExecutionEngineFunSuite
+import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.runtime.InternalExecutionResult
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs, TestConfiguration}
 
@@ -94,7 +95,7 @@ class TriadicSelectionAcceptanceTest extends ExecutionEngineFunSuite with Cypher
         |CREATE (a)-[:FRIEND]->(b), (b)-[:FRIEND]->(c), (c)-[:FRIEND]->(a)""".stripMargin)
 
     // when
-    val result: InternalExecutionResult = executeWith(configs, QUERY, planComparisonStrategy = usesTriadic)
+    val result: RewindableExecutionResult = executeWith(configs, QUERY, planComparisonStrategy = usesTriadic)
 
     // then
     result should be(empty)

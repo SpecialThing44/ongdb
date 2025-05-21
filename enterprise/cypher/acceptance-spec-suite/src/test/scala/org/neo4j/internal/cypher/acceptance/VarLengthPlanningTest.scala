@@ -34,10 +34,11 @@
  */
 package org.neo4j.internal.cypher.acceptance
 
+import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments
 import org.neo4j.cypher.internal.runtime.InternalExecutionResult
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
-import org.neo4j.cypher.internal.v3_4.expressions.NoneIterablePredicate
+import org.neo4j.cypher.internal.v3_5.expressions.NoneIterablePredicate
 import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 import org.neo4j.graphdb.Direction._
 import org.neo4j.graphdb.{Direction, Node}
@@ -149,8 +150,8 @@ class VarLengthPlanningTest extends ExecutionEngineFunSuite with QueryStatistics
     result should haveNoneRelFilter
   }
 
-  def haveNoneRelFilter: Matcher[InternalExecutionResult] = new Matcher[InternalExecutionResult] {
-    override def apply(result: InternalExecutionResult): MatchResult = {
+  def haveNoneRelFilter: Matcher[RewindableExecutionResult] = new Matcher[RewindableExecutionResult] {
+    override def apply(result: RewindableExecutionResult): MatchResult = {
       val plan: InternalPlanDescription = result.executionPlanDescription()
       val res = plan.find("Filter").exists { p =>
         p.arguments.exists {

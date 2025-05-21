@@ -35,6 +35,7 @@
 package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.ExecutionEngineFunSuite
+import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.frontend.v3_4.PlannerName
 import org.neo4j.cypher.internal.planner.v3_4.spi.{DPPlannerName, IDPPlannerName}
 import org.neo4j.cypher.internal.runtime.InternalExecutionResult
@@ -93,8 +94,8 @@ class PreParsingAcceptanceTest extends ExecutionEngineFunSuite {
     execute(query) should havePlanner(DPPlannerName)
   }
 
-  private def havePlanner(expected: PlannerName): Matcher[InternalExecutionResult] = new Matcher[InternalExecutionResult] {
-    override def apply(result: InternalExecutionResult): MatchResult = {
+  private def havePlanner(expected: PlannerName): Matcher[RewindableExecutionResult] = new Matcher[RewindableExecutionResult] {
+    override def apply(result: RewindableExecutionResult): MatchResult = {
       // exhaust the iterator so we can collect the plan description
 //      result.length
       result.executionPlanDescription() match {

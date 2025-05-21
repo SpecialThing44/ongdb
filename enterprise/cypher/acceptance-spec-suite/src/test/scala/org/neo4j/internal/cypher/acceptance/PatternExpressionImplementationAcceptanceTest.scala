@@ -34,7 +34,7 @@
  */
 package org.neo4j.internal.cypher.acceptance
 
-import org.neo4j.cypher.internal.v3_4.expressions.SemanticDirection
+import org.neo4j.cypher.internal.v3_5.expressions.SemanticDirection
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.internal.runtime.PathImpl
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments.{EstimatedRows, ExpandExpression}
@@ -78,7 +78,7 @@ class PatternExpressionImplementationAcceptanceTest extends ExecutionEngineFunSu
     val rel3 = relate(start2, d)
     val rel4 = relate(start2, d)
 
-    val result = executeWith(Configs.Interpreted, "match (n) return case when n:A then (n)-->(:C) when n:B then (n)-->(:D) else 42 end as p")
+    val result = executeWith(Configs.Interpreted, "match (n) return case when n:A then (n)-->(:C) when n:B then (n)-->(:D) else 42 end as p").toList
       .map(_.mapValues {
         case l: Seq[Any] => l.toSet
         case x => x
@@ -130,7 +130,7 @@ class PatternExpressionImplementationAcceptanceTest extends ExecutionEngineFunSu
     val rel3 = relate(start2, d)
     val rel4 = relate(start2, d)
 
-    val result = executeWith(Configs.Interpreted, "match (n) with case when n:A then (n)-->(:C) when n:B then (n)-->(:D) else 42 end as p, count(n) as c return p, c")
+    val result = executeWith(Configs.Interpreted, "match (n) with case when n:A then (n)-->(:C) when n:B then (n)-->(:D) else 42 end as p, count(n) as c return p, c").toList
       .map(_.mapValues {
         case l: Seq[Any] => l.toSet
         case x => x

@@ -36,6 +36,7 @@ package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.ExecutionEngineFunSuite
+import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
 class ShortestPathEdgeCasesAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
@@ -152,5 +153,5 @@ class ShortestPathEdgeCasesAcceptanceTest extends ExecutionEngineFunSuite with C
   }
 
   def executeUsingCostPlannerOnly(query: String) =
-    RewindableExecutionResult(eengine.execute(s"CYPHER planner=COST $query", Map.empty[String, Any]))
+    RewindableExecutionResult(eengine.execute(s"CYPHER planner=COST $query", asMapValue( Map.empty[String, Any]), null))
 }

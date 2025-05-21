@@ -34,14 +34,20 @@
  */
 package org.neo4j.internal.cypher.acceptance
 
+import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
+import org.neo4j.cypher.internal.QueryCache.ParameterTypeMap
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
-import org.neo4j.cypher.internal.runtime.InternalExecutionResult
-import org.neo4j.cypher.internal.{CompatibilityFactory, ExecutionEngine, RewindableExecutionResult}
+import org.neo4j.cypher.internal.tracing.CompilationTracer
+import org.neo4j.cypher.internal.v3_5.codegen.profiling.ProfilingTracer.Clock
+import org.neo4j.cypher.internal.{CacheTracer, CompilerFactory, CypherConfiguration, ExecutionEngine, RewindableExecutionResult}
 import org.neo4j.cypher.{ExecutionEngineFunSuite, RunWithConfigTestSupport, ShortestPathCommonEndNodesForbiddenException}
 import org.neo4j.graphdb.RelationshipType
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
+import org.neo4j.helpers.collection.Pair
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Versions.{V3_1, V3_3}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
+import org.neo4j.kernel.configuration.Config
+import org.neo4j.kernel.monitoring.Monitors
 import org.neo4j.logging.NullLogProvider
 
 class ShortestPathSameNodeAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTestSupport with CypherComparisonSupport {
@@ -131,11 +137,13 @@ class ShortestPathSameNodeAcceptanceTest extends ExecutionEngineFunSuite with Ru
     }
   }
 
-  def executeUsingCostPlannerOnly(db: GraphDatabaseCypherService, query: String): InternalExecutionResult = {
-    val compatibilityFactory = db.getDependencyResolver.resolveDependency(classOf[CompatibilityFactory])
+  def executeUsingCostPlannerOnly(db: GraphDatabaseCypherService, query: String): RewindableExecutionResult = {
+    val compatibilityFactory = db.getDependencyResolver.resolveDependency(classOf[CompilerFactory])
+    val monitors = graph.getDependencyResolver.resolveDependency(classOf[Monitors])
+    val cypherConfig = CypherConfiguration.fromConfig(Config.defaults())
     RewindableExecutionResult(
-      new ExecutionEngine(db, NullLogProvider.getInstance(), compatibilityFactory)
-        .execute(s"CYPHER planner=COST $query", Map.empty[String, Any])
+      new ExecutionEngine(db, monitors, mock[CompilationTracer], mock[CacheTracer[Pair[String, ParameterTypeMap]]], cypherConfig, compatibilityFactory, NullLogProvider.getInstance())
+        .execute(s"CYPHER planner=COST $query", asMapValue( Map.empty[String, Any]), null)
     )
   }
 }

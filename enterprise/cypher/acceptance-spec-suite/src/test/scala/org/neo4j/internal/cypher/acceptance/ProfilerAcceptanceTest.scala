@@ -34,6 +34,7 @@
  */
 package org.neo4j.internal.cypher.acceptance
 
+import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.frontend.v3_4.helpers.StringHelper.RichString
 import org.neo4j.cypher.internal.planner.v3_4.spi.GraphStatistics
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments.{DbHits, EstimatedRows, Rows, Signature}
@@ -357,7 +358,7 @@ class ProfilerAcceptanceTest extends ExecutionEngineFunSuite with CreateTempFile
 
       test("should support profiling optional match and with") {
         createLabeledNode(Map("x" -> 1), "Label")
-        val executionResult: InternalExecutionResult = profileWithExecute(Configs.Interpreted, "match (n) optional match (n)--(m) with n, m where m is null return n.x as A")
+        val executionResult: RewindableExecutionResult = profileWithExecute(Configs.Interpreted, "match (n) optional match (n)--(m) with n, m where m is null return n.x as A")
         val result = executionResult.toList.head
         result("A") should equal(1)
       }
@@ -681,27 +682,27 @@ class ProfilerAcceptanceTest extends ExecutionEngineFunSuite with CreateTempFile
         assertDbHits(14)(result)("Filter")
       }
 
-  private def assertRows(expectedRows: Int)(result: InternalExecutionResult)(names: String*) {
+  private def assertRows(expectedRows: Int)(result: RewindableExecutionResult)(names: String*) {
     getPlanDescriptions(result, names).foreach {
       plan => assert(getArgument[Rows](plan).value === expectedRows, s" wrong row count for plan: ${plan.name}")
     }
   }
 
-  private def assertEstimatedRows(expectedRows: Int)(result: InternalExecutionResult)(names: String*) {
+  private def assertEstimatedRows(expectedRows: Int)(result: RewindableExecutionResult)(names: String*) {
     getPlanDescriptions(result, names).foreach {
       plan => assert(getArgument[EstimatedRows](plan).value === expectedRows , s" wrong estiamted row count for plan: ${plan.name}")
     }
   }
 
-  private def assertDbHits(expectedRows: Int)(result: InternalExecutionResult)(names: String*) {
+  private def assertDbHits(expectedRows: Int)(result: RewindableExecutionResult)(names: String*) {
     getPlanDescriptions(result, names).foreach {
       plan => assert(getArgument[DbHits](plan).value === expectedRows , s" wrong db hits for plan: ${plan.name}")
     }
   }
 
-  type Planner = (String, Map[String, Any]) => InternalExecutionResult
+  type Planner = (String, Map[String, Any]) => RewindableExecutionResult
 
-  def profileWithPlanner(planner: Planner, q: String, params: Map[String, Any]): InternalExecutionResult = {
+  def profileWithPlanner(planner: Planner, q: String, params: Map[String, Any]): RewindableExecutionResult = {
     val result = planner("profile " + q, params)
     assert(result.planDescriptionRequested, "result not marked with planDescriptionRequested")
 
@@ -716,7 +717,7 @@ class ProfilerAcceptanceTest extends ExecutionEngineFunSuite with CreateTempFile
     result
   }
 
-  def profileWithExecute(configuration: TestConfiguration, q: String): InternalExecutionResult = {
+  def profileWithExecute(configuration: TestConfiguration, q: String): RewindableExecutionResult = {
     val result = executeWith(configuration, "profile " + q)
     assert(result.planDescriptionRequested, "result not marked with planDescriptionRequested")
 
@@ -731,15 +732,15 @@ class ProfilerAcceptanceTest extends ExecutionEngineFunSuite with CreateTempFile
     result
   }
 
-  override def profile(q: String, params: (String, Any)*): InternalExecutionResult = fail("Don't use profile all together in ProfilerAcceptanceTest")
+  override def profile(q: String, params: (String, Any)*): RewindableExecutionResult = fail("Don't use profile all together in ProfilerAcceptanceTest")
 
-  def legacyProfile(q: String, params: (String, Any)*): InternalExecutionResult = profileWithPlanner(innerExecuteDeprecated, q, params.toMap)
+  def legacyProfile(q: String, params: (String, Any)*): RewindableExecutionResult = profileWithPlanner(innerExecuteDeprecated, q, params.toMap)
 
   private def getArgument[A <: Argument](plan: InternalPlanDescription)(implicit manifest: ClassTag[A]): A = plan.arguments.collectFirst {
     case x: A => x
   }.getOrElse(fail(s"Failed to find plan description argument where expected. Wanted ${manifest.toString()} but only found ${plan.arguments}"))
 
-  private def getPlanDescriptions(result: InternalExecutionResult, names: Seq[String]): Seq[InternalPlanDescription] = {
+  private def getPlanDescriptions(result: RewindableExecutionResult, names: Seq[String]): Seq[InternalPlanDescription] = {
     result.toList
     val description = result.executionPlanDescription()
     if (names.isEmpty)

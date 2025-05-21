@@ -24,6 +24,9 @@ import org.neo4j.cypher.planmatching.{CountInTree, ExactPlan, PlanInTree, PlanMa
 import org.scalatest.matchers.{MatchResult, Matcher}
 import org.neo4j.cypher.internal.runtime.InternalExecutionResult
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
+import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments.KeyNames
+import org.neo4j.cypher.internal.v3_4.logical.plans.NodeHashJoin
+import org.neo4j.cypher.internal.v3_5.util.helpers.StringHelper.RichString
 
 
 trait QueryPlanTestSupport {
@@ -36,6 +39,22 @@ trait QueryPlanTestSupport {
     def aPlan: PlanMatcher = ExactPlan()
 
     def aPlan(name: String): PlanMatcher = ExactPlan().withName(name)
+  }
+
+  protected final val anonPattern = "([^\\w])anon\\[\\d+\\]".r
+
+  protected def replaceAnonVariables(planText: String) =
+    anonPattern.replaceAllIn(planText, "$1anon[*]")
+
+  protected def matchPlan(expectedPlan: String): Matcher[InternalPlanDescription] = new Matcher[InternalPlanDescription] {
+    override def apply(plan: InternalPlanDescription): MatchResult = {
+      val planText = replaceAnonVariables(plan.toString.trim.fixNewLines)
+      val expectedText = replaceAnonVariables(expectedPlan.trim.fixNewLines)
+      MatchResult(
+        matches = planText.contains(expectedText),
+        rawFailureMessage = s"Plan does not match expected\n\nPlan:\n$planText\n\nExpected:\n$expectedText",
+        rawNegatedFailureMessage = s"Plan unexpected matches expected\n\nPlan:\n$planText\n\nExpected:\n$expectedText")
+    }
   }
 
   def use(operators: String*): Matcher[RewindableExecutionResult] = new Matcher[RewindableExecutionResult] {
@@ -109,6 +128,32 @@ trait QueryPlanTestSupport {
         rawNegatedFailureMessage = s"Result should not have $count rows")
     }
   }
+
+  case class includeOnlyOneHashJoinOn(nodeVariable: String) extends Matcher[InternalPlanDescription] {
+
+    private val hashJoinStr = classOf[NodeHashJoin].getSimpleName
+
+    override def apply(result: InternalPlanDescription): MatchResult = {
+      val hashJoins = result.flatten.filter { description =>
+        description.name == hashJoinStr && description.arguments.contains(KeyNames(collection.immutable.Seq(nodeVariable)))
+      }
+      val numberOfHashJoins = hashJoins.length
+
+      MatchResult(numberOfHashJoins == 1, matchResultMsg(negated = false, result, numberOfHashJoins), matchResultMsg(negated = true, result, numberOfHashJoins))
+    }
+
+    private def matchResultMsg(negated: Boolean, result: InternalPlanDescription, numberOfHashJoins: Integer) =
+      s"$hashJoinStr on node '$nodeVariable' should exist only once in the plan description ${if (negated) "" else s", but it occurred $numberOfHashJoins times"}\n $result"
+  }
+
+  case class includeOnlyOne[T](operator: Class[T], withVariable: String = "") extends includeOnly(operator, withVariable) {
+    override def verifyOccurences(actualOccurences: Int) =
+      actualOccurences == 1
+
+    override def matchResultMsg(negated: Boolean, result: InternalPlanDescription, numberOfOperatorOccurences: Integer) =
+      s"$joinStr on node '$withVariable' should occur only once in the plan description${if (negated) "" else s", but it occurred $numberOfOperatorOccurences times"}\n $result"
+  }
+
 
   case class includeAtLeastOne[T](operator: Class[T], withVariable: String = "") extends includeOnly(operator, withVariable) {
     override def verifyOccurences(actualOccurences: Int) =

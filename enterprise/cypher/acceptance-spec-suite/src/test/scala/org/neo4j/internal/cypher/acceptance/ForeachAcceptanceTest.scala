@@ -34,6 +34,7 @@
  */
 package org.neo4j.internal.cypher.acceptance
 
+import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport, SyntaxException}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
@@ -51,7 +52,7 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
         |  CREATE (n)-[:SELF]->(b))""".stripMargin
 
     // should work
-    eengine.execute(query, Map.empty[String, Any])
+    eengine.execute(query, asMapValue(Map.empty[String, Any]), null)
   }
 
   test("nested foreach") {

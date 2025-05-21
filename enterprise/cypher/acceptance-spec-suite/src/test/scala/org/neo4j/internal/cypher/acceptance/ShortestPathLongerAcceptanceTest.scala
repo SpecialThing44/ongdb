@@ -35,8 +35,8 @@
 package org.neo4j.internal.cypher.acceptance
 
 import java.util
-
 import org.neo4j.cypher.ExecutionEngineFunSuite
+import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.runtime.InternalExecutionResult
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
@@ -617,7 +617,7 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
                     |create (_31818)-[:`SE`]->(_31817)
                     |create (_31819)-[:`SE`]->(_31818)
                     |create (_31820)-[:`SE`]->(_31813)""".stripMargin
-      eengine.execute(query, Map.empty[String, Any])
+      eengine.execute(query, asMapValue( Map.empty[String, Any]), null)
     }
 
     createTestGraph()
@@ -642,8 +642,8 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
     assert(!VERBOSE, "Verbose should be turned off")
   }
 
-  def executeShortestPathFallbackWith(minRows: Int = 0, maxRows: Long = Long.MaxValue): Matcher[InternalExecutionResult] = new Matcher[InternalExecutionResult] {
-    override def apply(result: InternalExecutionResult): MatchResult = {
+  def executeShortestPathFallbackWith(minRows: Int = 0, maxRows: Long = Long.MaxValue): Matcher[RewindableExecutionResult] = new Matcher[RewindableExecutionResult] {
+    override def apply(result: RewindableExecutionResult): MatchResult = {
       val plan: InternalPlanDescription = result.executionPlanDescription()
       val operators = plan.find("VarLengthExpand(Into)")
       if (operators.isEmpty) {
@@ -746,7 +746,7 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
     dprintln()
   }
 
-  private def evaluateShortestPathResults(results: InternalExecutionResult, startMs: Long, pathLength: Int, expectedNodes: Set[Node]): Unit = {
+  private def evaluateShortestPathResults(results: RewindableExecutionResult, startMs: Long, pathLength: Int, expectedNodes: Set[Node]): Unit = {
     val duration = System.currentTimeMillis() - startMs
     dprintln(results.executionPlanDescription())
 
@@ -770,7 +770,7 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
   private def dprintln() = if (VERBOSE) println
   private def dprint(s: Any) = if (VERBOSE) print(s)
 
-  private def evaluateAllShortestPathResults(results: InternalExecutionResult, identifier: String, startMs: Long, expectedPathCount: Int, expectedNodes: Set[Set[Node]]): Unit = {
+  private def evaluateAllShortestPathResults(results: RewindableExecutionResult, identifier: String, startMs: Long, expectedPathCount: Int, expectedNodes: Set[Set[Node]]): Unit = {
     val resultList = results.toList
     val duration = System.currentTimeMillis() - startMs
     dprintln(results.executionPlanDescription())
@@ -809,10 +809,10 @@ class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with Cyph
   }
 
   def executeUsingRulePlannerOnly(query: String) =
-    RewindableExecutionResult(eengine.execute(s"CYPHER planner=RULE $query", Map.empty[String, Any]))
+    RewindableExecutionResult(eengine.execute(s"CYPHER planner=RULE $query", asMapValue( Map.empty[String, Any]), null))
 
   def executeUsingCostPlannerOnly(query: String) =
-    RewindableExecutionResult(eengine.execute(s"CYPHER planner=COST $query", Map.empty[String, Any]))
+    RewindableExecutionResult(eengine.execute(s"CYPHER planner=COST $query", asMapValue( Map.empty[String, Any]), null))
 
   private class DebugDataMonitor extends DataMonitor {
     var count = 0

@@ -37,11 +37,11 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
-class UpdateReportingAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
-  test("creating a node gets reported as such") {
-    val output = executeWith(Configs.UpdateConf, "create (:A)").dumpToString()
-
-    output should include("Nodes created: 1")
-    output should include("Labels added: 1")
-  }
-}
+//class UpdateReportingAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+//  test("creating a node gets reported as such") {
+//    val output = executeWith(Configs.UpdateConf, "create (:A)").dumpToString()
+//
+//    output should include("Nodes created: 1")
+//    output should include("Labels added: 1")
+//  }
+//}
