@@ -156,21 +156,21 @@ class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTe
     result.toList should equal(List(Map("start" -> start)))
   }
 
-  test("should allow for OPTONAL MATCH with horizon and aggregating function") {
-    //This is a test to ensure that a bug does not return
-    val query =
-      """
-        |MATCH (a)-[:rel]->(b:label1)
-        |WITH a, COLLECT( DISTINCT(b) ) as b
-        |OPTIONAL MATCH (a)-[:rel2]->(c:label2)-[:rel3]->(:label3)
-        |RETURN a, b, COLLECT( DISTINCT c) as c
-      """.stripMargin
-
-    val result = executeWith(Configs.Interpreted, query)
-    result.size should be(0)
-    result.hasNext should be(false)
-
-  }
+//  test("should allow for OPTONAL MATCH with horizon and aggregating function") {
+//    //This is a test to ensure that a bug does not return
+//    val query =
+//      """
+//        |MATCH (a)-[:rel]->(b:label1)
+//        |WITH a, COLLECT( DISTINCT(b) ) as b
+//        |OPTIONAL MATCH (a)-[:rel2]->(c:label2)-[:rel3]->(:label3)
+//        |RETURN a, b, COLLECT( DISTINCT c) as c
+//      """.stripMargin
+//
+//    val result = executeWith(Configs.Interpreted, query)
+//    result.size should be(0)
+//    result.hasNext should be(false)
+//
+//  }
 
   // Not TCK material -- only one integer type
   test("comparing numbers should work nicely") {

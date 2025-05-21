@@ -35,8 +35,8 @@
 package org.neo4j.internal.cypher.acceptance
 
 import java.io.PrintWriter
-
 import org.neo4j.csv.reader.MissingEndQuoteException
+import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.cypher.internal.runtime.{CreateTempFileTestSupport, InternalExecutionResult}
@@ -141,6 +141,6 @@ class LoadCsvWithQuotesAcceptanceTest extends ExecutionEngineFunSuite with RunWi
     }
   }
 
-  def executeWithCustomDb(db: GraphDatabaseCypherService, query: String): InternalExecutionResult =
-    RewindableExecutionResult(ExecutionEngineHelper.createEngine(db).execute(query, Map.empty[String, Any]))
+  def executeWithCustomDb(db: GraphDatabaseCypherService, query: String): RewindableExecutionResult =
+    RewindableExecutionResult(ExecutionEngineHelper.createEngine(db).execute(query, asMapValue(Map.empty[String, Any]), null))
 }

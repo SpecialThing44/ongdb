@@ -36,7 +36,7 @@ package org.neo4j.internal.cypher.acceptance
 
 import org.hamcrest.Matchers
 import org.neo4j.cypher.ExecutionEngineFunSuite
-import org.neo4j.cypher.ExecutionEngineHelper.createEngine
+import org.neo4j.cypher.ExecutionEngineHelper.{asMapValue, createEngine}
 import org.neo4j.cypher.internal.{ExecutionEngine, StringCacheMonitor}
 import org.neo4j.graphdb.config.Setting
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
@@ -52,19 +52,19 @@ class CypherCompilerStringCacheMonitoringAcceptanceTest extends ExecutionEngineF
   }
 
   class CacheCounter(var counts: CacheCounts = CacheCounts()) extends StringCacheMonitor {
-    override def cacheMiss(key: String) {
+    def cacheMiss(key: String) {
       counts = counts.copy(misses = counts.misses + 1)
     }
 
-    override def cacheHit(key: String) {
+    def cacheHit(key: String) {
       counts = counts.copy(hits = counts.hits + 1)
     }
 
-    override def cacheFlushDetected(justBeforeKey: api.Statement) {
+    def cacheFlushDetected(justBeforeKey: api.Statement) {
       counts = counts.copy(flushes = counts.flushes + 1)
     }
 
-    override def cacheDiscard(key: String, key2: String, secondsSinceReplan: Int) {
+    def cacheDiscard(key: String, key2: String, secondsSinceReplan: Int) {
       counts = counts.copy(evicted = counts.evicted + 1)
     }
   }
@@ -138,11 +138,11 @@ class CypherCompilerStringCacheMonitoringAcceptanceTest extends ExecutionEngineF
 
     createLabeledNode("Dog")
     (0 until 50).foreach { _ => createLabeledNode("Person") }
-    engine.execute(query, Map.empty[String, Any], graph.transactionalContext(query = query -> Map.empty)).resultAsString()
+    engine.execute(query, asMapValue(Map.empty[String, Any]), graph.transactionalContext(query = query -> Map.empty)).resultAsString()
 
     // when
     (0 until 1000).foreach { _ => createLabeledNode("Dog") }
-    engine.execute(query, Map.empty[String, Any], graph.transactionalContext(query = query -> Map.empty)).resultAsString()
+    engine.execute(query, asMapValue(Map.empty[String, Any]), graph.transactionalContext(query = query -> Map.empty)).resultAsString()
 
     logProvider.assertAtLeastOnce(
 
@@ -157,4 +157,3 @@ class CypherCompilerStringCacheMonitoringAcceptanceTest extends ExecutionEngineF
       )
   }
 }
-

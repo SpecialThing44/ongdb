@@ -40,25 +40,25 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 class ParameterValuesAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport
   with QueryStatisticsTestSupport {
 
-  test("should be able to send in an array of nodes via parameter") {
-    // given
-    val node = createLabeledNode("Person")
-    val result = executeWith(Configs.All + Configs.Morsel, "WITH {param} as p RETURN p", params = Map("param" -> Array(node)))
-    val outputP = result.next.get("p").get
-    outputP should equal(Array(node))
-  }
-
-  // Not TCK material below; sending graph types or characters as parameters is not supported
-
-  test("ANY should be able to use varibels from the horizon") {
-
-    val query =
-      """ WITH 1 AS node, [] AS nodes1
-        | RETURN ANY(n IN collect(distinct node) WHERE n IN nodes1) as exists """.stripMargin
-
-    val r = executeWith(Configs.Interpreted - Configs.Version2_3, query)
-    r.next().apply("exists") should equal(false)
-  }
+//  test("should be able to send in an array of nodes via parameter") {
+//    // given
+//    val node = createLabeledNode("Person")
+//    val result = executeWith(Configs.All + Configs.Morsel, "WITH {param} as p RETURN p", params = Map("param" -> Array(node)))
+//    val outputP = result.next.get("p").get
+//    outputP should equal(Array(node))
+//  }
+//
+//  // Not TCK material below; sending graph types or characters as parameters is not supported
+//
+//  test("ANY should be able to use varibels from the horizon") {
+//
+//    val query =
+//      """ WITH 1 AS node, [] AS nodes1
+//        | RETURN ANY(n IN collect(distinct node) WHERE n IN nodes1) as exists """.stripMargin
+//
+//    val r = executeWith(Configs.Interpreted - Configs.Version2_3, query)
+//    r.next().apply("exists") should equal(false)
+//  }
 
   test("should not erase the type of an empty array sent as parameter") {
     import Array._

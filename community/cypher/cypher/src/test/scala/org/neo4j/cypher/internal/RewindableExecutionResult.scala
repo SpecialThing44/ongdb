@@ -41,7 +41,12 @@ trait RewindableExecutionResult {
   def toList: List[Map[String, AnyRef]] = result.toList
   def toSet: Set[Map[String, AnyRef]] = result.toSet
   def size: Long = result.size
+  def length: Long = result.size
+
   def head(str: String): AnyRef = result.head(str)
+
+  def planDescriptionRequested: Boolean = executionMode == ExplainMode || executionMode == ProfileMode
+
 
   def accept[E <: Exception](visitor: ResultVisitor[E]): Unit
 

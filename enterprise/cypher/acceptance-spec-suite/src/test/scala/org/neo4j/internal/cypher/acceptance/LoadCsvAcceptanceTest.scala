@@ -147,8 +147,6 @@ class LoadCsvAcceptanceTest
     val result = execute(s"LOAD CSV FROM '$filePathForQuery' AS line CREATE (a {name: line[0]}) RETURN a.name")
     assertStats(result, nodesCreated = 1, propertiesWritten = 1)
 
-    result.close()
-
     assert(Files.deleteIfExists(path))
   }
 
@@ -596,7 +594,6 @@ class LoadCsvAcceptanceTest
 
     val result = executeWith(Configs.UpdateConf, query)
     result.columnAs("c").toList should equal(List(0))
-    result.close()
   }
 
   test("empty headers file should not throw") {

@@ -36,15 +36,18 @@ package org.neo4j.internal.cypher.acceptance
 
 import java.io.File
 import java.util
-
 import org.neo4j.cypher._
+import org.neo4j.cypher.internal.QueryCache.ParameterTypeMap
 import org.neo4j.cypher.internal.compiler.v3_4.planner.logical.idp.IDPSolverMonitor
 import org.neo4j.cypher.internal.javacompat.GraphDatabaseCypherService
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
-import org.neo4j.cypher.internal.{CommunityCompatibilityFactory, ExecutionEngine}
+import org.neo4j.cypher.internal.tracing.CompilationTracer
+import org.neo4j.cypher.internal.{CacheTracer, CommunityCompilerFactory, CypherConfiguration, ExecutionEngine}
 import org.neo4j.graphdb.config.Setting
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
 import org.neo4j.graphdb.factory.GraphDatabaseSettings.{cypher_idp_solver_duration_threshold, cypher_idp_solver_table_threshold}
+import org.neo4j.helpers.collection.Pair
+import org.neo4j.kernel.configuration.Config
 import org.neo4j.kernel.monitoring
 import org.neo4j.kernel.monitoring.Monitors
 import org.neo4j.logging.NullLogProvider
@@ -265,8 +268,10 @@ class MatchLongPatternAcceptanceTest extends ExecutionEngineFunSuite with QueryS
       val monitors = graph.getDependencyResolver.resolveDependency(classOf[Monitors])
       val logProvider = NullLogProvider.getInstance()
       // FIXME: probably both?
-      val factory = new CommunityCompatibilityFactory(graph, monitors, logProvider)
-      val engine = new ExecutionEngine(graph, logProvider, factory)
+      val cypherConfig = CypherConfiguration.fromConfig(Config.defaults())
+
+      val factory = new CommunityCompilerFactory(graph, monitors, logProvider, cypherConfig.toCypherPlannerConfiguration(Config.defaults()), cypherConfig.toCypherRuntimeConfiguration)
+      val engine = new ExecutionEngine(graph, monitors, mock[CompilationTracer], mock[CacheTracer[Pair[String, ParameterTypeMap]]], cypherConfig, factory, logProvider)
       run(engine, graph)
     } finally {
       graph.shutdown()

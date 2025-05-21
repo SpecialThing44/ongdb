@@ -110,4 +110,34 @@ trait QueryPlanTestSupport {
     }
   }
 
+  case class includeAtLeastOne[T](operator: Class[T], withVariable: String = "") extends includeOnly(operator, withVariable) {
+    override def verifyOccurences(actualOccurences: Int) =
+      actualOccurences >= 1
+
+    override def matchResultMsg(negated: Boolean, result: InternalPlanDescription, numberOfOperatorOccurences: Integer) =
+      s"$joinStr on node '$withVariable' should occur at least once in the plan description${if (negated) "" else s", but it was not found\n $result"}"
+  }
+
+
+  abstract class includeOnly[T](operator: Class[T], withVariable: String = "") extends Matcher[InternalPlanDescription] {
+    protected val joinStr = operator.getSimpleName
+
+    def verifyOccurences(actualOccurences: Int): Boolean
+
+    def matchResultMsg(negated: Boolean, result: InternalPlanDescription, numberOfOperatorOccurences: Integer): String
+
+    override def apply(result: InternalPlanDescription): MatchResult = {
+      val operatorOccurrences = result.flatten.filter { description =>
+        val nameCondition = description.name == joinStr
+        val variableCondition = withVariable == "" || description.variables.contains(withVariable)
+        nameCondition && variableCondition
+      }
+      val numberOfOperatorOccurrences = operatorOccurrences.length
+      val matches = verifyOccurences(numberOfOperatorOccurrences)
+
+      MatchResult(matches, matchResultMsg(negated = false, result, numberOfOperatorOccurrences), matchResultMsg(negated = true, result, numberOfOperatorOccurrences))
+    }
+  }
+
+
 }

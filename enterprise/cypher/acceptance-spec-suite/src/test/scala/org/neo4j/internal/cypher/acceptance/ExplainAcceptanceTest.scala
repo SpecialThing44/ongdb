@@ -35,6 +35,7 @@
 package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.ExecutionEngineFunSuite
+import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
 class ExplainAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
@@ -57,7 +58,7 @@ class ExplainAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
 
 
   test("EXPLAIN for Cypher 3.1") {
-    val result = eengine.execute("explain match (n) return n", Map.empty[String, Object])
+    val result = eengine.execute("explain match (n) return n", asMapValue(Map.empty[String, Object]), null)
     result.resultAsString()
     result.getExecutionPlanDescription.toString should include("Estimated Rows")
   }
@@ -85,7 +86,7 @@ class ExplainAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
 
     val result = executeWith(Configs.Interpreted, query)
     val plan = result.executionPlanDescription().toString
-    result.close()
+//    result.close()
 
     plan.toString should include("NestedPlanExpression(VarExpand-Argument)")
   }
