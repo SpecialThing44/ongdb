@@ -37,7 +37,7 @@ package org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled
 import org.neo4j.cypher.internal.PlanFingerprint
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.CompiledRuntimeName
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.ExecutionPlanBuilder.DescriptionProvider
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{PeriodicCommitInfo, Provider}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{ExecutionResultBuilder, ExecutionResultBuilderFactory, PeriodicCommitInfo, Provider}
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, InternalExecutionResult, ProfileMode, QueryContext}
@@ -77,17 +77,8 @@ object ExecutionPlanBuilder {
 
 case class CompiledPlan(updating: Boolean,
                         periodicCommit: Option[PeriodicCommitInfo] = None,
-                        fingerprint: Option[PlanFingerprint] = None,
                         plannerUsed: PlannerName,
                         planDescription: Provider[InternalPlanDescription],
                         columns: Seq[String],
-                        executionResultBuilder: RunnablePlan,
+                        executionResultBuilder: ExecutionResultBuilderFactory,
                         plannedIndexUsage: Seq[IndexUsage] = Seq.empty)
-
-trait RunnablePlan {
-  def apply(queryContext: QueryContext,
-            execMode: ExecutionMode,
-            descriptionProvider: DescriptionProvider,
-            params: MapValue,
-            closer: TaskCloser): InternalExecutionResult
-}

@@ -41,7 +41,7 @@ import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.ExecutionPl
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen._
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.Instruction
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.{CompiledExecutionResult, CompiledPlan}
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.Provider
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{PipeInfo, Provider}
 import org.neo4j.cypher.internal.compiler.v3_5.planner.LogicalPlanConstructionTestSupport
 import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.ReadOnlies
 import org.neo4j.cypher.internal.planner.v3_5.spi.{CostBasedPlannerName, GraphStatistics, PlanContext}
@@ -57,6 +57,7 @@ import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
 import org.neo4j.cypher.internal.v3_5.executionplan.{GeneratedQuery, GeneratedQueryExecution}
 import org.neo4j.cypher.internal.v3_5.logical.plans.LogicalPlan
+import org.neo4j.cypher.result.QueryProfile
 import org.neo4j.graphdb.GraphDatabaseService
 import org.neo4j.graphdb.Result.{ResultRow, ResultVisitor}
 import org.neo4j.internal.kernel.api.Transaction.Type
@@ -79,7 +80,7 @@ trait CodeGenSugar extends MockitoSugar with LogicalPlanConstructionTestSupport 
     val context = mock[PlanContext]
     doReturn(statistics, Nil: _*).when(context).statistics
     new CodeGenerator(GeneratedQueryStructure, Clocks.systemClock())
-      .generate(plan, context, semanticTable, CostBasedPlannerName.default, new ReadOnlies, new StubCardinalities, new StubProvidedOrders)
+      .generate(plan, semanticTable, CostBasedPlannerName.default, new ReadOnlies, new StubCardinalities, new StubProvidedOrders, mock[PipeInfo], List.empty)
   }
 
   def compileAndExecute(plan: LogicalPlan,
@@ -101,7 +102,7 @@ trait CodeGenSugar extends MockitoSugar with LogicalPlanConstructionTestSupport 
           "no query text exists for this test", EMPTY_MAP_WRAP))
       val queryContext = new TransactionBoundQueryContext(transactionalContext)(mock[IndexSearchMonitor])
       val result = RewindableExecutionResult.apply(plan
-        .executionResultBuilder(queryContext, mode, tracer(mode, queryContext), EMPTY_MAP, new TaskCloser))
+        .executionResultBuilder.create(queryContext).build(EMPTY_MAP, false, queryProfile = mock[QueryProfile]), queryContext)
       tx.success()
       result.size
       result

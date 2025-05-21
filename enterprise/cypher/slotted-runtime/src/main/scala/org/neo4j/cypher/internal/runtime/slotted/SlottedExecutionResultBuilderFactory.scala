@@ -64,7 +64,7 @@ class SlottedExecutionResultBuilderFactory(pipeInfo: PipeInfo,
       resultIterator
     }
 
-    override def queryContext: QueryContext = ???
+    override def queryContext: QueryContext = null
   }
 
   override def create(queryContext: QueryContext): ExecutionResultBuilder =  new SlottedExecutionWorkflowBuilder()

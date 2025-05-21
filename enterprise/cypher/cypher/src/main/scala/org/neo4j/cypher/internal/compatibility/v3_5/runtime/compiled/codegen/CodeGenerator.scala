@@ -39,13 +39,13 @@ import org.neo4j.cypher.internal.compatibility.v3_5.runtime.CompiledRuntimeName
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.ExecutionPlanBuilder.DescriptionProvider
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.ir.Instruction
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.codegen.spi.{CodeStructure, CodeStructureResult}
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.{CompiledExecutionResult, CompiledPlan, RunnablePlan}
-import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.Provider
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.{CompiledExecutionResultBuilderFactory, CompiledPlan}
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{ExecutionResultBuilder, ExecutionResultBuilderFactory, PipeInfo, Provider}
 import org.neo4j.cypher.internal.compiler.v3_5.planner.CantCompileQueryException
 import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.{Cardinalities, ProvidedOrders, ReadOnlies}
 import org.neo4j.cypher.internal.planner.v3_5.spi.{InstrumentedGraphStatistics, PlanContext}
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments.{Runtime, RuntimeImpl}
-import org.neo4j.cypher.internal.runtime.planDescription.{InternalPlanDescription, LogicalPlan2PlanDescription}
+import org.neo4j.cypher.internal.runtime.planDescription.{InternalPlanDescription, LogicalPlan2PlanDescription, NoChildren, PlanDescriptionImpl, SingleChild}
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, InternalExecutionResult, QueryContext}
 import org.neo4j.cypher.internal.v3_5.ast.semantics.SemanticTable
 import org.neo4j.cypher.internal.v3_5.codegen.QueryExecutionTracer
@@ -66,7 +66,7 @@ class CodeGenerator(val structure: CodeStructure[GeneratedQuery], clock: Clock, 
   type PlanDescriptionProvider =
           (InternalPlanDescription) => (Provider[InternalPlanDescription], Option[QueryExecutionTracer])
 
-  def generate(plan: LogicalPlan, planContext: PlanContext, semanticTable: SemanticTable, plannerName: PlannerName, readOnlies: ReadOnlies, cardinalities: Cardinalities, providedOrders: ProvidedOrders): CompiledPlan = {
+  def generate(plan: LogicalPlan, semanticTable: SemanticTable, plannerName: PlannerName, readOnlies: ReadOnlies, cardinalities: Cardinalities, providedOrders: ProvidedOrders, pipeInfo: PipeInfo, columns:  List[String] ): CompiledPlan = {
     plan match {
       case res: ProduceResult =>
         val query: CodeStructureResult[GeneratedQuery] = try {
@@ -74,13 +74,6 @@ class CodeGenerator(val structure: CodeStructure[GeneratedQuery], clock: Clock, 
         } catch {
           case e: CantCompileQueryException => throw e
           case e: Exception => throw new CantCompileQueryException(cause = e)
-        }
-
-        val fp = planContext.statistics match {
-          case igs: InstrumentedGraphStatistics =>
-            Some(PlanFingerprint(clock.millis(), planContext.txIdProvider(), igs.snapshot.freeze))
-          case _ =>
-            None
         }
 
         val description = new Provider[InternalPlanDescription] {
@@ -93,19 +86,9 @@ class CodeGenerator(val structure: CodeStructure[GeneratedQuery], clock: Clock, 
           }
         }
 
-        val builder = new RunnablePlan {
-          def apply(queryContext: QueryContext, execMode: ExecutionMode,
-                    descriptionProvider: DescriptionProvider, params: MapValue,
-                    closer: TaskCloser): InternalExecutionResult = {
-            val (provider, tracer) = descriptionProvider(description)
-            val execution: GeneratedQueryExecution = query.query.execute(queryContext, execMode, provider,
-                                                                         tracer.getOrElse(QueryExecutionTracer.NONE),params)
-            closer.addTask(queryContext.resources.close)
-            new CompiledExecutionResult(closer, queryContext, execution, provider)
-          }
-        }
+        val builder = new CompiledExecutionResultBuilderFactory(pipeInfo = pipeInfo, columns = columns, logicalPlan = plan)
 
-        CompiledPlan(updating = false, None, fp, plannerName, description, res.columns, builder, plan.indexUsage)
+        CompiledPlan(updating = false, None, plannerName, description, res.columns, builder, plan.indexUsage)
 
       case _ => throw new CantCompileQueryException("Can only compile plans with ProduceResult on top")
     }
