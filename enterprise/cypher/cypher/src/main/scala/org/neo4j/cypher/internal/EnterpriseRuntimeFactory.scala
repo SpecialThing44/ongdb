@@ -20,22 +20,33 @@
 package org.neo4j.cypher.internal
 
 import org.neo4j.cypher.internal.compatibility._
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.EnterpriseRuntimeContext
 import org.neo4j.cypher.{CypherRuntimeOption, InvalidArgumentException}
 
 object EnterpriseRuntimeFactory {
 
-  val interpreted = new FallbackRuntime[RuntimeContext](List(ProcedureCallOrSchemaCommandRuntime, InterpretedRuntime), CypherRuntimeOption.interpreted)
-  val default = new FallbackRuntime[RuntimeContext](List(ProcedureCallOrSchemaCommandRuntime, InterpretedRuntime), CypherRuntimeOption.default)
+  val interpreted = new FallbackRuntime[EnterpriseRuntimeContext](List(ProcedureCallOrSchemaCommandRuntime, InterpretedRuntime), CypherRuntimeOption.interpreted)
+  val slotted = new FallbackRuntime[EnterpriseRuntimeContext](List(ProcedureCallOrSchemaCommandRuntime, SlottedRuntime), CypherRuntimeOption.slotted)
+  val compiled = new FallbackRuntime[EnterpriseRuntimeContext](List(ProcedureCallOrSchemaCommandRuntime, CompiledRuntime), CypherRuntimeOption.compiled)
+  //val morsel = new FallbackRuntime[EnterpriseRuntimeContext](List(ProcedureCallOrSchemaCommandRuntime, MorselRuntime), CypherRuntimeOption.morsel)
+  val default = new FallbackRuntime[EnterpriseRuntimeContext](List(ProcedureCallOrSchemaCommandRuntime, CompiledRuntime), CypherRuntimeOption.default)
 
-  def getRuntime(cypherRuntime: CypherRuntimeOption, disallowFallback: Boolean): CypherRuntime[RuntimeContext] =
-    cypherRuntime match {
+  def getRuntime(runtimeName: CypherRuntimeOption, useErrorsOverWarnings: Boolean): CypherRuntime[EnterpriseRuntimeContext] =
+    runtimeName match {
       case CypherRuntimeOption.interpreted => interpreted
 
+      case CypherRuntimeOption.slotted if useErrorsOverWarnings => slotted
+
+      case CypherRuntimeOption.slotted => slotted
+
+      case CypherRuntimeOption.compiled if useErrorsOverWarnings => compiled
+
+      case CypherRuntimeOption.compiled => compiled
+
+//      case CypherRuntimeOption.morsel if useErrorsOverWarnings => morsel
+//
+//      case CypherRuntimeOption.morsel => morsel
+
       case CypherRuntimeOption.default => default
-
-      case unsupported if disallowFallback =>
-        throw new InvalidArgumentException(s"This version of Neo4j does not support requested runtime: $unsupported")
-
-      case unsupported => new FallbackRuntime[RuntimeContext](List(UnknownRuntime, ProcedureCallOrSchemaCommandRuntime,  InterpretedRuntime), unsupported)
     }
 }

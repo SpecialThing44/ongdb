@@ -34,6 +34,7 @@
  */
 package org.neo4j.cypher.internal.javacompat;
 
+import org.neo4j.cypher.internal.CommunityCompilerFactory;
 import org.neo4j.cypher.internal.EnterpriseCompilerFactory;
 import org.neo4j.cypher.internal.CypherConfiguration;
 import org.neo4j.cypher.internal.compatibility.CypherRuntimeConfiguration;
@@ -79,8 +80,11 @@ public class EnterpriseCypherEngineProvider extends QueryEngineProvider
 
         CypherRuntimeConfiguration runtimeConfig = cypherConfig.toCypherRuntimeConfiguration();
         CypherPlannerConfiguration plannerConfig = cypherConfig.toCypherPlannerConfiguration( config );
+        CommunityCompilerFactory communityCompilerFactory =
+                new CommunityCompilerFactory( queryService, monitors, logProvider, plannerConfig, runtimeConfig );
+
         EnterpriseCompilerFactory compilerFactory =
-                new EnterpriseCompilerFactory( queryService, monitors, logProvider, plannerConfig, runtimeConfig );
+                new EnterpriseCompilerFactory( communityCompilerFactory, queryService, monitors, logProvider, plannerConfig, runtimeConfig );
         return createEngine( queryService, config, logProvider, compilerFactory );
     }
 

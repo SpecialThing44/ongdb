@@ -1,93 +1,74 @@
 /*
- * Copyright (c) "Neo4j"
- * Neo4j Sweden AB [http://neo4j.com]
+ * Copyright (c) 2018-2020 "Graph Foundation,"
+ * Graph Foundation, Inc. [https://graphfoundation.org]
  *
- * This file is part of Neo4j.
- *
- * Neo4j is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This file is part of ONgDB Enterprise Edition. The included source
+ * code can be redistributed and/or modified under the terms of the
+ * GNU AFFERO GENERAL PUBLIC LICENSE Version 3
+ * (http://www.fsf.org/licensing/licenses/agpl-3.0.html) as found
+ * in the associated LICENSE.txt file.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Affero General Public License for more details.
+ */
+/*
+ * Copyright (c) 2002-2018 "Neo Technology,"
+ * Network Engine for Objects in Lund AB [http://neotechnology.com]
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of Neo4j.
+ *
+ * Neo4j is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.neo4j.cypher.internal
 
-import org.neo4j.cypher.internal.compatibility._
-import org.neo4j.cypher.internal.compatibility.v2_3.helpers._
-import org.neo4j.cypher.internal.compatibility.v3_1.helpers._
-import org.neo4j.cypher.internal.compatibility.v3_4.Cypher34Planner
-import org.neo4j.cypher.internal.compatibility.v3_5.Cypher35Planner
-import org.neo4j.cypher.internal.compiler.v3_5.CypherPlannerConfiguration
-import org.neo4j.cypher.internal.runtime.interpreted.LastCommittedTxIdProvider
-import org.neo4j.cypher.internal.v3_5.util.InvalidArgumentException
+import org.neo4j.cypher.internal.compatibility.CypherCurrentCompiler
 import org.neo4j.cypher.{CypherPlannerOption, CypherRuntimeOption, CypherUpdateStrategy, CypherVersion}
-import org.neo4j.helpers.Clock
+import org.neo4j.cypher.internal.compatibility.CypherRuntimeConfiguration
+import org.neo4j.cypher.internal.compatibility.v3_5.Cypher35Planner
+import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.EnterpriseRuntimeContextCreator
+import org.neo4j.cypher.internal.compiler.v3_5._
+import org.neo4j.cypher.internal.runtime.interpreted.LastCommittedTxIdProvider
+import org.neo4j.cypher.internal.runtime.vectorized.dispatcher.SingleThreadedExecutor
+import org.neo4j.cypher.internal.spi.v3_5.codegen.GeneratedQueryStructure
 import org.neo4j.kernel.GraphDatabaseQueryService
 import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
-import org.neo4j.logging.{Log, LogProvider}
+import org.neo4j.logging.LogProvider
 
-/**
-  * Factory which creates cypher compilers.
-  */
-class EnterpriseCompilerFactory(graph: GraphDatabaseQueryService,
+class EnterpriseCompilerFactory(communityCompilerFactory: CommunityCompilerFactory,
+                                graph: GraphDatabaseQueryService,
                                 kernelMonitors: KernelMonitors,
                                 logProvider: LogProvider,
                                 plannerConfig: CypherPlannerConfiguration,
                                 runtimeConfig: CypherRuntimeConfiguration
-                              ) extends CompilerFactory {
-
-  private val log: Log = logProvider.getLog(getClass)
+                               ) extends CompilerFactory {
 
   override def createCompiler(cypherVersion: CypherVersion,
                               cypherPlanner: CypherPlannerOption,
                               cypherRuntime: CypherRuntimeOption,
-                              cypherUpdateStrategy: CypherUpdateStrategy
-                             ): Compiler = {
-
-    (cypherVersion, cypherPlanner) match {
-
-        // 2.3
-      case (CypherVersion.v2_3, CypherPlannerOption.rule) =>
-        v2_3.Rule23Compiler(graph, as2_3(plannerConfig), Clock.SYSTEM_CLOCK, kernelMonitors)
-      case (CypherVersion.v2_3, _) =>
-        v2_3.Cost23Compiler(graph, as2_3(plannerConfig), Clock.SYSTEM_CLOCK, kernelMonitors, log, cypherPlanner, cypherRuntime)
-
-        // 3.1
-      case (CypherVersion.v3_1, CypherPlannerOption.rule) =>
-        v3_1.Rule31Compiler(graph, as3_1(plannerConfig), MasterCompiler.CLOCK, kernelMonitors)
-      case (CypherVersion.v3_1, _) =>
-        v3_1.Cost31Compiler(graph, as3_1(plannerConfig), MasterCompiler.CLOCK, kernelMonitors, log, cypherPlanner, cypherRuntime, cypherUpdateStrategy)
-
-        // 3.3 or 3.5 + rule
-      case (_, CypherPlannerOption.rule) =>
-        throw new InvalidArgumentException(s"The rule planner is no longer a valid planner option in Neo4j ${cypherVersion.name}. If you need to use it, please select compatibility mode Cypher 3.1")
-
-        // 3.4
-      case (CypherVersion.v3_4, _) =>
-        CypherCurrentCompiler(
-          Cypher34Planner(plannerConfig, MasterCompiler.CLOCK, kernelMonitors, log,
-            cypherPlanner, cypherUpdateStrategy, LastCommittedTxIdProvider(graph)),
-          EnterpriseRuntimeFactory.getRuntime(cypherRuntime, plannerConfig.useErrorsOverWarnings),
-          CommunityRuntimeContextCreator(log, plannerConfig),
-          kernelMonitors
-        )
-
-        // 3.5
-      case (CypherVersion.v3_5, _) =>
-        CypherCurrentCompiler(
-          Cypher35Planner(plannerConfig, MasterCompiler.CLOCK, kernelMonitors, log,
-                          cypherPlanner, cypherUpdateStrategy, LastCommittedTxIdProvider(graph)),
-          EnterpriseRuntimeFactory.getRuntime(cypherRuntime, plannerConfig.useErrorsOverWarnings),
-          CommunityRuntimeContextCreator(log, plannerConfig),
-          kernelMonitors
-        )
+                              cypherUpdateStrategy: CypherUpdateStrategy): Compiler = {
+    if (cypherPlanner != CypherPlannerOption.rule) {
+      val log = logProvider.getLog(getClass)
+      val txIdProvider = LastCommittedTxIdProvider(graph)
+      val planner = Cypher35Planner(plannerConfig, MasterCompiler.CLOCK, kernelMonitors, log, cypherPlanner, cypherUpdateStrategy, txIdProvider)
+      val runtime = EnterpriseRuntimeFactory.getRuntime(cypherRuntime, plannerConfig.useErrorsOverWarnings)
+      val dispatcher = new SingleThreadedExecutor(100)
+      val contextCreator = EnterpriseRuntimeContextCreator(GeneratedQueryStructure, log, plannerConfig, dispatcher)
+      CypherCurrentCompiler(planner, runtime, contextCreator, kernelMonitors)
+    } else {
+      communityCompilerFactory.createCompiler(cypherVersion, cypherPlanner, cypherRuntime, cypherUpdateStrategy)
     }
   }
 }

@@ -82,10 +82,15 @@ object ExecutionEngineHelper {
 
   def createEngine(graphDatabaseCypherService: GraphDatabaseQueryService, logProvider: LogProvider = NullLogProvider.getInstance()): ExecutionEngine = {
     val resolver = graphDatabaseCypherService.getDependencyResolver
+    val nullLogProvider = NullLogProvider.getInstance
+    val config = resolver.resolveDependency(classOf[Config])
+    val cypherConfig = CypherConfiguration.fromConfig(config)
     val kernelMonitors: KernelMonitors = resolver.resolveDependency(classOf[KernelMonitors])
     val cacheTracer = new MonitoringCacheTracer( kernelMonitors.newMonitor( classOf[StringCacheMonitor] ) )
-    val compilerFactory = resolver.resolveDependency( classOf[CompilerFactory] )
-    val config = resolver.resolveDependency(classOf[Config])
+    val compilerFactory =
+      new CommunityCompilerFactory(graphDatabaseCypherService, kernelMonitors, nullLogProvider,
+        cypherConfig.toCypherPlannerConfiguration(config), cypherConfig.toCypherRuntimeConfiguration)
+    //val config = resolver.resolveDependency(classOf[Config])
 
     val tracer = new TimingCompilationTracer(kernelMonitors.newMonitor(classOf[TimingCompilationTracer.EventListener]))
 
