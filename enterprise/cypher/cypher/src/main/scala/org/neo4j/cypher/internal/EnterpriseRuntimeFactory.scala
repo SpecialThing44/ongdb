@@ -47,6 +47,6 @@ object EnterpriseRuntimeFactory {
 //
 //      case CypherRuntimeOption.morsel => morsel
 
-      case CypherRuntimeOption.default => default
+      case  CypherRuntimeOption.default => compiled
     }
 }

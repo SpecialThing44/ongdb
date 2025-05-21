@@ -106,6 +106,7 @@ object exceptionHandler extends MapToPublicExceptions[CypherException] {
 
         case e: Throwable =>
           f(e)
+          println(e)
           throw e
       }
     }

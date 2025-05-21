@@ -52,7 +52,7 @@ class SlottedExecutionResultBuilderFactory(pipeInfo: PipeInfo,
   extends BaseExecutionResultBuilderFactory(pipeInfo.pipe, false, columns, logicalPlan) {
 
 
-  class SlottedExecutionWorkflowBuilder() extends BaseExecutionWorkflowBuilder {
+  case class SlottedExecutionWorkflowBuilder(queryContext: QueryContext) extends BaseExecutionWorkflowBuilder {
     override protected def createQueryState(params: MapValue) = {
       new SlottedQueryState(queryContext, externalResource, params, pipeDecorator,
         triadicState = mutable.Map.empty, repeatableReads = mutable.Map.empty)
@@ -63,9 +63,7 @@ class SlottedExecutionResultBuilderFactory(pipeInfo: PipeInfo,
       val resultIterator = if (isUpdating) closingIterator.toEager else closingIterator
       resultIterator
     }
-
-    override def queryContext: QueryContext = null
   }
 
-  override def create(queryContext: QueryContext): ExecutionResultBuilder =  new SlottedExecutionWorkflowBuilder()
+  override def create(queryContext: QueryContext): ExecutionResultBuilder =  new SlottedExecutionWorkflowBuilder(queryContext)
 }

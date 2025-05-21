@@ -17,7 +17,7 @@ class CompiledExecutionResultBuilderFactory(pipeInfo: PipeInfo,
                                             logicalPlan: LogicalPlan)
   extends BaseExecutionResultBuilderFactory(pipeInfo.pipe, false, columns, logicalPlan) {
 
-  class CompiledExecutionWorkflowBuilder extends BaseExecutionWorkflowBuilder {
+  case class CompiledExecutionWorkflowBuilder(queryContext: QueryContext) extends BaseExecutionWorkflowBuilder {
     override protected def createQueryState(params: MapValue): QueryState = {
       new QueryState(queryContext,
         externalResource,
@@ -33,10 +33,8 @@ class CompiledExecutionResultBuilderFactory(pipeInfo: PipeInfo,
       val resultIterator = if (isUpdating) closingIterator.toEager else closingIterator
       resultIterator
     }
-
-    override def queryContext: QueryContext = null
   }
 
 
-  override def create(queryContext: QueryContext): ExecutionResultBuilder = new CompiledExecutionWorkflowBuilder()
+  override def create(queryContext: QueryContext): ExecutionResultBuilder = new CompiledExecutionWorkflowBuilder(queryContext)
 }
