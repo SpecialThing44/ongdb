@@ -314,26 +314,26 @@ case class SlottedExecutionContext(slots: SlotConfiguration) extends ExecutionCo
       throw new InternalException("Well well, isn't this a delicate situation?")
   }
 
-  override def setCachedProperty(key: CachedNodeProperty, value: Value): Unit = ???
+  override def setCachedProperty(key: CachedNodeProperty, value: Value): Unit = ()
 
-  override def setCachedPropertyAt(offset: Int, value: Value): Unit = ???
-
-  /**
-   * Returns the cached node property value
-   * or NO_VALUE if the node does not have the property,
-   * or null     if this cached value has been invalidated.
-   */
-  override def getCachedProperty(key: CachedNodeProperty): Value = ???
+  override def setCachedPropertyAt(offset: Int, value: Value): Unit = ()
 
   /**
    * Returns the cached node property value
    * or NO_VALUE if the node does not have the property,
    * or null     if this cached value has been invalidated.
    */
-  override def getCachedPropertyAt(offset: Int): Value = ???
+  override def getCachedProperty(key: CachedNodeProperty): Value = null
+
+  /**
+   * Returns the cached node property value
+   * or NO_VALUE if the node does not have the property,
+   * or null     if this cached value has been invalidated.
+   */
+  override def getCachedPropertyAt(offset: Int): Value = null
 
   /**
    * Invalidate all cached node properties for the given node id
    */
-  override def invalidateCachedProperties(node: Long): Unit = ???
+  override def invalidateCachedProperties(node: Long): Unit = ()
 }
