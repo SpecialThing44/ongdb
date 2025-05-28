@@ -73,6 +73,7 @@ trait GraphDatabaseTestSupport extends CypherTestSupport with GraphIcing {
   protected def startGraphDatabase(config: Map[Setting[_], String] = databaseConfig()): Unit = {
     graphOps = graphDatabaseFactory().newImpermanentDatabase(config.asJava)
     graph = new GraphDatabaseCypherService(graphOps)
+    onNewGraphDatabase()
   }
 
   protected def startGraphDatabase(storeDir: File): Unit = {
