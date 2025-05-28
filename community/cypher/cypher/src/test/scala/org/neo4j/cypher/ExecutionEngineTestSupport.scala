@@ -21,8 +21,6 @@ package org.neo4j.cypher
 
 import java.util.concurrent.TimeUnit
 
-import org.hamcrest.CoreMatchers._
-import org.junit.Assert._
 import org.neo4j.cypher.ExecutionEngineHelper.createEngine
 import org.neo4j.cypher.internal._
 import org.neo4j.cypher.internal.javacompat.{GraphDatabaseCypherService, MonitoringCacheTracer}
