@@ -41,11 +41,14 @@ import org.neo4j.cypher.internal.compatibility.v3_5.Cypher35Planner
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.EnterpriseRuntimeContextCreator
 import org.neo4j.cypher.internal.compiler.v3_5._
 import org.neo4j.cypher.internal.runtime.interpreted.LastCommittedTxIdProvider
-import org.neo4j.cypher.internal.runtime.vectorized.dispatcher.SingleThreadedExecutor
+import org.neo4j.cypher.internal.runtime.vectorized.dispatcher.{ParallelDispatcher, SingleThreadedExecutor}
 import org.neo4j.cypher.internal.spi.v3_5.codegen.GeneratedQueryStructure
+import org.neo4j.graphdb.factory.GraphDatabaseSettings
 import org.neo4j.kernel.GraphDatabaseQueryService
+import org.neo4j.kernel.configuration.Config
 import org.neo4j.kernel.monitoring.{Monitors => KernelMonitors}
 import org.neo4j.logging.LogProvider
+import org.neo4j.scheduler.JobScheduler
 
 class EnterpriseCompilerFactory(communityCompilerFactory: CommunityCompilerFactory,
                                 graph: GraphDatabaseQueryService,
@@ -64,7 +67,18 @@ class EnterpriseCompilerFactory(communityCompilerFactory: CommunityCompilerFacto
       val txIdProvider = LastCommittedTxIdProvider(graph)
       val planner = Cypher35Planner(plannerConfig, MasterCompiler.CLOCK, kernelMonitors, log, cypherPlanner, cypherUpdateStrategy, txIdProvider)
       val runtime = EnterpriseRuntimeFactory.getRuntime(cypherRuntime, plannerConfig.useErrorsOverWarnings)
-      val dispatcher = new SingleThreadedExecutor(100)
+      val settings = graph.getDependencyResolver.resolveDependency(classOf[Config])
+      val morselSize: Int = settings.get(GraphDatabaseSettings.cypher_morsel_size)
+      val workers: Int = settings.get(GraphDatabaseSettings.cypher_worker_count)
+      val dispatcher =
+        if (workers == 1) new SingleThreadedExecutor(morselSize)
+        else {
+          val numberOfThreads = if (workers == 0) Runtime.getRuntime.availableProcessors() else workers
+          val jobScheduler = graph.getDependencyResolver.resolveDependency(classOf[JobScheduler])
+          val executorService = jobScheduler.workStealingExecutor(JobScheduler.Groups.cypherWorker, numberOfThreads)
+
+          new ParallelDispatcher(morselSize, numberOfThreads, executorService)
+        }
       val contextCreator = EnterpriseRuntimeContextCreator(GeneratedQueryStructure, log, plannerConfig, dispatcher)
       CypherCurrentCompiler(planner, runtime, contextCreator, kernelMonitors)
     } else {
