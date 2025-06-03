@@ -46,7 +46,7 @@ class TypeConversionTest extends ExecutionEngineFunSuite {
       println(result.executionPlanDescription())
     }
 
-    failure.getMessage should equal("Cannot add `NodeReference` and `Long`")
+    failure.getMessage should equal("Cannot add `Node` and `Integer`")
   }
 
   test("shouldHandlePatternMatchingWithParameters") {

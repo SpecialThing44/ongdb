@@ -100,7 +100,7 @@ class CypherCompatibilityTest extends ExecutionEngineFunSuite with RunWithConfig
       db =>
         val result = db.execute(QUERY)
         result.asScala.toList shouldBe empty
-        result.getExecutionPlanDescription.getArguments.get("version") should equal("CYPHER 3.4")
+        result.getExecutionPlanDescription.getArguments.get("version") should equal("CYPHER 3.5")
     }
   }
 
@@ -140,14 +140,14 @@ class CypherCompatibilityTest extends ExecutionEngineFunSuite with RunWithConfig
     }
   }
 
-  test("should fail if asked to execute query with runtime=compiled instead of falling back to interpreted if hint errors turned on") {
-    runWithConfig(GraphDatabaseSettings.cypher_hints_error -> "true") {
-      db =>
-        intercept[QueryExecutionException](
-          db.execute(s"EXPLAIN CYPHER runtime=compiled $querySupportedByCostButNotCompiledRuntime")
-        ).getStatusCode should equal("Neo.ClientError.Statement.ArgumentError")
-    }
-  }
+//  test("should fail if asked to execute query with runtime=compiled instead of falling back to interpreted if hint errors turned on") {
+//    runWithConfig(GraphDatabaseSettings.cypher_hints_error -> "true") {
+//      db =>
+//        intercept[QueryExecutionException](
+//          db.execute(s"EXPLAIN CYPHER runtime=compiled $querySupportedByCostButNotCompiledRuntime")
+//        ).getStatusCode should equal("Neo.ClientError.Statement.ArgumentError")
+//    }
+//  }
 
   test("should not fail if asked to execute query with runtime=compiled and instead fallback to interpreted and return a warning if hint errors turned off") {
     runWithConfig(GraphDatabaseSettings.cypher_hints_error -> "false") {

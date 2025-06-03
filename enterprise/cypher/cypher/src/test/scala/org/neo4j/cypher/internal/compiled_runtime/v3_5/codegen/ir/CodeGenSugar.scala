@@ -34,6 +34,8 @@
  */
 package org.neo4j.cypher.internal.compiled_runtime.v3_5.codegen.ir
 
+import org.mockito.Mock
+
 import java.util.concurrent.atomic.AtomicInteger
 import org.mockito.Mockito._
 import org.neo4j.cypher.internal.RewindableExecutionResult
@@ -44,8 +46,9 @@ import org.neo4j.cypher.internal.compatibility.v3_5.runtime.compiled.{CompiledEx
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.executionplan.{PipeInfo, Provider}
 import org.neo4j.cypher.internal.compiler.v3_5.planner.LogicalPlanConstructionTestSupport
 import org.neo4j.cypher.internal.planner.v3_5.spi.PlanningAttributes.ReadOnlies
-import org.neo4j.cypher.internal.planner.v3_5.spi.{CostBasedPlannerName, GraphStatistics, PlanContext}
+import org.neo4j.cypher.internal.planner.v3_5.spi.{CostBasedPlannerName, GraphStatistics, InstrumentedGraphStatistics, PlanContext}
 import org.neo4j.cypher.internal.runtime.interpreted.TransactionBoundQueryContext.IndexSearchMonitor
+import org.neo4j.cypher.internal.runtime.interpreted.pipes.Pipe
 import org.neo4j.cypher.internal.runtime.interpreted.{TransactionBoundQueryContext, TransactionalContextWrapper}
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.cypher.internal.runtime.{ExecutionMode, InternalExecutionResult, NormalMode, QueryContext}
@@ -76,16 +79,17 @@ trait CodeGenSugar extends MockitoSugar with LogicalPlanConstructionTestSupport 
   private val semanticTable = mock[SemanticTable]
 
   def compile(plan: LogicalPlan): CompiledPlan = {
-    val statistics: GraphStatistics = mock[GraphStatistics]
+    val statistics: GraphStatistics = mock[InstrumentedGraphStatistics]
     val context = mock[PlanContext]
     doReturn(statistics, Nil: _*).when(context).statistics
+    val pipe = mock[Pipe]
     new CodeGenerator(GeneratedQueryStructure, Clocks.systemClock())
-      .generate(plan, semanticTable, CostBasedPlannerName.default, new ReadOnlies, new StubCardinalities, new StubProvidedOrders, mock[PipeInfo], List.empty)
+      .generate(plan, semanticTable, CostBasedPlannerName.default, new ReadOnlies, new StubCardinalities, new StubProvidedOrders,  PipeInfo(pipe), List.empty)
   }
 
   def compileAndExecute(plan: LogicalPlan,
                         graphDb: GraphDatabaseQueryService,
-                        mode: ExecutionMode = NormalMode) = {
+                        mode: ExecutionMode = NormalMode): RewindableExecutionResult = {
     executeCompiled(compile(plan), graphDb, mode)
   }
 

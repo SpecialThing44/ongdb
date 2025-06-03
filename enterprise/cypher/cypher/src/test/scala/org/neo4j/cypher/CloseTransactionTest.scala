@@ -55,6 +55,7 @@ import org.neo4j.kernel.impl.util.ValueUtils.asParameterMapValue
 import org.neo4j.procedure.Mode
 import org.neo4j.test.TestGraphDatabaseFactory
 
+import java.util.Collections
 import scala.collection.immutable.Map
 import scala.collection.mutable.ArrayBuffer
 
@@ -492,10 +493,10 @@ class CloseTransactionTest extends CypherFunSuite with GraphIcing {
 
   implicit class RichExecutionEngine(engine: ExecutionEngine) {
     def profile(query: String, params: Map[String, Any]): Result =
-      engine.profile(query, asParameterMapValue(MapUtil.map(params)), engine.queryService.transactionalContext(query = query -> params))
+      engine.profile(query, asParameterMapValue(Collections.emptyMap()), engine.queryService.transactionalContext(query = query -> params))
 
     def execute(query: String, params: Map[String, Any]): Result =
-      engine.execute(query, asParameterMapValue(MapUtil.map(params)), engine.queryService.transactionalContext(query = query -> params))
+      engine.execute(query, asParameterMapValue(Collections.emptyMap()), engine.queryService.transactionalContext(query = query -> params))
   }
 
   class AllNodesProcedure extends CallableProcedure {

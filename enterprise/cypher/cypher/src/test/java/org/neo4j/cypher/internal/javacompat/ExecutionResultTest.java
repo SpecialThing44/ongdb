@@ -40,6 +40,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -190,7 +191,7 @@ public class ExecutionResultTest
         Map<String,Object> arguments = result.getExecutionPlanDescription().getArguments();
 
         // Then
-        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.4" ) );
+        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.5" ) );
         assertThat( arguments.get( "planner" ), equalTo( "COST" ) );
         assertThat( arguments.get( "planner-impl" ), equalTo( "IDP" ) );
         assertThat( arguments.get( "runtime" ), notNullValue() );
@@ -207,7 +208,7 @@ public class ExecutionResultTest
         Map<String,Object> arguments = result.getExecutionPlanDescription().getArguments();
 
         // Then
-        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.4" ) );
+        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.5" ) );
         assertThat( arguments.get( "planner" ), equalTo( "COST" ) );
         assertThat( arguments.get( "planner-impl" ), equalTo( "IDP" ) );
         assertThat( arguments.get( "runtime" ), equalTo( "COMPILED" ) );
@@ -224,7 +225,7 @@ public class ExecutionResultTest
         Map<String,Object> arguments = result.getExecutionPlanDescription().getArguments();
 
         // Then
-        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.4" ) );
+        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.5" ) );
         assertThat( arguments.get( "planner" ), equalTo( "COST" ) );
         assertThat( arguments.get( "planner-impl" ), equalTo( "IDP" ) );
         assertThat( arguments.get( "runtime" ), equalTo( "INTERPRETED" ) );
@@ -241,7 +242,7 @@ public class ExecutionResultTest
         Map<String,Object> arguments = result.getExecutionPlanDescription().getArguments();
 
         // Then
-        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.4" ) );
+        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.5" ) );
         assertThat( arguments.get( "planner" ), equalTo( "PROCEDURE" ) );
         assertThat( arguments.get( "planner-impl" ), equalTo( "PROCEDURE" ) );
         assertThat( arguments.get( "runtime" ), equalTo( "PROCEDURE" ) );
@@ -254,11 +255,17 @@ public class ExecutionResultTest
         // Given
         Result result = db.execute( "PROFILE CALL db.labels()" );
 
+        result.accept(new Result.ResultVisitor() {
+            @Override
+            public boolean visit(Result.ResultRow row) throws Exception {
+                return true;
+            }
+        });
         // When
         Map<String,Object> arguments = result.getExecutionPlanDescription().getArguments();
 
         // Then
-        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.4" ) );
+        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.5" ) );
         assertThat( arguments.get( "planner" ), equalTo( "PROCEDURE" ) );
         assertThat( arguments.get( "planner-impl" ), equalTo( "PROCEDURE" ) );
         assertThat( arguments.get( "runtime" ), equalTo( "PROCEDURE" ) );
@@ -275,7 +282,7 @@ public class ExecutionResultTest
         Map<String,Object> arguments = result.getExecutionPlanDescription().getArguments();
 
         // Then
-        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.4" ) );
+        assertThat( arguments.get( "version" ), equalTo( "CYPHER 3.5" ) );
         assertThat( arguments.get( "planner" ), equalTo( "PROCEDURE" ) );
         assertThat( arguments.get( "planner-impl" ), equalTo( "PROCEDURE" ) );
         assertThat( arguments.get( "runtime" ), equalTo( "PROCEDURE" ) );
@@ -304,7 +311,7 @@ public class ExecutionResultTest
     @Test
     public void shouldContainCompletePlanFromFromLegacyVersions()
     {
-        for ( String version : new String[]{"2.3", "3.1", "3.3", "3.4"} )
+        for ( String version : new String[]{"2.3", "3.1", "3.4", "3.5"} )
         {
             // Given
             Result result = db.execute( String.format( "EXPLAIN CYPHER %s MATCH (n) RETURN n", version ) );
@@ -329,7 +336,7 @@ public class ExecutionResultTest
             tx.success();
         }
 
-        for ( String version : new String[]{"2.3", "3.1", "3.3", "3.4"} )
+        for ( String version : new String[]{"2.3", "3.1", "3.4", "3.5"} )
         {
             // When
             Result result = db.execute( String.format( "PROFILE CYPHER %s MATCH (n) RETURN n", version ) );

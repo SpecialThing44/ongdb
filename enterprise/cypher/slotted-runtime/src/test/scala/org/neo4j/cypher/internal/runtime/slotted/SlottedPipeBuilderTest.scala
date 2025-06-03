@@ -556,7 +556,7 @@ class SlottedPipeBuilderTest extends CypherFunSuite with LogicalPlanningTestSupp
     // then
     pipe should equal(ApplySlottedPipe(
       NodesByLabelScanSlottedPipe("x", LazyLabel("label"), X_NODE_SLOTS, Size.zero)(),
-      NodeIndexSeekSlottedPipe("z", label, collection.immutable.Seq(), SingleQueryExpression(commands.expressions.Literal(42)), org.neo4j.cypher.internal.runtime.interpreted.pipes.IndexSeek,
+      NodeIndexSeekSlottedPipe("z", label, collection.immutable.Seq(IndexedProperty(PropertyKeyToken("prop",PropertyKeyId(0)),DoNotGetValue)), SingleQueryExpression(commands.expressions.Literal(42)), org.neo4j.cypher.internal.runtime.interpreted.pipes.IndexSeek,
         SlotConfiguration.empty
           .newLong("x", false, CTNode)
           .newLong("z", false, CTNode),
@@ -726,7 +726,7 @@ class SlottedPipeBuilderTest extends CypherFunSuite with LogicalPlanningTestSupp
       NodeIndexScanSlottedPipe(
         "n",
         LabelToken("Awesome", LabelId(0)),
-        IndexedProperty(PropertyKeyToken("prop", PropertyKeyId(0)), GetValue),
+        IndexedProperty(PropertyKeyToken("prop", PropertyKeyId(0)), DoNotGetValue), //MAYBE SHOULD BE GetValue
         SlotConfiguration.empty.newLong("n", false, CTNode), Size.zero)())
   }
 

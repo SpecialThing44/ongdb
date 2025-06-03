@@ -64,7 +64,7 @@ case class CodeGenConfiguration(mode: CodeGenMode = CodeGenMode.default,
                                 showSource: Boolean = false,
                                 showByteCode: Boolean = false,
                                 saveSource: Option[Path] = None,
-                                packageName: String = "org.neo4j.cypher.internal.compiler.v3_4.generated"
+                                packageName: String = "org.neo4j.cypher.internal.compiler.v3_5.generated"
                                )
 
 object CodeGenConfiguration {

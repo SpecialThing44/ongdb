@@ -60,6 +60,8 @@ import org.neo4j.cypher.internal.v3_5.frontend.phases.Monitors
 import org.neo4j.cypher.internal.v3_5.util.attribution.Id
 import org.neo4j.kernel.monitoring.Monitors
 
+import scala.collection.mutable
+
 class SlottedPipeBuilder(fallback: PipeBuilder,
                          expressionConverters: ExpressionConverters,
                          physicalPlan: PhysicalPlan,
@@ -209,22 +211,27 @@ class SlottedPipeBuilder(fallback: PipeBuilder,
         OptionalSlottedPipe(source, nullableSlots.toIndexedSeq, slots, argumentSize)(id)
 
       case Projection(_, expressions) =>
-        val expressionsWithSlots: Map[Int, Expression] = expressions collect {
-          case (k, e) if refSlotAndNotAlias(slots, k) =>
-            val slot = slots.get(k).get
-            slot.offset -> buildExpression(e)
+        val toProject = expressions collect {
+          case (k, e) if refSlotAndNotAlias(slots, k) => k -> rewriteAstExpression(e)
         }
-        ProjectionSlottedPipe(source, expressionsWithSlots)(id)
+        ProjectionPipe(source, expressionConverters.toCommandProjection(id, toProject))(id)
 
       case Create(_, nodes, relationships) =>
-        CreatePipe(
+        CreateSlottedPipe(
           source,
-          nodes.map(n =>
-            CreateNodeCommand(n.idName, n.labels.map(LazyLabel.apply), n.properties.map(buildExpression))
-          ).toArray,
+          IndexedSeq(nodes.map(n =>
+            CreateNodeSlottedCommand(slots.getLongOffsetFor(n.idName), n.labels.map(LazyLabel.apply), n.properties.map(buildExpression))
+          ): _*),
           relationships.map(r =>
-            CreateRelationshipCommand(r.idName, r.startNode, LazyType(r.relType.name), r.endNode, r.properties.map(buildExpression))
-          ).toArray
+            CreateRelationshipSlottedCommand(
+              slots.getLongOffsetFor(r.idName),
+              SlottedPipeBuilderUtils.makeGetPrimitiveNodeFromSlotFunctionFor(slots(r.startNode)),
+              LazyType(r.relType.name),
+              SlottedPipeBuilderUtils.makeGetPrimitiveNodeFromSlotFunctionFor(slots(r.endNode)),
+              r.properties.map(buildExpression),
+              r.idName, r.startNode, r.endNode
+            )
+          ).toIndexedSeq
         )(id = id)
 
       case MergeCreateNode(_, idName, labels, properties) =>

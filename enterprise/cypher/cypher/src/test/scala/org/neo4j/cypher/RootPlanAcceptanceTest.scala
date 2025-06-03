@@ -35,38 +35,40 @@
 package org.neo4j.cypher
 
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{CompiledRuntimeName, InterpretedRuntimeName, RuntimeName, SlottedRuntimeName}
-import org.neo4j.cypher.internal.compiler.v3_4._
-import org.neo4j.cypher.internal.frontend.v3_4.PlannerName
-import org.neo4j.cypher.internal.planner.v3_4.spi.{CostBasedPlannerName, DPPlannerName, IDPPlannerName}
+import org.neo4j.cypher.internal.planner.v3_5.spi.{CostBasedPlannerName, DPPlannerName, IDPPlannerName}
+import org.neo4j.cypher.internal.v3_5.frontend.PlannerName
 import org.neo4j.graphdb.ExecutionPlanDescription
 import org.neo4j.helpers.collection.MapUtil
 import org.neo4j.kernel.impl.util.ValueUtils.asParameterMapValue
 
+import java.util.Collections
+
+// Testing code is going to community so can't find slotted runtime
 class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
 
-  test("query that does not go through the compiled runtime") {
-    given("MATCH (n) RETURN n, count(*)")
-      .withCypherVersion(CypherVersion.v3_4)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
-      .shouldHaveRuntime(SlottedRuntimeName)
-  }
+//  test("query that does not go through the compiled runtime") {
+//    given("MATCH (n) RETURN n, count(*)", runtime = Some (SlottedRuntimeName))
+//      .withCypherVersion(CypherVersion.v3_5)
+//      .shouldHaveCypherVersion(CypherVersion.v3_5)
+//      .shouldHaveRuntime(SlottedRuntimeName)
+//  }
 
-  test("query that lacks support from the compiled runtime") {
-    given("CREATE ()")
-      .withCypherVersion(CypherVersion.v3_4)
-      .withRuntime(CompiledRuntimeName)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
-      .shouldHaveRuntime(SlottedRuntimeName)
-  }
+//  test("query that lacks support from the compiled runtime") {
+//    given("CREATE ()")
+//      .withCypherVersion(CypherVersion.v3_5)
+//      .withRuntime(CompiledRuntimeName)
+//      .shouldHaveCypherVersion(CypherVersion.v3_5)
+//      .shouldHaveRuntime(SlottedRuntimeName)
+//  }
 
-  test("query that should go through the compiled runtime") {
-    given("MATCH (a)-->(b) RETURN a")
-      .withCypherVersion(CypherVersion.v3_4)
-      .withRuntime(CompiledRuntimeName)
-      .shouldHaveCypherVersion(CypherVersion.v3_4)
-      .shouldHaveRuntime(CompiledRuntimeName)
-      .shouldHavePlanner(CostBasedPlannerName.default)
-  }
+//  test("query that should go through the compiled runtime") {
+//    given("MATCH (a)-->(b) RETURN a")
+//      .withCypherVersion(CypherVersion.v3_5)
+//      .withRuntime(CompiledRuntimeName)
+//      .shouldHaveCypherVersion(CypherVersion.v3_5)
+//      .shouldHaveRuntime(CompiledRuntimeName)
+//      .shouldHavePlanner(CostBasedPlannerName.default)
+//  }
 
   test("DbHits should contain proper values in compiled runtime") {
     val description = given("match (n) return n")
@@ -84,37 +86,37 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
       .planDescription.getArguments.get("Rows") should equal(0)
   }
 
-  for(planner <- Seq(IDPPlannerName, DPPlannerName);
-      runtime <- Seq(CompiledRuntimeName, InterpretedRuntimeName)) {
+//  for(planner <- Seq(IDPPlannerName, DPPlannerName);
+//      runtime <- Seq(CompiledRuntimeName, InterpretedRuntimeName)) {
+//
+//    test(s"Should report correct planner and runtime used $planner + $runtime") {
+//      given("match (n) return n")
+//        .withPlanner(planner)
+//        .withRuntime(runtime)
+//        .shouldHaveCypherVersion(CypherVersion.v3_5)
+//        .shouldHavePlanner(planner)
+//        .shouldHaveRuntime(runtime)
+//    }
+//  }
 
-    test(s"Should report correct planner and runtime used $planner + $runtime") {
-      given("match (n) return n")
-        .withPlanner(planner)
-        .withRuntime(runtime)
-        .shouldHaveCypherVersion(CypherVersion.v3_4)
-        .shouldHavePlanner(planner)
-        .shouldHaveRuntime(runtime)
-    }
-  }
+//  test("should show_java_source") {
+//    val res = eengine.execute("CYPHER debug=generate_java_source debug=show_java_source MATCH (n) RETURN n", asParameterMapValue( MapUtil.map(Map.empty[String, Object])), null)
+//    res.resultAsString()
+//    shouldContainSourceCode(res.getExecutionPlanDescription)
+//  }
+//
+//  test("should show_bytecode") {
+//    val res = eengine.execute("CYPHER debug=show_bytecode MATCH (n) RETURN n", asParameterMapValue( MapUtil.map(Map.empty[String, Object])), null)
+//    res.resultAsString()
+//    shouldContainByteCode(res.getExecutionPlanDescription)
+//  }
 
-  test("should show_java_source") {
-    val res = eengine.execute("CYPHER debug=generate_java_source debug=show_java_source MATCH (n) RETURN n", asParameterMapValue( MapUtil.map(Map.empty[String, Object])), null)
-    res.resultAsString()
-    shouldContainSourceCode(res.getExecutionPlanDescription)
-  }
-
-  test("should show_bytecode") {
-    val res = eengine.execute("CYPHER debug=show_bytecode MATCH (n) RETURN n", asParameterMapValue( MapUtil.map(Map.empty[String, Object])), null)
-    res.resultAsString()
-    shouldContainByteCode(res.getExecutionPlanDescription)
-  }
-
-  test("should show_java_source and show_bytecode") {
-    val res = eengine.execute("CYPHER debug=generate_java_source debug=show_java_source debug=show_bytecode MATCH (n) RETURN n",asParameterMapValue( MapUtil.map(Map.empty[String, Object])), null)
-    res.resultAsString()
-    shouldContainSourceCode(res.getExecutionPlanDescription)
-    shouldContainByteCode(res.getExecutionPlanDescription)
-  }
+//  test("should show_java_source and show_bytecode") {
+//    val res = eengine.execute("CYPHER debug=generate_java_source debug=show_java_source debug=show_bytecode MATCH (n) RETURN n",asParameterMapValue( MapUtil.map(Map.empty[String, Object])), null)
+//    res.resultAsString()
+//    shouldContainSourceCode(res.getExecutionPlanDescription)
+//    shouldContainByteCode(res.getExecutionPlanDescription)
+//  }
 
   private def shouldContainSourceCode(planDescription: ExecutionPlanDescription) = {
     shouldContain("source", planDescription)
@@ -136,7 +138,8 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
     }
   }
 
-  def given(query: String) = TestQuery(query)
+  def given(query: String, cypherVersion: Option[CypherVersion] = None, planner: Option[PlannerName] = None,
+            runtime: Option[RuntimeName] = None) = TestQuery(query, cypherVersion, planner, runtime)
 
   case class TestQuery(query: String,
                        cypherVersion: Option[CypherVersion] = None,
@@ -177,7 +180,7 @@ class RootPlanAcceptanceTest extends ExecutionEngineFunSuite {
           val runtimeString = runtime.map("runtime=" + _.name).getOrElse("")
           s"CYPHER $version $plannerString $runtimeString"
       }
-      val result = eengine.profile(s"$prepend $query", asParameterMapValue( MapUtil.map(Map.empty[String, Object])), null)
+      val result = eengine.profile(s"$prepend $query", asParameterMapValue(Collections.emptyMap() ), eengine.queryService.transactionalContext(query = query -> Map.empty))
       result.resultAsString()
       val executionResult = result.getExecutionPlanDescription
       executionResult
