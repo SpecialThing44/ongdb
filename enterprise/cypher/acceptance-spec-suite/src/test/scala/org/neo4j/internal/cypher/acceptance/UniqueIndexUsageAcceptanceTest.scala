@@ -39,7 +39,7 @@ import org.neo4j.cypher.internal.runtime.interpreted.TransactionBoundQueryContex
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs}
 import org.neo4j.internal.kernel.api.IndexReference
 
-class UniqueIndexUsageAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class UniqueIndexUsageAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
   val expectPlansToFail = Configs.AllRulePlanners
 
   test("should be able to use indexes") {

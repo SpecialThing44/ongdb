@@ -43,7 +43,7 @@ import org.neo4j.cypher.internal.runtime.{CreateTempFileTestSupport, InternalExe
 import org.neo4j.cypher.{ExecutionEngineFunSuite, ExecutionEngineHelper, RunWithConfigTestSupport}
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
 
-class LoadCsvWithQuotesAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTestSupport with CreateTempFileTestSupport {
+class LoadCsvWithQuotesAcceptanceTest extends EnterpriseExecutionEngineFunSuite with RunWithConfigTestSupport with CreateTempFileTestSupport {
   def csvUrls(f: PrintWriter => Unit) = Seq(
     createCSVTempFileURL(f),
     createGzipCSVTempFileURL(f),

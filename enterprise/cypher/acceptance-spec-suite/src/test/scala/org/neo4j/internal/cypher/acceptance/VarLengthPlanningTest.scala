@@ -47,7 +47,7 @@ import org.scalatest.matchers.{MatchResult, Matcher}
 
 import scala.collection.mutable
 
-class VarLengthPlanningTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class VarLengthPlanningTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   private val expectedToSucceed = Configs.Interpreted
 

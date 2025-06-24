@@ -42,7 +42,7 @@ import org.neo4j.graphdb.Node
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import org.scalatest.Matchers
 
-class PatternExpressionImplementationAcceptanceTest extends ExecutionEngineFunSuite with Matchers with CypherComparisonSupport {
+class PatternExpressionImplementationAcceptanceTest extends EnterpriseExecutionEngineFunSuite with Matchers with CypherComparisonSupport {
 
   // TESTS WITH CASE EXPRESSION
 

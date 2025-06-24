@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher._
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
-class RemoveAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class RemoveAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   test("remove with case expression should work gh #10831") {
     // given

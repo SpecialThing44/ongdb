@@ -42,7 +42,7 @@ import org.neo4j.cypher.internal.runtime.InternalExecutionResult
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription.Arguments
 import org.scalatest.matchers.{MatchResult, Matcher}
 
-class PreParsingAcceptanceTest extends ExecutionEngineFunSuite {
+class PreParsingAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   test("should not use eagerness when option not provided ") {
     execute("MATCH () CREATE ()") shouldNot use("Eager")

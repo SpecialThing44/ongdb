@@ -38,7 +38,7 @@ import org.neo4j.cypher.internal.v3_5.util.test_helpers.WindowsStringSafe
 import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class QueryPlanCompactionAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport
+class QueryPlanCompactionAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport
   with CypherComparisonSupport {
 
   val expectedToSucceed = Configs.Interpreted - Configs.Cost2_3
@@ -811,7 +811,7 @@ class QueryPlanCompactionAcceptanceTest extends ExecutionEngineFunSuite with Que
         |+-------------------------+----------------+---------------------------+-----------------------+
         |""".stripMargin
     executeWith(expectedToSucceed, query, planComparisonStrategy = ComparePlansWithAssertion(_ should matchPlan(expectedPlan),
-      expectPlansToFail = Configs.All - Configs.Version3_3 - Configs.Cost3_4 - Configs.DefaultInterpreted), params = Map("csv_filename" -> "x"))
+      expectPlansToFail = Configs.All - Configs.Version3_4 - Configs.Cost3_5 - Configs.DefaultInterpreted), params = Map("csv_filename" -> "x"))
   }
 
   test("Don't compact query with consecutive expands due to presence of values in 'other' column") {

@@ -39,7 +39,7 @@ import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 import org.neo4j.graphdb.{Node, ResourceIterator}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
-class StartsWithImplementationAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class StartsWithImplementationAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   var aNode: Node = null
   var bNode: Node = null

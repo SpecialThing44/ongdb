@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs}
 
-class ShortestPathComplexQueryAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class ShortestPathComplexQueryAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("allShortestPaths with complex LHS should be planned with exhaustive fallback and include predicate") {
     setupModel()

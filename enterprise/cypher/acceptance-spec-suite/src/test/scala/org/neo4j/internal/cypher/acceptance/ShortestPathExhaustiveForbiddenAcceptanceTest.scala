@@ -44,7 +44,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
 import scala.collection.mutable
 
-class ShortestPathExhaustiveForbiddenAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class ShortestPathExhaustiveForbiddenAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   override def databaseConfig(): Map[Setting[_], String] =
     Map(GraphDatabaseSettings.forbid_exhaustive_shortestpath -> "true")

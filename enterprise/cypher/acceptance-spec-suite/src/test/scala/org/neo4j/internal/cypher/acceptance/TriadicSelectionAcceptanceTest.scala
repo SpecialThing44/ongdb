@@ -39,7 +39,7 @@ import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.runtime.InternalExecutionResult
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs, TestConfiguration}
 
-class TriadicSelectionAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class TriadicSelectionAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   private val QUERY: String = """MATCH (p1:Person)-[:FRIEND]-()-[:FRIEND]-(p2:Person)
                                 |WHERE NOT (p1)-[:FRIEND]-(p2)

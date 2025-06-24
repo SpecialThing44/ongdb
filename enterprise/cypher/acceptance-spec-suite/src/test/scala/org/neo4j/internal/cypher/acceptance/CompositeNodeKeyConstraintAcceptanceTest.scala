@@ -43,7 +43,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
 import scala.collection.Map
 
-class CompositeNodeKeyConstraintAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport with QueryStatisticsTestSupport {
+class CompositeNodeKeyConstraintAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport with QueryStatisticsTestSupport {
 
   private val duplicateConstraintConfiguration = Configs.AbsolutelyAll - Configs.Compiled - Configs.Cost2_3
 

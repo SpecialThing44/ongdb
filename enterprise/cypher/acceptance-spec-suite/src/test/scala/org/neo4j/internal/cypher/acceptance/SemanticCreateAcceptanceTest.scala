@@ -43,7 +43,7 @@ import org.scalacheck.{Gen, Shrink}
  * Tests create on random patterns.
  *  - makes sure that whatever pattern we create is returned when doing MATCH on pattern.
  */
-class SemanticCreateAcceptanceTest extends ExecutionEngineFunSuite with PatternGen {
+class SemanticCreateAcceptanceTest extends EnterpriseExecutionEngineFunSuite with PatternGen {
 
   //we don't want scala check to shrink patterns here and leave things in the database
   implicit val dontShrink: Shrink[List[Element]] = Shrink(s => Stream.empty)

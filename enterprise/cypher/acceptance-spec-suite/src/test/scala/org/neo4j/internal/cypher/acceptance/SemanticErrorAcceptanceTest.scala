@@ -40,7 +40,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.internal.compatibility.v3_5.runtime.{CompiledRuntimeName, InterpretedRuntimeName, SlottedRuntimeName}
 import org.neo4j.graphdb.QueryExecutionException
 
-class SemanticErrorAcceptanceTest extends ExecutionEngineFunSuite {
+class SemanticErrorAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   test("return node that's not there") {
     executeAndEnsureError(

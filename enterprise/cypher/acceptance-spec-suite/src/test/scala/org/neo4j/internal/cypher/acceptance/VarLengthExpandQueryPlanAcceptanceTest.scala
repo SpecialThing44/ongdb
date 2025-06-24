@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class VarLengthExpandQueryPlanAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class VarLengthExpandQueryPlanAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   private val expectedToSucceed = Configs.Interpreted
 

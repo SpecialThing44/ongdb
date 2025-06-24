@@ -42,7 +42,7 @@ import org.neo4j.graphdb.factory.GraphDatabaseSettings
 import org.neo4j.graphdb.{Node, Path}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class ShortestPathAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class ShortestPathAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   val expectedToSucceed = Configs.Interpreted
 

@@ -45,7 +45,7 @@ import org.neo4j.logging.AssertableLogProvider
 
 import scala.collection.Map
 
-class CypherCompilerStringCacheMonitoringAcceptanceTest extends ExecutionEngineFunSuite {
+class CypherCompilerStringCacheMonitoringAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   case class CacheCounts(hits: Int = 0, misses: Int = 0, flushes: Int = 0, evicted: Int = 0) {
     override def toString = s"hits = $hits, misses = $misses, flushes = $flushes, evicted = $evicted"

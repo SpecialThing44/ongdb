@@ -38,7 +38,7 @@ import org.neo4j.cypher.{CypherExecutionException, ExecutionEngineFunSuite}
 import org.neo4j.graphdb.config.Setting
 import org.neo4j.graphdb.factory.GraphDatabaseSettings
 
-class ManualIndexProcsIT extends ExecutionEngineFunSuite {
+class ManualIndexProcsIT extends EnterpriseExecutionEngineFunSuite {
 
   override def databaseConfig(): Map[Setting[_], String] = Map(
     GraphDatabaseSettings.node_auto_indexing -> "true",
@@ -715,5 +715,3 @@ class ManualIndexProcsIT extends ExecutionEngineFunSuite {
     ))
   }
 }
-
-

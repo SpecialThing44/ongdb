@@ -36,7 +36,7 @@
 //
 //import org.neo4j.cypher._
 //
-//class SerializationAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport {
+//class SerializationAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport {
 //
 //  // serialization of deleted entities
 //

@@ -38,7 +38,7 @@
 //
 //import org.neo4j.cypher.ExecutionEngineFunSuite
 //
-//class SameQueryStressTest extends ExecutionEngineFunSuite {
+//class SameQueryStressTest extends EnterpriseExecutionEngineFunSuite {
 //
 //  private val lookup = """MATCH (theMatrix:Movie {title:'The Matrix'})<-[:ACTED_IN]-(actor)-[:ACTED_IN]->(other:Movie)
 //                          WHERE other <> theMatrix

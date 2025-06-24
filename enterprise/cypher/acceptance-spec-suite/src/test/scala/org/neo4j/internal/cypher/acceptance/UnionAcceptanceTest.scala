@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher._
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class UnionAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class UnionAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("Should work when doing union with same return variables") {
     createLabeledNode(Map("a" -> "a", "b" -> "b"), "A")

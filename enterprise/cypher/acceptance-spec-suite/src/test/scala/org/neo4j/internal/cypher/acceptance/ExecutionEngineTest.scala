@@ -59,9 +59,9 @@ import org.neo4j.test.{TestEnterpriseGraphDatabaseFactory, TestGraphDatabaseFact
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class ExecutionEngineTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CreateTempFileTestSupport with CypherComparisonSupport {
+class ExecutionEngineTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CreateTempFileTestSupport with CypherComparisonSupport {
 
-  val startConf = Configs.CommunityInterpreted - Configs.Version3_3
+  val startConf = Configs.CommunityInterpreted - Configs.Version3_4
 
   test("shouldGetRelationshipById") {
     val n = createNode()

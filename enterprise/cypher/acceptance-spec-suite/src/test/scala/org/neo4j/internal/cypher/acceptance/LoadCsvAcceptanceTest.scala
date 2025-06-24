@@ -54,7 +54,7 @@ import org.scalatest.BeforeAndAfterAll
 import scala.collection.JavaConverters._
 
 class LoadCsvAcceptanceTest
-  extends ExecutionEngineFunSuite with BeforeAndAfterAll
+  extends EnterpriseExecutionEngineFunSuite with BeforeAndAfterAll
   with QueryStatisticsTestSupport with CreateTempFileTestSupport with CypherComparisonSupport{
 
   val expectedToFail = Configs.AbsolutelyAll - Configs.Compiled - Configs.Cost2_3

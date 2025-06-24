@@ -55,7 +55,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks
 import scala.util.matching.Regex
 
 class EagerizationAcceptanceTest
-  extends ExecutionEngineFunSuite
+  extends EnterpriseExecutionEngineFunSuite
     with TableDrivenPropertyChecks
     with QueryStatisticsTestSupport
     with CypherComparisonSupport

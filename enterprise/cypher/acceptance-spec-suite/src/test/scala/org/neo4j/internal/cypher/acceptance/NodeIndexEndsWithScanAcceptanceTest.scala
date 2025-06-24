@@ -43,7 +43,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
  * If you only want to verify that plans using indexes are actually planned, please use
  * [[org.neo4j.cypher.internal.compiler.v3_4.planner.logical.LeafPlanningIntegrationTest]]
  */
-class NodeIndexEndsWithScanAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport{
+class NodeIndexEndsWithScanAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport{
   val expectedToSucceed = Configs.Interpreted
   val expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3
 

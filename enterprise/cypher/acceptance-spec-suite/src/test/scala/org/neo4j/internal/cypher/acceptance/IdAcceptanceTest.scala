@@ -38,7 +38,7 @@ import org.neo4j.cypher._
 import org.neo4j.graphdb.Relationship
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
-class IdAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class IdAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("id on a node should work in both runtimes")  {
     // GIVEN

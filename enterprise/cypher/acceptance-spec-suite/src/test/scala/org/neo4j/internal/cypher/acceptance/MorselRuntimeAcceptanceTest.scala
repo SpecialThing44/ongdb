@@ -40,7 +40,7 @@ import org.neo4j.graphdb.factory.GraphDatabaseSettings
 
 import scala.collection.Map
 
-class MorselRuntimeAcceptanceTest extends ExecutionEngineFunSuite {
+class MorselRuntimeAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   test("should not use morsel by default") {
     //Given

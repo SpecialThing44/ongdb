@@ -42,7 +42,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 import org.neo4j.internal.kernel.api.Transaction.Type
 import org.neo4j.internal.kernel.api.security.LoginContext.AUTH_DISABLED;
 
-class ExecutionResultAcceptanceTest extends ExecutionEngineFunSuite{
+class ExecutionResultAcceptanceTest extends EnterpriseExecutionEngineFunSuite{
 
   test("closing the result without exhausting it should not fail the transaction") {
     val query = "UNWIND [1, 2, 3] as x RETURN x"

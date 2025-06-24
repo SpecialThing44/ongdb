@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.internal.helpers.{NodeKeyConstraintCreator, UniquenessConstraintCreator}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs}
 
-class UniqueIndexAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class UniqueIndexAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   Seq(UniquenessConstraintCreator, NodeKeyConstraintCreator).foreach { constraintCreator =>
 

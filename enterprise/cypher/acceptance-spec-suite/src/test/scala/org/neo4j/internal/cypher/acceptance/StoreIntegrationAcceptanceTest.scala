@@ -38,7 +38,7 @@ import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 import org.neo4j.kernel.impl.storageengine.impl.recordstorage.RecordStorageEngine
 
-class StoreIntegrationAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class StoreIntegrationAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   // Not TCK material
   test("should not create labels id when trying to delete non-existing labels") {

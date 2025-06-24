@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
 // Only put tests that assert on memory performance behaviour in this class
-class MemoryPerformanceAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class MemoryPerformanceAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("check for contents of collection that contains only a single null") {
     createNode()

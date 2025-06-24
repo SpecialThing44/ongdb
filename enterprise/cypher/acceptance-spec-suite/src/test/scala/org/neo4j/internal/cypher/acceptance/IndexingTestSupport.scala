@@ -43,7 +43,7 @@ import org.neo4j.values.storable.Value
 
 import scala.collection.JavaConversions._
 
-trait IndexingTestSupport extends ExecutionEngineFunSuite with CypherComparisonSupport {
+trait IndexingTestSupport extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   protected val LABEL: String = "Label"
   protected val PROPERTY: String = "prop"

@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
-//class UpdateReportingAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+//class UpdateReportingAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 //  test("creating a node gets reported as such") {
 //    val output = executeWith(Configs.UpdateConf, "create (:A)").dumpToString()
 //

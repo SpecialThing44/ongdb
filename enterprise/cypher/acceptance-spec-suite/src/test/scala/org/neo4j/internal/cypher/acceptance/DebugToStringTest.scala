@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.internal.v3_5.util.test_helpers.WindowsStringSafe
 
 
-class DebugToStringTest extends ExecutionEngineFunSuite {
+class DebugToStringTest extends EnterpriseExecutionEngineFunSuite {
 
   implicit val windowsSafe = WindowsStringSafe
 

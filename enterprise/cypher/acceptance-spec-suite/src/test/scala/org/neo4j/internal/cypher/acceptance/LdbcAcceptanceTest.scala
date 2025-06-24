@@ -43,7 +43,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 /**
   * Runs the 14 LDBC queries and checks so that the result is what is expected.
   */
-class LdbcAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class LdbcAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   import LdbcQueries._
 

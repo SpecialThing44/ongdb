@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import org.neo4j.values.storable.{CoordinateReferenceSystem, Values}
 
-class SpatialDistanceAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class SpatialDistanceAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   private val pointConfig = Configs.Interpreted - Configs.Version2_3
   private val distanceConfig = Configs.Interpreted - Configs.OldAndRule
@@ -679,7 +679,7 @@ class SpatialDistanceAcceptanceTest extends ExecutionEngineFunSuite with CypherC
     graph.execute("CREATE (p:Place) SET p.location = point({y: 0, x: 0, crs: 'cartesian'})")
     Range(11, 100).foreach(i => graph.execute(s"CREATE (p:Place) SET p.location = point({y: $i, x: $i, crs: 'cartesian'})"))
 
-    val config = distanceConfig - Configs.Version3_3
+    val config = distanceConfig - Configs.Version3_4
 
     val query =
       """MATCH (p:Place)

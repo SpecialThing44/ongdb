@@ -38,7 +38,7 @@ import org.neo4j.cypher.internal.compiler.v3_4.helpers.ListSupport
 import org.neo4j.cypher.{CypherExecutionException, ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 
 class SpatialUniqueConstraintValidationAcceptanceTest
-  extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with ListSupport {
+  extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with ListSupport {
 
   test("should enforce uniqueness constraint on create node with label and property") {
     // GIVEN

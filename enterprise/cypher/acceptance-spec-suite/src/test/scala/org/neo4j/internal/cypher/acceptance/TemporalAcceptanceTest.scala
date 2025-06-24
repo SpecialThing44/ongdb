@@ -42,7 +42,7 @@ import org.neo4j.graphdb.QueryExecutionException
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs}
 import org.neo4j.values.storable.{DateValue, DurationValue}
 
-class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class TemporalAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   private val failConf1 = Configs.Interpreted + Configs.Procs - Configs.OldAndRule
   private val failConf2 = Configs.Interpreted + Configs.Procs - Configs.Version2_3
@@ -175,7 +175,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_5 - Configs.Version3_4),
       params = Map("param" ->
         Array(LocalDate.of(2018, 4, 1))))
 
@@ -201,7 +201,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_5 - Configs.Version3_4),
       params = Map("param" ->
         List(LocalDate.of(2018, 4, 1))))
 
@@ -227,7 +227,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_5 - Configs.Version3_4),
       params = Map("param" ->
         Array(LocalDate.of(2018, 4, 1), LocalDate.of(2018, 4, 2))))
 
@@ -254,7 +254,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
       planComparisonStrategy = ComparePlansWithAssertion({ plan =>
         plan should useOperatorWithText("Projection", "timeSpan")
         plan should useOperatorWithText("NodeIndexSeek", ":Occasion(timeSpan)")
-      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_4 - Configs.Version3_3),
+      }, expectPlansToFail = Configs.AbsolutelyAll - Configs.Version3_5 - Configs.Version3_4),
       params = Map("param" ->
         List(LocalDate.of(2018, 4, 1), LocalDate.of(2018, 4, 2))))
 
@@ -782,7 +782,7 @@ class TemporalAcceptanceTest extends ExecutionEngineFunSuite with QueryStatistic
           *  Version 3.3 returns null instead due to running with 3.4 runtime
           *  SyntaxException come from the 3.4 planner and IncomparableValuesException from earlier runtimes
           */
-        failWithError(Configs.Version3_4 + Configs.Procs - Configs.AllRulePlanners, query, Seq("Type mismatch"))
+        failWithError(Configs.Version3_5 + Configs.Procs - Configs.AllRulePlanners, query, Seq("Type mismatch"))
       }
     }
   }

@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.internal.runtime.InternalExecutionResult
 
-class MergeIntoPlanningAcceptanceTest extends ExecutionEngineFunSuite{
+class MergeIntoPlanningAcceptanceTest extends EnterpriseExecutionEngineFunSuite{
 
   test("ON CREATE with update one property") {
     //given

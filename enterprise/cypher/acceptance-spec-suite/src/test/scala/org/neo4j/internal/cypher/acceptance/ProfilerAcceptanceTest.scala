@@ -48,7 +48,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{Configs, Te
 
 import scala.reflect.ClassTag
 
-class ProfilerAcceptanceTest extends ExecutionEngineFunSuite with CreateTempFileTestSupport with CypherComparisonSupport {
+class ProfilerAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CreateTempFileTestSupport with CypherComparisonSupport {
 
   test("profile simple query") {
     createNode()

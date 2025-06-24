@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport, SyntaxException}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport with QueryStatisticsTestSupport {
+class ForeachAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport with QueryStatisticsTestSupport {
 
   test("should understand symbols introduced by FOREACH") {
     createLabeledNode("Label")
@@ -211,7 +211,7 @@ class ForeachAcceptanceTest extends ExecutionEngineFunSuite with CypherCompariso
 
     // when
     val config = TestConfiguration(Versions.Default, Planners.Default, Runtimes(Runtimes.Interpreted, Runtimes.Slotted, Runtimes.ProcedureOrSchema)) +
-      TestConfiguration(Versions(Versions.V3_1, Versions.V3_3), Planners.Cost, Runtimes.Default)
+      TestConfiguration(Versions(Versions.V3_1, Versions.V3_4), Planners.Cost, Runtimes.Default)
     failWithError(config, query, List("Expected to find a node at"))
   }
 }

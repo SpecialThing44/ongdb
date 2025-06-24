@@ -39,7 +39,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 
-class ShortestPathEdgeCasesAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class ShortestPathEdgeCasesAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("GH #5803 query should work with shortest path") {
     def createTestGraph() = {

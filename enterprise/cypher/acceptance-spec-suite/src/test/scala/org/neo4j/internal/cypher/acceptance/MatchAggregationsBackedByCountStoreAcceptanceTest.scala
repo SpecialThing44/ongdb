@@ -40,7 +40,7 @@ import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryPlanTestSupport, QuerySta
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs, TestConfiguration}
 
 class MatchAggregationsBackedByCountStoreAcceptanceTest
-  extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport with QueryPlanTestSupport {
+  extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport with QueryPlanTestSupport {
 
   val defaultConfig = Configs.All
   val expectOtherPlan = Configs.AllRulePlanners + Configs.Cost2_3
@@ -580,8 +580,8 @@ class MatchAggregationsBackedByCountStoreAcceptanceTest
     val query = "MATCH (n), (m) RETURN count(n)"
 
     // Then
-    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4)
-    compareCount(query, 9, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4, executeBefore = executeBefore)
+    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5)
+    compareCount(query, 9, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5, executeBefore = executeBefore)
   }
 
   test("count store on two unlabeled nodes and count(*)") {
@@ -590,8 +590,8 @@ class MatchAggregationsBackedByCountStoreAcceptanceTest
     val query = "MATCH (n), (m) RETURN count(*)"
 
     // Then
-    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4)
-    compareCount(query, 9, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4, executeBefore = executeBefore)
+    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5)
+    compareCount(query, 9, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5, executeBefore = executeBefore)
   }
 
   test("count store on one labeled node and one unlabeled") {
@@ -600,8 +600,8 @@ class MatchAggregationsBackedByCountStoreAcceptanceTest
     val query = "MATCH (n:User),(m) RETURN count(n)"
 
     // Then
-    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4)
-    compareCount(query, 6, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4, executeBefore = executeBefore)
+    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5)
+    compareCount(query, 6, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5, executeBefore = executeBefore)
   }
 
   test("count store on one labeled node and one unlabeled and count(*)") {
@@ -610,8 +610,8 @@ class MatchAggregationsBackedByCountStoreAcceptanceTest
     val query = "MATCH (n:User),(m) RETURN count(*)"
 
     // Then
-    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4)
-    compareCount(query, 6, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4, executeBefore = executeBefore)
+    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5)
+    compareCount(query, 6, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5, executeBefore = executeBefore)
   }
 
   test("count store on two labeled nodes") {
@@ -620,8 +620,8 @@ class MatchAggregationsBackedByCountStoreAcceptanceTest
     val query = "MATCH (n:User),(m:User) RETURN count(n)"
 
     // Then
-    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4)
-    compareCount(query, 4, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4, executeBefore = executeBefore)
+    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5)
+    compareCount(query, 4, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5, executeBefore = executeBefore)
   }
 
   test("count store with many nodes") {
@@ -630,8 +630,8 @@ class MatchAggregationsBackedByCountStoreAcceptanceTest
     val query = "MATCH (n:User),(m),(o:User),(p) RETURN count(*)"
 
     // Then
-    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4)
-    compareCount(query, 36, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4, executeBefore = executeBefore)
+    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5)
+    compareCount(query, 36, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5, executeBefore = executeBefore)
   }
 
   test("count store with many but odd number of nodes") {
@@ -640,8 +640,8 @@ class MatchAggregationsBackedByCountStoreAcceptanceTest
     val query = "MATCH (n:User),(m),(o:User),(p), (q) RETURN count(*)"
 
     // Then
-    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4)
-    compareCount(query, 108, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_4, executeBefore = executeBefore)
+    compareCount(query, 0, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5)
+    compareCount(query, 108, expectOtherPlanIn = expectOtherPlan + Configs.Cost3_1 + Configs.Cost3_5, executeBefore = executeBefore)
   }
 
   private def setupModel(label1: String = "User",

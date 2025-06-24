@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.{ExecutionEngineFunSuite, SyntaxException}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class HelpfulErrorMessagesTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class HelpfulErrorMessagesTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should provide sensible error message when omitting colon before relationship type on create") {
 

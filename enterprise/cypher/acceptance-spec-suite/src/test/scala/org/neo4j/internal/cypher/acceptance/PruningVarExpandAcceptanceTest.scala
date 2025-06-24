@@ -36,7 +36,7 @@ package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.ExecutionEngineFunSuite
 
-class PruningVarExpandAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class PruningVarExpandAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should handle all predicate in optional match") {
     // Given the graph:

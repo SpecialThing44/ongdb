@@ -43,7 +43,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
-class MatchAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class MatchAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   test("should handle negative node id gracefully") {
     createNode("id" -> 0)

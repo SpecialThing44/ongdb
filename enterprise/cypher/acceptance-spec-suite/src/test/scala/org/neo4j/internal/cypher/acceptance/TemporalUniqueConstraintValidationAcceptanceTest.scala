@@ -38,7 +38,7 @@ import org.neo4j.cypher.internal.compiler.v3_4.helpers.ListSupport
 import org.neo4j.cypher.{CypherExecutionException, ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 
 class TemporalUniqueConstraintValidationAcceptanceTest
-  extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with ListSupport {
+  extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with ListSupport {
 
   case class TemporalOperator(operator: String, funcString: String, resultString: String)
 

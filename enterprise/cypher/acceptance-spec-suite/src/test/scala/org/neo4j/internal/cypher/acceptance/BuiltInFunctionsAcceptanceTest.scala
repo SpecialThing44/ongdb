@@ -38,7 +38,7 @@ import java.util.UUID
 
 import org.neo4j.cypher.ExecutionEngineFunSuite
 
-class BuiltInFunctionsAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class BuiltInFunctionsAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should generate random UUID") {
     val result = execute("RETURN randomUUID() AS uuid")

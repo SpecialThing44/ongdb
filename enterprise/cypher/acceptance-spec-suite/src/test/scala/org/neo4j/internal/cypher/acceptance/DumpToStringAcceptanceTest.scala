@@ -38,7 +38,7 @@
 //import org.neo4j.cypher.internal.v3_5.util.test_helpers.WindowsStringSafe
 //import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 //
-//class DumpToStringAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+//class DumpToStringAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 //
 //  implicit val windowsSafe = WindowsStringSafe
 //

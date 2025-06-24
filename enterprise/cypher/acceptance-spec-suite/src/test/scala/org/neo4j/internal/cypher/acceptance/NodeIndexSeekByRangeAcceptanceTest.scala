@@ -43,7 +43,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
   * If you only want to verify that plans using indexes are actually planned, please use
   * [[org.neo4j.cypher.internal.compiler.v3_4.planner.logical.LeafPlanningIntegrationTest]]
   */
-class NodeIndexSeekByRangeAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class NodeIndexSeekByRangeAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should handle comparing large integers") {
     // Given

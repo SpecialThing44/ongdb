@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher._
 import org.neo4j.logging.AssertableLogProvider
 
-class QueryEngineProceduresAcceptanceTest extends ExecutionEngineFunSuite {
+class QueryEngineProceduresAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   test("Clearing the query caches should work with empty caches") {
     val query = "CALL dbms.clearQueryCaches()"

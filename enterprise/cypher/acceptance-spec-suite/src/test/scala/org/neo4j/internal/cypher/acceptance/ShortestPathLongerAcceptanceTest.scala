@@ -100,7 +100,7 @@ import scala.collection.mutable
  *    ..      ..    ..
  *
  */
-class ShortestPathLongerAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class ShortestPathLongerAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   val VERBOSE = false // Lots of debug prints
 

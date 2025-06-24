@@ -40,7 +40,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import scala.collection.Map
 
 class HintAcceptanceTest
-    extends ExecutionEngineFunSuite with CypherComparisonSupport {
+    extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should use a simple hint") {
     val query = "MATCH (a)--(b)--(c) USING JOIN ON b RETURN a,b,c"
@@ -59,7 +59,7 @@ class HintAcceptanceTest
                   |USING JOIN ON a
                   |RETURN a.name, b.name""".stripMargin
 
-    executeWith(Configs.Interpreted + Configs.Version3_3 - Configs.Cost2_3 - Configs.Cost3_1, query,
+    executeWith(Configs.Interpreted + Configs.Version3_4 - Configs.Cost2_3 - Configs.Cost3_1, query,
       planComparisonStrategy = ComparePlansWithAssertion((p) => {
       p should useOperators("NodeLeftOuterHashJoin")
       p should not(useOperators("NodeHashJoin"))
@@ -94,7 +94,7 @@ class HintAcceptanceTest
         |RETURN *""".stripMargin
 
     // TODO: Once 3.3 comes out with the same bugfix, we should change the following lines to not exclude 3.3
-    val cost3_3 = TestScenario(Versions.V3_3, Planners.Cost, Runtimes.Default)
+    val cost3_3 = TestScenario(Versions.V3_4, Planners.Cost, Runtimes.Default)
     executeWith(Configs.Interpreted - Configs.Cost2_3 - Configs.Cost3_1, query,
       planComparisonStrategy = ComparePlansWithAssertion((p) => {
         p should useOperators("NodeRightOuterHashJoin")

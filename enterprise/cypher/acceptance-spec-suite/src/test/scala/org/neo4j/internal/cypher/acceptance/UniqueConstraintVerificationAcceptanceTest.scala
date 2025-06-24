@@ -42,7 +42,7 @@ import org.neo4j.kernel.api.exceptions.schema.CreateConstraintFailureException
 import scala.collection.JavaConverters._
 
 class UniqueConstraintVerificationAcceptanceTest
-  extends ExecutionEngineFunSuite with QueryStatisticsTestSupport {
+  extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport {
 
   test("should add constraint with no existing data") {
     //GIVEN

@@ -42,7 +42,7 @@ import org.neo4j.graphdb.{Node, QueryExecutionException}
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import org.neo4j.kernel.api.exceptions.Status
 
-class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTestSupport with CypherComparisonSupport {
+class UsingAcceptanceTest extends EnterpriseExecutionEngineFunSuite with RunWithConfigTestSupport with CypherComparisonSupport {
   override def databaseConfig(): Map[Setting[_], String] = Map(GraphDatabaseSettings.cypher_hints_error -> "true")
 
   test("should use index on literal value") {
@@ -397,7 +397,7 @@ class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTest
          |USING JOIN ON a
          |RETURN a.prop AS res""".stripMargin
 
-    val result = executeWith(Configs.Version3_4 + Configs.Version3_3 + Configs.AllRulePlanners , query,
+    val result = executeWith(Configs.Version3_5 + Configs.Version3_4 + Configs.AllRulePlanners , query,
       planComparisonStrategy = ComparePlansWithAssertion(_ should includeOnlyOneHashJoinOn("a"),
         expectPlansToFail = Configs.AllRulePlanners))
 
@@ -414,7 +414,7 @@ class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTest
           |USING JOIN ON b
           |RETURN b.prop AS res""".stripMargin
 
-    val result = executeWith(Configs.Version3_4 + Configs.Version3_3 + Configs.AllRulePlanners, query,
+    val result = executeWith(Configs.Version3_5 + Configs.Version3_4 + Configs.AllRulePlanners, query,
       planComparisonStrategy = ComparePlansWithAssertion(_ should includeOnlyOneHashJoinOn("b"),
         expectPlansToFail = Configs.AllRulePlanners))
 
@@ -813,7 +813,7 @@ class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTest
         | WHERE f.bar=5 and f.baz=3
         | RETURN f
       """.stripMargin
-    val result = executeWith(Configs.Version3_4 + Configs.Version3_3 - Configs.Compiled - Configs.AllRulePlanners, query,
+    val result = executeWith(Configs.Version3_5 + Configs.Version3_4 - Configs.Compiled - Configs.AllRulePlanners, query,
       planComparisonStrategy = ComparePlansWithAssertion(planDescription => {
         planDescription should includeAtLeastOne(classOf[NodeIndexSeek], withVariable = "f")
       }, expectPlansToFail = Configs.AllRulePlanners))
@@ -833,7 +833,7 @@ class UsingAcceptanceTest extends ExecutionEngineFunSuite with RunWithConfigTest
 
     val result = executeWith(Configs.Interpreted, query, planComparisonStrategy = ComparePlansWithAssertion({ plan =>
       plan should useOperatorTimes("NodeHashJoin", 1)
-    }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost3_3))
+    }, expectPlansToFail = Configs.AllRulePlanners + Configs.Cost3_4))
 
     result.toList should equal (List(Map("c" -> 4)))
   }

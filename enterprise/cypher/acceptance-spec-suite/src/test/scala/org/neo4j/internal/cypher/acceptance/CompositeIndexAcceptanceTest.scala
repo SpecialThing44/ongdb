@@ -50,7 +50,7 @@ import scala.collection.JavaConverters._
   * If you only want to verify that plans using indexes are actually planned, please use
   * [[org.neo4j.cypher.internal.compiler.v3_4.planner.logical.LeafPlanningIntegrationTest]]
   */
-class CompositeIndexAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class CompositeIndexAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should succeed in creating and deleting composite index") {
     // When

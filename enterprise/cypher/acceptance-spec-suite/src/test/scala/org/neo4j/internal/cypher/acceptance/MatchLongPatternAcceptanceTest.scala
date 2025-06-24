@@ -56,7 +56,7 @@ import org.neo4j.test.ImpermanentGraphDatabase
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class MatchLongPatternAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class MatchLongPatternAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   val VERBOSE = false
 

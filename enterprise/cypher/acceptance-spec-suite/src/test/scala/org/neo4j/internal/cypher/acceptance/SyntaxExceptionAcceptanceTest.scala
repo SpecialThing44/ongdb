@@ -38,7 +38,7 @@ import org.neo4j.cypher.{CypherException, ExecutionEngineFunSuite}
 
 import scala.util.matching.Regex
 
-class SyntaxExceptionAcceptanceTest extends ExecutionEngineFunSuite {
+class SyntaxExceptionAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   // Not TCK material; START, shortestPath
 

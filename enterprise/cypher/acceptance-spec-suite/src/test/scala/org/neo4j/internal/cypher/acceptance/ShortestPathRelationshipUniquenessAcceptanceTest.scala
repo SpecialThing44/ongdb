@@ -38,7 +38,7 @@ import org.neo4j.cypher.internal.RewindableExecutionResult
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.ExecutionEngineHelper.asMapValue
 
-class ShortestPathRelationshipUniquenessAcceptanceTest extends ExecutionEngineFunSuite{
+class ShortestPathRelationshipUniquenessAcceptanceTest extends EnterpriseExecutionEngineFunSuite{
 
   test("should not find shortest path due to relationship uniquess") {
     val p0 = createLabeledNode(Map("id" -> "2228"), "Model")

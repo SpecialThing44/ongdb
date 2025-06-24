@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.Configs
 import org.neo4j.kernel.impl.proc.Procedures
 
-class ProceduresAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class ProceduresAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   private val expectSucceed = Configs.Interpreted - Configs.AllRulePlanners - Configs.Version2_3
 

@@ -45,7 +45,7 @@ import org.neo4j.graphdb.factory.GraphDatabaseSettings
   * For more light-weight testing please use
   * [[org.neo4j.cypher.internal.compiler.v3_4.planner.logical.LeafPlanningIntegrationTest]]
   */
-class CostPlannerAcceptanceTest extends ExecutionEngineFunSuite {
+class CostPlannerAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   override def databaseConfig(): Map[Setting[_], String] =
     Map(GraphDatabaseSettings.query_non_indexed_label_warning_threshold -> "10",

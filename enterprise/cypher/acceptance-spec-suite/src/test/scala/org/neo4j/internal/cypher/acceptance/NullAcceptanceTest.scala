@@ -36,7 +36,7 @@ package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.ExecutionEngineFunSuite
 
-class NullAcceptanceTest extends ExecutionEngineFunSuite {
+class NullAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   val anyNull: AnyRef = null.asInstanceOf[AnyRef]
   val expressions = Seq(

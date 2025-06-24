@@ -38,7 +38,7 @@ import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 import org.neo4j.graphdb.Relationship
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class MergeNodeAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport
+class MergeNodeAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport
   with CypherComparisonSupport {
 
   // TODO: Reflect something like this in the TCK

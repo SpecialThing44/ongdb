@@ -47,7 +47,7 @@ import org.neo4j.kernel.impl.proc.Procedures
 
 import scala.collection.mutable.ArrayBuffer
 
-class ReflectiveProcedureCallAcceptanceTest extends ExecutionEngineFunSuite with CreateTempFileTestSupport {
+class ReflectiveProcedureCallAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CreateTempFileTestSupport {
 
   def query(resultCount: Long, failCount: Long) =
     s"""

@@ -50,7 +50,7 @@ import scala.util.{Failure, Success, Try}
  * Tests so that the compiled runtime behaves in the same way as the interpreted runtime for randomized Cypher
  * statements
  */
-class GrammarStressIT extends ExecutionEngineFunSuite with PropertyChecks with CypherComparisonSupport {
+class GrammarStressIT extends EnterpriseExecutionEngineFunSuite with PropertyChecks with CypherComparisonSupport {
 
   //Since we can create pretty tricky patterns we add a timeout
   //to keep the running time of the test down

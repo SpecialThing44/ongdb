@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs}
 
-class JoinAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class JoinAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
   private val expectedToSucceed = Configs.Interpreted
   private val expectPlansToFail = Configs.AllRulePlanners + Configs.Cost2_3
 

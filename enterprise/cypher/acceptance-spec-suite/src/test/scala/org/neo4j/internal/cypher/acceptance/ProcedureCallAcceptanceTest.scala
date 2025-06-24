@@ -47,7 +47,7 @@ import org.neo4j.kernel.api.proc.CallableUserFunction.BasicUserFunction
 import org.neo4j.kernel.api.proc.Context
 import org.neo4j.values.AnyValue
 
-abstract class ProcedureCallAcceptanceTest extends ExecutionEngineFunSuite {
+abstract class ProcedureCallAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   protected def registerDummyInOutProcedure(types: Neo4jTypes.AnyType*) =
     registerProcedure("my.first.proc") { builder =>

@@ -43,7 +43,7 @@ import org.eclipse.jetty.server.{Handler, Request, Server, ServerConnector}
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.scalatest.BeforeAndAfterAll
 
-class LoadCsvCompressionAcceptanceTest extends ExecutionEngineFunSuite with BeforeAndAfterAll {
+class LoadCsvCompressionAcceptanceTest extends EnterpriseExecutionEngineFunSuite with BeforeAndAfterAll {
   private val CSV =
     """a1,b1,c1,d1
       |a2,b2,c2,d2""".stripMargin

@@ -43,7 +43,7 @@ import org.neo4j.kernel.impl.core.ThreadToStatementContextBridge
 
 import scala.collection.JavaConverters._
 
-class MutatingIntegrationTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+class MutatingIntegrationTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   test("create a single node") {
     val before = graph.inTx(graph.getAllNodes.asScala.size)

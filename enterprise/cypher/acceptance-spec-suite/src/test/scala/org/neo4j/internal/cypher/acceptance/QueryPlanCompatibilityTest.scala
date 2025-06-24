@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.cypher.internal.runtime.planDescription.InternalPlanDescription
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs}
 
-class QueryPlanCompatibilityTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class QueryPlanCompatibilityTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should produce compatible plans for simple MATCH node query") {
     val query = "MATCH (n:Person) RETURN n"

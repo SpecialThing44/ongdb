@@ -39,7 +39,7 @@ import org.neo4j.cypher.internal.compiler.v3_1.planner.logical.plans.NodeIndexSe
 import org.neo4j.graphdb.Node
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class IndexNestedLoopJoinAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class IndexNestedLoopJoinAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
   test("test that index seek is planned on the RHS using information from the LHS") {
     // given
 

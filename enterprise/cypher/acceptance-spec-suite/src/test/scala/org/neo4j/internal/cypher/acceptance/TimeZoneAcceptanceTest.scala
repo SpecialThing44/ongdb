@@ -45,7 +45,7 @@ import org.neo4j.test.TestGraphDatabaseFactory
 import org.neo4j.values.storable.DurationValue
 import org.neo4j.values.utils.TemporalParseException
 
-abstract class TimeZoneAcceptanceTest(timezone: String) extends ExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
+abstract class TimeZoneAcceptanceTest(timezone: String) extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport with CypherComparisonSupport {
 
   override def databaseConfig(): Map[Setting[_], String] = {
     Map(

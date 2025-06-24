@@ -39,7 +39,7 @@ import org.neo4j.graphdb.spatial.Point
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 import org.neo4j.values.storable.{CoordinateReferenceSystem, Values}
 
-class SpatialFunctionsAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class SpatialFunctionsAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   val pointConfig = Configs.Interpreted - Configs.Version2_3
   val equalityConfig = Configs.Interpreted - Configs.OldAndRule
@@ -111,7 +111,7 @@ class SpatialFunctionsAcceptanceTest extends ExecutionEngineFunSuite with Cypher
 
   test("point function should not work with NaN or infinity") {
     for(invalidDouble <- Seq(Double.NaN, Double.PositiveInfinity, Double.NegativeInfinity)) {
-      failWithError(Configs.DefaultInterpreted + Configs.SlottedInterpreted + Configs.Version3_3 + Configs.Procs,
+      failWithError(Configs.DefaultInterpreted + Configs.SlottedInterpreted + Configs.Version3_4 + Configs.Procs,
         "RETURN point({x: 2.3, y: $v}) as point", List("Cannot create a point with non-finite coordinate values"), params = Map(("v", invalidDouble)))
     }
   }

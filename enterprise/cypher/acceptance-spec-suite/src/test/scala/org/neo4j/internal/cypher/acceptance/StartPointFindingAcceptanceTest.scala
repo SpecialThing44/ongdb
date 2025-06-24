@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.graphdb.Node
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport.{ComparePlansWithAssertion, Configs}
 
-class StartPointFindingAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class StartPointFindingAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   // Not TCK material below; use of id() or index-related
 
@@ -174,4 +174,3 @@ class StartPointFindingAcceptanceTest extends ExecutionEngineFunSuite with Cyphe
     result.columnAs[Node]("n").toList should equal(List(node))
   }
 }
-

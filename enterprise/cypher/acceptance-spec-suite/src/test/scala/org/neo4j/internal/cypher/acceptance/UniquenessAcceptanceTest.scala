@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.graphdb.Path
 
-class UniquenessAcceptanceTest extends ExecutionEngineFunSuite {
+class UniquenessAcceptanceTest extends EnterpriseExecutionEngineFunSuite {
 
   test("should not reuse the relationship that has just been traversed") {
     // Given

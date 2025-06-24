@@ -38,7 +38,7 @@ import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
 
-class AggregationAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class AggregationAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   // Non-deterministic query -- needs TCK design
   test("should aggregate using as grouping key expressions using variables in scope and nothing else") {

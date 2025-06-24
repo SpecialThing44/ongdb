@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher._
 import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
-class ExpressionAcceptanceTest extends ExecutionEngineFunSuite with CypherComparisonSupport {
+class ExpressionAcceptanceTest extends EnterpriseExecutionEngineFunSuite with CypherComparisonSupport {
 
   test("should handle map projection with property selectors") {
     createNode("foo" -> 1, "bar" -> "apa")

@@ -41,7 +41,7 @@ import org.neo4j.internal.cypher.acceptance.CypherComparisonSupport._
 
 import scala.collection.Map
 
-class MergeNodeCompatibilityAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport
+class MergeNodeCompatibilityAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport
   with CypherComparisonSupport {
 
   val hasActiveRead = ComparePlansWithAssertion((plan) => {

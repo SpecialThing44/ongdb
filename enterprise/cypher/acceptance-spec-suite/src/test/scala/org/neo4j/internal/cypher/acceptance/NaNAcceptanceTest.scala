@@ -36,7 +36,7 @@ package org.neo4j.internal.cypher.acceptance
 
 import org.neo4j.cypher.{ExecutionEngineFunSuite, QueryStatisticsTestSupport}
 
-class NaNAcceptanceTest extends ExecutionEngineFunSuite with QueryStatisticsTestSupport {
+class NaNAcceptanceTest extends EnterpriseExecutionEngineFunSuite with QueryStatisticsTestSupport {
   // This should probably be moved to the TCK
   test("should handle NaN comparisons correctly") {
     // Given

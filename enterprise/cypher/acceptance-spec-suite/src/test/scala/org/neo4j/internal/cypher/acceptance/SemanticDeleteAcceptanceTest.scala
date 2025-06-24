@@ -43,7 +43,7 @@ import org.scalacheck.{Gen, Shrink}
  * Creates a random pattern, matches on it and deletes all variables
  *  - when done the database should be empty.
  */
-class SemanticDeleteAcceptanceTest extends ExecutionEngineFunSuite with PatternGen {
+class SemanticDeleteAcceptanceTest extends EnterpriseExecutionEngineFunSuite with PatternGen {
 
   //we don't want scala check to shrink patterns here and leave things in the database
   implicit val dontShrink: Shrink[List[Element]] = Shrink(s => Stream.empty)

@@ -37,7 +37,7 @@ package org.neo4j.internal.cypher.acceptance
 import org.neo4j.cypher.ExecutionEngineFunSuite
 import org.scalatest.Matchers
 
-class ToStringAcceptanceTest extends ExecutionEngineFunSuite with Matchers {
+class ToStringAcceptanceTest extends EnterpriseExecutionEngineFunSuite with Matchers {
 
   test("Node should provide sensible toString") {
     val data = makeModel()
